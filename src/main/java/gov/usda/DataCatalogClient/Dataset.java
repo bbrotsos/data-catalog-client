@@ -71,9 +71,8 @@ public class Dataset {
 		for (int i = 0; i < extraList.size(); i++)
 		{
 			JSONObject extraObject = (JSONObject) extraList.get(i);
-	    	String key = (String) extraObject.get("key");	    
-	    	String value = (String) extraObject.get("value");	
-	    	
+			String key = (String) extraObject.get("key");
+			String value = (String) extraObject.get("value");	
 	    	if (key.equals("data_quality"))
 	    	{
 	    		setDataQuality(value);	    		
@@ -188,8 +187,7 @@ public class Dataset {
 		JSONObject datasetCKAN_JSON = new JSONObject();
 		datasetCKAN_JSON.put("title", this.title);
 		datasetCKAN_JSON.put("unique_id", uniqueIdentifier);
-		
-		
+	
 		return datasetCKAN_JSON;
 	}
 
