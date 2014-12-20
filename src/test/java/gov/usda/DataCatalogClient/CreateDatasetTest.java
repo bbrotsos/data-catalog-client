@@ -3,6 +3,14 @@
  */
 package gov.usda.DataCatalogClient;
 
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -35,31 +43,38 @@ public class CreateDatasetTest extends TestCase {
 		
 		//test regexs
 		//validate bureau code
-		try
-		{
-			ds.setBureauCode("12345");
-		}
-		catch (DatasetException dsEx)
-		{
-			assertEquals (dsEx.toString(), "[Dataset Error, Bureau Code must be \\d{3}:\\d{2}: 12345]");
-		}
-		try
-		{
-			ds.setBureauCode("015:03");
-		}
-		catch(DatasetException dsEx)
-		{
-			Assert.fail("bureau should pass this regex test");;
-		}
-		assertEquals (ds.getBureauCode(), "015:03");
+		
+		ds.setBureauCodeList("12345");
+		ds.setBureauCodeList("015:03");
+		//assertEquals (ds.getBureauCodeList(), "015:03");
 	}
 	
 	@Test
 	public void testCreateDatasetFromCKAN_JSON()
 	{
 		//get sample json
+		String sampleDataSetCKAN_JSON = "";
+		String sample_CKAN_Dataset_path = "sample_data/sample_ckan_package.json";
+		JSONObject datasetCKAN_JSON = new JSONObject();
+		
+		try 
+		{
+			sampleDataSetCKAN_JSON = new String(Files.readAllBytes(Paths.get(sample_CKAN_Dataset_path)));
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(sampleDataSetCKAN_JSON);
+			datasetCKAN_JSON = (JSONObject) obj;
+		} 
+		catch (IOException | ParseException pe) 
+		{
+			Assert.fail(pe.toString());
+		}
 		
 		//run ds.loadJSON
+		
+		Dataset ds = new Dataset();
+		ds.loadDatasetFromCKAN_JSON(datasetCKAN_JSON);
+		
+		Assert.assertEquals(datasetCKAN_JSON, ds.toCKAN_JSON());
 		
 		//test the values
 	}
