@@ -72,8 +72,8 @@ public class Dataset {
 		{
 			JSONObject extraObject = (JSONObject) extraList.get(i);
 			String key = (String) extraObject.get("key");
-			String value = (String) extraObject.get("value");	
-	    	if (key.equals("data_quality"))
+			String value = (String) extraObject.get("value");
+			if (key.equals("data_quality"))
 	    	{
 	    		setDataQuality(value);	    		
 	    	}
