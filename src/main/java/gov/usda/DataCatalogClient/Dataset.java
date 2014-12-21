@@ -187,6 +187,7 @@ public class Dataset {
 		JSONObject datasetCKAN_JSON = new JSONObject();
 		datasetCKAN_JSON.put("title", this.title);
 		datasetCKAN_JSON.put("unique_id", uniqueIdentifier);
+		datasetCKAN_JSON.put("contact_email", contactEmail);
 	
 		return datasetCKAN_JSON;
 	}
