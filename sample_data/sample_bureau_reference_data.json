@@ -1,0 +1,14 @@
+[
+	{
+	 "bureau_code":"123:02",
+	 "bureau_name":"My bureau name",
+	 "bureau_abbreviation":"MBN",
+	 "bureau_ckan_identifier":"my-bureau-name"
+	},
+	{
+	 "bureau_code":"123:03",
+	 "bureau_name":"My bureau name 2",
+	 "bureau_abbreviation":"MBN2",
+	 "bureau_ckan_identifier":"my-bureau-name-2"
+	}
+]

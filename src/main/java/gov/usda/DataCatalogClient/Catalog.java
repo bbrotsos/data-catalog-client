@@ -1,16 +1,22 @@
 package gov.usda.DataCatalogClient;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Catalog {
 
@@ -44,9 +50,9 @@ public class Catalog {
 		try
 		{
 			JSONArray packageList = (JSONArray) resultObject.get("packages");				
-			for(int n = 0; n < packageList.size(); n++)
+			for(int i = 0; i < packageList.size(); i++)
 			{
-				JSONObject packageObject = (JSONObject) packageList.get(n);
+				JSONObject packageObject = (JSONObject) packageList.get(i);
 				Dataset ds = new Dataset();
 				ds.loadDatasetFromCKAN_JSON(packageObject);
 				dataSetList.add(ds);
@@ -77,6 +83,34 @@ public class Catalog {
 		}
 				
 		loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
+	}
+	
+	public void toProjectOpenDataJSON(String podFilePath)
+	{
+		Map catalogJSON = new LinkedHashMap();
+		Map dataSetMap = new LinkedHashMap();
+		JSONArray dataSetArray = new JSONArray();
+
+		catalogJSON.put("conformsTo", conformsTo);
+	
+		for (int i = 0; i < dataSetList.size(); i++)
+		{
+			dataSetArray.add(dataSetList.get(i).toProjectOpenDataJSON());
+		}
+		
+		catalogJSON.put("dataset", dataSetArray);
+		Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
+		try
+		{
+			PrintWriter out = new PrintWriter(podFilePath);
+			out.print( gson.toJson(catalogJSON) );
+			out.close();
+		}
+		catch (Exception ex)	
+		{
+			System.out.println(ex.toString());
+		}
+		 
 	}
 	
 	public JSONObject toCKAN_JSON()
@@ -163,7 +197,4 @@ public class Catalog {
 	public void setDescribedBy(String describedBy) {
 		this.describedBy = describedBy;
 	}
-	
-	
-	
 }
