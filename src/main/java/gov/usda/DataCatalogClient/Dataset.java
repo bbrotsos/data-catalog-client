@@ -198,6 +198,7 @@ public class Dataset {
 		datasetCKAN_JSON.put("contact_name", contactPoint.getFullName());
 		datasetCKAN_JSON.put("contact_email", contactPoint.getEmailAddress());
 		datasetCKAN_JSON.put("public_access_level", accessLevel);
+		datasetCKAN_JSON.put("access_level_comment", rights);
 	
 		return datasetCKAN_JSON;
 	}
