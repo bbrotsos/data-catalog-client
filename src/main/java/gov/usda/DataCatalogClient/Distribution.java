@@ -3,6 +3,8 @@ package gov.usda.DataCatalogClient;
 import java.net.URL;
 import java.util.Date;
 
+import org.json.simple.JSONObject;
+
 public class Distribution {
 
 	//Common DCAT & POD metadata fields
@@ -25,6 +27,19 @@ public class Distribution {
 	private String describedByType;
 	private String conformsTo;
 	private String type;
+	
+	public void loadDistributionFromCKAN_JSON(JSONObject resourceCKAN_JSON)
+	{
+
+	}
+	
+	public JSONObject toCKAN_JSON()
+	{
+		JSONObject distributionCKAN_JSON = new JSONObject();
+		return distributionCKAN_JSON;
+	}
+	
+	
 	public String getTitle() {
 		return title;
 	}
