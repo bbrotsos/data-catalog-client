@@ -1,5 +1,6 @@
 data-catalog-client
 ===================
+WIP
 
 The purpose of this project is to ingest CKAN and Project Open Data compliant JSON files and to ouput the same.  It will create, update, read and delete on CKAN.  
 
