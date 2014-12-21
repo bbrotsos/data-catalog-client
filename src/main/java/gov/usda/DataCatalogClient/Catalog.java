@@ -1,7 +1,16 @@
 package gov.usda.DataCatalogClient;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Catalog {
 
@@ -24,6 +33,57 @@ public class Catalog {
 	
 	private List<Dataset> dataSetList;
 	
+	public Catalog()
+	{
+		dataSetList = new ArrayList<Dataset>();
+	}
+	
+	public void loadCatalogFromCKAN_JSON(JSONObject catalogCKAN_JSON)
+	{
+		JSONObject resultObject= (JSONObject) catalogCKAN_JSON.get("result");
+		try
+		{
+			JSONArray packageList = (JSONArray) resultObject.get("packages");				
+			for(int n = 0; n < packageList.size(); n++)
+			{
+				JSONObject packageObject = (JSONObject) packageList.get(n);
+				Dataset ds = new Dataset();
+				ds.loadDatasetFromCKAN_JSON(packageObject);
+				dataSetList.add(ds);
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.toString());
+		}
+	}
+	
+	public void loadCatalogFromCKAN(String catalogFileName)
+	{
+		String catalogCKAN_JSON_String = "";
+		Object obj = new Object();
+		JSONObject resourceCKAN_JSON = new JSONObject();
+		try 
+		{
+			catalogCKAN_JSON_String = new String(Files.readAllBytes(Paths.get(catalogFileName)));
+			JSONParser parser = new JSONParser();
+			obj = parser.parse(catalogCKAN_JSON_String);
+			resourceCKAN_JSON = (JSONObject)obj;
+
+		} 
+		catch (IOException | ParseException pe) 
+		{
+			System.out.print(pe.toString());
+		}
+				
+		loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
+	}
+	
+	public JSONObject toCKAN_JSON()
+	{
+		JSONObject catalogCKAN_JSON = new JSONObject();
+		return catalogCKAN_JSON;
+	}
 	
 	public String getTitle() {
 		return title;

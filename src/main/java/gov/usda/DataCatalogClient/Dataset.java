@@ -75,11 +75,25 @@ public class Dataset {
 	{	
 		//probably shoud use GSON, but I ran into problems on android in past.
 		//optimize in the future
+		
+		JSONArray resourcesArray = new JSONArray();
+	    resourcesArray = (JSONArray) datasetCKAN_JSON.get("resources");
+	    
+	    for (int i=0; i < resourcesArray.size(); i++)
+	    {	    	
+	    	JSONObject resource = new JSONObject();
+	    	resource = (JSONObject) resourcesArray.get(i);
+	    	Distribution distribution = new Distribution();
+	    	distribution.loadDistributionFromCKAN_JSON(resource);
+	    	distributionList.add(distribution);
+	    }
+		
 		JSONArray extraList = (JSONArray) datasetCKAN_JSON.get("extras");
 		for (int i = 0; i < extraList.size(); i++)
-		{
+		{			
 			JSONObject extraObject = (JSONObject) extraList.get(i);
 			String key = (String) extraObject.get("key");
+
 			String value = (String) extraObject.get("value");
 			if (key.equals("data_quality"))
 	    	{
@@ -188,6 +202,15 @@ public class Dataset {
 	    	}
 		}
 		
+		JSONArray tagsArray = new JSONArray();
+		tagsArray = (JSONArray)datasetCKAN_JSON.get("tags");
+		for(int k=0; k<tagsArray.size(); k++)
+		{
+			JSONObject tagObject = new JSONObject();
+			tagObject = (JSONObject)tagsArray.get(k);
+			keywordList.add((String)tagObject.get("display_name"));
+		}
+		
 	}
 	
 	public JSONObject toCKAN_JSON()
@@ -211,6 +234,8 @@ public class Dataset {
 		dataSetJSON.put("description", description);
 		dataSetJSON.put("keyword", keywordList);
 		dataSetJSON.put("modified", modified);
+		
+		dataSetJSON.put("distribution", distributionList);
 		
 		return dataSetJSON;
 	}
