@@ -7,7 +7,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.json.simple.JSONArray;
@@ -187,10 +189,24 @@ public class Dataset {
 		JSONObject datasetCKAN_JSON = new JSONObject();
 		datasetCKAN_JSON.put("title", this.title);
 		datasetCKAN_JSON.put("unique_id", uniqueIdentifier);
+		datasetCKAN_JSON.put("contact_name", contactPoint);
 		datasetCKAN_JSON.put("contact_email", contactEmail);
 		datasetCKAN_JSON.put("public_access_level", accessLevel);
 	
 		return datasetCKAN_JSON;
+	}
+	
+	public Map toProjectOpenData_JSON()
+	{
+		Map dataSetJSON = new LinkedHashMap();
+		//JSONObject dataSetJSON = new JSONObject();
+		dataSetJSON.put("title", title);
+		dataSetJSON.put("description", description);
+		dataSetJSON.put("keyword", keywordList);
+		dataSetJSON.put("modified", modified);
+		
+		return dataSetJSON;
+		
 	}
 
 	public String getTitle() {
