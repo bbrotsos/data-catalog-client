@@ -27,24 +27,24 @@ public class Dataset {
 	private List<String> keywordList;
 	private List<String> languageList;
 	private List<String> themeList;
-	private String contactPoint;
+	private Contact contactPoint;
+	private Publisher publisher;
 	private String temporal;
 	private String spatial;
 	private String accrualPeriodicity;
 	private URL landingPage;
+	private List<Distribution> distributionList;
 	
 	//federal government project open data extension documentation here: https://project-open-data.cio.gov/v1.1/schema/
 	private String uniqueIdentifier;
 	private List<String> bureauCodeList;
 	private List<String> programCodeList;
 	private String primaryITInvestmentUII;
-	private String contactEmail;  //Project Open Data = hasEmail
 	private String accessLevel;
 	private String rights;
 	private String systemOfRecords;
 	private Boolean dataQuality;
 	private List<String> referenceList;
-	private String publisher;
 	private String describedBy;
 	private String describedByType;
 	
@@ -64,6 +64,11 @@ public class Dataset {
 		languageList = new ArrayList<String>();
 		themeList = new ArrayList<String>();
 		referenceList = new ArrayList<String>();
+		
+		distributionList = new ArrayList<Distribution>();
+		
+		publisher = new Publisher();
+		contactPoint = new Contact();
 	}
 	
 	public void loadDatasetFromCKAN_JSON(JSONObject datasetCKAN_JSON)
@@ -94,11 +99,11 @@ public class Dataset {
 	    	}
 	    	else if (key.equals("contact_email"))
 	    	{
-	    		setContactEmail(value);
+	    		contactPoint.setEmailAddress(value);
 	    	}
 	    	else if (key.equals("contact_name"))
 	    	{
-	    		setContactPoint(value);
+	    		contactPoint.setFullName(value);
 	    	}
 	    	else if (key.equals("homepage_url"))
 	    	{
@@ -111,7 +116,7 @@ public class Dataset {
 	    	}
 	    	else if (key.equals("publisher"))
 	    	{
-	    		setPublisher(value);
+	    		publisher.setName(value);
 	    	}
 	    	else if (key.equals("related_documents"))
 	    	{
@@ -190,8 +195,8 @@ public class Dataset {
 		JSONObject datasetCKAN_JSON = new JSONObject();
 		datasetCKAN_JSON.put("title", this.title);
 		datasetCKAN_JSON.put("unique_id", uniqueIdentifier);
-		datasetCKAN_JSON.put("contact_name", contactPoint);
-		datasetCKAN_JSON.put("contact_email", contactEmail);
+		datasetCKAN_JSON.put("contact_name", contactPoint.getFullName());
+		datasetCKAN_JSON.put("contact_email", contactPoint.getEmailAddress());
 		datasetCKAN_JSON.put("public_access_level", accessLevel);
 	
 		return datasetCKAN_JSON;
@@ -303,14 +308,6 @@ public class Dataset {
 		}
 	}
 
-	public String getContactPoint() {
-		return contactPoint;
-	}
-
-	public void setContactPoint(String contactPoint) {
-		this.contactPoint = contactPoint;
-	}
-
 	public String getTemporal() {
 		return temporal;
 	}
@@ -359,12 +356,16 @@ public class Dataset {
 	}
 
 	public void setBureauCodeList(String bureauCode){
-		if (Pattern.matches("\\d{3}:\\d{2}", bureauCode)){
-			bureauCodeList.add(bureauCode);
-		}
-		else{
-			dsEx.addError("Bureau Code must be \\d{3}:\\d{2}: " + bureauCode);
-			//throw dsEx;
+		if (!bureauCodeList.contains(bureauCode))
+		{
+			if (Pattern.matches("\\d{3}:\\d{2}", bureauCode)){
+				bureauCodeList.add(bureauCode);
+			}
+			else
+			{
+				dsEx.addError("Bureau Code must be \\d{3}:\\d{2}: " + bureauCode);
+				//throw dsEx;
+			}
 		}
 	}
 
@@ -373,7 +374,10 @@ public class Dataset {
 	}
 
 	public void setProgramCode(String programCode) {
-		programCodeList.add(programCode);
+		if (!programCodeList.contains(programCode))	
+		{
+			programCodeList.add(programCode);
+		}
 	}
 
 	public String getPrimaryITInvestmentUII() {
@@ -382,14 +386,6 @@ public class Dataset {
 
 	public void setPrimaryITInvestmentUII(String primaryITInvestmentUII) {
 		this.primaryITInvestmentUII = primaryITInvestmentUII;
-	}
-
-	public String getContactEmail() {
-		return contactEmail;
-	}
-
-	public void setContactEmail(String contactEmail) {
-		this.contactEmail = contactEmail;
 	}
 
 	public String getAccessLevel() {
@@ -469,14 +465,6 @@ public class Dataset {
 		this.uniqueIdentifier = uniqueIdentifier;
 	}
 
-	public String getPublisher() {
-		return publisher;
-	}
-
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
-	}
-	
 	public Date convertISOStringToDate(String isoDateString)
 	{
 		DateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
@@ -530,6 +518,14 @@ public class Dataset {
 
 	public void setOwnerOrganization(String ownerOrganization) {
 		this.ownerOrganization = ownerOrganization;
+	}
+
+	public List<Distribution> getDistributionList() {
+		return distributionList;
+	}
+
+	public void setDistributionList(List<Distribution> distributionList) {
+		this.distributionList = distributionList;
 	}
 
 }
