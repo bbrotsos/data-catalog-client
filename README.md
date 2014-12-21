@@ -5,4 +5,4 @@ The purpose of this project is to ingest CKAN and Project Open Data compliant JS
 
 This is useful for automating content mangement systems with CKAN as well as generating reports.
 
-It is written in Java because that is prevalant in many web development operations.
+It is written in Java it is prevalant in many web development operations.
