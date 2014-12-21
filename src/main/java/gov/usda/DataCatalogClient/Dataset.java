@@ -53,7 +53,6 @@ public class Dataset {
 	private String webService;
 	private String ownerOrganization;
 	
-	
 	private DatasetException dsEx;
 	
 	public Dataset()
@@ -69,6 +68,8 @@ public class Dataset {
 	
 	public void loadDatasetFromCKAN_JSON(JSONObject datasetCKAN_JSON)
 	{	
+		//probably shoud use GSON, but I ran into problems on android in past.
+		//optimize in the future
 		JSONArray extraList = (JSONArray) datasetCKAN_JSON.get("extras");
 		for (int i = 0; i < extraList.size(); i++)
 		{
@@ -103,7 +104,7 @@ public class Dataset {
 	    	{
 	    		setLandingPage(value);
 	    	}
-	    	//TODO: Fix ckan feed for program_ocde
+	    	//TODO: Fix ckan feed for misspelled program_ocde
 	    	else if (key.equals("program_code") || key.equals("program_ocde"))
 	    	{
 	    		programCodeList.add(value);
@@ -178,7 +179,7 @@ public class Dataset {
 	    	}
 	    	else
 	    	{
-	    		System.out.println("Unaccounted for:" + key + " value: " + value);
+	    		System.out.println("Unaccounted for CKAN Element:" + key + " value: " + value);
 	    	}
 		}
 		
@@ -196,7 +197,7 @@ public class Dataset {
 		return datasetCKAN_JSON;
 	}
 	
-	public Map toProjectOpenData_JSON()
+	public Map toProjectOpenDataJSON()
 	{
 		Map dataSetJSON = new LinkedHashMap();
 		//JSONObject dataSetJSON = new JSONObject();
@@ -206,7 +207,6 @@ public class Dataset {
 		dataSetJSON.put("modified", modified);
 		
 		return dataSetJSON;
-		
 	}
 
 	public String getTitle() {
@@ -233,7 +233,7 @@ public class Dataset {
 		this.issued = issued;
 	}
 	
-	public void setIssued(String issued)
+	private void setIssued(String issued)
 	{
 		this.issued = convertISOStringToDate(issued);
 	}
@@ -287,7 +287,7 @@ public class Dataset {
 	}
 	
 	//CKAN will send this data element as comma separated values
-	public void setThemeList(String themeListString)
+	private void setThemeList(String themeListString)
 	{
 		String[] categoryArray = themeListString.split(",");
 		if (categoryArray.length == 1)
@@ -343,7 +343,7 @@ public class Dataset {
 		this.landingPage = landingPage;
 	}
 	
-	public void setLandingPage(String landingPage){
+	private void setLandingPage(String landingPage){
 		try 
 		{
 			this.landingPage = new URL(landingPage);
@@ -425,7 +425,7 @@ public class Dataset {
 	}
 	
 	//handle string case
-	public void setDataQuality(String dataQuality){
+	private void setDataQuality(String dataQuality){
 		if (dataQuality.equals("true"))
 		{
 			this.dataQuality = true;
@@ -445,7 +445,7 @@ public class Dataset {
 	}
 	
 	//CKAN can send this as a comma delimited field
-	public void setReferenceList(String referenceListString) {
+	private void setReferenceList(String referenceListString) {
 		String[] referenceArray = referenceListString.split(",");
 		
 		if (referenceArray.length == 1)

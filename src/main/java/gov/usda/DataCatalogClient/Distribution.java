@@ -1,7 +1,10 @@
 package gov.usda.DataCatalogClient;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 
@@ -30,15 +33,33 @@ public class Distribution {
 	
 	public void loadDistributionFromCKAN_JSON(JSONObject resourceCKAN_JSON)
 	{
-
+		setAccessURL((String) resourceCKAN_JSON.get("url"));
+    	format = (String) resourceCKAN_JSON.get("format");
+    	title = (String) resourceCKAN_JSON.get("name");
+    	description = (String) resourceCKAN_JSON.get("description");	
 	}
 	
 	public JSONObject toCKAN_JSON()
 	{
 		JSONObject distributionCKAN_JSON = new JSONObject();
+		
+		distributionCKAN_JSON.put("name", title);
+		distributionCKAN_JSON.put("description", description);
+		distributionCKAN_JSON.put("format", format);
+		distributionCKAN_JSON.put("url", accessURL);
+		
 		return distributionCKAN_JSON;
 	}
 	
+	public Map toProjectOpenDataJSON()
+	{
+		Map distributionJSON = new LinkedHashMap();
+		//JSONObject dataSetJSON = new JSONObject();
+		distributionJSON .put("title", title);
+		distributionJSON .put("description", description);
+		
+		return distributionJSON ;
+	}
 	
 	public String getTitle() {
 		return title;
@@ -57,6 +78,17 @@ public class Distribution {
 	}
 	public void setAccessURL(URL accessURL) {
 		this.accessURL = accessURL;
+	}
+	private void setAccessURL(String accessURL_String) 
+	{
+		try
+		{
+			this.accessURL =  new URL(accessURL_String);
+		}
+		catch(MalformedURLException ex)
+		{
+			System.out.println(ex.toString());
+		}
 	}
 	public URL getDownloadURL() {
 		return downloadURL;
