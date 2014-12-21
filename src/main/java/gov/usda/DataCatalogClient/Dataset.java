@@ -188,6 +188,7 @@ public class Dataset {
 		datasetCKAN_JSON.put("title", this.title);
 		datasetCKAN_JSON.put("unique_id", uniqueIdentifier);
 		datasetCKAN_JSON.put("contact_email", contactEmail);
+		datasetCKAN_JSON.put("public_access_level", accessLevel);
 	
 		return datasetCKAN_JSON;
 	}
