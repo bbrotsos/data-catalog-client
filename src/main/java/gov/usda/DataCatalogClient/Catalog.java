@@ -64,6 +64,51 @@ public class Catalog {
 		}
 	}
 	
+	//This is for mulitple organization catalogs
+	public void loadMulitpleCatalogsFromCKAN(String catalogFileName)
+	{
+		//testing skeleton
+	}
+	
+	public void produceQuarterReport (String quarterReportFileName)
+	{
+		//testing skeleton
+	}
+	
+	public void produceBureauMetrics(String bureauMetricsFileName)
+	{
+		//testing skeleton
+	}
+	
+	public void addFromOtherCatalog(Catalog otherCatalog)
+	{
+		List<Dataset> otherDatasetList = new ArrayList<>();
+		otherDatasetList = otherCatalog.dataSetList;
+		
+		for (Dataset ds: otherDatasetList)
+		{
+			dataSetList.add(ds);
+		}
+	}
+	
+	public void loadCatalogFromJSONString(String catalogJSONString)
+	{
+		JSONObject resourceCKAN_JSON = new JSONObject();
+		Object obj = new Object();
+		try{
+			JSONParser parser = new JSONParser();
+
+			obj = parser.parse(catalogJSONString);
+			resourceCKAN_JSON = (JSONObject)obj;
+		} 
+		catch (ParseException pe) 
+		{
+			System.out.print(pe.toString());
+		}
+			
+		loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
+	}
+	//This is for direct api response from CKAN.
 	public void loadCatalogFromCKAN(String catalogFileName)
 	{
 		String catalogCKAN_JSON_String = "";
@@ -75,7 +120,6 @@ public class Catalog {
 			JSONParser parser = new JSONParser();
 			obj = parser.parse(catalogCKAN_JSON_String);
 			resourceCKAN_JSON = (JSONObject)obj;
-
 		} 
 		catch (IOException | ParseException pe) 
 		{

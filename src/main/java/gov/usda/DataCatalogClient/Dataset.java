@@ -17,7 +17,7 @@ import org.json.simple.JSONObject;
 
 public class Dataset {
 	
-	//documentation is at http://www.w3.org/TR/vocab-dcat/
+	//metadata documentation is at http://www.w3.org/TR/vocab-dcat/
 	private String title;
 	private String description;
 	private Date issued;
@@ -47,7 +47,8 @@ public class Dataset {
 	private List<String> referenceList;
 	private String describedBy;
 	private String describedByType;
-	
+	private String license;
+
 	//Agency specific (legacy)
 	private String comments;
 	private String webService;
@@ -229,13 +230,73 @@ public class Dataset {
 	public Map toProjectOpenDataJSON()
 	{
 		Map dataSetJSON = new LinkedHashMap();
-		//JSONObject dataSetJSON = new JSONObject();
 		dataSetJSON.put("title", title);
 		dataSetJSON.put("description", description);
 		dataSetJSON.put("keyword", keywordList);
 		dataSetJSON.put("modified", modified);
 		
-		dataSetJSON.put("distribution", distributionList);
+		Map publisherMap = new LinkedHashMap();
+		Map subOrganizationMap = new LinkedHashMap();
+		subOrganizationMap.put("name", "Department of Agriculture");
+		publisherMap.put("subOrganizationOf", subOrganizationMap);
+		dataSetJSON.put("publisher", publisherMap);
+		
+		Map contactPointMap = new LinkedHashMap();
+		contactPointMap.put("fn", contactPoint.getFullName());
+		contactPointMap.put("hasEmail", contactPoint.getEmailAddress());
+		dataSetJSON.put ("contactPoint", contactPointMap);
+		
+		dataSetJSON.put("identifier", uniqueIdentifier);
+		dataSetJSON.put("accessLevel", accessLevel);
+		dataSetJSON.put("rights",rights) ;
+		dataSetJSON.put("describedBy", describedBy);
+
+		dataSetJSON.put("license", license);
+		dataSetJSON.put("spatial", spatial);
+		dataSetJSON.put("temporal", temporal);
+		dataSetJSON.put("issued", issued);
+		dataSetJSON.put("accrualPeriodicity", accrualPeriodicity);
+		//landingpage was her
+		dataSetJSON.put("systemOfRecords", systemOfRecords);
+
+		dataSetJSON.put("issued", issued);
+
+		dataSetJSON.put("dataQuality", dataQuality);
+		dataSetJSON.put("landingPage", landingPage);
+
+		
+		JSONArray distributionListJSONArray = new JSONArray();
+		for (Distribution distribution: distributionList)
+		{
+			distributionListJSONArray.add(distribution.toProjectOpenDataJSON());
+		}
+		dataSetJSON.put("distribution", distributionListJSONArray);
+		
+		if (programCodeList.size() > 0)
+		{
+			dataSetJSON.put("programCode", programCodeList);
+		}
+		dataSetJSON.put("bureauCode", bureauCodeList);
+		if (themeList.size() > 0)
+		{
+			dataSetJSON.put("theme", themeList);
+		}
+		if (referenceList.size() > 0)
+		{
+			dataSetJSON.put("references", referenceList);
+		}
+		if (languageList.size() > 0)
+		{
+			dataSetJSON.put("language", languageList);
+		}
+
+		dataSetJSON.put("notes", comments);
+		
+		//The following attributes are legacy from before Project Open Data
+		//dataSetJSON.put("tagString", tagList);
+		//dataSetJSON.put("revisionTimestamp", revisionTimeStamp);
+		//dataSetJSON.put("dataDict", dataDict);
+		//dataSetJSON.put("ownerOrg", ownerOrg);
 		
 		return dataSetJSON;
 	}
@@ -552,6 +613,14 @@ public class Dataset {
 
 	public void setDistributionList(List<Distribution> distributionList) {
 		this.distributionList = distributionList;
+	}
+	
+	public String getLicense() {
+		return license;
+	}
+
+	public void setLicense(String license) {
+		this.license = license;
 	}
 
 }

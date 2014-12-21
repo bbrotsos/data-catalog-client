@@ -1,13 +1,28 @@
 package gov.usda.DataCatalogClient;
 
 /**
- * Hello world!
+ * Example Client use
  *
  */
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "See tests" );
+    	Catalog catalog = new Catalog();
+    	Client odpClient = new Client();
+ 
+    	catalog = odpClient.loadOrganizationsIntoCatalog();
+    	catalog.toProjectOpenDataJSON("data.json");
+    	
+    	catalog.produceQuarterReport("quarter_report.doc");
+    	catalog.produceBureauMetrics("bureau_metrics.csv");
+    	
+    	//Add new dataset
+    	Dataset ds = new Dataset();
+    	ds.setTitle("My New Title");
+    	ds.setDescription("New dataset for CKAN");
+    	
+    	odpClient.createDataset(ds);
     }
+    
 }
