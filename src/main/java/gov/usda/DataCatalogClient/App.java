@@ -11,7 +11,8 @@ public class App
     	Catalog catalog = new Catalog();
     	Client odpClient = new Client();
  
-    	catalog = odpClient.loadOrganizationsIntoCatalog();
+    	//take in filepath to store saved downloads from network, update filepath for fresh results
+    	catalog = odpClient.loadOrganizationsIntoCatalog("edi_2014-12-22");
     	catalog.toProjectOpenDataJSON("data.json");
     	
     	catalog.produceQuarterlyReport("quarterly_report.doc");

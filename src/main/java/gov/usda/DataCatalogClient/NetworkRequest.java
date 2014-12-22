@@ -38,7 +38,7 @@ public class NetworkRequest
 			Object obj = parser.parse(configStringJSON);
 			configJSON = (JSONObject) obj;
 			server = (String)configJSON.get("server");
-			apiKey = (String)configJSON.get("webAPI_Key");
+			apiKey = (String)configJSON.get("api_key");
 		} 
 		catch (IOException | ParseException pe) 
 		{

@@ -17,21 +17,10 @@ public class Client {
 	
 	public Catalog getOrganizationCatalogCKAN(String organizationIdentifier, String bureauFileName)
 	{
-		Path ckanOrganizationDirectory = Paths.get("ckan/");
-		if (Files.notExists(ckanOrganizationDirectory))
-		{
-			try
-			{
-				Files.createDirectories(ckanOrganizationDirectory);
-			}
-			catch (IOException ex)
-			{
-				System.out.print(ex.toString());
-			}
-		}
 		
 		String catalogJSONString = "";
-		NetworkRequest nr = new NetworkRequest();		
+		NetworkRequest nr = new NetworkRequest();	
+		System.out.println("Making Network Request for: " + organizationIdentifier);
 		try
 		{
 			catalogJSONString = nr.getOrganizationCatalog(organizationIdentifier);
@@ -53,11 +42,11 @@ public class Client {
 		}
 		
 		Catalog catalog = new Catalog();
-		catalog.loadCatalogFromCKAN(catalogJSONString);
+		catalog.loadCatalogFromJSONString(catalogJSONString);
 		return catalog;
 	}
 	
-	public Catalog loadOrganizationsIntoCatalog()
+	public Catalog loadOrganizationsIntoCatalog(String downloadFilePath)
 	{
 		 //example create master catalog...
 		Catalog masterCatalog = new Catalog();
@@ -80,15 +69,16 @@ public class Client {
     	for (int i=0; i< bureauList.size(); i++)
     	{
     		JSONObject bureau = (JSONObject) bureauList.get(i);
-    		String bureau_ckan_identifier = (String)bureau.get("bureau_ckan_identifier");
-    		String bureauFileName = "ckan/" + (String)bureau.get("bureau_abbreviation") + "-data.json";
+    		String bureauFileName = "ckan/" + downloadFilePath +"/" + (String)bureau.get("bureau_abbreviation") + "-data.json";
     		File bureauFile = new File(bureauFileName);
     		if (!bureauFile.exists())
     		{
+    			createDirectory("ckan/" + downloadFilePath);
     			Catalog bureauCatalog = new Catalog();
+        		String bureau_ckan_identifier = (String)bureau.get("bureau_ckan_identifier");
     			bureauCatalog = getOrganizationCatalogCKAN(bureau_ckan_identifier, bureauFileName);
     			masterCatalog.addFromOtherCatalog(bureauCatalog);
-    			bureauCatalog.toProjectOpenDataJSON(bureauFileName);
+    			//bureauCatalog.toProjectOpenDataJSON(bureauFileName);
     		}
     		else
     		{
@@ -110,6 +100,22 @@ public class Client {
 	public void createDataset(Dataset ds)
 	{
 		
+	}
+	
+	public void createDirectory(String filePath)
+	{
+		Path ckanOrganizationDirectory = Paths.get(filePath);
+		if (Files.notExists(ckanOrganizationDirectory))
+		{
+			try
+			{
+				Files.createDirectories(ckanOrganizationDirectory);
+			}
+			catch (IOException ex)
+			{
+				System.out.print(ex.toString());
+			}
+		}
 	}
 
 }
