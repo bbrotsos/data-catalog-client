@@ -34,7 +34,10 @@ public class Publisher {
 		publisherMap.put("@type", type);
 		publisherMap.put("name", name);
 		
-		publisherMap.put("suborganization", subOrganization.toProjectOpenDataJSON());
+		if (subOrganization != null)
+		{
+			publisherMap.put("suborganization", subOrganization.toProjectOpenDataJSON());
+		}
 		
 		return publisherMap;
 	}

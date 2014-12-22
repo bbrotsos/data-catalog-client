@@ -15,7 +15,7 @@ import org.json.simple.parser.ParseException;
 public class Client {
 	
 	
-	public Catalog getOrganizationCatalogCKAN(String organizationIdentifier)
+	public Catalog getOrganizationCatalogCKAN(String organizationIdentifier, String bureauFileName)
 	{
 		Path ckanOrganizationDirectory = Paths.get("ckan/");
 		if (Files.notExists(ckanOrganizationDirectory))
@@ -41,12 +41,9 @@ public class Client {
 			System.out.println(ex);
 		}
 		
-		//save download
-		String saveCKANDownloadPath = "/ckan/" + organizationIdentifier + "ckan_data.json";
-
 		try
 		{
-			PrintWriter out = new PrintWriter(saveCKANDownloadPath);
+			PrintWriter out = new PrintWriter(bureauFileName);
 			out.print(catalogJSONString);
 			out.close();
 		}
@@ -89,7 +86,7 @@ public class Client {
     		if (!bureauFile.exists())
     		{
     			Catalog bureauCatalog = new Catalog();
-    			bureauCatalog = getOrganizationCatalogCKAN(bureau_ckan_identifier);
+    			bureauCatalog = getOrganizationCatalogCKAN(bureau_ckan_identifier, bureauFileName);
     			masterCatalog.addFromOtherCatalog(bureauCatalog);
     			bureauCatalog.toProjectOpenDataJSON(bureauFileName);
     		}

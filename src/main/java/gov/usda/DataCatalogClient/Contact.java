@@ -40,7 +40,7 @@ public class Contact {
 	
 	public void loadDatasetFromPOD_JSON(JSONObject contactProjectOpenDataJSON)
 	{
-		type = (String) contactProjectOpenDataJSON.get("type");
+		type = (String) contactProjectOpenDataJSON.get("@type");
 		fullName = (String) contactProjectOpenDataJSON.get("fn");
 		emailAddress = (String) contactProjectOpenDataJSON.get("hasEmail");
 	}

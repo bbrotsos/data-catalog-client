@@ -341,31 +341,29 @@ public class Dataset {
 		dataSetJSON.put("title", title);
 		dataSetJSON.put("description", description);
 		dataSetJSON.put("keyword", keywordList);
-		dataSetJSON.put("modified", modified);
+		if (modified != null)
+		{
+			dataSetJSON.put("modified", Utils.convertDateToISOString(modified));
+		}
 		
-		Map publisherMap = new LinkedHashMap();
-		Map subOrganizationMap = new LinkedHashMap();
-		subOrganizationMap.put("name", "Department of Agriculture");
-		publisherMap.put("subOrganizationOf", subOrganizationMap);
-		dataSetJSON.put("publisher", publisherMap);
-		
-	
+		dataSetJSON.put("publisher", publisher.toProjectOpenDataJSON());	
 		dataSetJSON.put ("contactPoint", contactPoint.toProjectOpenDataJSON());
 		
 		dataSetJSON.put("identifier", uniqueIdentifier);
 		dataSetJSON.put("accessLevel", accessLevel);
 		dataSetJSON.put("rights",rights) ;
 		dataSetJSON.put("describedBy", describedBy);
-
 		dataSetJSON.put("license", license);
 		dataSetJSON.put("spatial", spatial);
 		dataSetJSON.put("temporal", temporal);
 		dataSetJSON.put("issued", issued);
 		dataSetJSON.put("accrualPeriodicity", accrualPeriodicity);
-		//landingpage was her
 		dataSetJSON.put("systemOfRecords", systemOfRecords);
 
-		dataSetJSON.put("issued", issued);
+		if (issued != null)
+		{
+			dataSetJSON.put("issued", Utils.convertDateToISOString(issued));
+		}
 
 		dataSetJSON.put("dataQuality", dataQuality);
 		dataSetJSON.put("landingPage", landingPage);

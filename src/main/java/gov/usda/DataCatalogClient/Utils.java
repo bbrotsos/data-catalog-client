@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
@@ -73,5 +76,27 @@ public class Utils {
 		}
 	}
 	
+	static public String convertDateToISOString(Date date)
+	{
+		DateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
+		String isoDateString = isoDateTimeFormat.format(date);
+		
+		return isoDateString;
+	}
+	static public Date convertISOStringToDate(String isoDateString)
+	{
+		DateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+		Date isoFormattedDate = new Date();
+		try
+		{
+			isoDateTimeFormat.parse(isoDateString);
+		} 
+		catch (java.text.ParseException e) {
+			e.printStackTrace();
+		}
+		return isoFormattedDate;
+	}
+
 	
 }

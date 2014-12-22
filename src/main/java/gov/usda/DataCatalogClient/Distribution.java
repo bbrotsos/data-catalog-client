@@ -107,13 +107,16 @@ public class Distribution {
 	}
 	private void setAccessURL(String accessURL_String) 
 	{
-		try
+		if (accessURL_String != null)
 		{
-			this.accessURL =  new URL(accessURL_String);
-		}
-		catch(MalformedURLException ex)
-		{
-			System.out.println("Invalid URL Error: " + accessURL_String);
+			try
+			{
+				this.accessURL =  new URL(accessURL_String);
+			}
+			catch(MalformedURLException ex)
+			{
+				System.out.println("Invalid URL Error: " + accessURL_String);
+			}
 		}
 	}
 	public URL getDownloadURL() {
@@ -124,13 +127,16 @@ public class Distribution {
 	}
 	private void setDownloadURL(String downloadURL_String)
 	{
-		try
+		if (downloadURL_String != null)
 		{
-			this.downloadURL = new URL(downloadURL_String);
-		}
-		catch (MalformedURLException ex)
-		{
-			System.out.println("Invalid URL Error: " + downloadURL_String);
+			try
+			{
+				this.downloadURL = new URL(downloadURL_String);
+			}
+			catch (MalformedURLException ex)
+			{
+				System.out.println("Invalid URL Error: " + downloadURL_String);
+			}
 		}
 	}
 	
