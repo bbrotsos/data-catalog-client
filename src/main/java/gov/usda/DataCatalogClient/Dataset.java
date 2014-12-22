@@ -47,6 +47,8 @@ public class Dataset {
 	private String describedBy;
 	private String describedByType;
 	private String license;
+	private String conformsTo;
+	private String isPartOf;
 
 	//Agency specific (legacy)
 	private String comments;
@@ -189,9 +191,17 @@ public class Dataset {
 	    	{
 	    		setDescribedBy(value);
 	    	}
+	    	else if (key.equals("data_dictionary_type"))
+	    	{
+	    		setDescribedByType(value);
+	    	}
 	    	else if (key.equals("language"))
 	    	{
 	    		setLanguageList(value);
+	    	}
+	    	else if (key.equals("primary_it_investment_uii"))
+	    	{
+	    		setPrimaryITInvestmentUII(value);
 	    	}
 	    	else if (key.equals("webservice"))
 	    	{
@@ -204,6 +214,14 @@ public class Dataset {
 	    	else if (key.equals("license_new"))
 	    	{
 	    		setLicense(value);
+	    	}
+	    	else if (key.equals("conforms_to"))
+	    	{
+	    		setConformsTo(value);
+	    	}
+	    	else if (key.equals("is_parent"))
+	    	{
+	    		setIsPartOf(value);
 	    	}
 	    	else
 	    	{
@@ -479,6 +497,14 @@ public class Dataset {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	public String getConformsTo() {
+		return conformsTo;
+	}
+
+	public void setConformsTo(String conformsTo) {
+		this.conformsTo = conformsTo;
 	}
 
 	public String getDescription() {
@@ -795,6 +821,14 @@ public class Dataset {
 
 	public void setLicense(String license) {
 		this.license = license;
+	}
+	
+	public String getIsPartOf() {
+		return isPartOf;
+	}
+
+	public void setIsPartOf(String isPartOf) {
+		this.isPartOf = isPartOf;
 	}
 	
 	public Boolean validateDataset()
