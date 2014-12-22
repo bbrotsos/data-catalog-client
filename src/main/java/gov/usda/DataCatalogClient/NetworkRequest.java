@@ -51,7 +51,7 @@ public class NetworkRequest
 		connection.setRequestProperty("Accept-Charset", "UTF-8");
 		connection.setRequestProperty("Accept", "application/json");
 		connection.setRequestProperty("Authorization", apiKey);
-		connection.setRequestProperty("Cookie", "");
+		connection.setRequestProperty("Cookie", "auth_tkt=hello_world");
 		connection.setConnectTimeout(20000);
 		connection.setReadTimeout(20000);
 	}	

@@ -2,6 +2,7 @@ package gov.usda.DataCatalogClient;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,6 +39,20 @@ public class Client {
 		catch(Exception ex)
 		{
 			System.out.println(ex);
+		}
+		
+		//save download
+		String saveCKANDownloadPath = "/ckan/" + organizationIdentifier + "ckan_data.json";
+
+		try
+		{
+			PrintWriter out = new PrintWriter(saveCKANDownloadPath);
+			out.print(catalogJSONString);
+			out.close();
+		}
+		catch (Exception ex)	
+		{
+			System.out.println(ex.toString());
 		}
 		
 		Catalog catalog = new Catalog();
