@@ -70,7 +70,7 @@ public class Catalog {
 		//testing skeleton
 	}
 	
-	public void produceQuarterReport (String quarterReportFileName)
+	public void produceQuarterlyReport (String quarterReportFileName)
 	{
 		//testing skeleton
 	}
@@ -90,6 +90,8 @@ public class Catalog {
 			dataSetList.add(ds);
 		}
 	}
+	
+	
 	
 	public void loadCatalogFromJSONString(String catalogJSONString)
 	{

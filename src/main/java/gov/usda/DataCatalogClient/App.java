@@ -14,7 +14,7 @@ public class App
     	catalog = odpClient.loadOrganizationsIntoCatalog();
     	catalog.toProjectOpenDataJSON("data.json");
     	
-    	catalog.produceQuarterReport("quarter_report.doc");
+    	catalog.produceQuarterlyReport("quarterly_report.doc");
     	catalog.produceBureauMetrics("bureau_metrics.csv");
     	
     	//Add new dataset
