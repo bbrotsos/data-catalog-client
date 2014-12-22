@@ -62,6 +62,8 @@ public class CreateCatalogTest {
 		catalog.loadCatalogFromCKAN(sample_CKAN_Catalog_path);
 		catalog.toProjectOpenDataJSON("sample_data/sample_project_open_data_catalog.json");
 		
+		catalog.outputCSV("sample_data/sample_csv.txt");
+		
 		//assert that it is valid here
 		
 	}

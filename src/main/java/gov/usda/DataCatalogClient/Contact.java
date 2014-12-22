@@ -1,5 +1,8 @@
 package gov.usda.DataCatalogClient;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Contact {
 
 	private String type;
@@ -23,6 +26,14 @@ public class Contact {
 	}
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
+	}
+	
+	public Map toProjectOpenDataJSON()
+	{
+		Map contactPointMap = new LinkedHashMap();
+		contactPointMap.put("fn", getFullName());
+		contactPointMap.put("hasEmail", getEmailAddress());
+		return contactPointMap;
 	}
 	
 }

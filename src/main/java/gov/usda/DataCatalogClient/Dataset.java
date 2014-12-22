@@ -227,6 +227,114 @@ public class Dataset {
 		return datasetCKAN_JSON;
 	}
 	
+	//taken from web to fix multiline csv  ugh.
+	public String unEscapeString(String s)
+	{
+		StringBuilder sb = new StringBuilder();
+		for (int i=0; i<s.length(); i++)
+		        switch (s.charAt(i)){
+		            case '\n': sb.append("\\n"); break;
+		            case '\t': sb.append("\\t"); break;
+		            case '\r': sb.append("\\r"); break;
+
+		            default: sb.append(s.charAt(i));
+		        }
+		return sb.toString();
+	}
+	public String toCSV()
+	{
+		String response = "";
+    	response = response + title + "\t";
+    	//response = response  + unEscapeString(description) + "\t";
+    	
+    	if (distributionList.size() > 0)
+		{
+    		for (int i=0; i< distributionList.size(); i++)
+    		{
+    			if (i > 0)
+    			{
+    				response = response + ", ";
+    			}
+				Distribution outputDistribution = distributionList.get(i);
+				response = response + outputDistribution.getFormat();
+    		}
+    		response = response + "\t";
+		}
+    	else
+    	{
+    		response = response + "\t";
+    	}
+    	if (distributionList.size() > 0)
+		{
+    		for (int i=0; i< distributionList.size(); i++)
+    		{
+    			if (i > 0)
+    			{
+    				response = response + ", ";
+    			}
+    			Distribution outputDistribution = distributionList.get(i);
+				response = response + outputDistribution.getAccessURL();
+    		}
+    		response = response + "\t";
+		}
+    	else
+    	{
+    		response = response + "\t";
+    	}
+    	
+    	response = response +  accrualPeriodicity + "\t";
+    	response = response + bureauCodeList.get(0) + "\t";
+    	response = response + contactPoint.getEmailAddress() +"\t";
+    	response = response + contactPoint.getFullName()+ "\t";
+    	response = response + landingPage + "\t";
+    	for (int i=0; i < programCodeList.size(); i++)
+    	{
+    		response = response + programCodeList.get(i) + ";";
+    	}
+    	response = response + "\t";
+    	//response = response + bureauName + ", Department of Agriculture\t";
+    	response = response + accessLevel + "\t";
+    	response = response + rights+ "\t";
+    	for (int i=0; i < keywordList.size(); i++)
+    	{
+    		response = response + keywordList.get(i) + ";";
+    	}
+    	response = response + "\t";
+    	response = response + modified+ "\t";
+    	response = response + issued + "\t";
+
+    	response = response + uniqueIdentifier + "\t";
+    	response = response + describedBy + "\t";
+    	response = response + license + "\t";
+    	response = response + spatial + "\t";
+    	response = response + temporal+ "\t";
+    	response = response + systemOfRecords + "\t";
+    	response = response + dataQuality + "\t"; 	
+    	for (int i=0; i < languageList.size(); i++)
+    	{
+    		response = response + languageList.get(i) + ";";
+		}
+    	response = response + "\t";
+    	for (int i=0; i < programCodeList.size(); i++)
+		{
+    		response = response + programCodeList.get(i) + ";";
+		}
+    	response = response + "\t";
+    	for (int i=0; i < themeList.size(); i++)
+		{
+    		response = response + themeList.get(i) + ";";
+		}
+    	response = response + "\t";
+    	
+    	for (int i=0; i < referenceList.size(); i++)
+		{
+    		response = response + referenceList.get(i) + ";";
+		}
+    	response = response + "\t";
+    	
+    	return response;
+	}
+	
 	public Map toProjectOpenDataJSON()
 	{
 		Map dataSetJSON = new LinkedHashMap();
@@ -241,10 +349,8 @@ public class Dataset {
 		publisherMap.put("subOrganizationOf", subOrganizationMap);
 		dataSetJSON.put("publisher", publisherMap);
 		
-		Map contactPointMap = new LinkedHashMap();
-		contactPointMap.put("fn", contactPoint.getFullName());
-		contactPointMap.put("hasEmail", contactPoint.getEmailAddress());
-		dataSetJSON.put ("contactPoint", contactPointMap);
+	
+		dataSetJSON.put ("contactPoint", contactPoint.toProjectOpenDataJSON());
 		
 		dataSetJSON.put("identifier", uniqueIdentifier);
 		dataSetJSON.put("accessLevel", accessLevel);

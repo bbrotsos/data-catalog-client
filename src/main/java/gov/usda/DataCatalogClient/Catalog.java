@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -91,6 +92,33 @@ public class Catalog {
 		}
 	}
 	
+	public void outputCSV(String filePath)
+	{
+		try
+		{
+			PrintWriter out = new PrintWriter(filePath);
+
+			String headerLine = "Agency Name\tTitle\tDescription\tFormat\tAccess URL\tFrequency\tABureau Code\tContact Email\tContactName\t";
+			headerLine = headerLine + "Landing Page\tProgram Code\tPublisher\tPublic Access Level\tAccess Level Comment\tTags\tLast Update\tRelease Date\tUnique Identifier\t";
+			headerLine = headerLine + "Data Dictionary\tLicense\tSpatial\tTemporal\tSystem Of Records\tData Quality\tLangauge\t";
+			headerLine = headerLine + "Program Code\tTheme\tReference\t";
+			
+			out.println(headerLine);		
+			
+			for (int i=0; i < dataSetList.size(); i++)
+			{
+				if (!dataSetList.get(i).getAccessLevel().equals("non-public"))
+				{
+					out.println(dataSetList.get(i).toCSV());
+				}
+			}
+			out.close();
+		}
+		catch(Exception ex)
+		{
+			System.out.print(ex.toString());
+		}
+	}
 	
 	
 	public void loadCatalogFromJSONString(String catalogJSONString)
