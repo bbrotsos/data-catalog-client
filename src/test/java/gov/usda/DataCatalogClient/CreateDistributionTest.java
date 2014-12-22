@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -49,6 +50,39 @@ public class CreateDistributionTest {
 		distribution.loadDistributionFromCKAN_JSON(resourceCKAN_JSON);
 		
 		Assert.assertEquals(resourceCKAN_JSON, distribution.toCKAN_JSON());
+	}
+	
+	@Test
+	public void testProjectOpenDataLoad()
+	{
+		String samplePOD_DistributionFileName = "sample_data/project_open_data_distribution.json";
+		JSONObject distributionJSON = Utils.loadJsonObjectFile(samplePOD_DistributionFileName);
+		JSONArray distributionJSONObject = (JSONArray) distributionJSON.get("distribution");
+		
+		Distribution distribution = new Distribution();
+		
+		distribution.loadFromProjectOpenDataJSON((JSONObject)distributionJSONObject.get(0));
+		
+		Utils.printJSON("sample_data/output/open_data_distribution.json", distribution.toProjectOpenDataJSON());
+		
+		String input="";
+		String output="";
+		
+		try{
+			input = new String(Files.readAllBytes(Paths.get("sample_data/project_open_data_distribution.json")));
+			output = new String (Files.readAllBytes(Paths.get("sample_data/output/open_data_distribution.json")));
+		}
+		catch (IOException ex)
+		{
+			Assert.fail(ex.toString());
+		}
+		
+		//strips spacing
+		input.replaceAll("\\s+","");
+		output.replaceAll("\\s+","");
+		
+		Assert.assertEquals(input,output);
+		
 	}
 
 }

@@ -38,6 +38,22 @@ public class Distribution {
     	title = (String) resourceCKAN_JSON.get("name");
     	description = (String) resourceCKAN_JSON.get("description");	
 	}
+	public void loadFromProjectOpenDataJSON(JSONObject pod_JSONObject)
+	{
+		
+		setTitle ((String) pod_JSONObject.get("title"));
+		setDescription ((String) pod_JSONObject.get("description"));
+		setAccessURL((String) pod_JSONObject.get("accessURL"));
+		setDownloadURL ((String) pod_JSONObject.get("downloadURL"));
+		setMediaType ((String) pod_JSONObject.get("mediaType"));
+		setFormat ((String) pod_JSONObject.get(format));
+		
+		//new 1.1
+		setDescribedBy ((String) pod_JSONObject.get("describedBy"));
+		setDescribedByType ((String) pod_JSONObject.get("describedByType"));
+		setConformsTo ((String) pod_JSONObject.get("conformsTo"));
+		setType ((String) pod_JSONObject.get("@type"));
+	}
 	
 	public JSONObject toCKAN_JSON()
 	{
@@ -55,8 +71,18 @@ public class Distribution {
 	{
 		Map distributionJSON = new LinkedHashMap();
 		//JSONObject dataSetJSON = new JSONObject();
-		distributionJSON .put("title", title);
-		distributionJSON .put("description", description);
+		distributionJSON.put("@type", type);
+		distributionJSON.put("downloadURL", accessURL);
+		distributionJSON.put("mediaType", mediaType);
+		distributionJSON.put("title", title);
+		distributionJSON.put("description", description);
+		distributionJSON.put("access_url", accessURL);
+		distributionJSON.put("distributionURL", downloadURL);
+		distributionJSON.put("format", format);
+		distributionJSON.put("describedBy", describedBy);
+		distributionJSON.put("describedByType", describedByType);
+		distributionJSON.put("conformsTo", conformsTo);
+
 		
 		return distributionJSON ;
 	}
@@ -87,7 +113,7 @@ public class Distribution {
 		}
 		catch(MalformedURLException ex)
 		{
-			System.out.println(ex.toString());
+			System.out.println("Invalid URL Error: " + accessURL_String);
 		}
 	}
 	public URL getDownloadURL() {
@@ -96,6 +122,18 @@ public class Distribution {
 	public void setDownloadURL(URL downloadURL) {
 		this.downloadURL = downloadURL;
 	}
+	private void setDownloadURL(String downloadURL_String)
+	{
+		try
+		{
+			this.downloadURL = new URL(downloadURL_String);
+		}
+		catch (MalformedURLException ex)
+		{
+			System.out.println("Invalid URL Error: " + downloadURL_String);
+		}
+	}
+	
 	public String getMediaType() {
 		return mediaType;
 	}

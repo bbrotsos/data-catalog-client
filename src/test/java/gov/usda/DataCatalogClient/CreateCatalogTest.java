@@ -67,5 +67,37 @@ public class CreateCatalogTest {
 		//assert that it is valid here
 		
 	}
+	
+	@Test
+	public void testProjectOpenDataLoad()
+	{
+		String samplePOD_CatalogFileName = "sample_data/project_open_data_catalog.json";
+		JSONObject catalogJSON = Utils.loadJsonObjectFile(samplePOD_CatalogFileName);
+		
+		Catalog catalog = new Catalog();
+		
+		catalog.loadFromProjectOpenDataJSON((JSONObject)catalogJSON);
+		
+		catalog.toProjectOpenDataJSON("sample_data/output/open_data_catalog.json");
+		String input="";
+		String output="";
+		
+		try{
+			input = new String(Files.readAllBytes(Paths.get("sample_data/project_open_data_catalog.json")));
+			output = new String (Files.readAllBytes(Paths.get("sample_data/output/open_data_catalog.json")));
+		}
+		catch (IOException ex)
+		{
+			Assert.fail(ex.toString());
+		}
+		
+		//strips spacing
+		input.replaceAll("\\s+","");
+		output.replaceAll("\\s+","");
+		
+		Assert.assertEquals(input,output);
+		
+	}
+
 
 }

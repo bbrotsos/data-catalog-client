@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -76,5 +77,39 @@ public class CreateDatasetTest extends TestCase {
 		
 		//test the values
 	}
+	
+	@Test
+	public void testProjectOpenDataLoad()
+	{
+		String samplePOD_DatasetFileName = "sample_data/project_open_data_dataset.json";
+		JSONObject datasetJSON = Utils.loadJsonObjectFile(samplePOD_DatasetFileName);
+		
+		Dataset ds = new Dataset();
+		
+		ds.loadFromProjectOpenDataJSON((JSONObject)datasetJSON);
+		
+		Utils.printJSON("sample_data/output/open_data_dataset.json", ds.toProjectOpenDataJSON());
+		
+		String input="";
+		String output="";
+		
+		try{
+			input = new String(Files.readAllBytes(Paths.get("sample_data/project_open_data_dataset.json")));
+			output = new String (Files.readAllBytes(Paths.get("sample_data/output/open_data_dataset.json")));
+		}
+		catch (IOException ex)
+		{
+			Assert.fail(ex.toString());
+		}
+		
+		//strips spacing
+		input.replaceAll("\\s+","");
+		output.replaceAll("\\s+","");
+		
+		Assert.assertEquals(input,output);
+		
+	}
+
+	
 
 }

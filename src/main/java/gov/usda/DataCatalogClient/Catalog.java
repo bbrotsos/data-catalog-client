@@ -120,7 +120,24 @@ public class Catalog {
 		}
 	}
 	
-	
+	public void loadFromProjectOpenDataJSON(JSONObject catalogObject)
+	{
+		setConformsTo((String) catalogObject.get("conformsTo"));
+		setDescribedBy((String) catalogObject.get("describedBy"));
+		setContext ((String) catalogObject.get("@context"));
+		setType ((String) catalogObject.get("@type"));
+		
+		JSONArray dataSetArray = new JSONArray();
+		dataSetArray = (JSONArray) catalogObject.get("dataset");
+		for (int i = 0; i < dataSetArray.size(); i++)
+		{
+			Dataset ds = new Dataset();
+			JSONObject dataSetObject = (JSONObject) dataSetArray.get(i);
+			ds.loadFromProjectOpenDataJSON(dataSetObject);
+			dataSetList.add(ds);
+		}
+		
+	}
 	public void loadCatalogFromJSONString(String catalogJSONString)
 	{
 		JSONObject resourceCKAN_JSON = new JSONObject();
@@ -166,6 +183,9 @@ public class Catalog {
 		JSONArray dataSetArray = new JSONArray();
 
 		catalogJSON.put("conformsTo", conformsTo);
+		catalogJSON.put("describedBy", describedBy);
+		catalogJSON.put("@context", context);
+		catalogJSON.put("@type", type);
 	
 		for (int i = 0; i < dataSetList.size(); i++)
 		{
@@ -173,17 +193,8 @@ public class Catalog {
 		}
 		
 		catalogJSON.put("dataset", dataSetArray);
-		Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
-		try
-		{
-			PrintWriter out = new PrintWriter(podFilePath);
-			out.print( gson.toJson(catalogJSON) );
-			out.close();
-		}
-		catch (Exception ex)	
-		{
-			System.out.println(ex.toString());
-		}
+		
+		Utils.printJSON(podFilePath, catalogJSON);
 		 
 	}
 	

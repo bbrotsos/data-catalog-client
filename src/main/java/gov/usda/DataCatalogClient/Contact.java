@@ -3,6 +3,8 @@ package gov.usda.DataCatalogClient;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
+
 public class Contact {
 
 	private String type;
@@ -35,5 +37,13 @@ public class Contact {
 		contactPointMap.put("hasEmail", getEmailAddress());
 		return contactPointMap;
 	}
+	
+	public void loadDatasetFromPOD_JSON(JSONObject contactProjectOpenDataJSON)
+	{
+		type = (String) contactProjectOpenDataJSON.get("type");
+		fullName = (String) contactProjectOpenDataJSON.get("fn");
+		emailAddress = (String) contactProjectOpenDataJSON.get("hasEmail");
+	}
+
 	
 }

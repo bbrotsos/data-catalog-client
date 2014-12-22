@@ -406,6 +406,62 @@ public class Dataset {
 		
 		return dataSetJSON;
 	}
+	
+	public void loadFromProjectOpenDataJSON(JSONObject dataSetObject)
+	{
+		title = (String) dataSetObject.get("title");
+		
+		setTitle((String) dataSetObject.get("title"));
+		setDescription ((String) dataSetObject.get("description"));
+		publisher.loadDatasetFromPOD_JSON((JSONObject)dataSetObject.get("publisher"));
+		contactPoint.loadDatasetFromPOD_JSON((JSONObject)dataSetObject.get("contactPoint"));
+		setAccessLevel((String)dataSetObject.get("accessLevel"));
+		setRights((String)dataSetObject.get("rights"));
+		setSystemOfRecords((String)dataSetObject.get("systemOfRecords"));
+		setLandingPage((String)dataSetObject.get("landingPage"));
+		setTemporal((String)dataSetObject.get("temporal"));
+		setModified ((String) dataSetObject.get("modified"));
+		setUniqueIdentifier ((String) dataSetObject.get("identifier"));
+		setSpatial((String)dataSetObject.get("spatial"));
+		setDataQuality ((String)dataSetObject.get("dataQuality"));
+		setIssued ((String) dataSetObject.get("issued"));	
+		setDescribedBy((String)dataSetObject.get("describedBy"));
+		setAccrualPeriodicity((String)dataSetObject.get("accrualPeriodicity"));
+		setLicense((String) dataSetObject.get("language"));
+	
+		bureauCodeList = loadArray("bureauCode", dataSetObject);
+		keywordList = loadArray("keyword", dataSetObject);
+		languageList = loadArray("language", dataSetObject);
+		programCodeList = loadArray("programCode", dataSetObject);
+		referenceList = loadArray("references", dataSetObject);
+		themeList = loadArray("theme", dataSetObject);	
+		
+		JSONArray distributionArray = (JSONArray)dataSetObject.get("distribution");
+		for (int i=0; i< distributionArray.size(); i++)
+		{
+			Distribution distribution = new Distribution();
+			JSONObject distributionObject = (JSONObject) distributionArray.get(i);
+			distribution.loadFromProjectOpenDataJSON(distributionObject);
+			distributionList.add(distribution);
+		}
+		
+	}
+	
+	private List<String> loadArray(String key, JSONObject dataSetObject)
+	{
+		String value = "";
+		JSONArray jsonArray = (JSONArray) dataSetObject.get(key);
+		List<String> returnList = new ArrayList<String>();
+		if (jsonArray != null)
+		{
+			for (int i=0; i<jsonArray.size(); i++)
+			{
+				value = (String) jsonArray.get(i);
+				returnList.add(value);
+			}
+		}
+		return returnList;
+	}
 
 	public String getTitle() {
 		return title;
@@ -433,7 +489,10 @@ public class Dataset {
 	
 	private void setIssued(String issued)
 	{
-		this.issued = convertISOStringToDate(issued);
+		if (issued != null)
+		{
+			this.issued = convertISOStringToDate(issued);
+		}
 	}
 
 	public Date getModified() {
@@ -445,7 +504,10 @@ public class Dataset {
 	}
 	
 	public void setModified(String modified){
-		this.modified = convertISOStringToDate(modified);
+		if (modified != null)
+		{
+			this.modified = convertISOStringToDate(modified);
+		}
 	}
 
 	public String getIdentifier() {
@@ -614,14 +676,18 @@ public class Dataset {
 	}
 	
 	//handle string case
-	private void setDataQuality(String dataQuality){
-		if (dataQuality.equals("true"))
+	private void setDataQuality(String dataQuality)
+	{
+		if (dataQuality != null)
 		{
-			this.dataQuality = true;
-		}
-		else
-		{
-			this.dataQuality = false;
+			if (dataQuality.equals("true"))
+			{
+				this.dataQuality = true;
+			}
+			else
+			{
+				this.dataQuality = false;
+			}
 		}
 	}
 

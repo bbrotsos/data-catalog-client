@@ -31,7 +31,7 @@ public class Publisher {
 	public Map toProjectOpenDataJSON()
 	{
 		Map publisherMap = new LinkedHashMap();
-		publisherMap.put("type", type);
+		publisherMap.put("@type", type);
 		publisherMap.put("name", name);
 		
 		publisherMap.put("suborganization", subOrganization.toProjectOpenDataJSON());
@@ -41,11 +41,14 @@ public class Publisher {
 	
 	public void loadDatasetFromPOD_JSON(JSONObject publisherProjectOpenDataJSON)
 	{
-		type = (String) publisherProjectOpenDataJSON.get("type");
+		type = (String) publisherProjectOpenDataJSON.get("@type");
 		name = (String) publisherProjectOpenDataJSON.get("name");
 		JSONObject subOrganizationJSON = new JSONObject();
 		subOrganizationJSON = (JSONObject) publisherProjectOpenDataJSON.get("subOrganization");
-		subOrganization.loadDatasetFromPOD_JSON(subOrganizationJSON);
+		if (subOrganizationJSON != null)
+		{
+			subOrganization.loadDatasetFromPOD_JSON(subOrganizationJSON);
+		}
 	}
 	
 }
