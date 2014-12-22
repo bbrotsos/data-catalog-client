@@ -44,6 +44,24 @@ public class Contact {
 		fullName = (String) contactProjectOpenDataJSON.get("fn");
 		emailAddress = (String) contactProjectOpenDataJSON.get("hasEmail");
 	}
+	
+	public Boolean validateContact()
+	{
+		Boolean validIndicator = true;
+		
+		if (fullName == null)
+		{
+			System.out.println("Contact Point invalid: Full Name is required");
+			validIndicator = false;
+		}
+		if (emailAddress == null)
+		{
+			System.out.println("Contact Point invalid: Email Address is required");
+			validIndicator = false;
+		}
+		
+		return validIndicator;
+	}
 
 	
 }

@@ -300,8 +300,33 @@ public class Catalog {
 	//Do fields use the right controlled vocabulary
 	public Boolean validateCatalog()
 	{
-		//begin validations
+		Boolean validIndicator = true;
+		validIndicator = validateUniqueIdentifiers();
 		
-		return true;
+		return validIndicator;
+	}
+	
+	
+	public Boolean validateUniqueIdentifiers()
+	{
+		Boolean validIndicator = true;
+		//optimize this
+		for (int i = 0; i < dataSetList.size(); i++)
+		{
+			String identifier = dataSetList.get(i).getUniqueIdentifier();
+			for (int k=0; k < dataSetList.size(); k++)
+			{
+				if (i != k)
+				{
+					String otherIdentifier = dataSetList.get(k).getUniqueIdentifier();
+					if (identifier.equals(otherIdentifier))
+					{
+						System.out.println("Invalid catalog: non-unique identifier: " + dataSetList.get(k).getTitle());
+						validIndicator=false;
+					}
+				}
+			}
+		}
+		return validIndicator;
 	}
 }

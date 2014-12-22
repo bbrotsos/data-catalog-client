@@ -33,10 +33,32 @@ public class Distribution {
 	
 	public void loadDistributionFromCKAN_JSON(JSONObject resourceCKAN_JSON)
 	{
-		setAccessURL((String) resourceCKAN_JSON.get("url"));
-    	format = (String) resourceCKAN_JSON.get("format");
-    	title = (String) resourceCKAN_JSON.get("name");
-    	description = (String) resourceCKAN_JSON.get("description");	
+		setTitle((String) resourceCKAN_JSON.get("name"));
+		setDescription ((String) resourceCKAN_JSON.get("description"));
+		setConformsTo ((String) resourceCKAN_JSON.get("conformsTo"));
+		setDescribedByType((String) resourceCKAN_JSON.get("describedByType"));
+		setDescribedBy ((String) resourceCKAN_JSON.get("describedBy"));
+    	
+    	//resourceType is the check button when adding resource "link to download, link to api, link to file, link to accessurl
+    	//accessurl = AccessURL; file = DownloadURL; api = API
+    	String resourceType = ((String) resourceCKAN_JSON.get("resource_type"));
+    	if (resourceType == null)
+    	{
+    		//default to download_url
+    		setDownloadURL((String) resourceCKAN_JSON.get("url"));
+    	}
+    	else if (resourceType.equals("accessurl"))
+    	{
+    		setAccessURL((String) resourceCKAN_JSON.get("url"));
+    	}
+    	else if (resourceType.equals("file"))
+    	{
+    		setDownloadURL((String) resourceCKAN_JSON.get("url"));
+    	}
+    	
+    	//mediaType = format and format = formatReadable
+    	setMediaType((String) resourceCKAN_JSON.get("format"));
+    	setFormat ((String) resourceCKAN_JSON.get("formatReadable"));	
 	}
 	public void loadFromProjectOpenDataJSON(JSONObject pod_JSONObject)
 	{

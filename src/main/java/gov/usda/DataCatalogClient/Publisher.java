@@ -54,4 +54,17 @@ public class Publisher {
 		}
 	}
 	
+	public Boolean validatePublisher()
+	{
+		Boolean validIndicator = true;
+		
+		if (name == null)
+		{
+			System.out.println("Publisher invalid: Name is required");
+			validIndicator = false;
+		}
+		
+		return validIndicator;
+	}
+	
 }

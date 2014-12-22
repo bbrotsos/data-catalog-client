@@ -22,7 +22,6 @@ public class Dataset {
 	private String description;
 	private Date issued;
 	private Date modified;
-	private String identifier;
 	//These three are lists for Project Open Data compliance
 	private List<String> keywordList;
 	private List<String> languageList;
@@ -74,12 +73,15 @@ public class Dataset {
 	
 	public void loadDatasetFromCKAN_JSON(JSONObject datasetCKAN_JSON)
 	{	
-		//probably shoud use GSON, but I ran into problems on android in past.
+		//probably should use GSON/Jackson, but I ran into problems on android in past.
 		//optimize in the future
 		
+		//issue, title is in two places.  i set it initially, and let extra tag overwrite if it exists in extra.
+		setTitle((String) datasetCKAN_JSON.get("title"));
 		setDescription((String) datasetCKAN_JSON.get("notes"));
-		
-		JSONArray resourcesArray = new JSONArray();
+	    setModified ((String) datasetCKAN_JSON.get("metadata_modified"));
+	    
+	    JSONArray resourcesArray = new JSONArray();
 	    resourcesArray = (JSONArray) datasetCKAN_JSON.get("resources");
 	    
 	    for (int i=0; i < resourcesArray.size(); i++)
@@ -217,6 +219,8 @@ public class Dataset {
 			tagObject = (JSONObject)tagsArray.get(k);
 			keywordList.add((String)tagObject.get("display_name"));
 		}
+		
+		validateDataset();
 		
 	}
 	
@@ -365,6 +369,7 @@ public class Dataset {
 		dataSetJSON.put("issued", issued);
 		dataSetJSON.put("accrualPeriodicity", accrualPeriodicity);
 		dataSetJSON.put("systemOfRecords", systemOfRecords);
+		dataSetJSON.put("primaryITInvestmentUII", primaryITInvestmentUII);
 
 		if (issued != null)
 		{
@@ -432,6 +437,7 @@ public class Dataset {
 		setDescribedBy((String)dataSetObject.get("describedBy"));
 		setAccrualPeriodicity((String)dataSetObject.get("accrualPeriodicity"));
 		setLicense((String) dataSetObject.get("license"));
+		setPrimaryITInvestmentUII((String) dataSetObject.get("primary_it_investment_uii"));
 	
 		bureauCodeList = loadArray("bureauCode", dataSetObject);
 		keywordList = loadArray("keyword", dataSetObject);
@@ -512,14 +518,6 @@ public class Dataset {
 		{
 			this.modified = convertISOStringToDate(modified);
 		}
-	}
-
-	public String getIdentifier() {
-		return identifier;
-	}
-
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
 	}
 
 	public List<String> getKeywordList() {
@@ -798,5 +796,61 @@ public class Dataset {
 	public void setLicense(String license) {
 		this.license = license;
 	}
-
+	
+	public Boolean validateDataset()
+	{
+		Boolean validIndicator = true;
+		if (title == null)
+		{
+			System.out.println("Dataset invalid: Title is required: " + uniqueIdentifier);
+			validIndicator = false;
+		}
+		if (description == null)
+		{
+			System.out.println("Dataset invalid: Description is required: " + title);
+			validIndicator = false;
+		}
+		if (keywordList == null)
+		{
+			System.out.println("Dataset invalid: Keyword is required: " + title);
+			validIndicator = false;
+		}
+		if (modified == null)
+		{
+			System.out.println("Dataset invalid: Modified is required: " + title);
+			validIndicator = false;
+		}
+		if (!publisher.validatePublisher())
+		{
+			System.out.println("Dataset invalid: Publisher is required: " + title);
+			validIndicator = false;
+		}
+		if (!contactPoint.validateContact())
+		{
+			System.out.println("Dataset invalid: Contact Point is required: " + title);
+			validIndicator = false;
+		}
+		if (uniqueIdentifier == null)
+		{
+			System.out.println("Dataset invalid: Identifier is required: " + title);
+			validIndicator = false;
+		}
+		if (accessLevel == null)
+		{
+			System.out.println("Dataset invalid: Access Level is required: " + title);
+			validIndicator = false;
+		}
+		if (bureauCodeList == null)
+		{
+			System.out.println("Dataset invalid: Bureau Code is required: " + title);
+			validIndicator = false;
+		}
+		if (programCodeList == null)
+		{
+			System.out.println("Dataset invalid: Program Code is required: " + title);
+			validIndicator = false;
+		}
+		
+		return validIndicator;			
+	}
 }

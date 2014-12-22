@@ -23,6 +23,8 @@ public class App
     	catalog.produceQuarterlyReport("quarterly_report.doc");
     	catalog.produceBureauMetrics("bureau_metrics.csv");
     	
+    	catalog.outputCSV("datalisting.csv");
+    	
     	//Add new dataset
     	Dataset ds = new Dataset();
     	ds.setTitle("My New Title");
