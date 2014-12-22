@@ -1,5 +1,10 @@
 package gov.usda.DataCatalogClient;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import org.json.simple.JSONObject;
+
 public class Publisher {
 	private String type;
 	private String name;
@@ -23,7 +28,24 @@ public class Publisher {
 		this.subOrganization = subOrganization;
 	}
 	
+	public Map toProjectOpenDataJSON()
+	{
+		Map publisherMap = new LinkedHashMap();
+		publisherMap.put("type", type);
+		publisherMap.put("name", name);
+		
+		publisherMap.put("suborganization", subOrganization.toProjectOpenDataJSON());
+		
+		return publisherMap;
+	}
 	
-	
+	public void loadDatasetFromPOD_JSON(JSONObject publisherProjectOpenDataJSON)
+	{
+		type = (String) publisherProjectOpenDataJSON.get("type");
+		name = (String) publisherProjectOpenDataJSON.get("name");
+		JSONObject subOrganizationJSON = new JSONObject();
+		subOrganizationJSON = (JSONObject) publisherProjectOpenDataJSON.get("subOrganization");
+		subOrganization.loadDatasetFromPOD_JSON(subOrganizationJSON);
+	}
 	
 }
