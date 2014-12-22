@@ -300,7 +300,7 @@ public class Catalog {
 	//Do fields use the right controlled vocabulary
 	public Boolean validateCatalog()
 	{
-		
+		//begin validations
 		
 		return true;
 	}
