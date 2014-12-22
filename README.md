@@ -14,7 +14,13 @@ Example usage:
     	Client odpClient = new Client();
  
     	catalog = odpClient.loadOrganizationsIntoCatalog();
+    	
+    	//create edi or pdl
     	catalog.toProjectOpenDataJSON("data.json");
     	
-    	catalog.produceQuarterReport("quarter_report.doc");
-    	catalog.produceBureauMetrics("bureau_metrics.csv");
+    	//Add new dataset
+    	Dataset ds = new Dataset();
+    	ds.setTitle("My New Title");
+    	ds.setDescription("New dataset for CKAN");
+    	
+    	odpClient.createDataset(ds);
