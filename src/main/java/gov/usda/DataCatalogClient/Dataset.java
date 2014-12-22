@@ -77,6 +77,8 @@ public class Dataset {
 		//probably shoud use GSON, but I ran into problems on android in past.
 		//optimize in the future
 		
+		setDescription((String) datasetCKAN_JSON.get("notes"));
+		
 		JSONArray resourcesArray = new JSONArray();
 	    resourcesArray = (JSONArray) datasetCKAN_JSON.get("resources");
 	    
@@ -96,7 +98,7 @@ public class Dataset {
 			String key = (String) extraObject.get("key");
 
 			String value = (String) extraObject.get("value");
-			if (key.equals("data_quality"))
+			if (key.equals("data_quality") || key.equals("dataQuality"))
 	    	{
 	    		setDataQuality(value);	    		
 	    	}
@@ -196,6 +198,10 @@ public class Dataset {
 	    	else if (key.equals("owner_org") || key.equals("ow"))
 	    	{
 	    		setOwnerOrganization(value);
+	    	}
+	    	else if (key.equals("license_new"))
+	    	{
+	    		setLicense(value);
 	    	}
 	    	else
 	    	{
@@ -425,7 +431,7 @@ public class Dataset {
 		setIssued ((String) dataSetObject.get("issued"));	
 		setDescribedBy((String)dataSetObject.get("describedBy"));
 		setAccrualPeriodicity((String)dataSetObject.get("accrualPeriodicity"));
-		setLicense((String) dataSetObject.get("language"));
+		setLicense((String) dataSetObject.get("license"));
 	
 		bureauCodeList = loadArray("bureauCode", dataSetObject);
 		keywordList = loadArray("keyword", dataSetObject);

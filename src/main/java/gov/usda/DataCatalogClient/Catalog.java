@@ -176,20 +176,31 @@ public class Catalog {
 		loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
 	}
 	
-	public void toProjectOpenDataJSON(String podFilePath)
-	{
+	public void toProjectOpenDataJSON(String podFilePath, Boolean privateIndicator)
+	{	
 		Map catalogJSON = new LinkedHashMap();
 		Map dataSetMap = new LinkedHashMap();
 		JSONArray dataSetArray = new JSONArray();
-
-		catalogJSON.put("conformsTo", conformsTo);
-		catalogJSON.put("describedBy", describedBy);
-		catalogJSON.put("@context", context);
-		catalogJSON.put("@type", type);
+		
+		catalogJSON.put("conformsTo", "https://project-open-data.cio.gov/v1.1/schema");
+		catalogJSON.put("describedBy", "https://project-open-data.cio.gov/v1.1/schema/catalog.json");
+		catalogJSON.put("@context", "https://project-open-data.cio.gov/v1.1/schema/data.jsonld");
+		catalogJSON.put("@type", "dcat:Catalog");
 	
 		for (int i = 0; i < dataSetList.size(); i++)
 		{
-			dataSetArray.add(dataSetList.get(i).toProjectOpenDataJSON());
+			if (privateIndicator)
+			{
+				dataSetArray.add(dataSetList.get(i).toProjectOpenDataJSON());
+			}
+			else
+			{
+				String publicAccessLevel = dataSetList.get(i).getAccessLevel();
+				if (publicAccessLevel.equals("public") || publicAccessLevel.equals("restricted"))
+				{
+					dataSetArray.add(dataSetList.get(i).toProjectOpenDataJSON());
+				}
+			}
 		}
 		
 		catalogJSON.put("dataset", dataSetArray);
@@ -281,5 +292,16 @@ public class Catalog {
 	}
 	public void setDescribedBy(String describedBy) {
 		this.describedBy = describedBy;
+	}
+	
+	//Additional business rule validation
+	//Are required fields filled out?
+	//Are unique identifiers really unique?
+	//Do fields use the right controlled vocabulary
+	public Boolean validateCatalog()
+	{
+		
+		
+		return true;
 	}
 }

@@ -14,6 +14,17 @@ import org.json.simple.parser.ParseException;
 
 public class Client {
 	
+	public Dataset updateDataset(Dataset updateDS)
+	{
+		Dataset updatedDataset = new Dataset();
+		return updatedDataset;
+	}
+	
+	public Dataset deleteDataset (Dataset deleteDS)
+	{
+		Dataset deletedDataset = new Dataset();
+		return deletedDataset;
+	}
 	
 	public Catalog getOrganizationCatalogCKAN(String organizationIdentifier, String bureauFileName)
 	{

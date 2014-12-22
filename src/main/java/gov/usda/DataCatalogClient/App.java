@@ -13,7 +13,12 @@ public class App
  
     	//take in filepath to store saved downloads from network, update filepath for fresh results
     	catalog = odpClient.loadOrganizationsIntoCatalog("edi_2014-12-22");
-    	catalog.toProjectOpenDataJSON("data.json");
+    
+    	if (catalog.validateCatalog())
+    	{
+    		Boolean privateIndicator = false;
+    		catalog.toProjectOpenDataJSON("data.json", privateIndicator);
+    	}
     	
     	catalog.produceQuarterlyReport("quarterly_report.doc");
     	catalog.produceBureauMetrics("bureau_metrics.csv");
@@ -24,6 +29,17 @@ public class App
     	ds.setDescription("New dataset for CKAN");
     	
     	odpClient.createDataset(ds);
+    	
+    	Dataset updateDS = new Dataset();
+    	updateDS.setUniqueIdentifier("12345");
+    	updateDS.setTitle("This is a different title");
+    	
+    	odpClient.updateDataset(updateDS);
+    	
+    	Dataset deleteDS = new Dataset();
+    	deleteDS.setUniqueIdentifier("12345");
+    	odpClient.deleteDataset(deleteDS);
+    	
     }
     
 }

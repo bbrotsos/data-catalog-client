@@ -60,7 +60,7 @@ public class CreateCatalogTest {
 		String sample_CKAN_Catalog_path = "sample_data/sample_ckan_catalog_result.json";
 		Catalog catalog = new Catalog();
 		catalog.loadCatalogFromCKAN(sample_CKAN_Catalog_path);
-		catalog.toProjectOpenDataJSON("sample_data/sample_project_open_data_catalog.json");
+		catalog.toProjectOpenDataJSON("sample_data/sample_project_open_data_catalog.json", true);
 		
 		catalog.outputCSV("sample_data/sample_csv.txt");
 		
@@ -78,7 +78,7 @@ public class CreateCatalogTest {
 		
 		catalog.loadFromProjectOpenDataJSON((JSONObject)catalogJSON);
 		
-		catalog.toProjectOpenDataJSON("sample_data/output/open_data_catalog.json");
+		catalog.toProjectOpenDataJSON("sample_data/output/open_data_catalog.json", true);
 		String input="";
 		String output="";
 		
