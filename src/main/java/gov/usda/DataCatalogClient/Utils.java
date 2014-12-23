@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
@@ -61,6 +62,23 @@ public class Utils {
 		
 	}
 	
+	static public JSONObject loadJsonObjectFromString(String jsonString)
+	{
+		Object obj = new Object();
+		JSONObject jsonObject = new JSONObject();
+		try 
+		{
+			JSONParser parser = new JSONParser();
+			obj = parser.parse(jsonString);
+			jsonObject = (JSONObject) obj;
+		} 
+		catch (ParseException pe) 
+		{
+			System.out.println(pe.toString());
+		}
+		return jsonObject;
+	}
+	
 	static public void printJSON(String fileName, Map jsonMap)
 	{
 		Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
@@ -98,5 +116,25 @@ public class Utils {
 		return isoFormattedDate;
 	}
 
+	static public String listToCSV(List<String> list)
+	{
+		if (list.size() == 0)
+		{
+			return null;
+		}
+		String csvString = "";
+		for (String s: list)
+		{
+			if (csvString.equals(""))
+			{
+				csvString = s;
+			}
+			else
+			{
+				csvString = csvString + ", " + s;
+			}
+		}
+		return csvString;
+	}
 	
 }

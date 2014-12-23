@@ -59,9 +59,10 @@ public class NetworkRequest
 		connection.setReadTimeout(20000);
 	}	
 	
+	//optimize or remove in future, setup in config file: Development, Test, Prod.
+	//i hit wall moving from https, to http.  clean up later.
 	private void setupPublicConnection()
 	{
-		//optimize or remove in future
 		connection_public.setRequestProperty("Accept-Charset", "UTF-8");
 		connection_public.setRequestProperty("Accept", "application/json");
 		connection_public.setRequestProperty("Authorization", apiKey);
@@ -80,10 +81,46 @@ public class NetworkRequest
 		return getHttpResponse(connection);
 	}
 	
+	public String getDataset(String name) throws Exception
+	{
+		URL dataAPIURL = new URL(server + "/api/3/action/package_show?id=" + name);
+		
+		connection_public = (HttpURLConnection)dataAPIURL.openConnection();
+		setupPublicConnection();
+		connection_public.setRequestProperty("Content-Type", "application/json");
+		return getHttpResponse(connection_public);
+	}
+	
 	public String createDataset(JSONObject postJSON) throws Exception
 	{
 		//get rid of connection_public...using it for connecting to non-ssl
 		URL dataAPIURL = new URL(server + "/api/3/action/package_create");
+		connection_public = (HttpURLConnection)dataAPIURL.openConnection();
+		setupPublicConnection();
+		connection_public.setRequestProperty("Content-Type", "application/json");
+		connection_public.setDoOutput(true);
+
+		postObject(connection_public, postJSON);
+		return getHttpResponse(connection_public);
+	}
+	
+	public String updateDataset(String name, JSONObject postJSON) throws Exception
+	{
+		//get rid of connection_public...using it for connecting to non-ssl
+		URL dataAPIURL = new URL(server + "/api/3/action/package_update");
+		connection_public = (HttpURLConnection)dataAPIURL.openConnection();
+		setupPublicConnection();
+		connection_public.setRequestProperty("Content-Type", "application/json");
+		connection_public.setDoOutput(true);
+
+		postObject(connection_public, postJSON);
+		return getHttpResponse(connection_public);
+	}
+	
+	public String  deleteDataset(String name, JSONObject postJSON) throws Exception
+	{
+		//get rid of connection_public...using it for connecting to non-ssl
+		URL dataAPIURL = new URL(server + "/api/3/action/package_delete");
 		connection_public = (HttpURLConnection)dataAPIURL.openConnection();
 		setupPublicConnection();
 		connection_public.setRequestProperty("Content-Type", "application/json");

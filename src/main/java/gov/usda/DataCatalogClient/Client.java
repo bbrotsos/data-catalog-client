@@ -15,15 +15,63 @@ import org.json.simple.parser.ParseException;
 public class Client {
 	
 	public Dataset updateDataset(Dataset updateDS)
+	{		
+		//TODO: First get id, we will use this later because we can't rely on names not changing.
+		Dataset ckanDataset = getDatasetFromCKAN(updateDS.getName());
+		
+		NetworkRequest nr = new NetworkRequest();
+		String datasetCKANString = "";
+		try
+		{
+			datasetCKANString = nr.updateDataset(updateDS.getName(), updateDS.toCKAN_JSON());
+		}
+		catch (Exception ex)
+		{
+			System.out.println(ex.toString());
+		}
+		JSONObject dataSetJSON = new JSONObject();
+		Dataset ds = new Dataset();
+		dataSetJSON = Utils.loadJsonObjectFromString(datasetCKANString);
+		ds.loadDatasetFromCKAN_JSON((JSONObject)dataSetJSON.get("result"));
+		return ds;
+	}
+	
+	public Dataset getDatasetFromCKAN(String name)
 	{
-		Dataset updatedDataset = new Dataset();
-		return updatedDataset;
+		Dataset ds = new Dataset();
+		String datasetCKANString = "";
+		NetworkRequest nr = new NetworkRequest();
+		try
+		{
+			datasetCKANString = nr.getDataset(name);
+		}
+		catch (Exception ex)
+		{
+			System.out.println(ex.toString());
+		}
+		JSONObject dataSetJSON = new JSONObject();
+		dataSetJSON = Utils.loadJsonObjectFromString(datasetCKANString);
+		ds.loadDatasetFromCKAN_JSON((JSONObject)dataSetJSON.get("result"));
+		return ds;
 	}
 	
 	public Dataset deleteDataset (Dataset deleteDS)
 	{
-		Dataset deletedDataset = new Dataset();
-		return deletedDataset;
+		NetworkRequest nr = new NetworkRequest();
+		String datasetCKANString = "";
+		try
+		{
+			datasetCKANString = nr.deleteDataset(deleteDS.getName(), deleteDS.toCKAN_JSON());
+		}
+		catch (Exception ex)
+		{
+			System.out.println(ex.toString());
+		}
+		JSONObject dataSetJSON = new JSONObject();
+		Dataset ds = new Dataset();
+		dataSetJSON = Utils.loadJsonObjectFromString(datasetCKANString);
+		ds.loadDatasetFromCKAN_JSON((JSONObject)dataSetJSON.get("result"));
+		return ds;
 	}
 	
 	public Catalog getOrganizationCatalogCKAN(String organizationIdentifier, String bureauFileName)
@@ -31,6 +79,8 @@ public class Client {
 		
 		String catalogJSONString = "";
 		NetworkRequest nr = new NetworkRequest();	
+		
+		//I want feedback on when I'm hitting the server vs. hitting local file.
 		System.out.println("Making Network Request for: " + organizationIdentifier);
 		try
 		{
@@ -57,6 +107,8 @@ public class Client {
 		return catalog;
 	}
 	
+	//TODO:  pull some of these functions out.  it's too complex because I added save files feature
+	//       I don't want to hit server everytime i run this.
 	public Catalog loadOrganizationsIntoCatalog(String downloadFilePath)
 	{
 		 //example create master catalog...
@@ -110,7 +162,6 @@ public class Client {
 	
 	public void createDataset(Dataset ds)
 	{
-		System.out.print("creating data set");
 		NetworkRequest nr = new NetworkRequest();
 		String newDatasetJSONString = "";
 		try
@@ -121,7 +172,6 @@ public class Client {
 		{
 			System.out.println(ex.toString());
 		}
-		System.out.println("created dataset..." + newDatasetJSONString);
 	}
 	
 	public void createDirectory(String filePath)

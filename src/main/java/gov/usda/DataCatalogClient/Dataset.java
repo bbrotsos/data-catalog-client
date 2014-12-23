@@ -246,32 +246,115 @@ public class Dataset {
 	public JSONObject toCKAN_JSON()
 	{
 		JSONObject datasetCKAN_JSON = new JSONObject();
-		datasetCKAN_JSON.put("name", this.title);
+		
+		datasetCKAN_JSON.put("private", true);
+		
+		datasetCKAN_JSON.put("name", getName());
 		datasetCKAN_JSON.put("notes", description);
-		datasetCKAN_JSON.put("title", "API Test Title");
-		datasetCKAN_JSON.put("owner_org", "f2e28a6c-fafb-4914-a590-91fbcd6ae339");
+		datasetCKAN_JSON.put("title", this.title);
+		//dataio
+		//datasetCKAN_JSON.put("owner_org", "f2e28a6c-fafb-4914-a590-91fbcd6ae339");
+		
+		//demo.ckan
+		datasetCKAN_JSON.put("owner_org", "9ca02aa2-5007-4e9c-a407-ff8bdd9f43aa");
+		
+		JSONArray extrasArray = new JSONArray();
+		extrasArray.add(createExtraObject("public_access_level", accessLevel));
+		extrasArray.add(createExtraObject("access_level_comment", rights));
+		if (contactPoint != null)
+		{
+			extrasArray.add(createExtraObject("contact_email", contactPoint.getEmailAddress()));
+			extrasArray.add(createExtraObject("contact_name", contactPoint.getFullName()));
+		}
+		extrasArray.add(createExtraObject("accrual_periodicity", accrualPeriodicity));
+		extrasArray.add(createExtraObject("conforms_to", conformsTo));
+		extrasArray.add(createExtraObject("data_dictionary", describedBy));
+		extrasArray.add(createExtraObject("data_dictionary_type", describedByType));
+		if (dataQuality != null)
+		{
+			extrasArray.add(createExtraObject("data_quality", dataQuality.toString()));
+		}
+		if (landingPage != null)
+		{
+			extrasArray.add(createExtraObject("homepage_url", landingPage.toString()));
+		}
+		extrasArray.add(createExtraObject("is_parent", isPartOf));
+		extrasArray.add(createExtraObject("license_new", license));
+		if (modified != null)
+		{
+			extrasArray.add(createExtraObject("modified", Utils.convertDateToISOString(modified)));
+		}
+		extrasArray.add(createExtraObject("primary_it_investment_uii", primaryITInvestmentUII));
+		if (publisher != null)
+		{
+			extrasArray.add(createExtraObject("publisher", publisher.getName()));
+		}
+		/*
+		if (issued != null)
+		{
+			extrasArray.add(createExtraObject("release_date", Utils.convertDateToISOString(issued)));
+		}
+		
+		extrasArray.add(createExtraObject("spatial", spatial));
+		*/
+		extrasArray.add(createExtraObject("system_of_records", systemOfRecords));
+		extrasArray.add(createExtraObject("temporal", temporal));
+		extrasArray.add(createExtraObject("unique_id", uniqueIdentifier));
+		extrasArray.add(createExtraObject("program_code", Utils.listToCSV(programCodeList)));
+		extrasArray.add(createExtraObject("language", Utils.listToCSV(languageList)));
+		extrasArray.add(createExtraObject("bureau_code", Utils.listToCSV(bureauCodeList)));
+		extrasArray.add(createExtraObject("category", Utils.listToCSV(themeList)));
+		extrasArray.add(createExtraObject("related_documents",Utils.listToCSV(referenceList)));
+		
+		JSONArray tagsArray = new JSONArray();
+		for (int i = 0; i < keywordList.size(); i++)
+		{
+			JSONObject tagObject = new JSONObject();
+			tagObject.put("name", keywordList.get(i));
+			tagObject.put("display_name", keywordList.get(i));
+			tagsArray.add(tagObject);
+		}
+		datasetCKAN_JSON.put("tags", tagsArray);
+		
+		//get rid of nulls, ckan will give errors
+		for (int i=0; i< extrasArray.size(); i++)
+		{
+			JSONObject extraObject = (JSONObject) extrasArray.get(i);
+			if (extraObject.get("value") == null)
+			{
+				extrasArray.remove(i);
+			}
+		}
+		datasetCKAN_JSON.put("extras", extrasArray);
+		
+		//add distribution
+		JSONArray distributionArray = new JSONArray();
+		for (int i=0; i < distributionList.size(); i++)
+		{
+			JSONObject distributionObject = new JSONObject();
+			distributionObject = distributionList.get(i).toCKAN_JSON();
+			distributionArray.add(distributionObject);
+		}
+		datasetCKAN_JSON.put("resources", distributionArray);
 		
 		return datasetCKAN_JSON;
+		
 	}
 	
-	//taken from web to fix multiline csv  ugh.
-	public String unEscapeString(String s)
+	private JSONObject createExtraObject(String key, String value)
 	{
-		StringBuilder sb = new StringBuilder();
-		for (int i=0; i<s.length(); i++)
-		        switch (s.charAt(i)){
-		            case '\n': sb.append("\\n"); break;
-		            case '\t': sb.append("\\t"); break;
-		            case '\r': sb.append("\\r"); break;
-
-		            default: sb.append(s.charAt(i));
-		        }
-		return sb.toString();
+		JSONObject extraObject = new JSONObject();
+		extraObject.put("key", key);
+		extraObject.put("value", value);
+		return extraObject;
 	}
+	
+	
 	public String toCSV()
 	{
 		String response = "";
     	response = response + title + "\t";
+    	//TODO: make description CSVable
     	//response = response  + unEscapeString(description) + "\t";
     	
     	if (distributionList.size() > 0)
@@ -449,7 +532,17 @@ public class Dataset {
 		setModified ((String) dataSetObject.get("modified"));
 		setUniqueIdentifier ((String) dataSetObject.get("identifier"));
 		setSpatial((String)dataSetObject.get("spatial"));
-		setDataQuality ((String)dataSetObject.get("dataQuality"));
+		
+		//Data quality can be string in ckan or boolean in 
+		Object dQuality = dataSetObject.get("dataQuality");
+		if (dQuality instanceof String)
+		{
+			setDataQuality ((String)dataSetObject.get("dataQuality"));
+		}
+		else
+		{
+			setDataQuality ((Boolean)dataSetObject.get("dataQuality"));
+		}
 		setIssued ((String) dataSetObject.get("issued"));	
 		setDescribedBy((String)dataSetObject.get("describedBy"));
 		setAccrualPeriodicity((String)dataSetObject.get("accrualPeriodicity"));
@@ -492,6 +585,14 @@ public class Dataset {
 
 	public String getTitle() {
 		return title;
+	}
+	
+	//this is ckan name
+	public String getName(){
+		String name = title.replace("-", "_");
+		name = name.replace(" ", "-");
+		name = name.toLowerCase();
+		return name;
 	}
 
 	public void setTitle(String title) {

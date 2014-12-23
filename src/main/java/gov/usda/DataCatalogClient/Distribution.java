@@ -31,6 +31,9 @@ public class Distribution {
 	private String conformsTo;
 	private String type;
 	
+	//This is for checkbox "link to api, etc in CKAN
+	private String resourceType;
+	
 	public void loadDistributionFromCKAN_JSON(JSONObject resourceCKAN_JSON)
 	{
 		setTitle((String) resourceCKAN_JSON.get("name"));
@@ -41,7 +44,7 @@ public class Distribution {
     	
     	//resourceType is the check button when adding resource "link to download, link to api, link to file, link to accessurl
     	//accessurl = AccessURL; file = DownloadURL; api = API
-    	String resourceType = ((String) resourceCKAN_JSON.get("resource_type"));
+    	resourceType = ((String) resourceCKAN_JSON.get("resource_type"));
     	if (resourceType == null)
     	{
     		//default to download_url
@@ -69,7 +72,7 @@ public class Distribution {
 		setAccessURL((String) pod_JSONObject.get("accessURL"));
 		setDownloadURL ((String) pod_JSONObject.get("downloadURL"));
 		setMediaType ((String) pod_JSONObject.get("mediaType"));
-		setFormat ((String) pod_JSONObject.get(format));
+		setFormat ((String) pod_JSONObject.get("format"));
 		
 		//new 1.1
 		setDescribedBy ((String) pod_JSONObject.get("describedBy"));
@@ -84,8 +87,34 @@ public class Distribution {
 		
 		distributionCKAN_JSON.put("name", title);
 		distributionCKAN_JSON.put("description", description);
-		distributionCKAN_JSON.put("format", format);
-		distributionCKAN_JSON.put("url", accessURL);
+		distributionCKAN_JSON.put("formatReadable", format);
+		distributionCKAN_JSON.put("format", mediaType);
+		distributionCKAN_JSON.put("resource_type", resourceType);
+		if (resourceType == null)
+    	{
+    		//default to download_url
+			if (downloadURL != null)
+			{
+				distributionCKAN_JSON.put("url", downloadURL.toString());
+			}
+			if (accessURL != null)
+			{
+				distributionCKAN_JSON.put("url", accessURL.toString());
+			}
+    	}
+    	else if (resourceType.equals("accessurl"))
+    	{
+			distributionCKAN_JSON.put("url", accessURL.toString());
+    	}
+    	else if (resourceType.equals("file"))
+    	{
+			distributionCKAN_JSON.put("url", downloadURL.toString());
+    	}
+    	
+		distributionCKAN_JSON.put("describedBy", describedBy);
+		distributionCKAN_JSON.put("describedByType", describedByType);
+		distributionCKAN_JSON.put("conformsTo", conformsTo);
+		distributionCKAN_JSON.put("@type", type);
 		
 		return distributionCKAN_JSON;
 	}
