@@ -73,6 +73,7 @@ public class Dataset {
 		contactPoint = new Contact();
 	}
 	
+	
 	public void loadDatasetFromCKAN_JSON(JSONObject datasetCKAN_JSON)
 	{	
 		//probably should use GSON/Jackson, but I ran into problems on android in past.
@@ -245,13 +246,11 @@ public class Dataset {
 	public JSONObject toCKAN_JSON()
 	{
 		JSONObject datasetCKAN_JSON = new JSONObject();
-		datasetCKAN_JSON.put("title", this.title);
-		datasetCKAN_JSON.put("unique_id", uniqueIdentifier);
-		datasetCKAN_JSON.put("contact_name", contactPoint.getFullName());
-		datasetCKAN_JSON.put("contact_email", contactPoint.getEmailAddress());
-		datasetCKAN_JSON.put("public_access_level", accessLevel);
-		datasetCKAN_JSON.put("access_level_comment", rights);
-	
+		datasetCKAN_JSON.put("name", this.title);
+		datasetCKAN_JSON.put("notes", description);
+		datasetCKAN_JSON.put("title", "API Test Title");
+		datasetCKAN_JSON.put("owner_org", "f2e28a6c-fafb-4914-a590-91fbcd6ae339");
+		
 		return datasetCKAN_JSON;
 	}
 	

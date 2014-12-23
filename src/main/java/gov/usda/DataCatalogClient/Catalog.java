@@ -306,7 +306,6 @@ public class Catalog {
 		return validIndicator;
 	}
 	
-	
 	public Boolean validateUniqueIdentifiers()
 	{
 		Boolean validIndicator = true;
@@ -314,16 +313,13 @@ public class Catalog {
 		for (int i = 0; i < dataSetList.size(); i++)
 		{
 			String identifier = dataSetList.get(i).getUniqueIdentifier();
-			for (int k=0; k < dataSetList.size(); k++)
+			for (int k=i+1; k < dataSetList.size(); k++)
 			{
-				if (i != k)
+				String otherIdentifier = dataSetList.get(k).getUniqueIdentifier();
+				if (identifier.equals(otherIdentifier))
 				{
-					String otherIdentifier = dataSetList.get(k).getUniqueIdentifier();
-					if (identifier.equals(otherIdentifier))
-					{
-						System.out.println("Invalid catalog: non-unique identifier: " + dataSetList.get(k).getTitle());
-						validIndicator=false;
-					}
+					System.out.println("Invalid catalog: non-unique identifier: " + dataSetList.get(k).getTitle());
+					validIndicator=false;
 				}
 			}
 		}

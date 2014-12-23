@@ -56,7 +56,8 @@ public class Distribution {
     		setDownloadURL((String) resourceCKAN_JSON.get("url"));
     	}
     	
-    	//mediaType = format and format = formatReadable
+    	//looks weird: mediaType = format and format = formatReadable
+    	//ok, keeps backward compatiablity with POD 1.0
     	setMediaType((String) resourceCKAN_JSON.get("format"));
     	setFormat ((String) resourceCKAN_JSON.get("formatReadable"));	
 	}

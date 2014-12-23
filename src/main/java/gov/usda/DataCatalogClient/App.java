@@ -1,5 +1,7 @@
 package gov.usda.DataCatalogClient;
 
+import org.json.simple.JSONObject;
+
 /**
  * Example Client use
  *
@@ -23,12 +25,12 @@ public class App
     	catalog.produceQuarterlyReport("quarterly_report.doc");
     	catalog.produceBureauMetrics("bureau_metrics.csv");
     	
-    	catalog.outputCSV("datalisting.csv");
+    	//catalog.outputCSV("datalisting.csv");
     	
     	//Add new dataset
     	Dataset ds = new Dataset();
-    	ds.setTitle("My New Title");
-    	ds.setDescription("New dataset for CKAN");
+    	JSONObject createObject = Utils.loadJsonObjectFile("sample_data/create-odp-test.json");
+    	ds.loadFromProjectOpenDataJSON(createObject);
     	
     	odpClient.createDataset(ds);
     	

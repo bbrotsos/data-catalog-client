@@ -110,7 +110,18 @@ public class Client {
 	
 	public void createDataset(Dataset ds)
 	{
-		
+		System.out.print("creating data set");
+		NetworkRequest nr = new NetworkRequest();
+		String newDatasetJSONString = "";
+		try
+		{
+			newDatasetJSONString = nr.createDataset(ds.toCKAN_JSON());
+		}
+		catch (Exception ex)
+		{
+			System.out.println(ex.toString());
+		}
+		System.out.println("created dataset..." + newDatasetJSONString);
 	}
 	
 	public void createDirectory(String filePath)
