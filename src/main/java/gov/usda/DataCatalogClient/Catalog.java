@@ -42,6 +42,14 @@ public class Catalog {
 		dataSetList = new ArrayList<Dataset>();
 	}
 	
+	/**
+	 * Populates this class' member variables from CKAN JSON Object
+	 * <p>
+	 * When doing a search on CKAN, the result is an array of packages(in this program datasets).
+	 * This method begins the process of marshaling the JSON into Java Objects by looping through
+	 * the packages and calling the loadDataset methods at the dataset level.
+	 * @param catalogCKAN_JSON JSONObject The results from a CKAN query.
+	 */
 	public void loadCatalogFromCKAN_JSON(JSONObject catalogCKAN_JSON)
 	{
 		JSONObject resultObject= (JSONObject) catalogCKAN_JSON.get("result");
@@ -77,7 +85,11 @@ public class Catalog {
 	{
 		//testing skeleton
 	}
-	
+	/**
+	 * Adds datasets from another catalog to this catalog.
+	 * 
+	 * @param otherCatalog Catalog Another catalog who's datasets will be combined with this object.
+	 */
 	public void addFromOtherCatalog(Catalog otherCatalog)
 	{
 		List<Dataset> otherDatasetList = new ArrayList<>();
@@ -89,6 +101,13 @@ public class Catalog {
 		}
 	}
 	
+	/**
+	 * Outputs a Catalog into tab delimited format.
+	 * <p>
+	 * Begins the process by listing out the header and calling all datasets to create
+	 * tab delimitted lines.
+	 * @param filePath String The output file for the catalog tab delimitted file.
+	 */
 	public void outputCSV(String filePath)
 	{
 		try
@@ -117,6 +136,11 @@ public class Catalog {
 		}
 	}
 	
+	/**
+	 * Populates catalog from Project Open Data compliant json object
+	 * 
+	 * @param catalogObject
+	 */
 	public void loadFromProjectOpenDataJSON(JSONObject catalogObject)
 	{
 		setConformsTo((String) catalogObject.get("conformsTo"));
@@ -135,6 +159,11 @@ public class Catalog {
 		}
 		
 	}
+	
+	/**
+	 * Populates catalog object from CKAN compliant results string.
+	 * @param catalogJSONString String CKAN search results string
+	 */
 	public void loadCatalogFromJSONString(String catalogJSONString)
 	{
 		JSONObject resourceCKAN_JSON = new JSONObject();
@@ -152,7 +181,12 @@ public class Catalog {
 			
 		loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
 	}
-	//This is for direct api response from CKAN.
+	
+
+	/**
+	 * Populates catalog from CKAN compliant json file.
+	 * @param catalogFileName
+	 */
 	public void loadCatalogFromCKAN(String catalogFileName)
 	{
 		String catalogCKAN_JSON_String = "";
@@ -173,6 +207,13 @@ public class Catalog {
 		loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
 	}
 	
+	/**
+	 * Outputs catalog object to Project Open Data v1.1 compliant json file for example data.json.
+	 * <p>
+	 * 
+	 * @param podFilePath
+	 * @param privateIndicator
+	 */
 	public void toProjectOpenDataJSON(String podFilePath, Boolean privateIndicator)
 	{	
 		Map catalogJSON = new LinkedHashMap();
@@ -296,10 +337,13 @@ public class Catalog {
 		return dataSetList.size();
 	}
 	
-	//Additional business rule validation
-	//Are required fields filled out?
-	//Are unique identifiers really unique?
-	//Do fields use the right controlled vocabulary
+	/**
+	 * Validates catalog is Project Open Data 1.1 compliant
+	 * <p>
+	 * This method checks business rules that identifiers are unique.  Other business rules
+	 * will be added in the future.
+	 * @return
+	 */
 	public Boolean validateCatalog()
 	{
 		Boolean validIndicator = true;
