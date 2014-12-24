@@ -17,6 +17,7 @@ import org.json.simple.JSONObject;
 
 public class Dataset {
 	
+	
 	//metadata documentation is at http://www.w3.org/TR/vocab-dcat/
 	private String title;
 	private String description;
@@ -73,7 +74,15 @@ public class Dataset {
 		contactPoint = new Contact();
 	}
 	
-	
+	/**
+	 * Populates this class from a JSON Object at the package level delivered from CKAN. 
+	 * <p>
+	 * It takes in a CKAN JSON formated dataset and populates the instance variables.  
+	 * Most of the additional Project Open Data fields are in the Extras JSONArray.
+	 * 
+	 * @param datasetCKAN_JSON JSONObject This is most likely directly from CKAN API call.  This
+	 * is also considered the Package level for CKAN.
+	 */
 	public void loadDatasetFromCKAN_JSON(JSONObject datasetCKAN_JSON)
 	{	
 		//probably should use GSON/Jackson, but I ran into problems on android in past.
@@ -240,9 +249,15 @@ public class Dataset {
 		}
 		
 		validateDataset();
-		
 	}
 	
+	/**
+	 * Converts Project Open Data object to CKAN compatible JSON dataset.
+	 * <p>
+	 * Marshals the object to a format that can be sent to CKAN for creating or updating datasets.
+	 * 
+	 * @return JSONObject This is CKAN compatible JSON
+	 */
 	public JSONObject toCKAN_JSON()
 	{
 		JSONObject datasetCKAN_JSON = new JSONObject();
@@ -341,6 +356,16 @@ public class Dataset {
 		
 	}
 	
+	/**
+	 * Method to create CKAN compatible extra object.
+	 * <p>
+	 * Project Open Data uses the extra object for extensions.  The extra object is just
+	 * a key-value for extending CKAN interface.
+	 * 
+	 * @param key  the key in key-value pair
+	 * @param value the value in key-value pair.
+	 * @return key-value JSON Object
+	 */
 	private JSONObject createExtraObject(String key, String value)
 	{
 		JSONObject extraObject = new JSONObject();
@@ -349,7 +374,12 @@ public class Dataset {
 		return extraObject;
 	}
 	
-	
+	/**
+	 * Outputs data set line in tab delimited format
+	 * <p>
+	 * This method is to convert the object to one line of tab delimited format.
+	 * @return String This string is tab delimited format of the Dataset object.
+	 */
 	public String toCSV()
 	{
 		String response = "";
@@ -445,6 +475,14 @@ public class Dataset {
     	return response;
 	}
 	
+	/**
+	 * Converts Dataset object to Project Open Data compliant Map.
+	 * <p>
+	 * Map was used over JSONObject to preserve attribute order.  This is outside the JSON spec
+	 * but makes testing efficient (String == String)
+	 *  
+	 * @return Map A linked map (order preserved) of Dataset object in Project Open Data 1.1 compliant metadata.
+	 */
 	public Map toProjectOpenDataJSON()
 	{
 		Map dataSetJSON = new LinkedHashMap();
@@ -516,6 +554,16 @@ public class Dataset {
 		return dataSetJSON;
 	}
 	
+	
+	/**
+	 * Converts Project Open Data compliant JSONObject to class Dataset
+	 * <p>
+	 * Straight forward parsing of POD compliant data which could probably be done in gson.  This is handparsed
+	 * because of problems moving from 1.0 -> 1.1 plus the CKAN imports.  The goal is also compliance with
+	 * DCAT.
+	 * 
+	 * @param dataSetObject JSONObject This is Project Open Data 1.1 compliant json object.
+	 */
 	public void loadFromProjectOpenDataJSON(JSONObject dataSetObject)
 	{
 		title = (String) dataSetObject.get("title");
@@ -567,6 +615,16 @@ public class Dataset {
 		
 	}
 	
+	/**
+	 * Loads List<String> into JSONArray for fields that are strings of lists.
+	 * <p>
+	 * A common datatype in Project Open Data is a list of strings.  Examples include bureauCode,
+	 * Program Code, Theme and Language.  This is a helper.
+	 * 
+	 * @param key String The key in key-value.  For example bureauCode, category, language.
+	 * @param dataSetObject JSONObject The dataset jsonobject in Project Open Data 1.1 compliance
+	 * @return List<String> Conversion of the json to java List<String> instance variable.
+	 */
 	private List<String> loadArray(String key, JSONObject dataSetObject)
 	{
 		String value = "";
@@ -587,7 +645,13 @@ public class Dataset {
 		return title;
 	}
 	
-	//this is ckan name
+	/**
+	 * Changes title to CKAN compliant name.
+	 * <p>
+	 * There are several items that CKAN requires of name.  It can't have spaces, upper case, ".".
+	 * This method will convert the title to compliance with CKAN conventions.
+	 * @return String CKAN compliant naming identifier.
+	 */
 	public String getName(){
 		String name = title.replace("-", "_");
 		name = name.replace(" ", "-");
@@ -674,7 +738,14 @@ public class Dataset {
 		this.themeList = themeList;
 	}
 	
-	//CKAN will send this data element as comma separated values
+
+	/**
+	 * Converts CSV to List for themes
+	 * <p>
+	 * CKAN will sometimes send this back as a string instead of JSONArray.
+	 * This method converst that string to List<String>
+	 * @param themeListString String The string to be converted to themeList which is List<String>
+	 */
 	private void setThemeList(String themeListString)
 	{
 		String[] categoryArray = themeListString.split(",");
@@ -738,6 +809,10 @@ public class Dataset {
 		return bureauCodeList;
 	}
 
+	/**
+	 * bureau code must be in the following format 000:00 or NNN:NN.  This validates.
+	 * @param bureauCode
+	 */
 	public void setBureauCodeList(String bureauCode){
 		if (!bureauCodeList.contains(bureauCode))
 		{
@@ -931,6 +1006,13 @@ public class Dataset {
 		this.isPartOf = isPartOf;
 	}
 	
+	/**
+	 * Checks to make sure dataset business logic for Project Open Data 1.1 is valid
+	 * <p>
+	 * Required: title, description, keywordlist, modified, publisher, contactPoint, uniqueIdenifier
+	 * accesslevel, bureauCode, programCode
+	 * @return Boolean True of data set is valid; false if invalid dataset
+	 */
 	public Boolean validateDataset()
 	{
 		Boolean validIndicator = true;

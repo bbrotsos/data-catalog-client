@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,8 +15,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class Catalog {
 
@@ -292,6 +289,11 @@ public class Catalog {
 	}
 	public void setDescribedBy(String describedBy) {
 		this.describedBy = describedBy;
+	}
+	
+	public Integer size()
+	{
+		return dataSetList.size();
 	}
 	
 	//Additional business rule validation

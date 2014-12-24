@@ -15,18 +15,19 @@ public class App
  
     	//take in filepath to store saved downloads from network, update filepath for fresh results
     	
-    	
-    	catalog = odpClient.loadOrganizationsIntoCatalog("edi_2014-12-22");
+    	/*
+    	catalog = odpClient.loadOrganizationsIntoCatalog("edi_2014-12-23");
     
     	if (catalog.validateCatalog())
     	{
     		Boolean privateIndicator = false;
     		catalog.toProjectOpenDataJSON("data.json", privateIndicator);
     	}
+    	System.out.println("Total Count" + catalog.size());
     	
     	catalog.produceQuarterlyReport("quarterly_report.doc");
     	catalog.produceBureauMetrics("bureau_metrics.csv");
-    	
+    	*/
     	
     	//catalog.outputCSV("datalisting.csv");
     	
@@ -35,7 +36,7 @@ public class App
     	JSONObject createObject = Utils.loadJsonObjectFile("sample_data/project_open_data_dataset_full.json");
     	ds.loadFromProjectOpenDataJSON(createObject);
     	
-    	odpClient.createDataset(ds);
+    	//odpClient.createDataset(ds);
     	//ds.setDescription("This is a new description");
     	//odpClient.updateDataset(ds);
     	
