@@ -1010,7 +1010,7 @@ public class Dataset {
 	 * Checks to make sure dataset business logic for Project Open Data 1.1 is valid
 	 * <p>
 	 * Required: title, description, keywordlist, modified, publisher, contactPoint, uniqueIdenifier
-	 * accesslevel, bureauCode, programCode
+	 * accesslevel, bureauCode, programCode.  Other business rules will be added in the future.
 	 * @return Boolean True of data set is valid; false if invalid dataset
 	 */
 	public Boolean validateDataset()
