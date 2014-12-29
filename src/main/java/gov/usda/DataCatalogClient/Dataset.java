@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -83,7 +85,8 @@ public class Dataset {
 	 * @param datasetCKAN_JSON JSONObject This is most likely directly from CKAN API call.  This
 	 * is also considered the Package level for CKAN.
 	 */
-	public void loadDatasetFromCKAN_JSON(JSONObject datasetCKAN_JSON)
+	//TODO: move to custom exception
+	public void loadDatasetFromCKAN_JSON(JSONObject datasetCKAN_JSON) throws MalformedURLException, ParseException, DatasetException
 	{	
 		//probably should use GSON/Jackson, but I ran into problems on android in past.
 		//optimize in the future
@@ -122,7 +125,13 @@ public class Dataset {
 	    	}
 	    	else if (key.equals("bureau_code"))
 	    	{
-	    		setBureauCodeList(value);
+	    		try{
+	    			setBureauCodeList(value);
+	    		}
+	    		catch (DatasetException e)
+	    		{
+	    			throw (e);
+	    		}
 	    	}
 	    	else if (key.equals("unique_id"))
 	    	{
@@ -138,7 +147,12 @@ public class Dataset {
 	    	}
 	    	else if (key.equals("homepage_url"))
 	    	{
-	    		setLandingPage(value);
+	    		try{
+	    			setLandingPage(value);
+	    		}
+	    		catch(MalformedURLException e){
+	    			throw (e);
+	    		}
 	    	}
 	    	//TODO: Fix ckan feed for misspelled program_ocde
 	    	else if (key.equals("program_code") || key.equals("program_ocde"))
@@ -248,7 +262,10 @@ public class Dataset {
 			keywordList.add((String)tagObject.get("display_name"));
 		}
 		
-		validateDataset();
+		if (!validateDataset())
+		{
+			throw (dsEx);
+		}
 	}
 	
 	/**
@@ -564,15 +581,28 @@ public class Dataset {
 	 * 
 	 * @param dataSetObject JSONObject This is Project Open Data 1.1 compliant json object.
 	 */
-	public void loadFromProjectOpenDataJSON(JSONObject dataSetObject)
+	public void loadFromProjectOpenDataJSON(JSONObject dataSetObject) throws MalformedURLException, ParseException, DatasetException
 	{
 		title = (String) dataSetObject.get("title");
 		
 		setTitle((String) dataSetObject.get("title"));
 		setDescription ((String) dataSetObject.get("description"));
-		publisher.loadDatasetFromPOD_JSON((JSONObject)dataSetObject.get("publisher"));
-		contactPoint.loadDatasetFromPOD_JSON((JSONObject)dataSetObject.get("contactPoint"));
-		setAccessLevel((String)dataSetObject.get("accessLevel"));
+		try{
+			publisher.loadDatasetFromPOD_JSON((JSONObject)dataSetObject.get("publisher"));
+		
+		}
+		catch (PublisherException e)
+		{
+			dsEx.addError(e.toString());
+		}
+		try{
+			contactPoint.loadDatasetFromPOD_JSON((JSONObject)dataSetObject.get("contactPoint"));
+		}
+		catch (ContactException e)
+		{
+			dsEx.addError(e.toString());
+		}
+			setAccessLevel((String)dataSetObject.get("accessLevel"));
 		setRights((String)dataSetObject.get("rights"));
 		setSystemOfRecords((String)dataSetObject.get("systemOfRecords"));
 		setLandingPage((String)dataSetObject.get("landingPage"));
@@ -592,6 +622,7 @@ public class Dataset {
 			setDataQuality ((Boolean)dataSetObject.get("dataQuality"));
 		}
 		setIssued ((String) dataSetObject.get("issued"));	
+		
 		setDescribedBy((String)dataSetObject.get("describedBy"));
 		setAccrualPeriodicity((String)dataSetObject.get("accrualPeriodicity"));
 		setLicense((String) dataSetObject.get("license"));
@@ -605,14 +636,33 @@ public class Dataset {
 		themeList = loadArray("theme", dataSetObject);	
 		
 		JSONArray distributionArray = (JSONArray)dataSetObject.get("distribution");
+		
+		if (distributionArray != null)
+		{
+			getDistribution(distributionArray);
+		}
+		
+		if (!validateDataset() || dsEx.exceptionSize() > 0)
+		{
+			throw (dsEx);
+		}
+	}
+	
+	private void getDistribution(JSONArray distributionArray)
+	{
 		for (int i=0; i< distributionArray.size(); i++)
 		{
 			Distribution distribution = new Distribution();
 			JSONObject distributionObject = (JSONObject) distributionArray.get(i);
-			distribution.loadFromProjectOpenDataJSON(distributionObject);
+			try{
+				distribution.loadFromProjectOpenDataJSON(distributionObject);
+			}
+			catch (DistributionException | MalformedURLException e)
+			{
+				dsEx.addError(title + ": " +e.toString());
+			}
 			distributionList.add(distribution);
 		}
-		
 	}
 	
 	/**
@@ -687,11 +737,18 @@ public class Dataset {
 		this.issued = issued;
 	}
 	
-	private void setIssued(String issued)
+	private void setIssued(String issued) throws DatasetException
 	{
 		if (issued != null)
 		{
-			this.issued = convertISOStringToDate(issued);
+			try{
+				this.issued = Utils.convertISOStringToDate(issued);
+			}
+			catch(ParseException e)
+			{
+				throw new DatasetException("Invalid issued date", e);
+				//throw e;
+			}
 		}
 	}
 
@@ -703,10 +760,16 @@ public class Dataset {
 		this.modified = modified;
 	}
 	
-	public void setModified(String modified){
+	public void setModified(String modified) throws ParseException{
 		if (modified != null)
 		{
-			this.modified = convertISOStringToDate(modified);
+			try{
+				this.modified = Utils.convertISOStringToDate(modified );
+			}
+			catch(ParseException e)
+			{
+				throw (e);
+			}
 		}
 	}
 
@@ -794,14 +857,17 @@ public class Dataset {
 		this.landingPage = landingPage;
 	}
 	
-	private void setLandingPage(String landingPage){
-		try 
+	private void setLandingPage(String landingPage) throws MalformedURLException{
+		if (landingPage != null)
 		{
-			this.landingPage = new URL(landingPage);
-		}
-		catch(MalformedURLException ex)
-		{
-			dsEx.addError("Landing Page must be valid URL: " + landingPage);
+			try 
+			{
+				this.landingPage = new URL(landingPage);
+			}
+			catch(MalformedURLException ex)
+			{
+				throw ex;
+			}
 		}
 	}
 
@@ -813,7 +879,7 @@ public class Dataset {
 	 * bureau code must be in the following format 000:00 or NNN:NN.  This validates.
 	 * @param bureauCode
 	 */
-	public void setBureauCodeList(String bureauCode){
+	public void setBureauCodeList(String bureauCode) throws DatasetException{
 		if (!bureauCodeList.contains(bureauCode))
 		{
 			if (Pattern.matches("\\d{3}:\\d{2}", bureauCode)){
@@ -822,7 +888,7 @@ public class Dataset {
 			else
 			{
 				dsEx.addError("Bureau Code must be \\d{3}:\\d{2}: " + bureauCode);
-				//throw dsEx;
+				throw dsEx;
 			}
 		}
 	}
@@ -927,21 +993,6 @@ public class Dataset {
 		this.uniqueIdentifier = uniqueIdentifier;
 	}
 
-	public Date convertISOStringToDate(String isoDateString)
-	{
-		DateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-		Date isoFormattedDate = new Date();
-		try
-		{
-			isoDateFormat.parse(isoDateString);
-		}
-		catch(ParseException ex)
-		{
-			dsEx.addError("Date Parse Exception: " + isoDateString);
-		}
-		return isoFormattedDate;
-	}
-
 	public String getComments() {
 		return comments;
 	}
@@ -1013,60 +1064,100 @@ public class Dataset {
 	 * accesslevel, bureauCode, programCode.  Other business rules will be added in the future.
 	 * @return Boolean True of data set is valid; false if invalid dataset
 	 */
+	//TODO: remove system.outs
 	public Boolean validateDataset()
 	{
 		Boolean validIndicator = true;
 		if (title == null)
 		{
 			System.out.println("Dataset invalid: Title is required: " + uniqueIdentifier);
+			dsEx.addError("Dataset invalid: Title is required: " + uniqueIdentifier);
 			validIndicator = false;
 		}
 		if (description == null)
 		{
 			System.out.println("Dataset invalid: Description is required: " + title);
+			dsEx.addError("Dataset invalid: Description is required: " + title);
 			validIndicator = false;
 		}
 		if (keywordList == null)
 		{
 			System.out.println("Dataset invalid: Keyword is required: " + title);
+			dsEx.addError(title);
 			validIndicator = false;
 		}
 		if (modified == null)
 		{
 			System.out.println("Dataset invalid: Modified is required: " + title);
+			dsEx.addError("Dataset invalid: Modified is required: " + title);
 			validIndicator = false;
 		}
 		if (!publisher.validatePublisher())
 		{
 			System.out.println("Dataset invalid: Publisher is required: " + title);
+			dsEx.addError("Dataset invalid: Publisher is required: " + title);
 			validIndicator = false;
 		}
 		if (!contactPoint.validateContact())
 		{
 			System.out.println("Dataset invalid: Contact Point is required: " + title);
+			dsEx.addError("Dataset invalid: Contact Point is required: " + title);
 			validIndicator = false;
 		}
 		if (uniqueIdentifier == null)
 		{
 			System.out.println("Dataset invalid: Identifier is required: " + title);
+			dsEx.addError("Dataset invalid: Identifier is required: " + title);
 			validIndicator = false;
 		}
 		if (accessLevel == null)
 		{
 			System.out.println("Dataset invalid: Access Level is required: " + title);
+			dsEx.addError("Dataset invalid: Access Level is required: " + title);
 			validIndicator = false;
 		}
 		if (bureauCodeList == null)
 		{
 			System.out.println("Dataset invalid: Bureau Code is required: " + title);
+			dsEx.addError("Dataset invalid: Bureau Code is required: " + title);
 			validIndicator = false;
 		}
 		if (programCodeList == null)
 		{
 			System.out.println("Dataset invalid: Program Code is required: " + title);
+			dsEx.addError("Dataset invalid: Program Code is required: " + title);
 			validIndicator = false;
 		}
 		
 		return validIndicator;			
 	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (!(o instanceof Dataset))
+		{
+			return false;
+		}
+		Dataset ds_other = (Dataset)o;
+		
+		 return new EqualsBuilder()
+         .append(title, ds_other.title)
+         .append(description, ds_other.description)
+         .isEquals();
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return new HashCodeBuilder(19, 37).
+				append(title).
+				append(description).
+				toHashCode();
+	}
+	
 }

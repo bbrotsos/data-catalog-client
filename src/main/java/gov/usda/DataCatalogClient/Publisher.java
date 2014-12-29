@@ -42,8 +42,12 @@ public class Publisher {
 		return publisherMap;
 	}
 	
-	public void loadDatasetFromPOD_JSON(JSONObject publisherProjectOpenDataJSON)
+	public void loadDatasetFromPOD_JSON(JSONObject publisherProjectOpenDataJSON) throws PublisherException
 	{
+		if (publisherProjectOpenDataJSON == null)
+		{
+			throw new PublisherException("Publisher cannot be null");
+		}
 		type = (String) publisherProjectOpenDataJSON.get("@type");
 		name = (String) publisherProjectOpenDataJSON.get("name");
 		JSONObject subOrganizationJSON = new JSONObject();

@@ -1,5 +1,8 @@
 package gov.usda.DataCatalogClient;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.json.simple.JSONObject;
 
 /**
@@ -8,6 +11,8 @@ import org.json.simple.JSONObject;
  */
 public class App 
 {
+	private static final Logger log = Logger.getLogger(App.class.getName());
+	
     public static void main( String[] args )
     {
     	Catalog catalog = new Catalog();
@@ -34,7 +39,13 @@ public class App
     	//Add new dataset
     	Dataset ds = new Dataset();
     	JSONObject createObject = Utils.loadJsonObjectFile("sample_data/project_open_data_dataset_full.json");
-    	ds.loadFromProjectOpenDataJSON(createObject);
+    	try{
+    		ds.loadFromProjectOpenDataJSON(createObject);
+    	}
+    	catch (Exception e)
+    	{
+    		log.log(Level.SEVERE, e.toString(), e);
+    	}
     	
     	//odpClient.createDataset(ds);
     	//ds.setDescription("This is a new description");

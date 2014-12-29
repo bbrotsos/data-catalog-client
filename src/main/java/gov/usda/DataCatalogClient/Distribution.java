@@ -34,7 +34,14 @@ public class Distribution {
 	//This is for checkbox "link to api, etc in CKAN
 	private String resourceType;
 	
-	public void loadDistributionFromCKAN_JSON(JSONObject resourceCKAN_JSON)
+	private DistributionException distribtionEx;
+	
+	public Distribution()
+	{
+		distribtionEx = new DistributionException("Distribution Exception:");
+	}
+	
+	public void loadDistributionFromCKAN_JSON(JSONObject resourceCKAN_JSON) throws MalformedURLException
 	{
 		setTitle((String) resourceCKAN_JSON.get("name"));
 		setDescription ((String) resourceCKAN_JSON.get("description"));
@@ -48,7 +55,13 @@ public class Distribution {
     	if (resourceType == null)
     	{
     		//default to download_url
-    		setDownloadURL((String) resourceCKAN_JSON.get("url"));
+    		try{
+    			setDownloadURL((String) resourceCKAN_JSON.get("url"));
+    		}
+    		catch (MalformedURLException e)
+    		{
+    			throw (e);
+    		}
     	}
     	else if (resourceType.equals("accessurl"))
     	{
@@ -64,13 +77,21 @@ public class Distribution {
     	setMediaType((String) resourceCKAN_JSON.get("format"));
     	setFormat ((String) resourceCKAN_JSON.get("formatReadable"));	
 	}
-	public void loadFromProjectOpenDataJSON(JSONObject pod_JSONObject)
+	public void loadFromProjectOpenDataJSON(JSONObject pod_JSONObject) throws MalformedURLException, DistributionException
 	{
-		
+		if (pod_JSONObject == null)
+		{
+			throw new DistributionException("Distribution needs to be populated");
+		}
 		setTitle ((String) pod_JSONObject.get("title"));
 		setDescription ((String) pod_JSONObject.get("description"));
-		setAccessURL((String) pod_JSONObject.get("accessURL"));
-		setDownloadURL ((String) pod_JSONObject.get("downloadURL"));
+		try{
+			setAccessURL((String) pod_JSONObject.get("accessURL"));
+			setDownloadURL ((String) pod_JSONObject.get("downloadURL"));
+		}
+		catch (MalformedURLException e){
+			throw (e);
+		}
 		setMediaType ((String) pod_JSONObject.get("mediaType"));
 		setFormat ((String) pod_JSONObject.get("format"));
 		
@@ -157,7 +178,7 @@ public class Distribution {
 	public void setAccessURL(URL accessURL) {
 		this.accessURL = accessURL;
 	}
-	private void setAccessURL(String accessURL_String) 
+	private void setAccessURL(String accessURL_String)  throws MalformedURLException
 	{
 		if (accessURL_String != null)
 		{
@@ -165,9 +186,9 @@ public class Distribution {
 			{
 				this.accessURL =  new URL(accessURL_String);
 			}
-			catch(MalformedURLException ex)
+			catch(MalformedURLException e)
 			{
-				System.out.println("Invalid URL Error: " + accessURL_String);
+				throw (e);
 			}
 		}
 	}
@@ -177,7 +198,7 @@ public class Distribution {
 	public void setDownloadURL(URL downloadURL) {
 		this.downloadURL = downloadURL;
 	}
-	private void setDownloadURL(String downloadURL_String)
+	private void setDownloadURL(String downloadURL_String) throws MalformedURLException
 	{
 		if (downloadURL_String != null)
 		{
@@ -185,9 +206,9 @@ public class Distribution {
 			{
 				this.downloadURL = new URL(downloadURL_String);
 			}
-			catch (MalformedURLException ex)
+			catch (MalformedURLException e)
 			{
-				System.out.println("Invalid URL Error: " + downloadURL_String);
+				throw (e);
 			}
 		}
 	}
@@ -195,6 +216,8 @@ public class Distribution {
 	public String getMediaType() {
 		return mediaType;
 	}
+	
+	//TODO: load IANA mimetypes and validate
 	public void setMediaType(String mediaType) {
 		this.mediaType = mediaType;
 	}

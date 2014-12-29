@@ -38,8 +38,12 @@ public class Contact {
 		return contactPointMap;
 	}
 	
-	public void loadDatasetFromPOD_JSON(JSONObject contactProjectOpenDataJSON)
+	public void loadDatasetFromPOD_JSON(JSONObject contactProjectOpenDataJSON) throws ContactException
 	{
+		if (contactProjectOpenDataJSON== null)
+		{
+			throw new ContactException("contact cannot be empty");
+		}
 		type = (String) contactProjectOpenDataJSON.get("@type");
 		fullName = (String) contactProjectOpenDataJSON.get("fn");
 		emailAddress = (String) contactProjectOpenDataJSON.get("hasEmail");

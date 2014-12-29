@@ -14,40 +14,49 @@ import org.json.simple.parser.ParseException;
 
 public class Client {
 	
-	public Dataset updateDataset(Dataset updateDS)
+	public Dataset updateDataset(Dataset updateDS) throws ParseException, IOException
 	{		
 		//TODO: First get id, we will use this later because we can't rely on names not changing.
 		Dataset ckanDataset = getDatasetFromCKAN(updateDS.getName());
 		
-		NetworkRequest nr = new NetworkRequest();
 		String datasetCKANString = "";
 		try
 		{
+			NetworkRequest nr = new NetworkRequest();
 			datasetCKANString = nr.updateDataset(updateDS.getName(), updateDS.toCKAN_JSON());
 		}
-		catch (Exception ex)
+		catch (IOException | ParseException e)
 		{
-			System.out.println(ex.toString());
+			throw (e);
 		}
 		JSONObject dataSetJSON = new JSONObject();
 		Dataset ds = new Dataset();
-		dataSetJSON = Utils.loadJsonObjectFromString(datasetCKANString);
-		ds.loadDatasetFromCKAN_JSON((JSONObject)dataSetJSON.get("result"));
+		
+		try{
+			dataSetJSON = Utils.loadJsonObjectFromString(datasetCKANString);
+			ds.loadDatasetFromCKAN_JSON((JSONObject)dataSetJSON.get("result"));
+		} 
+		catch (ParseException | java.text.ParseException e)
+		{
+			throw (e);
+		}
 		return ds;
 	}
 	
-	public Dataset getDatasetFromCKAN(String name)
+	public Dataset getDatasetFromCKAN(String name) throws ParseException, IOException
 	{
 		Dataset ds = new Dataset();
 		String datasetCKANString = "";
-		NetworkRequest nr = new NetworkRequest();
+		
 		try
 		{
+			NetworkRequest nr = new NetworkRequest();
 			datasetCKANString = nr.getDataset(name);
 		}
-		catch (Exception ex)
+		catch (ParseException|IOException e)
 		{
-			System.out.println(ex.toString());
+			System.out.println(e.toString());
+			throw (e);
 		}
 		JSONObject dataSetJSON = new JSONObject();
 		dataSetJSON = Utils.loadJsonObjectFromString(datasetCKANString);
@@ -168,13 +177,13 @@ public class Client {
 		{
 			newDatasetJSONString = nr.createDataset(ds.toCKAN_JSON());
 		}
-		catch (Exception ex)
+		catch (IOException e)
 		{
-			System.out.println(ex.toString());
+			throw (e);
 		}
 	}
 	
-	public void createDirectory(String filePath)
+	public void createDirectory(String filePath) throws IOException
 	{
 		Path ckanOrganizationDirectory = Paths.get(filePath);
 		if (Files.notExists(ckanOrganizationDirectory))
@@ -183,9 +192,9 @@ public class Client {
 			{
 				Files.createDirectories(ckanOrganizationDirectory);
 			}
-			catch (IOException ex)
+			catch (IOException e)
 			{
-				System.out.print(ex.toString());
+				throw (e);
 			}
 		}
 	}

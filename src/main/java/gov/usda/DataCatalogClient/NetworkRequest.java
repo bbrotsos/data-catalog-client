@@ -22,31 +22,24 @@ public class NetworkRequest
 	private String server;
 	private String apiKey;
 	
-	public NetworkRequest ()
+	public NetworkRequest () throws IOException, ParseException
 	{
 		//Get Server and API Key
 		loadServerAndAPI_Key();
 	}
 	
-	private void loadServerAndAPI_Key()
+	private void loadServerAndAPI_Key() throws IOException, ParseException
 	{
 		String configStringJSON = "";
 		String config_path = "sample_data/config.json";
 		JSONObject configJSON = new JSONObject();
 			
-		try 
-		{
-			configStringJSON = new String(Files.readAllBytes(Paths.get(config_path)));
-			JSONParser parser = new JSONParser();
-			Object obj = parser.parse(configStringJSON);
-			configJSON = (JSONObject) obj;
-			server = (String)configJSON.get("server");
-			apiKey = (String)configJSON.get("api_key");
-		} 
-		catch (IOException | ParseException pe) 
-		{
-			System.out.println (pe.toString());
-		}
+		configStringJSON = new String(Files.readAllBytes(Paths.get(config_path)));
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(configStringJSON);
+		configJSON = (JSONObject) obj;
+		server = (String)configJSON.get("server");
+		apiKey = (String)configJSON.get("api_key");
 	}
 	
 	private void setupConnection()
@@ -71,7 +64,7 @@ public class NetworkRequest
 		connection_public.setReadTimeout(20000);
 	}
 	
-	public String getOrganizationCatalog(String organization) throws Exception
+	public String getOrganizationCatalog(String organization) throws IOException
 	{
 		URL dataAPIURL = new URL(server + "/api/3/action/organization_show?id=" + organization);
 		
@@ -81,7 +74,7 @@ public class NetworkRequest
 		return getHttpResponse(connection);
 	}
 	
-	public String getDataset(String name) throws Exception
+	public String getDataset(String name) throws IOException
 	{
 		URL dataAPIURL = new URL(server + "/api/3/action/package_show?id=" + name);
 		
@@ -91,7 +84,7 @@ public class NetworkRequest
 		return getHttpResponse(connection_public);
 	}
 	
-	public String createDataset(JSONObject postJSON) throws Exception
+	public String createDataset(JSONObject postJSON) throws IOException
 	{
 		//get rid of connection_public...using it for connecting to non-ssl
 		URL dataAPIURL = new URL(server + "/api/3/action/package_create");
@@ -104,7 +97,7 @@ public class NetworkRequest
 		return getHttpResponse(connection_public);
 	}
 	
-	public String updateDataset(String name, JSONObject postJSON) throws Exception
+	public String updateDataset(String name, JSONObject postJSON) throws IOException
 	{
 		//get rid of connection_public...using it for connecting to non-ssl
 		URL dataAPIURL = new URL(server + "/api/3/action/package_update");
@@ -117,7 +110,7 @@ public class NetworkRequest
 		return getHttpResponse(connection_public);
 	}
 	
-	public String  deleteDataset(String name, JSONObject postJSON) throws Exception
+	public String  deleteDataset(String name, JSONObject postJSON) throws IOException
 	{
 		//get rid of connection_public...using it for connecting to non-ssl
 		URL dataAPIURL = new URL(server + "/api/3/action/package_delete");
@@ -130,7 +123,7 @@ public class NetworkRequest
 		return getHttpResponse(connection_public);
 	}
 	
-	private void postObject(HttpURLConnection connection, JSONObject object) throws Exception
+	private void postObject(HttpURLConnection connection, JSONObject object) throws IOException
 	{
 		OutputStreamWriter out = null;
 		try
@@ -138,9 +131,8 @@ public class NetworkRequest
 		    out = new OutputStreamWriter(connection.getOutputStream());	 
 			out.write(object.toJSONString());
 		}
-		catch(Exception e)
+		catch(IOException e)
 		{
-			System.out.println(e.toString());
 			throw (e);
 		}
 		finally
@@ -149,7 +141,7 @@ public class NetworkRequest
 		}
 	}
 	
-	String getHttpResponse (HttpsURLConnection connection) throws Exception
+	String getHttpResponse (HttpsURLConnection connection) throws IOException
 	{
 		BufferedReader in = null;
 		String response="";
@@ -168,7 +160,7 @@ public class NetworkRequest
 			System.out.println();
 			System.out.println(responseCode);
 		}
-		catch (Exception e)
+		catch (IOException e)
 		{
 			if (responseCode == 422)
 			{
@@ -199,7 +191,7 @@ public class NetworkRequest
 	}
 	
 	//This needs to be removed...testing non-https connections.
-	String getHttpResponse (HttpURLConnection connection) throws Exception
+	String getHttpResponse (HttpURLConnection connection) throws IOException
 	{
 		BufferedReader in = null;
 		String response="";
@@ -218,24 +210,9 @@ public class NetworkRequest
 			System.out.println();
 			System.out.println(responseCode);
 		}
-		catch (Exception e)
+		catch (IOException e)
 		{
-			if (responseCode == 422)
-			{
-				in = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-				String inputLine;
-				response = "";
-				while ((inputLine = in.readLine()) != null) 
-				{
-					response = response + inputLine;
-				}	
-				//throw new NetworkProcessingException(response);
-			}
-			else
-			{
-				System.out.println(e.toString());
-				throw (e);
-			}
+			throw (e);
 		}
 		finally
 		{

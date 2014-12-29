@@ -10,6 +10,10 @@ public class DatasetException extends Exception {
 	public DatasetException(String message) {
         messages.add( message );
     }
+	
+	public DatasetException(String message, Throwable throwable) {
+		 super(message, throwable);
+	}
 
     public void addError(String error) {
         messages.add(error);
@@ -20,7 +24,12 @@ public class DatasetException extends Exception {
     }
 
     public String toString() {
-        return messages.toString();
+    	return Utils.listToCSV(messages);
+    }
+    
+    public int exceptionSize()
+    {
+    	return messages.size();
     }
 	
 }

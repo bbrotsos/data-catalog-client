@@ -21,7 +21,7 @@ import com.google.gson.GsonBuilder;
 public class Utils {
 
 	
-	static public JSONObject loadJsonObjectFile(String fileName)
+	static public JSONObject loadJsonObjectFile(String fileName) throws ParseException, IOException
 	{
 		Object obj = new Object();
 		JSONObject jsonObject = new JSONObject();
@@ -33,15 +33,15 @@ public class Utils {
 			obj = parser.parse(jsonString);
 			jsonObject = (JSONObject) obj;
 		} 
-		catch (IOException | ParseException pe) 
+		catch (IOException | ParseException e) 
 		{
-			System.out.println(pe.toString());
+			throw (e);
 		}
 		return jsonObject;
 		
 	}
 	
-	static public JSONArray loadJsonArrayFile(String fileName)
+	static public JSONArray loadJsonArrayFile(String fileName) throws ParseException, IOException
 	{
 		Object obj = new Object();
 		JSONArray jsonArray = new JSONArray();
@@ -53,16 +53,16 @@ public class Utils {
 			obj = parser.parse(jsonString);
 			jsonArray = (JSONArray) obj;
 		} 
-		catch (IOException | ParseException pe) 
+		catch (IOException | ParseException e) 
 		{
-			System.out.println(pe.toString());
+			throw (e);
 		}
 		
 		return jsonArray;
 		
 	}
 	
-	static public JSONObject loadJsonObjectFromString(String jsonString)
+	static public JSONObject loadJsonObjectFromString(String jsonString) throws ParseException
 	{
 		Object obj = new Object();
 		JSONObject jsonObject = new JSONObject();
@@ -72,47 +72,60 @@ public class Utils {
 			obj = parser.parse(jsonString);
 			jsonObject = (JSONObject) obj;
 		} 
-		catch (ParseException pe) 
+		catch (ParseException e) 
 		{
-			System.out.println(pe.toString());
+			throw (e);
 		}
 		return jsonObject;
 	}
 	
-	static public void printJSON(String fileName, Map jsonMap)
+	static public void printJSON(String fileName, Map jsonMap) throws IOException
 	{
 		Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
+		PrintWriter out = null;
 		try
 		{
-			PrintWriter out = new PrintWriter(fileName);
+			out = new PrintWriter(fileName);
 			out.print( gson.toJson(jsonMap) );
 			out.close();
 		}
-		catch (Exception ex)	
+		catch (IOException e)	
 		{
-			System.out.println(ex.toString());
+			throw (e);
+		}
+		finally{
+			out.close();
 		}
 	}
 	
 	static public String convertDateToISOString(Date date)
 	{
 		DateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-
 		String isoDateString = isoDateTimeFormat.format(date);
 		
 		return isoDateString;
 	}
-	static public Date convertISOStringToDate(String isoDateString)
+	
+	//TODO: might be issues with SimpleDateFormat in static method.
+	//qualify ParseException because this is also thrown by json.simple.
+	static public Date convertISOStringToDate(String isoDateString) throws java.text.ParseException 
 	{
-		DateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 		Date isoFormattedDate = new Date();
-		try
+		DateFormat isoDateTimeFormat = null;
+		if (isoDateString.contains("T") && isoDateString.contains("Z"))
 		{
-			isoDateTimeFormat.parse(isoDateString);
-		} 
-		catch (java.text.ParseException e) {
-			e.printStackTrace();
+			isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 		}
+		else if (isoDateString.contains("T"))
+		{
+			isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+		}
+		else 
+		{
+			isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd");
+		}
+		isoDateTimeFormat.parse(isoDateString);
+		
 		return isoFormattedDate;
 	}
 

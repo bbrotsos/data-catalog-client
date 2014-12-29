@@ -2,6 +2,7 @@ package gov.usda.DataCatalogClient;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class Catalog {
 	 * the packages and calling the loadDataset methods at the dataset level.
 	 * @param catalogCKAN_JSON JSONObject The results from a CKAN query.
 	 */
-	public void loadCatalogFromCKAN_JSON(JSONObject catalogCKAN_JSON)
+	public void loadCatalogFromCKAN_JSON(JSONObject catalogCKAN_JSON) throws ParseException, MalformedURLException
 	{
 		JSONObject resultObject= (JSONObject) catalogCKAN_JSON.get("result");
 		try
@@ -64,26 +65,27 @@ public class Catalog {
 				dataSetList.add(ds);
 			}
 		}
-		catch (Exception e)
+		//TODO: change to proper exception
+		catch (MalformedURLException | ParseException e)
 		{
-			System.out.println(e.toString());
+			throw (e);
 		}
 	}
 	
 	//This is for mulitple organization catalogs
 	public void loadMulitpleCatalogsFromCKAN(String catalogFileName)
 	{
-		//testing skeleton
+		//TODO: testing skeleton for loadMultipleCatalogsFromCKAN
 	}
 	
 	public void produceQuarterlyReport (String quarterReportFileName)
 	{
-		//testing skeleton
+		//TODO: testing skeleton for produceQuarterlyReport
 	}
 	
 	public void produceBureauMetrics(String bureauMetricsFileName)
 	{
-		//testing skeleton
+		//TODO: testing skeleton for produceBureauMetrics
 	}
 	/**
 	 * Adds datasets from another catalog to this catalog.
@@ -108,7 +110,7 @@ public class Catalog {
 	 * tab delimitted lines.
 	 * @param filePath String The output file for the catalog tab delimitted file.
 	 */
-	public void outputCSV(String filePath)
+	public void outputCSV(String filePath) throws IOException
 	{
 		try
 		{
@@ -130,9 +132,9 @@ public class Catalog {
 			}
 			out.close();
 		}
-		catch(Exception ex)
+		catch(IOException e)
 		{
-			System.out.print(ex.toString());
+			throw (e);
 		}
 	}
 	
@@ -164,7 +166,7 @@ public class Catalog {
 	 * Populates catalog object from CKAN compliant results string.
 	 * @param catalogJSONString String CKAN search results string
 	 */
-	public void loadCatalogFromJSONString(String catalogJSONString)
+	public void loadCatalogFromJSONString(String catalogJSONString) throws ParseException
 	{
 		JSONObject resourceCKAN_JSON = new JSONObject();
 		Object obj = new Object();
@@ -174,12 +176,18 @@ public class Catalog {
 			obj = parser.parse(catalogJSONString);
 			resourceCKAN_JSON = (JSONObject)obj;
 		} 
-		catch (ParseException pe) 
+		catch (ParseException e) 
 		{
-			System.out.print(pe.toString());
+			throw (e);
 		}
 			
-		loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
+		try{
+			loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
+		}
+		catch(IOException| ParseException e)
+		{
+			throw (e);
+		}
 	}
 	
 
@@ -187,7 +195,7 @@ public class Catalog {
 	 * Populates catalog from CKAN compliant json file.
 	 * @param catalogFileName
 	 */
-	public void loadCatalogFromCKAN(String catalogFileName)
+	public void loadCatalogFromCKAN(String catalogFileName) throws IOException, ParseException
 	{
 		String catalogCKAN_JSON_String = "";
 		Object obj = new Object();
@@ -199,9 +207,9 @@ public class Catalog {
 			obj = parser.parse(catalogCKAN_JSON_String);
 			resourceCKAN_JSON = (JSONObject)obj;
 		} 
-		catch (IOException | ParseException pe) 
+		catch (IOException | ParseException e) 
 		{
-			System.out.print(pe.toString());
+			throw (e);
 		}
 				
 		loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
