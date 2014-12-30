@@ -1,5 +1,6 @@
 package gov.usda.DataCatalogClient;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,26 +21,38 @@ public class App
  
     	//take in filepath to store saved downloads from network, update filepath for fresh results
     	
-    	/*
-    	catalog = odpClient.loadOrganizationsIntoCatalog("edi_2014-12-23");
+    	try{
+    		catalog = odpClient.loadOrganizationsIntoCatalog("edi_2014-12-30");
+    	}
+    	catch(CatalogException | IOException e)
+    	{
+			log.log(Level.SEVERE, e.toString());
+
+    	}
     
     	if (catalog.validateCatalog())
     	{
     		Boolean privateIndicator = false;
-    		catalog.toProjectOpenDataJSON("data.json", privateIndicator);
+    		try{
+    			catalog.toProjectOpenDataJSON("data.json", privateIndicator);
+    		}
+    		catch(IOException e)
+    		{
+    			log.log(Level.SEVERE, e.toString());
+    		}
     	}
     	System.out.println("Total Count" + catalog.size());
     	
     	catalog.produceQuarterlyReport("quarterly_report.doc");
     	catalog.produceBureauMetrics("bureau_metrics.csv");
-    	*/
+    	
     	
     	//catalog.outputCSV("datalisting.csv");
     	
     	//Add new dataset
     	Dataset ds = new Dataset();
-    	JSONObject createObject = Utils.loadJsonObjectFile("sample_data/project_open_data_dataset_full.json");
     	try{
+        	JSONObject createObject = Utils.loadJsonObjectFile("sample_data/project_open_data_dataset_full.json");
     		ds.loadFromProjectOpenDataJSON(createObject);
     	}
     	catch (Exception e)

@@ -78,7 +78,7 @@ public class CreateDatasetTest extends TestCase {
 		Dataset ds = new Dataset();
 		try{
 			ds.loadDatasetFromCKAN_JSON(datasetCKAN_JSON);
-		}catch (java.text.ParseException | MalformedURLException | DatasetException e)
+		}catch (DatasetException e)
 		{
 			Assert.fail (e.toString());
 		}
@@ -104,7 +104,7 @@ public class CreateDatasetTest extends TestCase {
 		Dataset ds = new Dataset();
 		try{
 			ds.loadFromProjectOpenDataJSON((JSONObject)datasetJSON);
-		}catch (java.text.ParseException | MalformedURLException | DatasetException e)
+		}catch (DatasetException e)
 		{
 			Assert.fail (e.toString());
 		}
@@ -165,7 +165,7 @@ public class CreateDatasetTest extends TestCase {
 			projectOpenDataset.loadFromProjectOpenDataJSON(podJSON);
 			ckanDataset.loadDatasetFromCKAN_JSON(ckanJSON);
 		}
-		catch(java.text.ParseException | MalformedURLException | DatasetException e)
+		catch(DatasetException e)
 		{
 			log.log(Level.SEVERE, e.toString());
 			Assert.fail(e.toString());
@@ -196,7 +196,7 @@ public class CreateDatasetTest extends TestCase {
 		try{
 			projectOpenDataset.loadFromProjectOpenDataJSON(podJSON);
 		}
-		catch(java.text.ParseException | MalformedURLException | DatasetException e)
+		catch(DatasetException e)
 		{
 			log.log(Level.SEVERE, e.toString());
 			Assert.fail(e.toString());
@@ -231,7 +231,7 @@ public class CreateDatasetTest extends TestCase {
 		try{
 			projectOpenDataset.loadFromProjectOpenDataJSON(podJSON);
 		}
-		catch(java.text.ParseException | MalformedURLException | DatasetException e)
+		catch(DatasetException e)
 		{
 			log.log(Level.SEVERE, e.toString());
 			Assert.fail(e.toString());

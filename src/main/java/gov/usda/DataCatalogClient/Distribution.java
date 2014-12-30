@@ -6,8 +6,17 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.json.simple.JSONObject;
 
+/**
+ * The Distribution class is a based on a combination of Project Open Data metadata specification
+ * 1.1.  More details here: https://project-open-data.cio.gov/v1.1/schema/#distribution
+ * 
+ * @author bbrotsos
+ *
+ */
 public class Distribution {
 
 	//Common DCAT & POD metadata fields
@@ -41,7 +50,7 @@ public class Distribution {
 		distribtionEx = new DistributionException("Distribution Exception:");
 	}
 	
-	public void loadDistributionFromCKAN_JSON(JSONObject resourceCKAN_JSON) throws MalformedURLException
+	public void loadDistributionFromCKAN_JSON(JSONObject resourceCKAN_JSON) throws DistributionException
 	{
 		setTitle((String) resourceCKAN_JSON.get("name"));
 		setDescription ((String) resourceCKAN_JSON.get("description"));
@@ -55,13 +64,7 @@ public class Distribution {
     	if (resourceType == null)
     	{
     		//default to download_url
-    		try{
-    			setDownloadURL((String) resourceCKAN_JSON.get("url"));
-    		}
-    		catch (MalformedURLException e)
-    		{
-    			throw (e);
-    		}
+    		setDownloadURL((String) resourceCKAN_JSON.get("url"));
     	}
     	else if (resourceType.equals("accessurl"))
     	{
@@ -77,7 +80,7 @@ public class Distribution {
     	setMediaType((String) resourceCKAN_JSON.get("format"));
     	setFormat ((String) resourceCKAN_JSON.get("formatReadable"));	
 	}
-	public void loadFromProjectOpenDataJSON(JSONObject pod_JSONObject) throws MalformedURLException, DistributionException
+	public void loadFromProjectOpenDataJSON(JSONObject pod_JSONObject) throws DistributionException
 	{
 		if (pod_JSONObject == null)
 		{
@@ -85,13 +88,8 @@ public class Distribution {
 		}
 		setTitle ((String) pod_JSONObject.get("title"));
 		setDescription ((String) pod_JSONObject.get("description"));
-		try{
-			setAccessURL((String) pod_JSONObject.get("accessURL"));
-			setDownloadURL ((String) pod_JSONObject.get("downloadURL"));
-		}
-		catch (MalformedURLException e){
-			throw (e);
-		}
+		setAccessURL((String) pod_JSONObject.get("accessURL"));
+		setDownloadURL ((String) pod_JSONObject.get("downloadURL"));
 		setMediaType ((String) pod_JSONObject.get("mediaType"));
 		setFormat ((String) pod_JSONObject.get("format"));
 		
@@ -178,7 +176,7 @@ public class Distribution {
 	public void setAccessURL(URL accessURL) {
 		this.accessURL = accessURL;
 	}
-	private void setAccessURL(String accessURL_String)  throws MalformedURLException
+	private void setAccessURL(String accessURL_String)  throws DistributionException
 	{
 		if (accessURL_String != null)
 		{
@@ -188,7 +186,8 @@ public class Distribution {
 			}
 			catch(MalformedURLException e)
 			{
-				throw (e);
+				throw new DistributionException("Invalid accessUrl" + e.toString());
+
 			}
 		}
 	}
@@ -198,7 +197,7 @@ public class Distribution {
 	public void setDownloadURL(URL downloadURL) {
 		this.downloadURL = downloadURL;
 	}
-	private void setDownloadURL(String downloadURL_String) throws MalformedURLException
+	private void setDownloadURL(String downloadURL_String) throws DistributionException
 	{
 		if (downloadURL_String != null)
 		{
@@ -208,7 +207,8 @@ public class Distribution {
 			}
 			catch (MalformedURLException e)
 			{
-				throw (e);
+				throw new DistributionException("Invalid downloadUrl:" + e.toString());
+
 			}
 		}
 	}
@@ -280,6 +280,63 @@ public class Distribution {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	/**
+	 * Does not include CKAN specific field resource type.
+	 */
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (!(o instanceof Distribution))
+		{
+			return false;
+		}
+		Distribution distribution_other = (Distribution)o;
+		
+		return new EqualsBuilder()
+         .append(accessURL, distribution_other.accessURL)
+         .append(byteSize, distribution_other.byteSize)
+         .append(conformsTo, distribution_other.conformsTo)
+         .append(describedBy, distribution_other.describedBy)
+         .append(describedByType, distribution_other.describedByType)
+         .append(description, distribution_other.description)
+         .append(downloadURL, distribution_other.downloadURL)
+         .append(format, distribution_other.format)
+         .append(issued, distribution_other.issued)
+         .append(license, distribution_other.license)
+         .append(mediaType, distribution_other.mediaType)
+         .append(modified, distribution_other.modified)
+         .append(rights, distribution_other.rights)
+         .append(title, distribution_other.title)
+         .append(type, distribution_other.type)
+         .isEquals();
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return new HashCodeBuilder(13, 57).
+				append(accessURL).
+				append(byteSize).
+				append(conformsTo).
+				append(describedBy). 
+				append(describedByType). 
+				append(description). 
+				append(downloadURL). 
+				append(format). 
+				append(issued). 
+				append(license). 
+				append(mediaType). 
+				append(modified). 
+				append(rights). 
+				append(title). 
+				append(type).
+				toHashCode();
 	}
 	
 }

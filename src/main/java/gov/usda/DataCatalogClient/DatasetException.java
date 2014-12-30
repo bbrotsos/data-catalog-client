@@ -7,9 +7,32 @@ public class DatasetException extends Exception {
 	private ArrayList<String> messages = new ArrayList<String>();
 	private static final long serialVersionUID = 745444156;
 	
+	//These are title and identifier from Dataset class
+	private String title;
+	private String uniqueIdentifier;
+
 	public DatasetException(String message) {
         messages.add( message );
     }
+	
+	public DatasetException() {
+    }
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public String getUniqueIdentifier() {
+		return uniqueIdentifier;
+	}
+
+	public void setUniqueIdentifier(String uniqueIdentifier) {
+		this.uniqueIdentifier = uniqueIdentifier;
+	}
 	
 	public DatasetException(String message, Throwable throwable) {
 		 super(message, throwable);
@@ -24,7 +47,7 @@ public class DatasetException extends Exception {
     }
 
     public String toString() {
-    	return Utils.listToCSV(messages);
+    	return "Dataset error for title: " + title + " " +Utils.listToCSV(messages);
     }
     
     public int exceptionSize()

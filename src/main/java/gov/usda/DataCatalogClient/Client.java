@@ -6,15 +6,57 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * The Client class is used for interacting with a CKAN instance where Project Open Data attributes
+ * have been added to the extra field.  
+ * 
+ * Create Dataset
+ * 
+ * To create a dataset, use method @see public void createDataset(Dataset ds).  This method
+ * takes in a Project Open Data compliant dataset and imports it into CKAN.
+ * 
+ * Read Full Catalog
+ * This class offers a method to compile a catalog from multiple CKAN organizations.
+ * @see loadOrganizationsIntoCatalog(String downloadFilePath)  This method will load datasets
+ * from CKAN Organizations that are in "bureau_reference_data.json" organization.  The file path parameter 
+ * will be the temp location for the CKAN downloads.  To produce a fresh downloand, this filepath
+ * must be renamed.
+ * 
+ * 
+ * @author bbrotsos
+ *
+ */
 public class Client {
 	
-	public Dataset updateDataset(Dataset updateDS) throws ParseException, IOException
+	private static final Logger log = Logger.getLogger(Client.class.getName());
+	
+	private List<String> datasetErrors = new ArrayList<String>();
+
+	/**
+	 * This method takes in a dataset and updates it on CKAN.  Lots of issues with this method because
+	 * of id=title of the dataset.
+	 * 
+	 * One approach is to search on the title, grab the CKAN id and then do a another call to 
+	 * update the dataset.
+	 * 
+	 * 
+	 * @param updateDS
+	 * @return Dataset This is the dataset returned by CKAN after the update request.
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws DatasetException
+	 */
+	public Dataset updateDataset(Dataset updateDS) throws ParseException, IOException, DatasetException
 	{		
 		//TODO: First get id, we will use this later because we can't rely on names not changing.
 		Dataset ckanDataset = getDatasetFromCKAN(updateDS.getName());
@@ -32,50 +74,41 @@ public class Client {
 		JSONObject dataSetJSON = new JSONObject();
 		Dataset ds = new Dataset();
 		
-		try{
-			dataSetJSON = Utils.loadJsonObjectFromString(datasetCKANString);
-			ds.loadDatasetFromCKAN_JSON((JSONObject)dataSetJSON.get("result"));
-		} 
-		catch (ParseException | java.text.ParseException e)
-		{
-			throw (e);
-		}
+		dataSetJSON = Utils.loadJsonObjectFromString(datasetCKANString);
+		ds.loadDatasetFromCKAN_JSON((JSONObject)dataSetJSON.get("result")); 
+	
 		return ds;
 	}
 	
-	public Dataset getDatasetFromCKAN(String name) throws ParseException, IOException
+	/**
+	 * Takes in title of data set, calls CKAN to get dataset , loads response into Dataset object, returns that
+	 * object.
+	 * 
+	 * @param name
+	 * @return
+	 * @throws ParseException
+	 * @throws IOException
+	 * @throws DatasetException
+	 */
+	public Dataset getDatasetFromCKAN(String name) throws ParseException, IOException, DatasetException
 	{
 		Dataset ds = new Dataset();
 		String datasetCKANString = "";
 		
-		try
-		{
-			NetworkRequest nr = new NetworkRequest();
-			datasetCKANString = nr.getDataset(name);
-		}
-		catch (ParseException|IOException e)
-		{
-			System.out.println(e.toString());
-			throw (e);
-		}
+		NetworkRequest nr = new NetworkRequest();
+		datasetCKANString = nr.getDataset(name);
 		JSONObject dataSetJSON = new JSONObject();
 		dataSetJSON = Utils.loadJsonObjectFromString(datasetCKANString);
 		ds.loadDatasetFromCKAN_JSON((JSONObject)dataSetJSON.get("result"));
 		return ds;
 	}
 	
-	public Dataset deleteDataset (Dataset deleteDS)
+	public Dataset deleteDataset (Dataset deleteDS) throws DatasetException, ParseException, IOException
 	{
 		NetworkRequest nr = new NetworkRequest();
 		String datasetCKANString = "";
-		try
-		{
-			datasetCKANString = nr.deleteDataset(deleteDS.getName(), deleteDS.toCKAN_JSON());
-		}
-		catch (Exception ex)
-		{
-			System.out.println(ex.toString());
-		}
+		
+		datasetCKANString = nr.deleteDataset(deleteDS.getName(), deleteDS.toCKAN_JSON());
 		JSONObject dataSetJSON = new JSONObject();
 		Dataset ds = new Dataset();
 		dataSetJSON = Utils.loadJsonObjectFromString(datasetCKANString);
@@ -83,50 +116,63 @@ public class Client {
 		return ds;
 	}
 	
-	public Catalog getOrganizationCatalogCKAN(String organizationIdentifier, String bureauFileName)
+	/**
+	 * Calls network request to get all an organizations datasets.
+	 * @param organizationIdentifier
+	 * @param bureauFileName
+	 * @return
+	 * @throws IOException
+	 * @throws CatalogException
+	 */
+	public Catalog getOrganizationCatalogCKAN(String organizationIdentifier, String bureauFileName) throws IOException, CatalogException
 	{
 		
 		String catalogJSONString = "";
-		NetworkRequest nr = new NetworkRequest();	
+		NetworkRequest nr;
+		try{
+			nr = new NetworkRequest();	
+		}
+		catch(ParseException e)
+		{
+			throw (new CatalogException(e.toString()));
+		}
 		
-		//I want feedback on when I'm hitting the server vs. hitting local file.
-		System.out.println("Making Network Request for: " + organizationIdentifier);
+		log.log(Level.FINE, "Making Network Request for: " + organizationIdentifier);
 		try
 		{
 			catalogJSONString = nr.getOrganizationCatalog(organizationIdentifier);
 		}
-		catch(Exception ex)
+		catch(IOException e)
 		{
-			System.out.println(ex);
+			throw (new CatalogException(e.toString()));
 		}
 		
-		try
-		{
-			PrintWriter out = new PrintWriter(bureauFileName);
-			out.print(catalogJSONString);
-			out.close();
-		}
-		catch (Exception ex)	
-		{
-			System.out.println(ex.toString());
-		}
+		PrintWriter out = new PrintWriter(bureauFileName);
+		out.print(catalogJSONString);
+		out.close();
 		
 		Catalog catalog = new Catalog();
-		catalog.loadCatalogFromJSONString(catalogJSONString);
+		try{
+			catalog.loadCatalogFromJSONString(catalogJSONString);
+		}
+		catch(CatalogException e)
+		{
+			//TODO: Remove this catch
+			datasetErrors.add(e.toString());
+		}
 		return catalog;
 	}
 	
-	//TODO:  pull some of these functions out.  it's too complex because I added save files feature
-	//       I don't want to hit server everytime i run this.
-	public Catalog loadOrganizationsIntoCatalog(String downloadFilePath)
+	/**
+	 * Loads a bureau list json array from a configuration file.
+	 * @return
+	 */
+	public JSONArray getBureauList()
 	{
-		 //example create master catalog...
-		Catalog masterCatalog = new Catalog();
-		
-    	JSONArray bureauList = new JSONArray();
+		JSONArray bureauList = new JSONArray();
     	String bureauJSONString = "";
     	
-    	try{
+		try{
     		bureauJSONString = new String(Files.readAllBytes(Paths.get("sample_data/bureau_reference_data.json")));
 			JSONParser parser = new JSONParser();
 			Object obj = new Object();
@@ -137,6 +183,53 @@ public class Client {
     	{
     		System.out.println(pe.toString());
     	}	
+		return bureauList;
+	}
+	
+	/**
+	 * Loads a catalog object of a CKAN organization from a CKAN server.  
+	 * @param bureau
+	 * @param bureauFileName
+	 * @param downloadFilePath
+	 * @return
+	 * @throws IOException
+	 * @throws CatalogException
+	 */
+	public Catalog getCatalogFromNetwork(JSONObject bureau, String bureauFileName, String downloadFilePath) throws IOException, CatalogException
+	{
+		createDirectory("ckan/" + downloadFilePath);
+		String bureau_ckan_identifier = (String)bureau.get("bureau_ckan_identifier");
+		return getOrganizationCatalogCKAN(bureau_ckan_identifier, bureauFileName);
+	}
+	
+	/**
+	 * Loads a CKAN based JSON file into a string.  
+	 * @param bureauFileName
+	 * @return
+	 */
+	public String getOrganizationFromDisk(String bureauFileName) throws IOException
+	{
+		String organisationJSONString = "";
+		organisationJSONString = new String(Files.readAllBytes(Paths.get(bureauFileName)));
+		return organisationJSONString;
+	}
+	
+
+	/**
+	 * This method uses file "bureau_reference_data.json" to load list of bureaus with their corresponding
+	 * CKAN organization identifier.  It will first look to see if ckan/<downloadFilePath>/<bureauname> exists.
+	 * If the file does not exist, it will go to CKAN server to retrieve it.
+	 * 
+	 * If the file exists, this method will load the existing file into a string.
+	 * @param downloadFilePath
+	 * @return
+	 * @throws CatalogException
+	 * @throws IOException
+	 */
+	public Catalog loadOrganizationsIntoCatalog(String downloadFilePath) throws CatalogException, IOException
+	{
+		Catalog entireCatalog = new Catalog();
+		JSONArray bureauList = getBureauList();
     	
     	for (int i=0; i< bureauList.size(); i++)
     	{
@@ -145,57 +238,72 @@ public class Client {
     		File bureauFile = new File(bureauFileName);
     		if (!bureauFile.exists())
     		{
-    			createDirectory("ckan/" + downloadFilePath);
     			Catalog bureauCatalog = new Catalog();
-        		String bureau_ckan_identifier = (String)bureau.get("bureau_ckan_identifier");
-    			bureauCatalog = getOrganizationCatalogCKAN(bureau_ckan_identifier, bureauFileName);
-    			masterCatalog.addFromOtherCatalog(bureauCatalog);
-    			//bureauCatalog.toProjectOpenDataJSON(bureauFileName);
+    			bureauCatalog = getCatalogFromNetwork(bureau, bureauFileName, downloadFilePath);
+    			entireCatalog.addFromOtherCatalog(bureauCatalog);
     		}
     		else
     		{
-    			String organisationJSONString = "";
     			try
-    			{	
-    				organisationJSONString = new String(Files.readAllBytes(Paths.get(bureauFileName)));
-    			}
-    			catch (IOException ex)
     			{
-    				System.out.println(ex.toString());
+    				entireCatalog.loadCatalogFromJSONString(getOrganizationFromDisk(bureauFileName));
     			}
-    			masterCatalog.loadCatalogFromJSONString(organisationJSONString);
+    			catch(CatalogException e)
+    			{
+    				datasetErrors.add(e.toString());
+    			}
     		}
     	}
     	return masterCatalog;
 	}
 	
-	public void createDataset(Dataset ds)
+	/**
+	 * Takes in a Project Open Data compliant Dataset object and creates this on CKAN server.
+	 * This will return the dataset created in that call.
+	 * 
+	 * 
+	 * @param ds
+	 * @return
+	 * @throws DatasetException
+	 * @throws IOException
+	 */
+	public Dataset createDataset(Dataset ds) throws DatasetException, IOException
 	{
-		NetworkRequest nr = new NetworkRequest();
+		NetworkRequest nr;
+		Dataset returnedDataset = new Dataset();
+		
+		try{
+			nr = new NetworkRequest();
+		}
+		catch(ParseException e)
+		{
+			throw (new DatasetException("Problem with bureau_reference_data.json: " + e.toString()));
+		}
 		String newDatasetJSONString = "";
-		try
-		{
-			newDatasetJSONString = nr.createDataset(ds.toCKAN_JSON());
+		newDatasetJSONString = nr.createDataset(ds.toCKAN_JSON());
+		JSONObject datasetObject = new JSONObject();
+		try{
+			datasetObject = Utils.loadJsonObjectFromString(newDatasetJSONString);
 		}
-		catch (IOException e)
+		catch(ParseException e)
 		{
-			throw (e);
+			throw (new DatasetException(e.toString()));
 		}
+		returnedDataset.loadDatasetFromCKAN_JSON(datasetObject);
+		return returnedDataset;
 	}
 	
+	/**
+	 * Create a directory if it does not already exist
+	 * @param filePath  Path to create file
+	 * @throws IOException
+	 */
 	public void createDirectory(String filePath) throws IOException
 	{
 		Path ckanOrganizationDirectory = Paths.get(filePath);
 		if (Files.notExists(ckanOrganizationDirectory))
 		{
-			try
-			{
-				Files.createDirectories(ckanOrganizationDirectory);
-			}
-			catch (IOException e)
-			{
-				throw (e);
-			}
+			Files.createDirectories(ckanOrganizationDirectory);
 		}
 	}
 

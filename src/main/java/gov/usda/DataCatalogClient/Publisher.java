@@ -3,8 +3,16 @@ package gov.usda.DataCatalogClient;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.json.simple.JSONObject;
-
+/**
+ * The Publisher class is based on Project Open Data metadata specification 1.1.  Details can
+ * be found here https://project-open-data.cio.gov/v1.1/schema/#publisher
+ * 
+ * @author bbrotsos
+ *
+ */
 public class Publisher {
 	private String type;
 	private String name;
@@ -56,19 +64,50 @@ public class Publisher {
 		{
 			subOrganization.loadDatasetFromPOD_JSON(subOrganizationJSON);
 		}
+		
 	}
 	
-	public Boolean validatePublisher()
+	public Boolean validatePublisher() throws PublisherException
 	{
 		Boolean validIndicator = true;
 		
 		if (name == null)
 		{
-			System.out.println("Publisher invalid: Name is required");
 			validIndicator = false;
+			throw (new PublisherException("Publisher invalid: Name is required"));
 		}
 		
 		return validIndicator;
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (!(o instanceof Publisher))
+		{
+			return false;
+		}
+		Publisher publisher_other = (Publisher)o;
+		
+		return new EqualsBuilder()
+         .append(name, publisher_other.name)
+         .append(subOrganization, publisher_other.subOrganization)
+         .append(type, publisher_other.type)
+         .isEquals();
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return new HashCodeBuilder(19, 27).
+				append(name).
+				append(subOrganization).
+				append(type).
+				toHashCode();
 	}
 	
 }

@@ -11,11 +11,37 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * The Catalog class is based on Project Open Data metadata specification 1.1 https://project-open-data.cio.gov/v1.1/schema/
+ * and W3C Data Catalog Vocabulary (DCAT)  http://www.w3.org/TR/vocab-dcat/
+ * 
+ * There are a couple of ways to load data into this object.
+ * 
+ * 1.  Load data from a Project Open Data compliant json file.  @see loadCatalogFromCKAN(String catalogFileName)
+ * An example would be:
+ * Catalog catalog = new Catalog();
+ * catalog.loadCatalogFromCKAN("ckan.json") 
+ *  
+ * 2.  Load data from a CKAN compliant JSON file.  @see 
+ * 
+ * The Catalog class has 3 ways to output it's member variables.
+ * 
+ * 1.  To output to Project Open Data compliant JSON use toProjectOpenDataJSON(String, Boolean).
+ * The second parameter is for creating either the Enterprise Data Inventory or the Public Data Listing
+ * 
+ * 2.  This class has helper method for creating CSV for distribution in Excel and potentially importing
+ * to other 
+ * 
+ * @author bbrotsos
+ *
+ */
 
 public class Catalog {
 
@@ -38,9 +64,12 @@ public class Catalog {
 	
 	private List<Dataset> dataSetList;
 	
+	private CatalogException catalogException;
+	
 	public Catalog()
 	{
 		dataSetList = new ArrayList<Dataset>();
+		catalogException = new CatalogException();
 	}
 	
 	/**
@@ -51,42 +80,31 @@ public class Catalog {
 	 * the packages and calling the loadDataset methods at the dataset level.
 	 * @param catalogCKAN_JSON JSONObject The results from a CKAN query.
 	 */
-	public void loadCatalogFromCKAN_JSON(JSONObject catalogCKAN_JSON) throws ParseException, MalformedURLException
+	public void loadCatalogFromCKAN_JSON(JSONObject catalogCKAN_JSON) throws CatalogException
 	{
 		JSONObject resultObject= (JSONObject) catalogCKAN_JSON.get("result");
-		try
+		JSONArray packageList = (JSONArray) resultObject.get("packages");				
+		for(int i = 0; i < packageList.size(); i++)
 		{
-			JSONArray packageList = (JSONArray) resultObject.get("packages");				
-			for(int i = 0; i < packageList.size(); i++)
-			{
-				JSONObject packageObject = (JSONObject) packageList.get(i);
-				Dataset ds = new Dataset();
+			JSONObject packageObject = (JSONObject) packageList.get(i);
+			Dataset ds = new Dataset();
+			try{
 				ds.loadDatasetFromCKAN_JSON(packageObject);
 				dataSetList.add(ds);
 			}
+			catch(DatasetException e)
+			{
+				//TODO: Capture entire error
+				catalogException.addError(e.toString());
+			}
 		}
-		//TODO: change to proper exception
-		catch (MalformedURLException | ParseException e)
+		if (!validateCatalog() || catalogException.exceptionSize() > 0)
 		{
-			throw (e);
+			throw (catalogException);
 		}
 	}
 	
-	//This is for mulitple organization catalogs
-	public void loadMulitpleCatalogsFromCKAN(String catalogFileName)
-	{
-		//TODO: testing skeleton for loadMultipleCatalogsFromCKAN
-	}
 	
-	public void produceQuarterlyReport (String quarterReportFileName)
-	{
-		//TODO: testing skeleton for produceQuarterlyReport
-	}
-	
-	public void produceBureauMetrics(String bureauMetricsFileName)
-	{
-		//TODO: testing skeleton for produceBureauMetrics
-	}
 	/**
 	 * Adds datasets from another catalog to this catalog.
 	 * 
@@ -143,7 +161,7 @@ public class Catalog {
 	 * 
 	 * @param catalogObject
 	 */
-	public void loadFromProjectOpenDataJSON(JSONObject catalogObject)
+	public void loadFromProjectOpenDataJSON(JSONObject catalogObject) throws CatalogException
 	{
 		setConformsTo((String) catalogObject.get("conformsTo"));
 		setDescribedBy((String) catalogObject.get("describedBy"));
@@ -156,17 +174,28 @@ public class Catalog {
 		{
 			Dataset ds = new Dataset();
 			JSONObject dataSetObject = (JSONObject) dataSetArray.get(i);
-			ds.loadFromProjectOpenDataJSON(dataSetObject);
-			dataSetList.add(ds);
-		}
+			try
+			{
+				ds.loadFromProjectOpenDataJSON(dataSetObject);
+				dataSetList.add(ds);
+			}
+			catch(DatasetException e)
+			{
+				catalogException.addError(e.toString());
+			}
+		}		
 		
+		if (!validateCatalog() || catalogException.exceptionSize() > 0)
+		{
+			throw (catalogException);
+		}
 	}
 	
 	/**
 	 * Populates catalog object from CKAN compliant results string.
 	 * @param catalogJSONString String CKAN search results string
 	 */
-	public void loadCatalogFromJSONString(String catalogJSONString) throws ParseException
+	public void loadCatalogFromJSONString(String catalogJSONString) throws CatalogException
 	{
 		JSONObject resourceCKAN_JSON = new JSONObject();
 		Object obj = new Object();
@@ -178,16 +207,10 @@ public class Catalog {
 		} 
 		catch (ParseException e) 
 		{
-			throw (e);
+			catalogException.addError("Error parsing string: " + e.toString());
 		}
 			
-		try{
-			loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
-		}
-		catch(IOException| ParseException e)
-		{
-			throw (e);
-		}
+		loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
 	}
 	
 
@@ -195,7 +218,7 @@ public class Catalog {
 	 * Populates catalog from CKAN compliant json file.
 	 * @param catalogFileName
 	 */
-	public void loadCatalogFromCKAN(String catalogFileName) throws IOException, ParseException
+	public void loadCatalogFromCKAN(String catalogFileName) throws CatalogException
 	{
 		String catalogCKAN_JSON_String = "";
 		Object obj = new Object();
@@ -209,7 +232,8 @@ public class Catalog {
 		} 
 		catch (IOException | ParseException e) 
 		{
-			throw (e);
+			catalogException.addError(e.toString());
+			throw (catalogException);
 		}
 				
 		loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
@@ -222,7 +246,7 @@ public class Catalog {
 	 * @param podFilePath
 	 * @param privateIndicator
 	 */
-	public void toProjectOpenDataJSON(String podFilePath, Boolean privateIndicator)
+	public void toProjectOpenDataJSON(String podFilePath, Boolean privateIndicator) throws IOException
 	{	
 		Map catalogJSON = new LinkedHashMap();
 		Map dataSetMap = new LinkedHashMap();
@@ -372,11 +396,79 @@ public class Catalog {
 				String otherIdentifier = dataSetList.get(k).getUniqueIdentifier();
 				if (identifier.equals(otherIdentifier))
 				{
-					System.out.println("Invalid catalog: non-unique identifier: " + dataSetList.get(k).getTitle());
+					catalogException.addError("Invalid catalog: non-unique identifier: " + dataSetList.get(k).getTitle());
 					validIndicator=false;
 				}
 			}
 		}
 		return validIndicator;
 	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (!(o instanceof Catalog))
+		{
+			return false;
+		}
+		Catalog catalog_other = (Catalog)o;
+		
+		return new EqualsBuilder()
+         .append(conformsTo, catalog_other.conformsTo)
+         .append(context, catalog_other.context)
+         .append(dataSetList, catalog_other.dataSetList)
+         .append(describedBy, catalog_other.describedBy)
+         .append(description, catalog_other.description)
+         .append(homepage, catalog_other.homepage)
+         .append(id, catalog_other.id)
+         .append(issued, catalog_other.issued)
+         .append(language, catalog_other.language)
+         .append(license, catalog_other.license)
+         .append(rights, catalog_other.rights)
+         .append(spatial, catalog_other.spatial)
+         .append(title,  catalog_other.title)
+         .append(type, catalog_other.type)
+         .isEquals();
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return new HashCodeBuilder(19, 29).
+				append(conformsTo).
+				append(context).
+				append(dataSetList).
+				append(describedBy).
+				append(description). 
+				append(homepage). 
+				append(id). 
+				append(issued). 
+				append(language).
+				append(license).
+				append(rights).
+				append(spatial).
+				append(title).
+				append(type).
+				toHashCode();
+	}
+	
+	//This is for mulitple organization catalogs
+	public void loadMulitpleCatalogsFromCKAN(String catalogFileName)
+		{
+			//TODO: testing skeleton for loadMultipleCatalogsFromCKAN
+		}
+		
+		public void produceQuarterlyReport (String quarterReportFileName)
+		{
+			//TODO: testing skeleton for produceQuarterlyReport
+		}
+		
+		public void produceBureauMetrics(String bureauMetricsFileName)
+		{
+			//TODO: testing skeleton for produceBureauMetrics
+		}
 }
