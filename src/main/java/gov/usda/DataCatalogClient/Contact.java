@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.json.simple.JSONObject;
 /**
  * The Contact class is based on Project Open Data Metadata specification 1.1.
@@ -19,7 +20,7 @@ public class Contact {
 	private String fullName;
 	private String emailAddress;
 	
-	private ContactException contactException;
+	private ContactException contactException = new ContactException();
 	
 	public String getType() {
 		return type;
@@ -36,7 +37,23 @@ public class Contact {
 	public String getEmailAddress() {
 		return emailAddress;
 	}
+	
+	/**
+	 * Sometimes email address will come in as mailto:  This is removed
+	 * @param emailAddress
+	 */
 	public void setEmailAddress(String emailAddress) {
+		if (emailAddress != null)
+		{
+		//remove the 'mailto' in mailto:jane.doe@us.gov if it exists
+			String[] parseEmailAddress = emailAddress.split(":");
+			emailAddress = parseEmailAddress[1];
+			EmailValidator emailValidator = EmailValidator.getInstance();
+			if (!emailValidator.isValid(emailAddress))
+			{
+				contactException.addError("Email Address: " + emailAddress + " is not a valid address.");
+			}
+		}
 		this.emailAddress = emailAddress;
 	}
 	
@@ -48,21 +65,37 @@ public class Contact {
 		return contactPointMap;
 	}
 	
+	/**
+	 * This method takes in a Project Open Data contactPoint json file.
+	 * 
+	 * {
+	 *    "@type": "vcard:Contact",
+	 *    "fn": "Jane Doe",
+	 *    "hasEmail": "mailto:jane.doe@us.gov"
+     * }
+	 * @param contactProjectOpenDataJSON
+	 * @throws ContactException
+	 */
 	public void loadDatasetFromPOD_JSON(JSONObject contactProjectOpenDataJSON) throws ContactException
 	{
-		if (contactProjectOpenDataJSON== null)
+		if (contactProjectOpenDataJSON == null)
 		{
 			throw new ContactException("contact cannot be empty");
 		}
 		type = (String) contactProjectOpenDataJSON.get("@type");
 		fullName = (String) contactProjectOpenDataJSON.get("fn");
-		emailAddress = (String) contactProjectOpenDataJSON.get("hasEmail");
+		setEmailAddress((String) contactProjectOpenDataJSON.get("hasEmail"));
+		validateContact();
 	}
 	
+	/**
+	 * Business rules for valid Contact.  fullName and email address are required.
+	 * @return
+	 * @throws ContactException
+	 */
 	public Boolean validateContact() throws ContactException
 	{
 		Boolean validIndicator = true;
-		contactException = new ContactException();
 		if (fullName == null)
 		{
 			contactException.addError("Full Name is required");
