@@ -45,9 +45,8 @@ public class Contact {
 	public void setEmailAddress(String emailAddress) {
 		if (emailAddress != null)
 		{
-		//remove the 'mailto' in mailto:jane.doe@us.gov if it exists
-			String[] parseEmailAddress = emailAddress.split(":");
-			emailAddress = parseEmailAddress[1];
+			//remove the 'mailto' in mailto:jane.doe@us.gov if it exists
+			emailAddress = removeMailto(emailAddress);
 			EmailValidator emailValidator = EmailValidator.getInstance();
 			if (!emailValidator.isValid(emailAddress))
 			{
@@ -55,6 +54,21 @@ public class Contact {
 			}
 		}
 		this.emailAddress = emailAddress;
+	}
+	
+	/**
+	 * Sometimes email address will come in as mailto:  This is removed
+	 * @param emailAddress
+	 */
+	private String removeMailto(String emailAddress)
+	{
+		//remove the 'mailto' in mailto:jane.doe@us.gov if it exists
+		if (emailAddress.contains(":"))
+		{
+			String[] parseEmailAddress = emailAddress.split(":");
+			emailAddress = parseEmailAddress[1];
+		}
+		return emailAddress;
 	}
 	
 	public Map toProjectOpenDataJSON()
@@ -143,5 +157,12 @@ public class Contact {
 				append(type).
 				toHashCode();
 	}
+	@Override
+	public String toString() {
+		return "Contact [type=" + type + ", fullName=" + fullName
+				+ ", emailAddress=" + emailAddress + "]";
+	}
+	
+	
 	
 }

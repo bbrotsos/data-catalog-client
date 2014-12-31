@@ -112,5 +112,11 @@ public class Publisher {
 				append(type).
 				toHashCode();
 	}
+	@Override
+	public String toString() {
+		return "Publisher [type=" + type + ", name=" + name
+				+ ", subOrganization=" + subOrganization + "]";
+	}
+	
 	
 }

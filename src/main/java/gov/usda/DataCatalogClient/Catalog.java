@@ -396,7 +396,7 @@ public class Catalog {
 				String otherIdentifier = dataSetList.get(k).getUniqueIdentifier();
 				if (identifier.equals(otherIdentifier))
 				{
-					catalogException.addError("Invalid catalog: non-unique identifier: " + dataSetList.get(k).getTitle());
+					catalogException.addError("Invalid catalog: non-unique identifier: " + otherIdentifier);
 					validIndicator=false;
 				}
 			}
@@ -456,6 +456,19 @@ public class Catalog {
 				toHashCode();
 	}
 	
+	
+	
+	@Override
+	public String toString() {
+		return "Catalog [title=" + title + ", description=" + description
+				+ ", issued=" + issued + ", language=" + language
+				+ ", license=" + license + ", rights=" + rights + ", spatial="
+				+ spatial + ", homepage=" + homepage + ", context=" + context
+				+ ", id=" + id + ", type=" + type + ", conformsTo="
+				+ conformsTo + ", describedBy=" + describedBy
+				+ ", dataSetList=" + dataSetList + "]";
+	}
+
 	//This is for mulitple organization catalogs
 	public void loadMulitpleCatalogsFromCKAN(String catalogFileName)
 		{

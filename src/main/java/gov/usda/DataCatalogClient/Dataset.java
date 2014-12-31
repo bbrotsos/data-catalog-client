@@ -1264,5 +1264,30 @@ public class Dataset {
 				append(distributionList).
 				toHashCode();
 	}
+
+	@Override
+	public String toString() {
+		return "Dataset [title=" + title + ", description=" + description
+				+ ", issued=" + issued + ", modified=" + modified
+				+ ", keywordList=" + keywordList + ", languageList="
+				+ languageList + ", themeList=" + themeList + ", contactPoint="
+				+ contactPoint + ", publisher=" + publisher + ", temporal="
+				+ temporal + ", spatial=" + spatial + ", accrualPeriodicity="
+				+ accrualPeriodicity + ", landingPage=" + landingPage
+				+ ", distributionList=" + distributionList
+				+ ", uniqueIdentifier=" + uniqueIdentifier
+				+ ", bureauCodeList=" + bureauCodeList + ", programCodeList="
+				+ programCodeList + ", primaryITInvestmentUII="
+				+ primaryITInvestmentUII + ", accessLevel=" + accessLevel
+				+ ", rights=" + rights + ", systemOfRecords=" + systemOfRecords
+				+ ", dataQuality=" + dataQuality + ", referenceList="
+				+ referenceList + ", describedBy=" + describedBy
+				+ ", describedByType=" + describedByType + ", license="
+				+ license + ", conformsTo=" + conformsTo + ", isPartOf="
+				+ isPartOf + ", comments=" + comments + ", webService="
+				+ webService + ", ownerOrganization=" + ownerOrganization + "]";
+	}
+	
+	
 	
 }

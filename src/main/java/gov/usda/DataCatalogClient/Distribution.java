@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -43,13 +45,22 @@ public class Distribution {
 	//This is for checkbox "link to api, etc in CKAN
 	private String resourceType;
 	
-	private DistributionException distribtionEx;
+	private static final Logger log = Logger.getLogger(Distribution.class.getName());
+	private DistributionException distributionException;
 	
 	public Distribution()
 	{
-		distribtionEx = new DistributionException("Distribution Exception:");
+		distributionException = new DistributionException();
 	}
 	
+	/**
+	 * This method takes in a CKAN Formatted JSONObject and marshals it. In CKAN, resource is equivalent
+	 * to project open data distribution.
+	 * 
+	 * If type is not specified it is set to dcat:Distribution
+	 * @param resourceCKAN_JSON
+	 * @throws DistributionException
+	 */
 	public void loadDistributionFromCKAN_JSON(JSONObject resourceCKAN_JSON) throws DistributionException
 	{
 		setTitle((String) resourceCKAN_JSON.get("name"));
@@ -57,6 +68,14 @@ public class Distribution {
 		setConformsTo ((String) resourceCKAN_JSON.get("conformsTo"));
 		setDescribedByType((String) resourceCKAN_JSON.get("describedByType"));
 		setDescribedBy ((String) resourceCKAN_JSON.get("describedBy"));
+		if ((String) resourceCKAN_JSON.get("type") != null)
+		{
+			setType((String)resourceCKAN_JSON.get("describedBy"));
+		}
+		else
+		{
+			setType("dcat:Distribution");
+		}
     	
     	//resourceType is the check button when adding resource "link to download, link to api, link to file, link to accessurl
     	//accessurl = AccessURL; file = DownloadURL; api = API
@@ -74,12 +93,33 @@ public class Distribution {
     	{
     		setDownloadURL((String) resourceCKAN_JSON.get("url"));
     	}
+    	else if (resourceType.toLowerCase().equals("api"))
+    	{
+    		setAccessURL((String) resourceCKAN_JSON.get("url"));
+    	}
+    	else
+    	{
+    		//new resource type in CKAN
+    		log.log(Level.SEVERE, "New resource type in CKAN. " + (String) resourceCKAN_JSON.get("resource_type") + " for URL: "  + (String) resourceCKAN_JSON.get("url") );
+    	}
     	
     	//looks weird: mediaType = format and format = formatReadable
-    	//ok, keeps backward compatiablity with POD 1.0
+    	//ok, this keeps backward compatiablity with POD 1.0
     	setMediaType((String) resourceCKAN_JSON.get("format"));
     	setFormat ((String) resourceCKAN_JSON.get("formatReadable"));	
+    	if (distributionException.exceptionSize()>0)
+    	{
+    		throw (distributionException);
+    	}
 	}
+	
+	/**
+	 * This loads JSON Object that is formated in Project Open Data specification and marshals it to this 
+	 * class.
+	 * @param pod_JSONObject
+	 * @throws DistributionException
+	 */
+	//TODO: Set resourceType based on same algorithm it's set in CKAN (File, API, null)
 	public void loadFromProjectOpenDataJSON(JSONObject pod_JSONObject) throws DistributionException
 	{
 		if (pod_JSONObject == null)
@@ -98,8 +138,16 @@ public class Distribution {
 		setDescribedByType ((String) pod_JSONObject.get("describedByType"));
 		setConformsTo ((String) pod_JSONObject.get("conformsTo"));
 		setType ((String) pod_JSONObject.get("@type"));
+		
+		if (distributionException.exceptionSize()>0)
+    	{
+    		throw (distributionException);
+    	}	 
 	}
 	
+	/*
+	 * This outputs the object in CKAN Formatted JSON Object.  This is called a Resource in CKAN.
+	 */
 	public JSONObject toCKAN_JSON()
 	{
 		JSONObject distributionCKAN_JSON = new JSONObject();
@@ -138,6 +186,11 @@ public class Distribution {
 		return distributionCKAN_JSON;
 	}
 	
+	/**
+	 * Returns a Map object of the distribution in Project Open Data specification.
+	 * @return
+	 */
+	//TODO: Change Map to JSONObject.  No need to preserve order anymore
 	public Map toProjectOpenDataJSON()
 	{
 		Map distributionJSON = new LinkedHashMap();
@@ -153,8 +206,7 @@ public class Distribution {
 		distributionJSON.put("describedBy", describedBy);
 		distributionJSON.put("describedByType", describedByType);
 		distributionJSON.put("conformsTo", conformsTo);
-
-		
+	
 		return distributionJSON ;
 	}
 	
@@ -208,7 +260,6 @@ public class Distribution {
 			catch (MalformedURLException e)
 			{
 				throw new DistributionException("Invalid downloadUrl:" + e.toString());
-
 			}
 		}
 	}
@@ -337,6 +388,19 @@ public class Distribution {
 				append(title). 
 				append(type).
 				toHashCode();
+	}
+	
+	@Override
+	public String toString() {
+		return "Distribution [title=" + title + ", description=" + description
+				+ ", accessURL=" + accessURL + ", downloadURL=" + downloadURL
+				+ ", mediaType=" + mediaType + ", format=" + format
+				+ ", byteSize=" + byteSize + ", issued=" + issued
+				+ ", modified=" + modified + ", license=" + license
+				+ ", rights=" + rights + ", describedBy=" + describedBy
+				+ ", describedByType=" + describedByType + ", conformsTo="
+				+ conformsTo + ", type=" + type + ", resourceType="
+				+ resourceType + "]";
 	}
 	
 }

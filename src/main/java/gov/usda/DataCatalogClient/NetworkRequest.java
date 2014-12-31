@@ -15,35 +15,72 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * This is a helper class for the networking calls to a CKAN installation.
+ * @author bbrotsos
+ *
+ */
 public class NetworkRequest 
 {
-	private HttpsURLConnection connection;
-	private HttpURLConnection connection_public;
+	HttpURLConnection connection;
 	private String server;
 	private String apiKey;
 	
+	/**
+	 * The default constructor will load sample_data/config.json
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public NetworkRequest () throws IOException, ParseException
 	{
-		//Get Server and API Key
-		loadServerAndAPI_Key();
+		String config_path = "sample_data/config.json";
+		loadServerAndAPI_Key(config_path);
 	}
 	
-	private void loadServerAndAPI_Key() throws IOException, ParseException
+	/**
+	 * Allows user to enter in custom config path.  This is helpful for testing on multiple servers
+	 * @param config_path
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public NetworkRequest (String config_path) throws IOException, ParseException{
+		loadServerAndAPI_Key(config_path);
+	}
+	
+	/**
+	 * Sample config file looks like:
+	 * {
+	 *    "server":"server.com",
+	 *    "api_key":"My API Key here"
+	 * }
+	 * @param config_path
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	private void loadServerAndAPI_Key(String config_path) throws IOException, ParseException
 	{
-		String configStringJSON = "";
-		String config_path = "sample_data/config.json";
 		JSONObject configJSON = new JSONObject();
-			
-		configStringJSON = new String(Files.readAllBytes(Paths.get(config_path)));
-		JSONParser parser = new JSONParser();
-		Object obj = parser.parse(configStringJSON);
-		configJSON = (JSONObject) obj;
+		
+		configJSON = Utils.loadJsonObjectFile(config_path);
 		server = (String)configJSON.get("server");
 		apiKey = (String)configJSON.get("api_key");
 	}
 	
-	private void setupConnection()
+	/**
+	 * Common connection setup.  For certain CKAN installations a cookie also needs to be sent with auth_tkt.
+	 * @param dataAPIURL
+	 * @throws IOException
+	 */
+	private void setupConnection(URL dataAPIURL) throws IOException
 	{
+		if (dataAPIURL.getProtocol().toLowerCase().equals("https"))
+		{
+			connection = (HttpsURLConnection)dataAPIURL.openConnection();
+		}
+		else
+		{
+			connection = (HttpURLConnection)dataAPIURL.openConnection();
+		}
 		connection.setRequestProperty("Accept-Charset", "UTF-8");
 		connection.setRequestProperty("Accept", "application/json");
 		connection.setRequestProperty("Authorization", apiKey);
@@ -52,85 +89,95 @@ public class NetworkRequest
 		connection.setReadTimeout(20000);
 	}	
 	
-	//optimize or remove in future, setup in config file: Development, Test, Prod.
-	//i hit wall moving from https, to http.  clean up later.
-	private void setupPublicConnection()
-	{
-		connection_public.setRequestProperty("Accept-Charset", "UTF-8");
-		connection_public.setRequestProperty("Accept", "application/json");
-		connection_public.setRequestProperty("Authorization", apiKey);
-		connection_public.setRequestProperty("Cookie", "auth_tkt=hello_world");
-		connection_public.setConnectTimeout(20000);
-		connection_public.setReadTimeout(20000);
-	}
-	
+	/**
+	 * Returns a CKAN compliant string of an organization's Datasets also known as Packages in CKAN.
+	 * @param organization
+	 * @return
+	 * @throws IOException
+	 */
 	public String getOrganizationCatalog(String organization) throws IOException
 	{
 		URL dataAPIURL = new URL(server + "/api/3/action/organization_show?id=" + organization);
-		if (dataAPIURL.getProtocol().toLowerCase().equals("https"))
-		{
-			
-		}
-		else
-		{
-			connection = (HttpURLConnection)dataAPIURL.openConnection();
-		}
-		connection = (HttpsURLConnection)dataAPIURL.openConnection();
-		setupConnection();
+		setupConnection(dataAPIURL);
 		connection.setRequestProperty("Content-Type", "application/json");
-		return getHttpResponse(connection);
+		return getHttpResponse();
 	}
 	
+	/**
+	 * Gets a single dataset from CKAN based on the unique name.
+	 * @param name
+	 * @return
+	 * @throws IOException
+	 */
 	public String getDataset(String name) throws IOException
 	{
 		URL dataAPIURL = new URL(server + "/api/3/action/package_show?id=" + name);
 		
-		connection_public = (HttpURLConnection)dataAPIURL.openConnection();
-		setupPublicConnection();
-		connection_public.setRequestProperty("Content-Type", "application/json");
-		return getHttpResponse(connection_public);
+		setupConnection(dataAPIURL);
+		connection.setRequestProperty("Content-Type", "application/json");
+		return getHttpResponse();
 	}
 	
+	/**
+	 * Takes in a CKAN formated JSON Object (Packages and Resources) and adds it to the CKAN repository.
+	 * @param postJSON
+	 * @return
+	 * @throws IOException
+	 */
 	public String createDataset(JSONObject postJSON) throws IOException
 	{
-		//get rid of connection_public...using it for connecting to non-ssl
 		URL dataAPIURL = new URL(server + "/api/3/action/package_create");
-		connection_public = (HttpURLConnection)dataAPIURL.openConnection();
-		setupPublicConnection();
-		connection_public.setRequestProperty("Content-Type", "application/json");
-		connection_public.setDoOutput(true);
+		setupConnection(dataAPIURL);
+		connection.setRequestProperty("Content-Type", "application/json");
+		connection.setDoOutput(true);
 
-		postObject(connection_public, postJSON);
-		return getHttpResponse(connection_public);
+		postObject(postJSON);
+		return getHttpResponse();
 	}
 	
+	/**
+	 * Takes a single Dataset and updates it on CKAN based on the unique ckan name.
+	 * @param name
+	 * @param postJSON
+	 * @return
+	 * @throws IOException
+	 */
 	public String updateDataset(String name, JSONObject postJSON) throws IOException
 	{
-		//get rid of connection_public...using it for connecting to non-ssl
 		URL dataAPIURL = new URL(server + "/api/3/action/package_update");
-		connection_public = (HttpURLConnection)dataAPIURL.openConnection();
-		setupPublicConnection();
-		connection_public.setRequestProperty("Content-Type", "application/json");
-		connection_public.setDoOutput(true);
+		setupConnection(dataAPIURL);
+		connection.setRequestProperty("Content-Type", "application/json");
+		connection.setDoOutput(true);
 
-		postObject(connection_public, postJSON);
-		return getHttpResponse(connection_public);
+		postObject(postJSON);
+		return getHttpResponse();
 	}
 	
+	/**
+	 * Deletes a dataset and returns back the result to the user.
+	 * @param name
+	 * @param postJSON
+	 * @return
+	 * @throws IOException
+	 */
 	public String  deleteDataset(String name, JSONObject postJSON) throws IOException
 	{
 		//get rid of connection_public...using it for connecting to non-ssl
 		URL dataAPIURL = new URL(server + "/api/3/action/package_delete");
-		connection_public = (HttpURLConnection)dataAPIURL.openConnection();
-		setupPublicConnection();
-		connection_public.setRequestProperty("Content-Type", "application/json");
-		connection_public.setDoOutput(true);
+		setupConnection(dataAPIURL);
+		connection.setRequestProperty("Content-Type", "application/json");
+		connection.setDoOutput(true);
 
-		postObject(connection_public, postJSON);
-		return getHttpResponse(connection_public);
+		postObject(postJSON);
+		return getHttpResponse();
 	}
 	
-	private void postObject(HttpURLConnection connection, JSONObject object) throws IOException
+	/**
+	 * Common method for posting objects.
+	 * @param object
+	 * @throws IOException
+	 */
+	private void postObject(JSONObject object) throws IOException
 	{
 		OutputStreamWriter out = null;
 		try
@@ -147,58 +194,13 @@ public class NetworkRequest
 			out.close();
 		}
 	}
-	
-	String getHttpResponse (HttpsURLConnection connection) throws IOException
-	{
-		BufferedReader in = null;
-		String response="";
-		int responseCode = connection.getResponseCode();
 		
-		try
-		{
-			in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			
-			String inputLine;
-			response = "";
-			while ((inputLine = in.readLine()) != null) 
-			{
-				response = response + inputLine;
-			}	
-			System.out.println();
-			System.out.println(responseCode);
-		}
-		catch (IOException e)
-		{
-			if (responseCode == 422)
-			{
-				in = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-				String inputLine;
-				response = "";
-				while ((inputLine = in.readLine()) != null) 
-				{
-					response = response + inputLine;
-				}	
-				//throw new NetworkProcessingException(response);
-			}
-			else
-			{
-				throw (e);
-			}
-		}
-		finally
-		{
-			if(in != null)
-			{
-				in.close();
-			}
-			connection.disconnect();
-		}
-		
-		return response;
-	}
-	
-	//This needs to be removed...testing non-https connections.
-	String getHttpResponse (HttpURLConnection connection) throws IOException
+	/**
+	 * Common method for getting HTTP response.
+	 * @return
+	 * @throws IOException
+	 */
+	String getHttpResponse () throws IOException
 	{
 		BufferedReader in = null;
 		String response="";

@@ -62,15 +62,9 @@ public class Client {
 		Dataset ckanDataset = getDatasetFromCKAN(updateDS.getName());
 		
 		String datasetCKANString = "";
-		try
-		{
-			NetworkRequest nr = new NetworkRequest();
-			datasetCKANString = nr.updateDataset(updateDS.getName(), updateDS.toCKAN_JSON());
-		}
-		catch (IOException | ParseException e)
-		{
-			throw (e);
-		}
+		NetworkRequest nr = new NetworkRequest();
+		datasetCKANString = nr.updateDataset(updateDS.getName(), updateDS.toCKAN_JSON());
+		
 		JSONObject dataSetJSON = new JSONObject();
 		Dataset ds = new Dataset();
 		
