@@ -10,13 +10,14 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
+/**
+ * Tests for Contact class.
+ * @author bbrotsos
+ *
+ */
 public class ContactTest {
 
-	Contact contactPoint;
-	JSONObject contactObject;
 	private static final Logger log = Logger.getLogger(Contact.class.getName());
-
 	
 	@Before
 	public void setUp() throws Exception {
@@ -28,7 +29,7 @@ public class ContactTest {
 	}
 
 	/**
-	 * Test that Contact loads from Project Open Data JSON Object correctly.
+	 * Test that Contact loads from Project Open Data JSON Object correctly.  
 	 */
 	@Test
 	public void testLoadContact() 

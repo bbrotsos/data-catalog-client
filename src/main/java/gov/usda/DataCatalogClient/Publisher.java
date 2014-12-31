@@ -59,11 +59,14 @@ public class Publisher {
 		type = (String) publisherProjectOpenDataJSON.get("@type");
 		name = (String) publisherProjectOpenDataJSON.get("name");
 		JSONObject subOrganizationJSON = new JSONObject();
-		subOrganizationJSON = (JSONObject) publisherProjectOpenDataJSON.get("subOrganization");
+		subOrganizationJSON = (JSONObject) publisherProjectOpenDataJSON.get("subOrganizationOf");
 		if (subOrganizationJSON != null)
 		{
+			subOrganization = new Publisher();
 			subOrganization.loadDatasetFromPOD_JSON(subOrganizationJSON);
 		}
+		
+		validatePublisher();
 		
 	}
 	

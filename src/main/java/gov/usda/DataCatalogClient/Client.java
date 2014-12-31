@@ -254,7 +254,7 @@ public class Client {
     			}
     		}
     	}
-    	return masterCatalog;
+    	return entireCatalog;
 	}
 	
 	/**

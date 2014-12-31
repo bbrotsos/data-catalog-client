@@ -67,7 +67,14 @@ public class NetworkRequest
 	public String getOrganizationCatalog(String organization) throws IOException
 	{
 		URL dataAPIURL = new URL(server + "/api/3/action/organization_show?id=" + organization);
-		
+		if (dataAPIURL.getProtocol().toLowerCase().equals("https"))
+		{
+			
+		}
+		else
+		{
+			connection = (HttpURLConnection)dataAPIURL.openConnection();
+		}
 		connection = (HttpsURLConnection)dataAPIURL.openConnection();
 		setupConnection();
 		connection.setRequestProperty("Content-Type", "application/json");

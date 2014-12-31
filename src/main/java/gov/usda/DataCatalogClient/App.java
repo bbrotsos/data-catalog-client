@@ -27,7 +27,6 @@ public class App
     	catch(CatalogException | IOException e)
     	{
 			log.log(Level.SEVERE, e.toString());
-
     	}
     
     	if (catalog.validateCatalog())
