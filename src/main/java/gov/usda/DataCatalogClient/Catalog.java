@@ -2,14 +2,11 @@ package gov.usda.DataCatalogClient;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -82,12 +79,16 @@ public class Catalog {
 	 */
 	public void loadCatalogFromCKAN_JSON(JSONObject catalogCKAN_JSON) throws CatalogException
 	{
-		JSONObject resultObject= (JSONObject) catalogCKAN_JSON.get("result");
-		JSONArray packageList = (JSONArray) resultObject.get("packages");				
+		if (catalogCKAN_JSON == null)
+		{
+			throw (new NullPointerException("JSONObject catalogCKAN_JSON cannot be null"));
+		}
+		final JSONObject resultObject= (JSONObject) catalogCKAN_JSON.get("result");
+		final JSONArray packageList = (JSONArray) resultObject.get("packages");				
 		for(int i = 0; i < packageList.size(); i++)
 		{
-			JSONObject packageObject = (JSONObject) packageList.get(i);
-			Dataset ds = new Dataset();
+			final JSONObject packageObject = (JSONObject) packageList.get(i);
+			final Dataset ds = new Dataset();
 			try{
 				ds.loadDatasetFromCKAN_JSON(packageObject);
 				dataSetList.add(ds);
@@ -112,8 +113,11 @@ public class Catalog {
 	 */
 	public void addFromOtherCatalog(Catalog otherCatalog)
 	{
-		List<Dataset> otherDatasetList = new ArrayList<>();
-		otherDatasetList = otherCatalog.dataSetList;
+		if (otherCatalog == null)
+		{
+			throw (new NullPointerException("Catalog otherCatalog cannot be null"));
+		}
+		final List<Dataset> otherDatasetList = otherCatalog.dataSetList;
 		
 		for (Dataset ds: otherDatasetList)
 		{
@@ -130,9 +134,14 @@ public class Catalog {
 	 */
 	public void outputCSV(String filePath) throws IOException
 	{
+		if (filePath == null)
+		{
+			throw (new NullPointerException("filepath cannot be null"));
+		}
+		PrintWriter out = null;
 		try
 		{
-			PrintWriter out = new PrintWriter(filePath);
+			out = new PrintWriter(filePath);
 
 			String headerLine = "Agency Name\tTitle\tDescription\tFormat\tAccess URL\tFrequency\tABureau Code\tContact Email\tContactName\t";
 			headerLine = headerLine + "Landing Page\tProgram Code\tPublisher\tPublic Access Level\tAccess Level Comment\tTags\tLast Update\tRelease Date\tUnique Identifier\t";
@@ -148,11 +157,13 @@ public class Catalog {
 					out.println(dataSetList.get(i).toCSV());
 				}
 			}
-			out.close();
 		}
 		catch(IOException e)
 		{
 			throw (e);
+		}
+		finally{
+			out.close();
 		}
 	}
 	
@@ -163,17 +174,20 @@ public class Catalog {
 	 */
 	public void loadFromProjectOpenDataJSON(JSONObject catalogObject) throws CatalogException
 	{
+		if (catalogObject == null)
+		{
+			throw (new NullPointerException("catalogObject cannot be null"));
+		}
 		setConformsTo((String) catalogObject.get("conformsTo"));
 		setDescribedBy((String) catalogObject.get("describedBy"));
 		setContext ((String) catalogObject.get("@context"));
 		setType ((String) catalogObject.get("@type"));
 		
-		JSONArray dataSetArray = new JSONArray();
-		dataSetArray = (JSONArray) catalogObject.get("dataset");
+		final JSONArray dataSetArray = (JSONArray) catalogObject.get("dataset");
 		for (int i = 0; i < dataSetArray.size(); i++)
 		{
-			Dataset ds = new Dataset();
-			JSONObject dataSetObject = (JSONObject) dataSetArray.get(i);
+			final Dataset ds = new Dataset();
+			final JSONObject dataSetObject = (JSONObject) dataSetArray.get(i);
 			try
 			{
 				ds.loadFromProjectOpenDataJSON(dataSetObject);
@@ -197,6 +211,10 @@ public class Catalog {
 	 */
 	public void loadCatalogFromJSONString(String catalogJSONString) throws CatalogException
 	{
+		if (catalogJSONString == null)
+		{
+			throw (new NullPointerException("catalogJSONString cannot be null"));
+		}
 		JSONObject resourceCKAN_JSON = new JSONObject();
 		Object obj = new Object();
 		try{
@@ -220,6 +238,10 @@ public class Catalog {
 	 */
 	public void loadCatalogFromCKAN(String catalogFileName) throws CatalogException
 	{
+		if (catalogFileName == null)
+		{
+			throw (new NullPointerException("catalogFileName cannot be null"));
+		}
 		String catalogCKAN_JSON_String = "";
 		Object obj = new Object();
 		JSONObject resourceCKAN_JSON = new JSONObject();
@@ -246,11 +268,15 @@ public class Catalog {
 	 * @param podFilePath
 	 * @param privateIndicator
 	 */
+	@SuppressWarnings("unchecked")
 	public void toProjectOpenDataJSON(String podFilePath, Boolean privateIndicator) throws IOException
 	{	
-		Map catalogJSON = new LinkedHashMap();
-		Map dataSetMap = new LinkedHashMap();
-		JSONArray dataSetArray = new JSONArray();
+		if (podFilePath == null || privateIndicator == null)
+		{
+			throw (new NullPointerException("podFilePath or privateIndicator cannot be null."));
+		}
+		final JSONObject catalogJSON = new JSONObject();
+		final JSONArray dataSetArray = new JSONArray();
 		
 		catalogJSON.put("conformsTo", "https://project-open-data.cio.gov/v1.1/schema");
 		catalogJSON.put("describedBy", "https://project-open-data.cio.gov/v1.1/schema/catalog.json");
@@ -274,11 +300,13 @@ public class Catalog {
 		}
 		
 		catalogJSON.put("dataset", dataSetArray);
-		
-		Utils.printJSON(podFilePath, catalogJSON);
-		 
+		Utils.printJSON(podFilePath, catalogJSON); 
 	}
 	
+	/**
+	 * Skeleton method
+	 * @return
+	 */
 	public JSONObject toCKAN_JSON()
 	{
 		JSONObject catalogCKAN_JSON = new JSONObject();
@@ -364,7 +392,7 @@ public class Catalog {
 		this.describedBy = describedBy;
 	}
 	
-	public Integer size()
+	public int size()
 	{
 		return dataSetList.size();
 	}

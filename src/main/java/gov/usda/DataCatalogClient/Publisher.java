@@ -36,9 +36,10 @@ public class Publisher {
 		this.subOrganization = subOrganization;
 	}
 	
-	public Map toProjectOpenDataJSON()
+	@SuppressWarnings("unchecked")
+	public JSONObject toProjectOpenDataJSON()
 	{
-		Map publisherMap = new LinkedHashMap();
+		JSONObject publisherMap = new JSONObject();
 		publisherMap.put("@type", type);
 		publisherMap.put("name", name);
 		
@@ -56,8 +57,8 @@ public class Publisher {
 		{
 			throw new PublisherException("Publisher cannot be null");
 		}
-		type = (String) publisherProjectOpenDataJSON.get("@type");
-		name = (String) publisherProjectOpenDataJSON.get("name");
+		setType((String) publisherProjectOpenDataJSON.get("@type"));
+		setName((String) publisherProjectOpenDataJSON.get("name"));
 		JSONObject subOrganizationJSON = new JSONObject();
 		subOrganizationJSON = (JSONObject) publisherProjectOpenDataJSON.get("subOrganizationOf");
 		if (subOrganizationJSON != null)

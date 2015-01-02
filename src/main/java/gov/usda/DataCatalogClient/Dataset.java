@@ -2,14 +2,10 @@ package gov.usda.DataCatalogClient;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -120,21 +116,25 @@ public class Dataset {
 	 */
 	public void loadDatasetFromCKAN_JSON(JSONObject datasetCKAN_JSON) throws DatasetException
 	{	
+		if (datasetCKAN_JSON == null)
+		{
+			throw new NullPointerException("datasetCKAN_JSON cannot be null");
+		}
+		
 		//probably should use GSON/Jackson
 		//optimize in the future
 		
-		//issue, title is in two places.  i set it initially, and let extra tag overwrite if it exists in extra.
+		//issue, title is in two places. To solve this set it initially, and let extra tag overwrite if it exists in extra.
 		setTitle((String) datasetCKAN_JSON.get("title"));
 		setDescription((String) datasetCKAN_JSON.get("notes"));
 	    setModified ((String) datasetCKAN_JSON.get("metadata_modified"));
 	    
-	    JSONArray resourcesArray = new JSONArray();
-	    resourcesArray = (JSONArray) datasetCKAN_JSON.get("resources");
+	    final JSONArray resourcesArray = (JSONArray) datasetCKAN_JSON.get("resources");
 	    
 	    for (int i=0; i < resourcesArray.size(); i++)
 	    {	    	
-	    	JSONObject resource = new JSONObject();
-	    	resource = (JSONObject) resourcesArray.get(i);
+	    	final JSONObject resource = (JSONObject) resourcesArray.get(i);
+
 	    	Distribution distribution = new Distribution();
 	    	try{
 	    		distribution.loadDistributionFromCKAN_JSON(resource);
@@ -146,7 +146,7 @@ public class Dataset {
 	    	}
 	    }
 		
-		JSONArray extraList = (JSONArray) datasetCKAN_JSON.get("extras");
+		final JSONArray extraList = (JSONArray) datasetCKAN_JSON.get("extras");
 		for (int i = 0; i < extraList.size(); i++)
 		{			
 			JSONObject extraObject = (JSONObject) extraList.get(i);
@@ -168,7 +168,7 @@ public class Dataset {
 	    		}
 	    		catch (DatasetException e)
 	    		{
-	    			throw (e);
+	    			dsEx.addError(e.toString());
 	    		}
 	    	}
 	    	else if (key.equals("unique_id"))
@@ -286,12 +286,11 @@ public class Dataset {
 	    	}
 		}
 		
-		JSONArray tagsArray = new JSONArray();
-		tagsArray = (JSONArray)datasetCKAN_JSON.get("tags");
+		final JSONArray tagsArray = (JSONArray)datasetCKAN_JSON.get("tags");
+		
 		for(int k=0; k<tagsArray.size(); k++)
 		{
-			JSONObject tagObject = new JSONObject();
-			tagObject = (JSONObject)tagsArray.get(k);
+			final JSONObject tagObject = (JSONObject)tagsArray.get(k);
 			keywordList.add((String)tagObject.get("display_name"));
 		}
 		
@@ -308,6 +307,7 @@ public class Dataset {
 	 * 
 	 * @return JSONObject This is CKAN compatible JSON
 	 */
+	@SuppressWarnings("unchecked")
 	public JSONObject toCKAN_JSON()
 	{
 		JSONObject datasetCKAN_JSON = new JSONObject();
@@ -416,6 +416,7 @@ public class Dataset {
 	 * @param value the value in key-value pair.
 	 * @return key-value JSON Object
 	 */
+	@SuppressWarnings("unchecked")
 	private JSONObject createExtraObject(String key, String value)
 	{
 		JSONObject extraObject = new JSONObject();
@@ -430,6 +431,7 @@ public class Dataset {
 	 * This method is to convert the object to one line of tab delimited format.
 	 * @return String This string is tab delimited format of the Dataset object.
 	 */
+	//TODO: Optimize by using new String() rather than +
 	public String toCSV()
 	{
 		String response = "";
@@ -528,14 +530,15 @@ public class Dataset {
 	/**
 	 * Converts Dataset object to Project Open Data compliant Map.
 	 * <p>
-	 * Map was used over JSONObject to preserve attribute order.  This is outside the JSON spec
+	 * This comment is from previous version: Map was used over JSONObject to preserve attribute order.  This is outside the JSON spec
 	 * but makes testing efficient (String == String)
 	 *  
-	 * @return Map A linked map (order preserved) of Dataset object in Project Open Data 1.1 compliant metadata.
+	 * @return JSONObject Version changed from a linked map (order preserved) of Dataset object in Project Open Data 1.1 compliant metadata.
 	 */
-	public Map toProjectOpenDataJSON()
+	@SuppressWarnings("unchecked")
+	public JSONObject toProjectOpenDataJSON()
 	{
-		Map dataSetJSON = new LinkedHashMap();
+		JSONObject dataSetJSON = new JSONObject();
 		dataSetJSON.put("title", title);
 		dataSetJSON.put("description", description);
 		dataSetJSON.put("keyword", keywordList);
@@ -604,7 +607,6 @@ public class Dataset {
 		return dataSetJSON;
 	}
 	
-	
 	/**
 	 * Converts Project Open Data compliant JSONObject to class Dataset
 	 * <p>
@@ -616,13 +618,15 @@ public class Dataset {
 	 */
 	public void loadFromProjectOpenDataJSON(JSONObject dataSetObject) throws DatasetException
 	{
-		title = (String) dataSetObject.get("title");
+		if (dataSetObject == null)
+		{
+			throw new NullPointerException("datasetObject cannot be null");
+		}
 		
 		setTitle((String) dataSetObject.get("title"));
 		setDescription ((String) dataSetObject.get("description"));
 		try{
 			publisher.loadDatasetFromPOD_JSON((JSONObject)dataSetObject.get("publisher"));
-		
 		}
 		catch (PublisherException e)
 		{
@@ -645,7 +649,7 @@ public class Dataset {
 		setSpatial((String)dataSetObject.get("spatial"));
 		
 		//Data quality can be string in ckan or boolean in 
-		Object dQuality = dataSetObject.get("dataQuality");
+		final Object dQuality = dataSetObject.get("dataQuality");
 		if (dQuality instanceof String)
 		{
 			setDataQuality ((String)dataSetObject.get("dataQuality"));
@@ -668,7 +672,7 @@ public class Dataset {
 		referenceList = loadArray("references", dataSetObject);
 		themeList = loadArray("theme", dataSetObject);	
 		
-		JSONArray distributionArray = (JSONArray)dataSetObject.get("distribution");
+		final JSONArray distributionArray = (JSONArray)dataSetObject.get("distribution");
 		
 		if (distributionArray != null)
 		{
@@ -688,7 +692,7 @@ public class Dataset {
 		for (int i=0; i< distributionArray.size(); i++)
 		{
 			Distribution distribution = new Distribution();
-			JSONObject distributionObject = (JSONObject) distributionArray.get(i);
+			final JSONObject distributionObject = (JSONObject) distributionArray.get(i);
 			try{
 				distribution.loadFromProjectOpenDataJSON(distributionObject);
 			}
@@ -846,7 +850,7 @@ public class Dataset {
 	 */
 	private void setThemeList(String themeListString)
 	{
-		String[] categoryArray = themeListString.split(",");
+		final String[] categoryArray = themeListString.split(",");
 		if (categoryArray.length == 1)
 		{
 			themeList.add(themeListString);
@@ -1015,7 +1019,7 @@ public class Dataset {
 	
 	//CKAN can send this as a comma delimited field
 	private void setReferenceList(String referenceListString) {
-		String[] referenceArray = referenceListString.split(",");
+		final String[] referenceArray = referenceListString.split(",");
 		
 		if (referenceArray.length == 1)
 		{
@@ -1108,10 +1112,15 @@ public class Dataset {
 	 * Required: title, description, keywordlist, modified, publisher, contactPoint, uniqueIdenifier
 	 * accesslevel, bureauCode, programCode.  Other business rules will be added in the future.
 	 * 
-	 * This method also catches Publisher, ContactPoint exceptions
+	 * This method also catches Publisher, ContactPoint exceptions.
+	 * 
 	 * 
 	 * @return Boolean True of data set is valid; false if invalid dataset
 	 */
+	//TODO validate distribution accessurl for all public and restricted datasets
+	//if Format == API and AccessURL == null
+	//if downloadURL = "something" and accessURL == something
+	//if downloadURL = null and access URL == null
 	public Boolean validateDataset()
 	{
 		Boolean validIndicator = true;
@@ -1164,6 +1173,21 @@ public class Dataset {
 		{
 			dsEx.addError("Access Level is required.");
 			validIndicator = false;
+		}
+		//extra distribution checks for dataset
+		for (int i=0; i< distributionList.size(); i++)
+		{
+			final Distribution d = distributionList.get(i);
+			try{
+				if (accessLevel.equals("public") || accessLevel.equals("restricted"))
+				{
+					d.validatePublicDistribution();
+				}
+			}
+			catch(DistributionException e)
+			{
+				dsEx.addError(e.toString());
+			}
 		}
 		if (bureauCodeList == null)
 		{

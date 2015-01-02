@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -25,6 +27,9 @@ public class NetworkRequest
 	HttpURLConnection connection;
 	private String server;
 	private String apiKey;
+	
+	private static final Logger log = Logger.getLogger(NetworkRequest.class.getName());
+
 	
 	/**
 	 * The default constructor will load sample_data/config.json
@@ -59,6 +64,10 @@ public class NetworkRequest
 	 */
 	private void loadServerAndAPI_Key(String config_path) throws IOException, ParseException
 	{
+		if (config_path == null)
+		{
+			throw new NullPointerException("configuration path cannot be null");
+		}
 		JSONObject configJSON = new JSONObject();
 		
 		configJSON = Utils.loadJsonObjectFile(config_path);
@@ -97,6 +106,10 @@ public class NetworkRequest
 	 */
 	public String getOrganizationCatalog(String organization) throws IOException
 	{
+		if (organization == null)
+		{
+			throw new NullPointerException("organization cannot be null when getting an organization's catalog");
+		}
 		URL dataAPIURL = new URL(server + "/api/3/action/organization_show?id=" + organization);
 		setupConnection(dataAPIURL);
 		connection.setRequestProperty("Content-Type", "application/json");
@@ -111,6 +124,10 @@ public class NetworkRequest
 	 */
 	public String getDataset(String name) throws IOException
 	{
+		if (name == null)
+		{
+			throw new NullPointerException("name cannot be null when getting a dataset");
+		}
 		URL dataAPIURL = new URL(server + "/api/3/action/package_show?id=" + name);
 		
 		setupConnection(dataAPIURL);
@@ -126,6 +143,10 @@ public class NetworkRequest
 	 */
 	public String createDataset(JSONObject postJSON) throws IOException
 	{
+		if (postJSON == null)
+		{
+			throw new NullPointerException("postJSON cannot be null when creating a dataset");
+		}
 		URL dataAPIURL = new URL(server + "/api/3/action/package_create");
 		setupConnection(dataAPIURL);
 		connection.setRequestProperty("Content-Type", "application/json");
@@ -144,6 +165,15 @@ public class NetworkRequest
 	 */
 	public String updateDataset(String name, JSONObject postJSON) throws IOException
 	{
+		if (postJSON == null || name == null)
+		{
+			throw new NullPointerException("postJSON or name cannot be null when updating a dataset");
+		}
+		if (!(name.length() > 0))
+		{
+			throw new IllegalArgumentException("name cannot be blank when updating a dataset");
+		}
+		
 		URL dataAPIURL = new URL(server + "/api/3/action/package_update");
 		setupConnection(dataAPIURL);
 		connection.setRequestProperty("Content-Type", "application/json");
@@ -162,7 +192,6 @@ public class NetworkRequest
 	 */
 	public String  deleteDataset(String name, JSONObject postJSON) throws IOException
 	{
-		//get rid of connection_public...using it for connecting to non-ssl
 		URL dataAPIURL = new URL(server + "/api/3/action/package_delete");
 		setupConnection(dataAPIURL);
 		connection.setRequestProperty("Content-Type", "application/json");
@@ -216,8 +245,7 @@ public class NetworkRequest
 			{
 				response = response + inputLine;
 			}	
-			System.out.println();
-			System.out.println(responseCode);
+			log.log(Level.FINE, "Response code from network request" + responseCode);
 		}
 		catch (IOException e)
 		{

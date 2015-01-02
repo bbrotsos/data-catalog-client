@@ -1,8 +1,5 @@
 package gov.usda.DataCatalogClient;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -65,15 +62,16 @@ public class Contact {
 		//remove the 'mailto' in mailto:jane.doe@us.gov if it exists
 		if (emailAddress.contains(":"))
 		{
-			String[] parseEmailAddress = emailAddress.split(":");
+			final String[] parseEmailAddress = emailAddress.split(":");
 			emailAddress = parseEmailAddress[1];
 		}
 		return emailAddress;
 	}
 	
-	public Map toProjectOpenDataJSON()
+	@SuppressWarnings("unchecked")
+	public JSONObject toProjectOpenDataJSON()
 	{
-		Map contactPointMap = new LinkedHashMap();
+		JSONObject contactPointMap = new JSONObject();
 		contactPointMap.put("fn", getFullName());
 		contactPointMap.put("hasEmail", getEmailAddress());
 		return contactPointMap;
@@ -96,8 +94,8 @@ public class Contact {
 		{
 			throw new ContactException("contact cannot be empty");
 		}
-		type = (String) contactProjectOpenDataJSON.get("@type");
-		fullName = (String) contactProjectOpenDataJSON.get("fn");
+		setType((String) contactProjectOpenDataJSON.get("@type"));
+		setFullName((String) contactProjectOpenDataJSON.get("fn"));
 		setEmailAddress((String) contactProjectOpenDataJSON.get("hasEmail"));
 		validateContact();
 	}

@@ -3,8 +3,6 @@ package gov.usda.DataCatalogClient;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,6 +61,10 @@ public class Distribution {
 	 */
 	public void loadDistributionFromCKAN_JSON(JSONObject resourceCKAN_JSON) throws DistributionException
 	{
+		if (resourceCKAN_JSON == null)
+		{
+			throw new NullPointerException("resourceCKAN_JSON cannot be null");
+		}
 		setTitle((String) resourceCKAN_JSON.get("name"));
 		setDescription ((String) resourceCKAN_JSON.get("description"));
 		setConformsTo ((String) resourceCKAN_JSON.get("conformsTo"));
@@ -124,12 +126,18 @@ public class Distribution {
 	{
 		if (pod_JSONObject == null)
 		{
-			throw new DistributionException("Distribution needs to be populated");
+			throw new NullPointerException("Distribution needs to be populated");
 		}
 		setTitle ((String) pod_JSONObject.get("title"));
 		setDescription ((String) pod_JSONObject.get("description"));
-		setAccessURL((String) pod_JSONObject.get("accessURL"));
-		setDownloadURL ((String) pod_JSONObject.get("downloadURL"));
+		//catch here so we get all errors.
+		try{
+			setAccessURL((String) pod_JSONObject.get("accessURL"));
+			setDownloadURL ((String) pod_JSONObject.get("downloadURL"));
+		}
+		catch(DistributionException	e){
+			distributionException.addError(e.toString());
+		}
 		setMediaType ((String) pod_JSONObject.get("mediaType"));
 		setFormat ((String) pod_JSONObject.get("format"));
 		
@@ -139,15 +147,71 @@ public class Distribution {
 		setConformsTo ((String) pod_JSONObject.get("conformsTo"));
 		setType ((String) pod_JSONObject.get("@type"));
 		
-		if (distributionException.exceptionSize()>0)
+		if (!validateDistribution() || distributionException.exceptionSize()>0)
     	{
     		throw (distributionException);
     	}	 
 	}
 	
+	/**
+	 * Fail on these business rules:
+	 * mediaType is required
+	 * 
+	
+	 * @return
+	 */
+	private boolean validateDistribution()
+	{
+		boolean validIndicator = true;
+		if (mediaType == null && !format.toLowerCase().equals("api"))
+		{
+			distributionException.addError("Media Type is required.");
+			validIndicator = false;
+		}	
+		
+		return validIndicator;
+	}
+	
+	/**
+	 * This validates business rules for public datasets
+	 * 
+	 * if Format == API and AccessURL == null
+	 * if downloadURL = "something" and accessURL == something
+	 * if downloadURL = null and access URL == null
+	 * 
+	 * @return
+	 */
+	public boolean validatePublicDistribution() throws DistributionException
+	{
+		boolean validIndicator = true;
+		if (accessURL == null & downloadURL == null)
+		{
+			distributionException.addError("Access URL or Download URL cannot both be blank");
+			validIndicator = false;
+		}
+		else if (!format.toLowerCase().equals("api") && accessURL == null)
+		{
+			distributionException.addError("If format field equals api, access URL cannot be blank.");
+			validIndicator = false;
+		}
+		else if (accessURL != null && downloadURL != null)
+		{
+			distributionException.addError("Access URL and Download URL cannot both have values.");
+			validIndicator = false;
+		}
+		
+		if (!validIndicator)
+		{
+			throw (distributionException);
+		}
+		
+		return validIndicator;
+	}
+	
 	/*
 	 * This outputs the object in CKAN Formatted JSON Object.  This is called a Resource in CKAN.
 	 */
+	@SuppressWarnings("unchecked")
 	public JSONObject toCKAN_JSON()
 	{
 		JSONObject distributionCKAN_JSON = new JSONObject();
@@ -191,10 +255,10 @@ public class Distribution {
 	 * @return
 	 */
 	//TODO: Change Map to JSONObject.  No need to preserve order anymore
-	public Map toProjectOpenDataJSON()
+	@SuppressWarnings("unchecked")
+	public JSONObject toProjectOpenDataJSON()
 	{
-		Map distributionJSON = new LinkedHashMap();
-		//JSONObject dataSetJSON = new JSONObject();
+		JSONObject distributionJSON = new JSONObject();
 		distributionJSON.put("@type", type);
 		distributionJSON.put("downloadURL", accessURL);
 		distributionJSON.put("mediaType", mediaType);
@@ -213,21 +277,19 @@ public class Distribution {
 	public String getTitle() {
 		return title;
 	}
-	public void setTitle(String title) {
+	private void setTitle(String title) {
 		this.title = title;
 	}
 	public String getDescription() {
 		return description;
 	}
-	public void setDescription(String description) {
+	private void setDescription(String description) {
 		this.description = description;
 	}
 	public URL getAccessURL() {
 		return accessURL;
 	}
-	public void setAccessURL(URL accessURL) {
-		this.accessURL = accessURL;
-	}
+	
 	private void setAccessURL(String accessURL_String)  throws DistributionException
 	{
 		if (accessURL_String != null)
@@ -246,9 +308,7 @@ public class Distribution {
 	public URL getDownloadURL() {
 		return downloadURL;
 	}
-	public void setDownloadURL(URL downloadURL) {
-		this.downloadURL = downloadURL;
-	}
+	
 	private void setDownloadURL(String downloadURL_String) throws DistributionException
 	{
 		if (downloadURL_String != null)
@@ -269,67 +329,57 @@ public class Distribution {
 	}
 	
 	//TODO: load IANA mimetypes and validate
-	public void setMediaType(String mediaType) {
+	private void setMediaType(String mediaType) {
 		this.mediaType = mediaType;
 	}
 	public String getFormat() {
 		return format;
 	}
-	public void setFormat(String format) {
+	private void setFormat(String format) {
 		this.format = format;
 	}
 	public Integer getByteSize() {
 		return byteSize;
 	}
-	public void setByteSize(Integer byteSize) {
-		this.byteSize = byteSize;
-	}
+	
 	public Date getIssued() {
 		return issued;
 	}
-	public void setIssued(Date issued) {
-		this.issued = issued;
-	}
+	
 	public Date getModified() {
 		return modified;
 	}
-	public void setModified(Date modified) {
-		this.modified = modified;
-	}
+	
 	public String getLicense() {
 		return license;
 	}
-	public void setLicense(String license) {
-		this.license = license;
-	}
+	
 	public String getRights() {
 		return rights;
 	}
-	public void setRights(String rights) {
-		this.rights = rights;
-	}
+	
 	public String getDescribedBy() {
 		return describedBy;
 	}
-	public void setDescribedBy(String describedBy) {
+	private void setDescribedBy(String describedBy) {
 		this.describedBy = describedBy;
 	}
 	public String getDescribedByType() {
 		return describedByType;
 	}
-	public void setDescribedByType(String describedByType) {
+	private void setDescribedByType(String describedByType) {
 		this.describedByType = describedByType;
 	}
 	public String getConformsTo() {
 		return conformsTo;
 	}
-	public void setConformsTo(String conformsTo) {
+	private void setConformsTo(String conformsTo) {
 		this.conformsTo = conformsTo;
 	}
 	public String getType() {
 		return type;
 	}
-	public void setType(String type) {
+	private void setType(String type) {
 		this.type = type;
 	}
 	

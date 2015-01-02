@@ -80,27 +80,85 @@ public class DistributionTest {
 	}
 	
 	/**
-	 * Make sure that when required fields are not provided correct error is sent.  Send in null
+	 * Make sure that when required fields are not provided correct error is sent.  Send in null.
+	 * POD file check.
+	 * 
+	 * Note: Most of the business rules get broken if data set is private.  Moving them to Dataset class
+	 * mediaType = null
+	 * 
 	 */
 	@Test
 	public void testRequiredDistribution() {
-		fail("Not yet implemented");
+		String distributionTestFile = "sample_data/test/distributionTestRequired.json";
+		JSONArray distributionArray = new JSONArray();
+		DistributionException distributionException = new DistributionException();
+		
+		try{
+			distributionArray = Utils.loadJsonArrayFile(distributionTestFile);
+		}
+		catch(Exception e)
+		{
+			log.log(Level.SEVERE, e.toString());
+		}
+		
+		//load Project Open Data formatted
+		for (int i = 0; i < distributionArray.size(); i++)
+		{
+			Distribution distribution = new Distribution();
+			JSONObject distributionObject = new JSONObject();
+			distributionObject = (JSONObject)distributionArray.get(i);
+			try
+			{
+				distribution.loadFromProjectOpenDataJSON(distributionObject);
+			}
+			catch(DistributionException e)
+			{
+				distributionException = e;
+				assertEquals(e.toString(), "[Media Type is required.]");
+			}
+			assertNotNull(distributionException);	
+		}
 	}
 	
 	/**
 	 * Make sure that when required fields are not provided correct error is sent. Send in invalid data.
+	 * DownloadURL, accessURL, etc
 	 */
 	@Test
 	public void testValidDistribution() {
-		fail("Not yet implemented");
+		String distributionTestFile = "sample_data/test/distributionTestInvalid.json";
+		JSONArray distributionArray = new JSONArray();
+		DistributionException distributionException = new DistributionException();
+		
+		try{
+			distributionArray = Utils.loadJsonArrayFile(distributionTestFile);
+		}
+		catch(Exception e)
+		{
+			log.log(Level.SEVERE, e.toString());
+		}
+		
+		//load Project Open Data formatted
+		for (int i = 0; i < distributionArray.size(); i++)
+		{
+			Distribution distribution = new Distribution();
+			JSONObject distributionObject = new JSONObject();
+			distributionObject = (JSONObject)distributionArray.get(i);
+			try
+			{
+				distribution.loadFromProjectOpenDataJSON(distributionObject);
+			}
+			catch(DistributionException e)
+			{
+				distributionException = e;
+				if (!e.toString().contains("java.net.MalformedURLException: no protocol"))
+				{
+					Assert.fail(e.toString());
+				}
+			}
+			assertNotNull(distributionException);	
+		}
 	}
 	
-	/**
-	 * Loads a distribution, outputs into POD, inputs back into another object. Compare.
-	 */
-	@Test
-	public void testRoundTrip(){
-		
-	}
 
 }

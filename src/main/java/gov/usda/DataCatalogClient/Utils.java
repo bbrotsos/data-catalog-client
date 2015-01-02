@@ -23,6 +23,10 @@ public class Utils {
 	
 	static public JSONObject loadJsonObjectFile(String fileName) throws ParseException, IOException
 	{
+		if (fileName == null)
+		{
+			throw new NullPointerException ("fileName cannot be Null");
+		}
 		Object obj = new Object();
 		JSONObject jsonObject = new JSONObject();
 		String jsonString = "";
@@ -43,6 +47,10 @@ public class Utils {
 	
 	static public JSONArray loadJsonArrayFile(String fileName) throws ParseException, IOException
 	{
+		if (fileName == null)
+		{
+			throw new NullPointerException ("fileName cannot be Null");
+		}
 		Object obj = new Object();
 		JSONArray jsonArray = new JSONArray();
 		String jsonString = "";
@@ -64,6 +72,10 @@ public class Utils {
 	
 	static public JSONObject loadJsonObjectFromString(String jsonString) throws ParseException
 	{
+		if (jsonString == null)
+		{
+			throw new NullPointerException ("jsonString cannot be Null");
+		}
 		Object obj = new Object();
 		JSONObject jsonObject = new JSONObject();
 		try 
@@ -79,8 +91,12 @@ public class Utils {
 		return jsonObject;
 	}
 	
-	static public void printJSON(String fileName, Map jsonMap) throws IOException
+	static public void printJSON(String fileName, JSONObject jsonMap) throws IOException
 	{
+		if (fileName == null || jsonMap == null)
+		{
+			throw new NullPointerException("fileName or jsonMap cannot be null");
+		}
 		Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
 		PrintWriter out = null;
 		try
@@ -100,6 +116,10 @@ public class Utils {
 	
 	static public String convertDateToISOString(Date date)
 	{
+		if (date == null)
+		{
+			throw new NullPointerException("date cannot be null");
+		}
 		DateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 		String isoDateString = isoDateTimeFormat.format(date);
 		
@@ -110,6 +130,10 @@ public class Utils {
 	//qualify ParseException because this is also thrown by json.simple.
 	static public Date convertISOStringToDate(String isoDateString) throws java.text.ParseException 
 	{
+		if (isoDateString == null)
+		{
+			throw new NullPointerException("isoDateString cannot be null");
+		}
 		Date isoFormattedDate = new Date();
 		DateFormat isoDateTimeFormat = null;
 		if (isoDateString.contains("T") && isoDateString.contains("Z"))
