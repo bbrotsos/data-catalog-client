@@ -59,7 +59,7 @@ public class Client {
 	public Dataset updateDataset(Dataset updateDS) throws ParseException, IOException, DatasetException
 	{		
 		//TODO: First get id, we will use this later because we can't rely on names not changing.
-		Dataset ckanDataset = getDatasetFromCKAN(updateDS.getName());
+		//Dataset ckanDataset = getDatasetFromCKAN(updateDS.getName());
 		
 		String datasetCKANString = "";
 		NetworkRequest nr = new NetworkRequest();

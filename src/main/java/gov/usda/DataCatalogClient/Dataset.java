@@ -121,6 +121,10 @@ public class Dataset {
 			throw new NullPointerException("datasetCKAN_JSON cannot be null");
 		}
 		
+		//This is used to store subOrganization.
+		//There is no order in JSON so there is no guarantee that publisher1 comes after publisher.
+		Publisher subOrganization = new Publisher();
+		
 		//probably should use GSON/Jackson
 		//optimize in the future
 		
@@ -130,24 +134,36 @@ public class Dataset {
 	    setModified ((String) datasetCKAN_JSON.get("metadata_modified"));
 	    
 	    final JSONArray resourcesArray = (JSONArray) datasetCKAN_JSON.get("resources");
-	    
-	    for (int i=0; i < resourcesArray.size(); i++)
-	    {	    	
-	    	final JSONObject resource = (JSONObject) resourcesArray.get(i);
+	    if (resourcesArray == null)
+		{
+	    	log.log(Level.SEVERE, "There are no resources. This could be the case for datasets marked private.  Passively allowing this but need to validate in validate function");
+		}
+	    else
+	    {
+	    	for (int i=0; i < resourcesArray.size(); i++)
+	    	{	    	
+	    		final JSONObject resource = (JSONObject) resourcesArray.get(i);
 
-	    	Distribution distribution = new Distribution();
-	    	try{
-	    		distribution.loadDistributionFromCKAN_JSON(resource);
-	    		distributionList.add(distribution);
-	    	}
-	    	catch (DistributionException e)
-	    	{
-	    		dsEx.addError("Distribution error" + e.toString());
+	    		Distribution distribution = new Distribution();
+	    		try{
+	    			distribution.loadDistributionFromCKAN_JSON(resource);
+	    			distributionList.add(distribution);
+	    		}
+	    		catch (DistributionException e)
+	    		{
+	    			dsEx.addError("Distribution error" + e.toString());
+	    		}
 	    	}
 	    }
 		
-		final JSONArray extraList = (JSONArray) datasetCKAN_JSON.get("extras");
-		for (int i = 0; i < extraList.size(); i++)
+
+	    final JSONArray extraList;
+		extraList = (JSONArray) datasetCKAN_JSON.get("extras");
+	    if (extraList == null)
+	    {
+	    	throw new IllegalArgumentException("JSON is invalid.  extras array is required.");
+	    }
+	    for (int i = 0; i < extraList.size(); i++)
 		{			
 			JSONObject extraObject = (JSONObject) extraList.get(i);
 			String key = (String) extraObject.get("key");
@@ -195,6 +211,13 @@ public class Dataset {
 	    	else if (key.equals("publisher"))
 	    	{
 	    		publisher.setName(value);
+	    		//CKAN does not have way to extract his field, so hardcoded
+	    		publisher.setType("org:Organization");
+	    	}
+	    	else if (key.equals("publisher_1"))
+	    	{
+	    		subOrganization.setName(value);
+	    		subOrganization.setType("org:Organization");
 	    	}
 	    	else if (key.equals("related_documents"))
 	    	{
@@ -284,9 +307,23 @@ public class Dataset {
 	    	{
 				log.log(Level.SEVERE, "Unaccounted for CKAN Element:" + key + " value: " + value);
 	    	}
+			
 		}
+		//TODO: Put this at a better location, or figure out if CKAN is going to output the contact type field.
+		contactPoint.setType("vcard:Contact");
+		
+		//put this at a better point too
+		if (subOrganization != null)
+		{
+			publisher.setSubOrganization(subOrganization);
+		}
+
 		
 		final JSONArray tagsArray = (JSONArray)datasetCKAN_JSON.get("tags");
+		if (tagsArray == null)
+		{
+			throw new IllegalArgumentException("JSON is invalid for Project Open Data.  Expecting 'tags' array.");
+		}
 		
 		for(int k=0; k<tagsArray.size(); k++)
 		{
@@ -647,6 +684,7 @@ public class Dataset {
 		setModified ((String) dataSetObject.get("modified"));
 		setUniqueIdentifier ((String) dataSetObject.get("identifier"));
 		setSpatial((String)dataSetObject.get("spatial"));
+		setConformsTo((String) dataSetObject.get("conformsTo"));
 		
 		//Data quality can be string in ckan or boolean in 
 		final Object dQuality = dataSetObject.get("dataQuality");
@@ -661,10 +699,12 @@ public class Dataset {
 		setIssued ((String) dataSetObject.get("issued"));	
 		
 		setDescribedBy((String)dataSetObject.get("describedBy"));
+		setDescribedByType ((String) dataSetObject.get("describedByType"));
 		setAccrualPeriodicity((String)dataSetObject.get("accrualPeriodicity"));
 		setLicense((String) dataSetObject.get("license"));
-		setPrimaryITInvestmentUII((String) dataSetObject.get("primary_it_investment_uii"));
-	
+		setPrimaryITInvestmentUII((String) dataSetObject.get("primaryITInvestmentUII"));
+		setIsPartOf((String) dataSetObject.get("isPartOf"));
+
 		bureauCodeList = loadArray("bureauCode", dataSetObject);
 		keywordList = loadArray("keyword", dataSetObject);
 		languageList = loadArray("language", dataSetObject);
@@ -1175,6 +1215,11 @@ public class Dataset {
 			validIndicator = false;
 		}
 		//extra distribution checks for dataset
+		if (distributionList.size() == 0 && !accessLevel.equals("non-public"))
+		{
+			dsEx.addError("At least one distribution is required when dataset is public or restricted.");
+			validIndicator = false;
+		}
 		for (int i=0; i< distributionList.size(); i++)
 		{
 			final Distribution d = distributionList.get(i);

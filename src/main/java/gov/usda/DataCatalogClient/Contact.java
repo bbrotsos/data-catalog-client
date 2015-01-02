@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
  * The Contact class is based on Project Open Data Metadata specification 1.1.
  * More details can be found here: https://project-open-data.cio.gov/v1.1/schema/#contactPoint
  * 
+ * If type is null it will be set to card:Contact
  * @author bbrotsos
  *
  */
@@ -72,6 +73,7 @@ public class Contact {
 	public JSONObject toProjectOpenDataJSON()
 	{
 		JSONObject contactPointMap = new JSONObject();
+		contactPointMap.put("type", type);
 		contactPointMap.put("fn", getFullName());
 		contactPointMap.put("hasEmail", getEmailAddress());
 		return contactPointMap;

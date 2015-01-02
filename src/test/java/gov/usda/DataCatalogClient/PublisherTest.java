@@ -2,13 +2,11 @@ package gov.usda.DataCatalogClient;
 
 import static org.junit.Assert.*;
 
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -155,7 +155,7 @@ public class Distribution {
 	
 	/**
 	 * Fail on these business rules:
-	 * mediaType is required
+	 * mediaType is required unless format is equal to api.
 	 * 
 	
 	 * @return
@@ -189,7 +189,7 @@ public class Distribution {
 			distributionException.addError("Access URL or Download URL cannot both be blank");
 			validIndicator = false;
 		}
-		else if (!format.toLowerCase().equals("api") && accessURL == null)
+		else if (format.toLowerCase().equals("api") && accessURL == null)
 		{
 			distributionException.addError("If format field equals api, access URL cannot be blank.");
 			validIndicator = false;

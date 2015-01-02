@@ -14,10 +14,6 @@ public class CatalogException extends Exception {
 
 	private ArrayList<String> messages = new ArrayList<String>();
 	private static final long serialVersionUID = 745444156;
-	
-	//These are title and identifier from Dataset class
-	private String title;
-	private String uniqueIdentifier;
 
 	public CatalogException(String message) {
         messages.add( message );

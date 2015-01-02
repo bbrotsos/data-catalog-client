@@ -8,8 +8,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,7 +20,8 @@ import com.google.gson.GsonBuilder;
 
 public class Utils {
 
-	
+	//Could probably combine loadJSONObject and loadJSONArray
+	//It would put more work on the clients.
 	static public JSONObject loadJsonObjectFile(String fileName) throws ParseException, IOException
 	{
 		if (fileName == null)
@@ -28,6 +29,7 @@ public class Utils {
 			throw new NullPointerException ("fileName cannot be Null");
 		}
 		Object obj = new Object();
+		
 		JSONObject jsonObject = new JSONObject();
 		String jsonString = "";
 		try 
@@ -35,6 +37,10 @@ public class Utils {
 			jsonString = new String(Files.readAllBytes(Paths.get(fileName)));
 			JSONParser parser = new JSONParser();
 			obj = parser.parse(jsonString);
+			if (!(obj instanceof JSONObject))
+			{
+				throw new IllegalArgumentException(fileName + " is invalid JSON file for this request.  Expecting JSONObject.");
+			}
 			jsonObject = (JSONObject) obj;
 		} 
 		catch (IOException | ParseException e) 
@@ -128,29 +134,20 @@ public class Utils {
 	
 	//TODO: might be issues with SimpleDateFormat in static method.
 	//qualify ParseException because this is also thrown by json.simple.
+	/**
+	 * This goes for simple cases so there is not the need to add yet 
+	 * another library.  Might want to go for full library in the future.
+	 * 
+	 * UPDATE: Switched to joda time, may look to optimize in the future.
+	 * @param isoDateString
+	 * @return
+	 * @throws java.text.ParseException
+	 */
 	static public Date convertISOStringToDate(String isoDateString) throws java.text.ParseException 
 	{
-		if (isoDateString == null)
-		{
-			throw new NullPointerException("isoDateString cannot be null");
-		}
-		Date isoFormattedDate = new Date();
-		DateFormat isoDateTimeFormat = null;
-		if (isoDateString.contains("T") && isoDateString.contains("Z"))
-		{
-			isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-		}
-		else if (isoDateString.contains("T"))
-		{
-			isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-		}
-		else 
-		{
-			isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd");
-		}
-		isoDateTimeFormat.parse(isoDateString);
+		DateTime isoDateTime = DateTime.parse(isoDateString);
 		
-		return isoFormattedDate;
+		return isoDateTime.toDate();
 	}
 
 	static public String listToCSV(List<String> list)
