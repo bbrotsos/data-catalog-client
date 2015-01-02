@@ -73,7 +73,7 @@ public class Contact {
 	public JSONObject toProjectOpenDataJSON()
 	{
 		JSONObject contactPointMap = new JSONObject();
-		contactPointMap.put("type", type);
+		contactPointMap.put("@type", type);
 		contactPointMap.put("fn", getFullName());
 		contactPointMap.put("hasEmail", getEmailAddress());
 		return contactPointMap;

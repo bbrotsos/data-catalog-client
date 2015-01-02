@@ -130,10 +130,29 @@ public class Distribution {
 		}
 		setTitle ((String) pod_JSONObject.get("title"));
 		setDescription ((String) pod_JSONObject.get("description"));
+		
+		
+		
 		//catch here so we get all errors.
 		try{
-			setAccessURL((String) pod_JSONObject.get("accessURL"));
-			setDownloadURL ((String) pod_JSONObject.get("downloadURL"));
+			//TODO: the return of JSONObject with URL and List<> is making code difficult to read
+			//refactor
+			if ( pod_JSONObject.get("accessURL") instanceof String)
+			{
+				setAccessURL((String) pod_JSONObject.get("accessURL"));
+			}
+			else
+			{
+				setAccessURL((URL) pod_JSONObject.get("accessURL"));
+			}
+			if (pod_JSONObject.get("downloadURL") instanceof String)
+			{
+				setDownloadURL ((String) pod_JSONObject.get("downloadURL"));
+			}
+			else
+			{
+				setDownloadURL((URL) pod_JSONObject.get("downloadURL"));
+			}
 		}
 		catch(DistributionException	e){
 			distributionException.addError(e.toString());
@@ -260,12 +279,11 @@ public class Distribution {
 	{
 		JSONObject distributionJSON = new JSONObject();
 		distributionJSON.put("@type", type);
-		distributionJSON.put("downloadURL", accessURL);
+		distributionJSON.put("downloadURL", downloadURL);
 		distributionJSON.put("mediaType", mediaType);
 		distributionJSON.put("title", title);
 		distributionJSON.put("description", description);
-		distributionJSON.put("access_url", accessURL);
-		distributionJSON.put("distributionURL", downloadURL);
+		distributionJSON.put("accessURL", accessURL);
 		distributionJSON.put("format", format);
 		distributionJSON.put("describedBy", describedBy);
 		distributionJSON.put("describedByType", describedByType);
@@ -305,10 +323,18 @@ public class Distribution {
 			}
 		}
 	}
+	public void setAccessURL(URL accessURL) {
+		this.accessURL = accessURL;
+	}
+
 	public URL getDownloadURL() {
 		return downloadURL;
 	}
 	
+	public void setDownloadURL(URL downloadURL) {
+		this.downloadURL = downloadURL;
+	}
+
 	private void setDownloadURL(String downloadURL_String) throws DistributionException
 	{
 		if (downloadURL_String != null)

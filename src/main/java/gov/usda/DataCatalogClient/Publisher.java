@@ -42,7 +42,7 @@ public class Publisher {
 		
 		if (subOrganization != null)
 		{
-			publisherMap.put("suborganization", subOrganization.toProjectOpenDataJSON());
+			publisherMap.put("subOrganizationOf", subOrganization.toProjectOpenDataJSON());
 		}
 		
 		return publisherMap;

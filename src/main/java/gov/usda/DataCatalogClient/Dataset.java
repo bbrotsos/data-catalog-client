@@ -114,6 +114,7 @@ public class Dataset {
 	 * @param datasetCKAN_JSON JSONObject This is most likely directly from CKAN API call.  This
 	 * is also considered the Package level for CKAN.
 	 */
+	//TODO: break into smaller methods
 	public void loadDatasetFromCKAN_JSON(JSONObject datasetCKAN_JSON) throws DatasetException
 	{	
 		if (datasetCKAN_JSON == null)
@@ -155,10 +156,8 @@ public class Dataset {
 	    		}
 	    	}
 	    }
-		
 
-	    final JSONArray extraList;
-		extraList = (JSONArray) datasetCKAN_JSON.get("extras");
+	    final JSONArray extraList = (JSONArray) datasetCKAN_JSON.get("extras");
 	    if (extraList == null)
 	    {
 	    	throw new IllegalArgumentException("JSON is invalid.  extras array is required.");
@@ -182,7 +181,7 @@ public class Dataset {
 	    		try{
 	    			setBureauCodeList(value);
 	    		}
-	    		catch (DatasetException e)
+	    		catch (ParseException e)
 	    		{
 	    			dsEx.addError(e.toString());
 	    		}
@@ -206,7 +205,13 @@ public class Dataset {
 	    	//TODO: Fix ckan feed for misspelled program_ocde
 	    	else if (key.equals("program_code") || key.equals("program_ocde"))
 	    	{
-	    		programCodeList.add(value);
+	    		try{
+	    			setProgramCodeList(value);
+	    		}
+	    		catch(ParseException e)
+	    		{
+	    			dsEx.addError(e.toString());
+	    		}
 	    	}
 	    	else if (key.equals("publisher"))
 	    	{
@@ -589,8 +594,11 @@ public class Dataset {
 		
 		dataSetJSON.put("identifier", uniqueIdentifier);
 		dataSetJSON.put("accessLevel", accessLevel);
+		dataSetJSON.put("conformsTo", conformsTo);
 		dataSetJSON.put("rights",rights) ;
 		dataSetJSON.put("describedBy", describedBy);
+		dataSetJSON.put("describedByType", describedByType);
+		dataSetJSON.put("isPartOf", isPartOf);
 		dataSetJSON.put("license", license);
 		dataSetJSON.put("spatial", spatial);
 		dataSetJSON.put("temporal", temporal);
@@ -603,6 +611,7 @@ public class Dataset {
 		{
 			dataSetJSON.put("issued", Utils.convertDateToISOString(issued));
 		}
+		
 
 		dataSetJSON.put("dataQuality", dataQuality);
 		dataSetJSON.put("landingPage", landingPage);
@@ -679,7 +688,15 @@ public class Dataset {
 		setAccessLevel((String)dataSetObject.get("accessLevel"));
 		setRights((String)dataSetObject.get("rights"));
 		setSystemOfRecords((String)dataSetObject.get("systemOfRecords"));
-		setLandingPage((String)dataSetObject.get("landingPage"));
+		Object landingPageObject = dataSetObject.get("landingPage");
+		if (landingPageObject instanceof String)
+		{
+			setLandingPage((String)dataSetObject.get("landingPage"));
+		}
+		else
+		{
+			setLandingPage((URL)dataSetObject.get("landingPage"));
+		}
 		setTemporal((String)dataSetObject.get("temporal"));
 		setModified ((String) dataSetObject.get("modified"));
 		setUniqueIdentifier ((String) dataSetObject.get("identifier"));
@@ -705,18 +722,70 @@ public class Dataset {
 		setPrimaryITInvestmentUII((String) dataSetObject.get("primaryITInvestmentUII"));
 		setIsPartOf((String) dataSetObject.get("isPartOf"));
 
-		bureauCodeList = loadArray("bureauCode", dataSetObject);
+		//TODO: Clean this check up
+		if(dataSetObject.get("bureauCode") instanceof ArrayList)
+		{
+			bureauCodeList = (ArrayList<String>) dataSetObject.get("bureauCode");
+		}
+		else if ((JSONArray) dataSetObject.get("bureauCode") != null)
+		{
+			
+			//catching this because we want full list of errors
+			try{
+				setBureauCodeList((JSONArray) dataSetObject.get("bureauCode"));
+			}
+			catch (ParseException e)
+			{
+				dsEx.addError(e.toString());
+			}
+		}
+		if(dataSetObject.get("programCode") instanceof ArrayList)
+		{
+			programCodeList = (ArrayList<String>) dataSetObject.get("programCode");
+		}
+		else if ((JSONArray) dataSetObject.get("programCode") != null)
+		{
+			try{
+				setProgramCodeList((JSONArray) dataSetObject.get("programCode"));
+			}
+			catch(ParseException e)
+			{
+				dsEx.addError(e.toString());
+			}
+		}
+		
+	
 		keywordList = loadArray("keyword", dataSetObject);
 		languageList = loadArray("language", dataSetObject);
-		programCodeList = loadArray("programCode", dataSetObject);
 		referenceList = loadArray("references", dataSetObject);
 		themeList = loadArray("theme", dataSetObject);	
 		
-		final JSONArray distributionArray = (JSONArray)dataSetObject.get("distribution");
-		
-		if (distributionArray != null)
+		//TODO:Refactor
+		if (dataSetObject.get("distribution") instanceof ArrayList)
 		{
-			getDistribution(distributionArray);
+			ArrayList<JSONObject> tempDistributionList = (ArrayList<JSONObject>) dataSetObject.get("distribution");
+			for (int i = 0; i < tempDistributionList.size(); i++)
+			{
+				Distribution tempDistribution = new Distribution();
+				try{
+					tempDistribution.loadFromProjectOpenDataJSON(tempDistributionList.get(i));
+					distributionList.add(tempDistribution);
+				}catch(DistributionException e)
+				{
+					dsEx.addError(e.toString());
+				}
+			}
+			//distributionList = (ArrayList<Distribution>) dataSetObject.get("distribution");
+		}
+		
+		else
+		{
+			final JSONArray distributionArray = (JSONArray)dataSetObject.get("distribution");
+		
+			if (distributionArray != null)
+			{
+				getDistribution(distributionArray);
+			}
 		}
 		
 		if (!validateDataset() || dsEx.exceptionSize() > 0)
@@ -757,6 +826,14 @@ public class Dataset {
 	private List<String> loadArray(String key, JSONObject dataSetObject)
 	{
 		String value = "";
+		
+		//There are instances when this is not a JSONList, specifically when directly
+		//loading from a Dataset object
+		if (dataSetObject.get(key) instanceof ArrayList)
+		{
+			return (ArrayList<String>)dataSetObject.get(key);
+		}
+		
 		JSONArray jsonArray = (JSONArray) dataSetObject.get(key);
 		List<String> returnList = new ArrayList<String>();
 		if (jsonArray != null)
@@ -956,9 +1033,10 @@ public class Dataset {
 
 	/**
 	 * bureau code must be in the following format 000:00 or NNN:NN.  This validates.
+	 * This method is used from CKAN string.
 	 * @param bureauCode
 	 */
-	public void setBureauCodeList(String bureauCode) throws DatasetException{
+	public void setBureauCodeList(String bureauCode) throws ParseException{
 		if (!bureauCodeList.contains(bureauCode))
 		{
 			if (Pattern.matches("\\d{3}:\\d{2}", bureauCode)){
@@ -966,20 +1044,64 @@ public class Dataset {
 			}
 			else
 			{
-				dsEx.addError("Bureau Code must be \\d{3}:\\d{2}: " + bureauCode);
-				throw dsEx;
+				throw new ParseException("Bureau Code must be \\d{3}:\\d{2}: " + bureauCode, 2);
 			}
 		}
 	}
-
+	
+	/**
+	 * This method is called from POD 1.1 import.  it calls setBureauCodeList with string
+	 * for additional validatins
+	 * @param bureauArray
+	 */
+	public void setBureauCodeList(JSONArray bureauArray) throws ParseException
+	{
+		if (bureauArray == null)
+		{
+			throw new NullPointerException("bureau array must have value to set a bureau list");
+		}
+		
+		for (int i = 0; i < bureauArray.size(); i++)
+		{
+			setBureauCodeList((String) bureauArray.get(i));
+		}
+	}
+	
 	public List<String> getProgramCodeList() {
 		return programCodeList;
 	}
 
-	public void setProgramCode(String programCode) {
+	/**
+	 * This is called from CKAN import
+	 * @param programCode
+	 * @throws DatasetException
+	 */
+	public void setProgramCodeList(String programCode) throws ParseException
+	{
 		if (!programCodeList.contains(programCode))	
 		{
-			programCodeList.add(programCode);
+			if (Pattern.matches("\\d{3}:\\d{3}", programCode))
+			{
+				programCodeList.add(programCode);
+			}
+			else
+			{
+				//dsEx.addError("Program Code must be \\d{3}:\\d{3}: " + programCode);
+				throw new ParseException("Program Code must be \\d{3}:\\d{3}: " + programCode, 3);
+			}
+		}
+	}
+	
+	public void setProgramCodeList(JSONArray programArray) throws ParseException
+	{
+		if (programArray == null)
+		{
+			throw new NullPointerException("bureau array must have value to set a program list");
+		}
+		
+		for (int i = 0; i < programArray.size(); i++)
+		{
+			setProgramCodeList((String) programArray.get(i));
 		}
 	}
 
@@ -1174,9 +1296,9 @@ public class Dataset {
 			dsEx.addError("Description is required.");
 			validIndicator = false;
 		}
-		if (keywordList == null)
+		if (keywordList.size() == 0)
 		{
-			dsEx.addError(title);
+			dsEx.addError("At least one tag is required.");
 			validIndicator = false;
 		}
 		if (modified == null)
@@ -1215,7 +1337,9 @@ public class Dataset {
 			validIndicator = false;
 		}
 		//extra distribution checks for dataset
-		if (distributionList.size() == 0 && !accessLevel.equals("non-public"))
+		//can't check distribution size unless access is filled so this is a case you 
+		//need to run the program twice to find error.
+		else if (distributionList.size() == 0 && !accessLevel.equals("non-public"))
 		{
 			dsEx.addError("At least one distribution is required when dataset is public or restricted.");
 			validIndicator = false;
@@ -1234,12 +1358,12 @@ public class Dataset {
 				dsEx.addError(e.toString());
 			}
 		}
-		if (bureauCodeList == null)
+		if (bureauCodeList.size() == 0)
 		{
 			dsEx.addError("Bureau Code is required.");
 			validIndicator = false;
 		}
-		if (programCodeList == null)
+		if (programCodeList.size() ==0)
 		{
 			dsEx.addError("Program Code is required.");
 			validIndicator = false;
