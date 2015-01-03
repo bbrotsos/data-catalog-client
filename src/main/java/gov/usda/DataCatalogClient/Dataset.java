@@ -46,7 +46,35 @@ import org.json.simple.JSONObject;
  *
  */
 public class Dataset {
-	
+
+	//Project Open Data 1.1 JSON fields
+	public final static String PROJECT_OPEN_DATA_DATASET_TITLE = "title";
+	public final static String PROJECT_OPEN_DATA_DATASET_DESCRIPTION = "description";
+	public final static String PROJECT_OPEN_DATA_DATASET_ISSUED = "issued";
+	public final static String PROJECT_OPEN_DATA_DATASET_MODIFIED = "modified";
+	public final static String PROJECT_OPEN_DATA_DATASET_KEYWORD = "keyword";
+	public final static String PROJECT_OPEN_DATA_DATASET_LANGUAGE = "language";
+	public final static String PROJECT_OPEN_DATA_DATASET_THEME = "theme";
+	public final static String PROJECT_OPEN_DATA_DATASET_TEMPORAL = "temporal";
+	public final static String PROJECT_OPEN_DATA_DATASET_SPATIAL = "spatial";
+	public final static String PROJECT_OPEN_DATA_DATASET_ACCRUAL_PERIODICITY = "accrualPeriodicity";
+	public final static String PROJECT_OPEN_DATA_DATASET_LANDING_PAGE = "landingPage";
+	public final static String PROJECT_OPEN_DATA_DATASET_UNIQUE_IDENTIFIER = "identifier";
+	public final static String PROJECT_OPEN_DATA_DATASET_BUREAU_CODE = "bureauCode";
+	public final static String PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE = "programCode";
+	public final static String PROJECT_OPEN_DATA_DATASET_PRIMARY_IT_INVESTMENT_UII = "primaryITInvestmentUII";
+	public final static String PROJECT_OPEN_DATA_DATASET_ACCESS_LEVEL = "accessLevel";
+	public final static String PROJECT_OPEN_DATA_DATASET_RIGHTS = "rights";
+	public final static String PROJECT_OPEN_DATA_DATASET_SYSTEM_OF_RECORDS = "systemOfRecords";
+	public final static String PROJECT_OPEN_DATA_DATASET_DATA_QUALITY = "dataQuality";
+	public final static String PROJECT_OPEN_DATA_DATASET_REFERENCES = "references";
+	public final static String PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY = "describedBy";
+	public final static String PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY_TYPE = "describedByType";
+	public final static String PROJECT_OPEN_DATA_DATASET_LICENSE = "license";
+	public final static String PROJECT_OPEN_DATA_DATASET_CONFORMS_TO = "conformsTo";
+	public final static String PROJECT_OPEN_DATA_DATASET_IS_PART_OF = "isPartOf";
+
+
 	//metadata documentation is at http://www.w3.org/TR/vocab-dcat/
 	private String title;
 	private String description;
@@ -581,65 +609,63 @@ public class Dataset {
 	public JSONObject toProjectOpenDataJSON()
 	{
 		JSONObject dataSetJSON = new JSONObject();
-		dataSetJSON.put("title", title);
-		dataSetJSON.put("description", description);
-		dataSetJSON.put("keyword", keywordList);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_TITLE, title);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_DESCRIPTION, description);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_KEYWORD, keywordList);
 		if (modified != null)
 		{
-			dataSetJSON.put("modified", Utils.convertDateToISOString(modified));
+			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_MODIFIED, Utils.convertDateToISOString(modified));
 		}
 		
-		dataSetJSON.put("publisher", publisher.toProjectOpenDataJSON());	
-		dataSetJSON.put ("contactPoint", contactPoint.toProjectOpenDataJSON());
+		dataSetJSON.put(Publisher.PROJECT_OPEN_DATA_PUBLISHER, publisher.toProjectOpenDataJSON());	
+		dataSetJSON.put (Contact.PROJECT_OPEN_DATA_CONTACT_POINT, contactPoint.toProjectOpenDataJSON());
 		
-		dataSetJSON.put("identifier", uniqueIdentifier);
-		dataSetJSON.put("accessLevel", accessLevel);
-		dataSetJSON.put("conformsTo", conformsTo);
-		dataSetJSON.put("rights",rights) ;
-		dataSetJSON.put("describedBy", describedBy);
-		dataSetJSON.put("describedByType", describedByType);
-		dataSetJSON.put("isPartOf", isPartOf);
-		dataSetJSON.put("license", license);
-		dataSetJSON.put("spatial", spatial);
-		dataSetJSON.put("temporal", temporal);
-		dataSetJSON.put("issued", issued);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_UNIQUE_IDENTIFIER, uniqueIdentifier);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_ACCESS_LEVEL, accessLevel);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_CONFORMS_TO, conformsTo);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_RIGHTS, rights);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY, describedBy);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY_TYPE, describedByType);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_IS_PART_OF, isPartOf);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_LICENSE, license);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_SPATIAL, spatial);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_TEMPORAL, temporal);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_ISSUED, issued);
 		dataSetJSON.put("accrualPeriodicity", accrualPeriodicity);
-		dataSetJSON.put("systemOfRecords", systemOfRecords);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_SYSTEM_OF_RECORDS, systemOfRecords);
 		dataSetJSON.put("primaryITInvestmentUII", primaryITInvestmentUII);
 
 		if (issued != null)
 		{
-			dataSetJSON.put("issued", Utils.convertDateToISOString(issued));
+			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_ISSUED, Utils.convertDateToISOString(issued));
 		}
 		
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_DATA_QUALITY, dataQuality);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_LANDING_PAGE, landingPage);
 
-		dataSetJSON.put("dataQuality", dataQuality);
-		dataSetJSON.put("landingPage", landingPage);
-
-		
 		JSONArray distributionListJSONArray = new JSONArray();
 		for (Distribution distribution: distributionList)
 		{
 			distributionListJSONArray.add(distribution.toProjectOpenDataJSON());
 		}
-		dataSetJSON.put("distribution", distributionListJSONArray);
+		dataSetJSON.put(Distribution.PROJECT_OPEN_DATA_DISTRIBUTION, distributionListJSONArray);
 		
 		if (programCodeList.size() > 0)
 		{
-			dataSetJSON.put("programCode", programCodeList);
+			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE, programCodeList);
 		}
 		dataSetJSON.put("bureauCode", bureauCodeList);
 		if (themeList.size() > 0)
 		{
-			dataSetJSON.put("theme", themeList);
+			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_THEME, themeList);
 		}
 		if (referenceList.size() > 0)
 		{
-			dataSetJSON.put("references", referenceList);
+			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_REFERENCES, referenceList);
 		}
 		if (languageList.size() > 0)
 		{
-			dataSetJSON.put("language", languageList);
+			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_LANGUAGE, languageList);
 		}
 
 		dataSetJSON.put("notes", comments);
@@ -669,96 +695,95 @@ public class Dataset {
 			throw new NullPointerException("datasetObject cannot be null");
 		}
 		
-		setTitle((String) dataSetObject.get("title"));
-		setDescription ((String) dataSetObject.get("description"));
+		setTitle((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_TITLE));
+		setDescription ((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DESCRIPTION));
 		try{
-			publisher.loadDatasetFromPOD_JSON((JSONObject)dataSetObject.get("publisher"));
+			publisher.loadDatasetFromPOD_JSON((JSONObject)dataSetObject.get(Publisher.PROJECT_OPEN_DATA_PUBLISHER));
 		}
 		catch (PublisherException e)
 		{
 			dsEx.addError(e.toString());
 		}
 		try{
-			contactPoint.loadDatasetFromPOD_JSON((JSONObject)dataSetObject.get("contactPoint"));
+			contactPoint.loadDatasetFromPOD_JSON((JSONObject)dataSetObject.get(Contact.PROJECT_OPEN_DATA_CONTACT_POINT));
 		}
 		catch (ContactException e)
 		{
 			dsEx.addError(e.toString());
 		}
-		setAccessLevel((String)dataSetObject.get("accessLevel"));
-		setRights((String)dataSetObject.get("rights"));
-		setSystemOfRecords((String)dataSetObject.get("systemOfRecords"));
-		Object landingPageObject = dataSetObject.get("landingPage");
+		setAccessLevel((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_ACCESS_LEVEL));
+		setRights((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_RIGHTS));
+		setSystemOfRecords((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_SYSTEM_OF_RECORDS));
+		Object landingPageObject = dataSetObject.get(PROJECT_OPEN_DATA_DATASET_LANDING_PAGE);
 		if (landingPageObject instanceof String)
 		{
-			setLandingPage((String)dataSetObject.get("landingPage"));
+			setLandingPage((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_LANDING_PAGE));
 		}
 		else
 		{
-			setLandingPage((URL)dataSetObject.get("landingPage"));
+			setLandingPage((URL)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_LANDING_PAGE));
 		}
-		setTemporal((String)dataSetObject.get("temporal"));
-		setModified ((String) dataSetObject.get("modified"));
-		setUniqueIdentifier ((String) dataSetObject.get("identifier"));
-		setSpatial((String)dataSetObject.get("spatial"));
-		setConformsTo((String) dataSetObject.get("conformsTo"));
+		setTemporal((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_TEMPORAL));
+		setModified ((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_MODIFIED));
+		setUniqueIdentifier ((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_UNIQUE_IDENTIFIER));
+		setSpatial((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_SPATIAL));
+		setConformsTo((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_CONFORMS_TO));
 		
 		//Data quality can be string in ckan or boolean in 
-		final Object dQuality = dataSetObject.get("dataQuality");
+		final Object dQuality = dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DATA_QUALITY);
 		if (dQuality instanceof String)
 		{
-			setDataQuality ((String)dataSetObject.get("dataQuality"));
+			setDataQuality ((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DATA_QUALITY));
 		}
 		else
 		{
-			setDataQuality ((Boolean)dataSetObject.get("dataQuality"));
+			setDataQuality ((Boolean)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DATA_QUALITY));
 		}
 		setIssued ((String) dataSetObject.get("issued"));	
 		
-		setDescribedBy((String)dataSetObject.get("describedBy"));
-		setDescribedByType ((String) dataSetObject.get("describedByType"));
+		setDescribedBy((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY));
+		setDescribedByType ((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY_TYPE));
 		setAccrualPeriodicity((String)dataSetObject.get("accrualPeriodicity"));
-		setLicense((String) dataSetObject.get("license"));
+		setLicense((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_LICENSE));
 		setPrimaryITInvestmentUII((String) dataSetObject.get("primaryITInvestmentUII"));
-		setIsPartOf((String) dataSetObject.get("isPartOf"));
+		setIsPartOf((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_IS_PART_OF));
 
 		//TODO: Clean this check up
-		if(dataSetObject.get("bureauCode") instanceof ArrayList)
+		if(dataSetObject.get(PROJECT_OPEN_DATA_DATASET_BUREAU_CODE) instanceof ArrayList)
 		{
-			bureauCodeList = (ArrayList<String>) dataSetObject.get("bureauCode");
+			bureauCodeList = (ArrayList<String>) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_BUREAU_CODE);
 		}
-		else if ((JSONArray) dataSetObject.get("bureauCode") != null)
+		else if ((JSONArray) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_BUREAU_CODE) != null)
 		{
 			
 			//catching this because we want full list of errors
 			try{
-				setBureauCodeList((JSONArray) dataSetObject.get("bureauCode"));
+				setBureauCodeList((JSONArray) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_BUREAU_CODE));
 			}
 			catch (ParseException e)
 			{
 				dsEx.addError(e.toString());
 			}
 		}
-		if(dataSetObject.get("programCode") instanceof ArrayList)
+		if(dataSetObject.get(PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE) instanceof ArrayList)
 		{
-			programCodeList = (ArrayList<String>) dataSetObject.get("programCode");
+			programCodeList = (ArrayList<String>) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE);
 		}
-		else if ((JSONArray) dataSetObject.get("programCode") != null)
+		else if ((JSONArray) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE) != null)
 		{
 			try{
-				setProgramCodeList((JSONArray) dataSetObject.get("programCode"));
+				setProgramCodeList((JSONArray) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE));
 			}
 			catch(ParseException e)
 			{
 				dsEx.addError(e.toString());
 			}
 		}
-		
 	
-		keywordList = loadArray("keyword", dataSetObject);
-		languageList = loadArray("language", dataSetObject);
-		referenceList = loadArray("references", dataSetObject);
-		themeList = loadArray("theme", dataSetObject);	
+		keywordList = loadArray(PROJECT_OPEN_DATA_DATASET_KEYWORD, dataSetObject);
+		languageList = loadArray(PROJECT_OPEN_DATA_DATASET_LANGUAGE, dataSetObject);
+		referenceList = loadArray(PROJECT_OPEN_DATA_DATASET_REFERENCES, dataSetObject);
+		themeList = loadArray(PROJECT_OPEN_DATA_DATASET_THEME, dataSetObject);	
 		
 		//TODO:Refactor
 		if (dataSetObject.get("distribution") instanceof ArrayList)
@@ -775,12 +800,11 @@ public class Dataset {
 					dsEx.addError(e.toString());
 				}
 			}
-			//distributionList = (ArrayList<Distribution>) dataSetObject.get("distribution");
 		}
 		
 		else
 		{
-			final JSONArray distributionArray = (JSONArray)dataSetObject.get("distribution");
+			final JSONArray distributionArray = (JSONArray)dataSetObject.get(Distribution.PROJECT_OPEN_DATA_DISTRIBUTION);
 		
 			if (distributionArray != null)
 			{
@@ -1480,7 +1504,4 @@ public class Dataset {
 				+ isPartOf + ", comments=" + comments + ", webService="
 				+ webService + ", ownerOrganization=" + ownerOrganization + "]";
 	}
-	
-	
-	
 }

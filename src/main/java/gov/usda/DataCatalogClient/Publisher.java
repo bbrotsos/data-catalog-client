@@ -11,6 +11,11 @@ import org.json.simple.JSONObject;
  *
  */
 public class Publisher {
+	public final static String PROJECT_OPEN_DATA_PUBLISHER = "@publisher";
+	public final static String PROJECT_OPEN_DATA_PUBLISHER_TYPE = "@type";
+	public final static String PROJECT_OPEN_DATA_PUBLISHER_NAME = "name";
+	public final static String PROJECT_OPEN_DATA_PUBLISHER_SUBORGANIZATION = "subOrganizationOf";
+
 	private String type;
 	private String name;
 	private Publisher subOrganization;
@@ -37,12 +42,12 @@ public class Publisher {
 	public JSONObject toProjectOpenDataJSON()
 	{
 		JSONObject publisherMap = new JSONObject();
-		publisherMap.put("@type", type);
-		publisherMap.put("name", name);
+		publisherMap.put(PROJECT_OPEN_DATA_PUBLISHER_TYPE, type);
+		publisherMap.put(PROJECT_OPEN_DATA_PUBLISHER_NAME, name);
 		
 		if (subOrganization != null)
 		{
-			publisherMap.put("subOrganizationOf", subOrganization.toProjectOpenDataJSON());
+			publisherMap.put(PROJECT_OPEN_DATA_PUBLISHER_SUBORGANIZATION, subOrganization.toProjectOpenDataJSON());
 		}
 		
 		return publisherMap;
@@ -54,10 +59,10 @@ public class Publisher {
 		{
 			throw new PublisherException("Publisher cannot be null");
 		}
-		setType((String) publisherProjectOpenDataJSON.get("@type"));
-		setName((String) publisherProjectOpenDataJSON.get("name"));
+		setType((String) publisherProjectOpenDataJSON.get(PROJECT_OPEN_DATA_PUBLISHER_TYPE));
+		setName((String) publisherProjectOpenDataJSON.get(PROJECT_OPEN_DATA_PUBLISHER_NAME));
 		JSONObject subOrganizationJSON = new JSONObject();
-		subOrganizationJSON = (JSONObject) publisherProjectOpenDataJSON.get("subOrganizationOf");
+		subOrganizationJSON = (JSONObject) publisherProjectOpenDataJSON.get(PROJECT_OPEN_DATA_PUBLISHER_SUBORGANIZATION);
 		if (subOrganizationJSON != null)
 		{
 			subOrganization = new Publisher();

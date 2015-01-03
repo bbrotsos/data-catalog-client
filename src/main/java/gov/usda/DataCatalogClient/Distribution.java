@@ -19,6 +19,30 @@ import org.json.simple.JSONObject;
  */
 public class Distribution {
 
+	//Project Open Data JSON Fields
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION= "distribution";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_TITLE = "title";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIPTION = "description";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_ACCESS_URL = "accessURL";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_DOWNLOAD_URL = "downloadURL";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_MEDIA_TYPE = "mediaType";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_FORMAT = "format";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY = "describedBy";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY_TYPE = "describedByType";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_CONFORMS_TO =  "conformsTo";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_TYPE = "@type";
+	
+	//CKAN Data Fields, media type looks odd to continue backwards compliance with Project Open Data 1.0
+	public final static String CKAN_DISTRIBUTION_TITLE = "name";
+	public final static String CKAN_DISTRIBUTION_DESCRIPTION = "description";
+	public final static String CKAN_DISTRIBUTION_CONFORMS_TO = "conformsTo";
+	public final static String CKAN_DISTRIBUTION_DESCRIBED_BY = "describedBy";
+	public final static String CKAN_DISTRIBUTION_DESCRIBED_BY_TYPE = "describedByType";
+	public final static String CKAN_DISTRIBUTION_URL = "url";
+	public final static String CKAN_DISTRIBUTION_MEDIA_TYPE = "format";
+	public final static String CKAN_DISTRIBUTION_FORMAT = "format_readable";
+
+
 	//Common DCAT & POD metadata fields
 	private String title;
 	private String description;
@@ -65,14 +89,14 @@ public class Distribution {
 		{
 			throw new NullPointerException("resourceCKAN_JSON cannot be null");
 		}
-		setTitle((String) resourceCKAN_JSON.get("name"));
-		setDescription ((String) resourceCKAN_JSON.get("description"));
-		setConformsTo ((String) resourceCKAN_JSON.get("conformsTo"));
-		setDescribedByType((String) resourceCKAN_JSON.get("describedByType"));
-		setDescribedBy ((String) resourceCKAN_JSON.get("describedBy"));
+		setTitle((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_TITLE));
+		setDescription ((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_DESCRIPTION));
+		setConformsTo ((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_CONFORMS_TO));
+		setDescribedByType((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_DESCRIBED_BY_TYPE));
+		setDescribedBy ((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_DESCRIBED_BY));
 		if ((String) resourceCKAN_JSON.get("type") != null)
 		{
-			setType((String)resourceCKAN_JSON.get("describedBy"));
+			setType((String)resourceCKAN_JSON.get("type"));
 		}
 		else
 		{
@@ -85,30 +109,30 @@ public class Distribution {
     	if (resourceType == null)
     	{
     		//default to download_url
-    		setDownloadURL((String) resourceCKAN_JSON.get("url"));
+    		setDownloadURL((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_URL));
     	}
     	else if (resourceType.equals("accessurl"))
     	{
-    		setAccessURL((String) resourceCKAN_JSON.get("url"));
+    		setAccessURL((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_URL));
     	}
     	else if (resourceType.equals("file"))
     	{
-    		setDownloadURL((String) resourceCKAN_JSON.get("url"));
+    		setDownloadURL((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_URL));
     	}
     	else if (resourceType.toLowerCase().equals("api"))
     	{
-    		setAccessURL((String) resourceCKAN_JSON.get("url"));
+    		setAccessURL((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_URL));
     	}
     	else
     	{
     		//new resource type in CKAN
-    		log.log(Level.SEVERE, "New resource type in CKAN. " + (String) resourceCKAN_JSON.get("resource_type") + " for URL: "  + (String) resourceCKAN_JSON.get("url") );
+    		log.log(Level.SEVERE, "New resource type in CKAN. " + (String) resourceCKAN_JSON.get("resource_type") + " for URL: "  + (String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_URL) );
     	}
     	
     	//looks weird: mediaType = format and format = formatReadable
     	//ok, this keeps backward compatiablity with POD 1.0
-    	setMediaType((String) resourceCKAN_JSON.get("format"));
-    	setFormat ((String) resourceCKAN_JSON.get("formatReadable"));	
+    	setMediaType((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_MEDIA_TYPE));
+    	setFormat ((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_FORMAT));	
     	if (distributionException.exceptionSize()>0)
     	{
     		throw (distributionException);
@@ -128,8 +152,8 @@ public class Distribution {
 		{
 			throw new NullPointerException("Distribution needs to be populated");
 		}
-		setTitle ((String) pod_JSONObject.get("title"));
-		setDescription ((String) pod_JSONObject.get("description"));
+		setTitle ((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_TITLE));
+		setDescription ((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIPTION ));
 		
 		
 		
@@ -137,34 +161,34 @@ public class Distribution {
 		try{
 			//TODO: the return of JSONObject with URL and List<> is making code difficult to read
 			//refactor
-			if ( pod_JSONObject.get("accessURL") instanceof String)
+			if ( pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_ACCESS_URL) instanceof String)
 			{
-				setAccessURL((String) pod_JSONObject.get("accessURL"));
+				setAccessURL((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_ACCESS_URL));
 			}
 			else
 			{
-				setAccessURL((URL) pod_JSONObject.get("accessURL"));
+				setAccessURL((URL) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_ACCESS_URL));
 			}
-			if (pod_JSONObject.get("downloadURL") instanceof String)
+			if (pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_DOWNLOAD_URL) instanceof String)
 			{
-				setDownloadURL ((String) pod_JSONObject.get("downloadURL"));
+				setDownloadURL ((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_DOWNLOAD_URL));
 			}
 			else
 			{
-				setDownloadURL((URL) pod_JSONObject.get("downloadURL"));
+				setDownloadURL((URL) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_DOWNLOAD_URL));
 			}
 		}
 		catch(DistributionException	e){
 			distributionException.addError(e.toString());
 		}
-		setMediaType ((String) pod_JSONObject.get("mediaType"));
-		setFormat ((String) pod_JSONObject.get("format"));
+		setMediaType ((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_MEDIA_TYPE));
+		setFormat ((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_FORMAT));
 		
 		//new 1.1
-		setDescribedBy ((String) pod_JSONObject.get("describedBy"));
-		setDescribedByType ((String) pod_JSONObject.get("describedByType"));
-		setConformsTo ((String) pod_JSONObject.get("conformsTo"));
-		setType ((String) pod_JSONObject.get("@type"));
+		setDescribedBy ((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY));
+		setDescribedByType ((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY_TYPE));
+		setConformsTo ((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_CONFORMS_TO));
+		setType ((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_TYPE));
 		
 		if (!validateDistribution() || distributionException.exceptionSize()>0)
     	{
@@ -235,35 +259,35 @@ public class Distribution {
 	{
 		JSONObject distributionCKAN_JSON = new JSONObject();
 		
-		distributionCKAN_JSON.put("name", title);
-		distributionCKAN_JSON.put("description", description);
-		distributionCKAN_JSON.put("formatReadable", format);
-		distributionCKAN_JSON.put("format", mediaType);
+		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_TITLE, title);
+		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_DESCRIPTION, description);
+		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_FORMAT, format);
+		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_MEDIA_TYPE, mediaType);
 		distributionCKAN_JSON.put("resource_type", resourceType);
 		if (resourceType == null)
     	{
     		//default to download_url
 			if (downloadURL != null)
 			{
-				distributionCKAN_JSON.put("url", downloadURL.toString());
+				distributionCKAN_JSON.put(CKAN_DISTRIBUTION_URL, downloadURL.toString());
 			}
 			if (accessURL != null)
 			{
-				distributionCKAN_JSON.put("url", accessURL.toString());
+				distributionCKAN_JSON.put(CKAN_DISTRIBUTION_URL, accessURL.toString());
 			}
     	}
     	else if (resourceType.equals("accessurl"))
     	{
-			distributionCKAN_JSON.put("url", accessURL.toString());
+			distributionCKAN_JSON.put(CKAN_DISTRIBUTION_URL, accessURL.toString());
     	}
     	else if (resourceType.equals("file"))
     	{
-			distributionCKAN_JSON.put("url", downloadURL.toString());
+			distributionCKAN_JSON.put(CKAN_DISTRIBUTION_URL, downloadURL.toString());
     	}
     	
-		distributionCKAN_JSON.put("describedBy", describedBy);
-		distributionCKAN_JSON.put("describedByType", describedByType);
-		distributionCKAN_JSON.put("conformsTo", conformsTo);
+		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_DESCRIBED_BY, describedBy);
+		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_DESCRIBED_BY, describedByType);
+		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_CONFORMS_TO, conformsTo);
 		distributionCKAN_JSON.put("@type", type);
 		
 		return distributionCKAN_JSON;
@@ -278,16 +302,16 @@ public class Distribution {
 	public JSONObject toProjectOpenDataJSON()
 	{
 		JSONObject distributionJSON = new JSONObject();
-		distributionJSON.put("@type", type);
-		distributionJSON.put("downloadURL", downloadURL);
-		distributionJSON.put("mediaType", mediaType);
-		distributionJSON.put("title", title);
-		distributionJSON.put("description", description);
-		distributionJSON.put("accessURL", accessURL);
-		distributionJSON.put("format", format);
-		distributionJSON.put("describedBy", describedBy);
-		distributionJSON.put("describedByType", describedByType);
-		distributionJSON.put("conformsTo", conformsTo);
+		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_TYPE, type);
+		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DOWNLOAD_URL, downloadURL);
+		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_MEDIA_TYPE, mediaType);
+		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_TITLE, title);
+		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIPTION , description);
+		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_ACCESS_URL, accessURL);
+		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_FORMAT, format);
+		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY, describedBy);
+		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY_TYPE, describedByType);
+		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_CONFORMS_TO, conformsTo);
 	
 		return distributionJSON ;
 	}

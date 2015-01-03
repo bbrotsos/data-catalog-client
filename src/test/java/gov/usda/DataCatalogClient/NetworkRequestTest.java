@@ -90,5 +90,14 @@ public class NetworkRequestTest {
 		}
 		assertNull(catalogException);
 	}
+	
+	/**
+	 * Needs to create unique name every time it send in new dataset request for testing.
+	 */
+	@Test
+	public void testCreateDataset()
+	{
+		fail("Not yet implemented");
+	}
 
 }
