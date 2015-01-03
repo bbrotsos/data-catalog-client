@@ -84,7 +84,6 @@ public class DatasetTest {
 		}
 		catch(DatasetException e){
 			datasetException = e;
-			log.log(Level.SEVERE, e.toString());
 			assertEquals(e.toString(), "Dataset error for title: null [Publisher cannot be null], Contact Invalid: [contact cannot be empty], Title is required., Description is required., At least one tag is required., Modified is required., [Publisher invalid: Name is required], Contact Invalid: [Full Name is required, Email Address is required], Identifier is required., Access Level is required., Bureau Code is required., Program Code is required.");
 		}
 		
@@ -109,7 +108,6 @@ public class DatasetTest {
 		}
 		catch(DatasetException e){
 			datasetException = e;
-			log.log(Level.SEVERE, e.toString());
 			assertEquals(e.toString(), "Dataset error for title: null [Publisher cannot be null], Contact Invalid: [contact cannot be empty], Title is required., Description is required., At least one tag is required., Modified is required., [Publisher invalid: Name is required], Contact Invalid: [Full Name is required, Email Address is required], Identifier is required., At least one distribution is required when dataset is public or restricted., Bureau Code is required., Program Code is required.");
 		}
 		
