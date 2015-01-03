@@ -41,6 +41,13 @@ import org.json.simple.parser.ParseException;
  */
 
 public class Catalog {
+	
+	public final static String PROJECT_OPEN_DATA_CATALOG_CONFORMS_TO = "conformsTo";
+	public final static String PROJECT_OPEN_DATA_CATALOG_TYPE = "@type";
+	public final static String PROJECT_OPEN_DATA_CATALOG_CONTEXT = "@context";
+	public final static String PROJECT_OPEN_DATA_CATALOG_DESCRIBED_BY = "describedBy";
+	public final static String PROJECT_OPEN_DATA_CATALOG_IDENTIFIER = "@id";
+
 
 	//Documentation on DCAT here: http://www.w3.org/TR/vocab-dcat/
 	private String title;
@@ -178,12 +185,12 @@ public class Catalog {
 		{
 			throw (new NullPointerException("catalogObject cannot be null"));
 		}
-		setConformsTo((String) catalogObject.get("conformsTo"));
-		setDescribedBy((String) catalogObject.get("describedBy"));
-		setContext ((String) catalogObject.get("@context"));
-		setType ((String) catalogObject.get("@type"));
+		setConformsTo((String) catalogObject.get(PROJECT_OPEN_DATA_CATALOG_CONFORMS_TO));
+		setDescribedBy((String) catalogObject.get(PROJECT_OPEN_DATA_CATALOG_DESCRIBED_BY));
+		setContext ((String) catalogObject.get(PROJECT_OPEN_DATA_CATALOG_CONTEXT));
+		setType ((String) catalogObject.get(PROJECT_OPEN_DATA_CATALOG_TYPE));
 		
-		final JSONArray dataSetArray = (JSONArray) catalogObject.get("dataset");
+		final JSONArray dataSetArray = (JSONArray) catalogObject.get(Dataset.PROJECT_OPEN_DATA_DATASET);
 		for (int i = 0; i < dataSetArray.size(); i++)
 		{
 			final Dataset ds = new Dataset();
@@ -278,10 +285,10 @@ public class Catalog {
 		final JSONObject catalogJSON = new JSONObject();
 		final JSONArray dataSetArray = new JSONArray();
 		
-		catalogJSON.put("conformsTo", "https://project-open-data.cio.gov/v1.1/schema");
-		catalogJSON.put("describedBy", "https://project-open-data.cio.gov/v1.1/schema/catalog.json");
-		catalogJSON.put("@context", "https://project-open-data.cio.gov/v1.1/schema/data.jsonld");
-		catalogJSON.put("@type", "dcat:Catalog");
+		catalogJSON.put(PROJECT_OPEN_DATA_CATALOG_CONFORMS_TO, "https://project-open-data.cio.gov/v1.1/schema");
+		catalogJSON.put(PROJECT_OPEN_DATA_CATALOG_DESCRIBED_BY, "https://project-open-data.cio.gov/v1.1/schema/catalog.json");
+		catalogJSON.put(PROJECT_OPEN_DATA_CATALOG_CONTEXT, "https://project-open-data.cio.gov/v1.1/schema/data.jsonld");
+		catalogJSON.put(PROJECT_OPEN_DATA_CATALOG_TYPE, "dcat:Catalog");
 	
 		for (int i = 0; i < dataSetList.size(); i++)
 		{
@@ -299,7 +306,7 @@ public class Catalog {
 			}
 		}
 		
-		catalogJSON.put("dataset", dataSetArray);
+		catalogJSON.put(Dataset.PROJECT_OPEN_DATA_DATASET, dataSetArray);
 		Utils.printJSON(podFilePath, catalogJSON); 
 	}
 	

@@ -47,7 +47,8 @@ import org.json.simple.JSONObject;
  */
 public class Dataset {
 
-	//Project Open Data 1.1 JSON fields
+	//Project Open Data 1.1 JSON fields  https://project-open-data.cio.gov/v1.1/schema/
+	public final static String PROJECT_OPEN_DATA_DATASET = "dataset";
 	public final static String PROJECT_OPEN_DATA_DATASET_TITLE = "title";
 	public final static String PROJECT_OPEN_DATA_DATASET_DESCRIPTION = "description";
 	public final static String PROJECT_OPEN_DATA_DATASET_ISSUED = "issued";
