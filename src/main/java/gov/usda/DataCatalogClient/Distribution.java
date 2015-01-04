@@ -40,7 +40,7 @@ public class Distribution {
 	public final static String CKAN_DISTRIBUTION_DESCRIBED_BY_TYPE = "describedByType";
 	public final static String CKAN_DISTRIBUTION_URL = "url";
 	public final static String CKAN_DISTRIBUTION_MEDIA_TYPE = "format";
-	public final static String CKAN_DISTRIBUTION_FORMAT = "format_readable";
+	public final static String CKAN_DISTRIBUTION_FORMAT = "formatReadable";
 
 
 	//Common DCAT & POD metadata fields

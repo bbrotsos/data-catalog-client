@@ -42,12 +42,12 @@ import org.json.simple.parser.ParseException;
 
 public class Catalog {
 	
+	//Project Open Data json field constants
 	public final static String PROJECT_OPEN_DATA_CATALOG_CONFORMS_TO = "conformsTo";
 	public final static String PROJECT_OPEN_DATA_CATALOG_TYPE = "@type";
 	public final static String PROJECT_OPEN_DATA_CATALOG_CONTEXT = "@context";
 	public final static String PROJECT_OPEN_DATA_CATALOG_DESCRIBED_BY = "describedBy";
 	public final static String PROJECT_OPEN_DATA_CATALOG_IDENTIFIER = "@id";
-
 
 	//Documentation on DCAT here: http://www.w3.org/TR/vocab-dcat/
 	private String title;

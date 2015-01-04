@@ -27,7 +27,6 @@ public class NetworkRequest
 	private String apiKey;
 	
 	private static final Logger log = Logger.getLogger(NetworkRequest.class.getName());
-
 	
 	/**
 	 * The default constructor will load sample_data/config.json
@@ -108,7 +107,7 @@ public class NetworkRequest
 		{
 			throw new NullPointerException("organization cannot be null when getting an organization's catalog");
 		}
-		URL dataAPIURL = new URL(server + "/api/3/action/organization_show?id=" + organization);
+		final URL dataAPIURL = new URL(server + "/api/3/action/organization_show?id=" + organization);
 		setupConnection(dataAPIURL);
 		connection.setRequestProperty("Content-Type", "application/json");
 		return getHttpResponse();
