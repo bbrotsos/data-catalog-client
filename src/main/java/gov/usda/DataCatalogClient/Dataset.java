@@ -117,7 +117,6 @@ public class Dataset {
 	private DatasetException dsEx;
 	private static final Logger log = Logger.getLogger(Dataset.class.getName());
 
-	
 	public Dataset()
 	{
 		dsEx = new DatasetException();
@@ -127,9 +126,7 @@ public class Dataset {
 		languageList = new ArrayList<String>();
 		themeList = new ArrayList<String>();
 		referenceList = new ArrayList<String>();
-		
 		distributionList = new ArrayList<Distribution>();
-		
 		publisher = new Publisher();
 		contactPoint = new Contact();
 	}
@@ -155,7 +152,6 @@ public class Dataset {
 		//There is no order in JSON so there is no guarantee that publisher1 comes after publisher.
 		Publisher subOrganization = new Publisher();
 		
-		//probably should use GSON/Jackson
 		//optimize in the future
 		
 		//issue, title is in two places. To solve this set it initially, and let extra tag overwrite if it exists in extra.
@@ -696,8 +692,39 @@ public class Dataset {
 			throw new NullPointerException("datasetObject cannot be null");
 		}
 		
-		setTitle((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_TITLE));
+		setAccessLevel((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_ACCESS_LEVEL));
+		setAccrualPeriodicity((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_ACCRUAL_PERIODICITY));
+		setConformsTo((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_CONFORMS_TO));
+		setDataQuality (dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DATA_QUALITY));
+		setDescribedBy((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY));
+		setDescribedByType ((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY_TYPE));
 		setDescription ((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DESCRIPTION));
+		setIsPartOf((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_IS_PART_OF));
+		setIssued ((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_ISSUED));	
+		setLandingPage(dataSetObject.get(PROJECT_OPEN_DATA_DATASET_LANDING_PAGE));
+		setLicense((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_LICENSE));
+		setModified ((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_MODIFIED));
+		setPrimaryITInvestmentUII((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_PRIMARY_IT_INVESTMENT_UII));
+		setRights((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_RIGHTS));
+		setSpatial((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_SPATIAL));
+		setSystemOfRecords((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_SYSTEM_OF_RECORDS));
+		setTitle((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_TITLE));
+		setTemporal((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_TEMPORAL));
+		setUniqueIdentifier ((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_UNIQUE_IDENTIFIER));
+
+		//These object returned for bureauCode and programCode could either be ArrayList or JSONArray.
+		setBureauCodeList(dataSetObject.get(PROJECT_OPEN_DATA_DATASET_BUREAU_CODE));
+		setProgramCodeList(dataSetObject.get(PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE));
+		
+		//Common method for loading simple string arrays with no parsing exceptions
+		keywordList = loadArray(PROJECT_OPEN_DATA_DATASET_KEYWORD, dataSetObject);
+		languageList = loadArray(PROJECT_OPEN_DATA_DATASET_LANGUAGE, dataSetObject);
+		referenceList = loadArray(PROJECT_OPEN_DATA_DATASET_REFERENCES, dataSetObject);
+		themeList = loadArray(PROJECT_OPEN_DATA_DATASET_THEME, dataSetObject);	
+		
+		//load objects Publisher, Contact and Distributions
+		loadDistributionList(dataSetObject.get(Distribution.PROJECT_OPEN_DATA_DISTRIBUTION));
+		
 		try{
 			publisher.loadDatasetFromPOD_JSON((JSONObject)dataSetObject.get(Publisher.PROJECT_OPEN_DATA_PUBLISHER));
 		}
@@ -712,106 +739,6 @@ public class Dataset {
 		{
 			dsEx.addError(e.toString());
 		}
-		setAccessLevel((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_ACCESS_LEVEL));
-		setRights((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_RIGHTS));
-		setSystemOfRecords((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_SYSTEM_OF_RECORDS));
-		Object landingPageObject = dataSetObject.get(PROJECT_OPEN_DATA_DATASET_LANDING_PAGE);
-		if (landingPageObject instanceof String)
-		{
-			setLandingPage((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_LANDING_PAGE));
-		}
-		else
-		{
-			setLandingPage((URL)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_LANDING_PAGE));
-		}
-		setTemporal((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_TEMPORAL));
-		setModified ((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_MODIFIED));
-		setUniqueIdentifier ((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_UNIQUE_IDENTIFIER));
-		setSpatial((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_SPATIAL));
-		setConformsTo((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_CONFORMS_TO));
-		
-		//Data quality can be string in ckan or boolean in 
-		final Object dQuality = dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DATA_QUALITY);
-		if (dQuality instanceof String)
-		{
-			setDataQuality ((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DATA_QUALITY));
-		}
-		else
-		{
-			setDataQuality ((Boolean)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DATA_QUALITY));
-		}
-		setIssued ((String) dataSetObject.get("issued"));	
-		
-		setDescribedBy((String)dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY));
-		setDescribedByType ((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY_TYPE));
-		setAccrualPeriodicity((String)dataSetObject.get("accrualPeriodicity"));
-		setLicense((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_LICENSE));
-		setPrimaryITInvestmentUII((String) dataSetObject.get("primaryITInvestmentUII"));
-		setIsPartOf((String) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_IS_PART_OF));
-
-		//TODO: Clean this check up
-		if(dataSetObject.get(PROJECT_OPEN_DATA_DATASET_BUREAU_CODE) instanceof ArrayList)
-		{
-			bureauCodeList = (ArrayList<String>) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_BUREAU_CODE);
-		}
-		else if ((JSONArray) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_BUREAU_CODE) != null)
-		{
-			
-			//catching this because we want full list of errors
-			try{
-				setBureauCodeList((JSONArray) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_BUREAU_CODE));
-			}
-			catch (ParseException e)
-			{
-				dsEx.addError(e.toString());
-			}
-		}
-		if(dataSetObject.get(PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE) instanceof ArrayList)
-		{
-			programCodeList = (ArrayList<String>) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE);
-		}
-		else if ((JSONArray) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE) != null)
-		{
-			try{
-				setProgramCodeList((JSONArray) dataSetObject.get(PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE));
-			}
-			catch(ParseException e)
-			{
-				dsEx.addError(e.toString());
-			}
-		}
-	
-		keywordList = loadArray(PROJECT_OPEN_DATA_DATASET_KEYWORD, dataSetObject);
-		languageList = loadArray(PROJECT_OPEN_DATA_DATASET_LANGUAGE, dataSetObject);
-		referenceList = loadArray(PROJECT_OPEN_DATA_DATASET_REFERENCES, dataSetObject);
-		themeList = loadArray(PROJECT_OPEN_DATA_DATASET_THEME, dataSetObject);	
-		
-		//TODO:Refactor
-		if (dataSetObject.get("distribution") instanceof ArrayList)
-		{
-			ArrayList<JSONObject> tempDistributionList = (ArrayList<JSONObject>) dataSetObject.get("distribution");
-			for (int i = 0; i < tempDistributionList.size(); i++)
-			{
-				Distribution tempDistribution = new Distribution();
-				try{
-					tempDistribution.loadFromProjectOpenDataJSON(tempDistributionList.get(i));
-					distributionList.add(tempDistribution);
-				}catch(DistributionException e)
-				{
-					dsEx.addError(e.toString());
-				}
-			}
-		}
-		
-		else
-		{
-			final JSONArray distributionArray = (JSONArray)dataSetObject.get(Distribution.PROJECT_OPEN_DATA_DISTRIBUTION);
-		
-			if (distributionArray != null)
-			{
-				getDistribution(distributionArray);
-			}
-		}
 		
 		if (!validateDataset() || dsEx.exceptionSize() > 0)
 		{
@@ -821,21 +748,56 @@ public class Dataset {
 		}
 	}
 	
-	private void getDistribution(JSONArray distributionArray)
+	/**
+	 * This method will determine if the instance is List<JSONObject> or an Array List
+	 * Fromt here it will call the approriate function.
+	 * 
+	 * This might benefit from using generics or converting one list to the other
+	 * @param distributionObject
+	 */
+	private void loadDistributionList(Object distributionObject)
 	{
+		if (distributionObject == null)
+		{
+			throw new NullPointerException("distributionObject cannot be null");
+		}
+		JSONArray distributionArray = null;
+		if (distributionObject instanceof ArrayList)
+		{
+			//convert to JSONArray
+			ArrayList<JSONObject> distributionArrayList = (ArrayList<JSONObject>) distributionObject;
+			distributionArray = new JSONArray();
+			for (int i = 0; i < distributionArrayList.size(); i++)
+			{
+				distributionArray.add((JSONObject) distributionArrayList.get(i));
+			}			
+		}
+		else if (distributionObject instanceof JSONArray)
+		{
+			distributionArray = (JSONArray)distributionObject;
+		}
 		for (int i=0; i< distributionArray.size(); i++)
 		{
-			Distribution distribution = new Distribution();
-			final JSONObject distributionObject = (JSONObject) distributionArray.get(i);
-			try{
-				distribution.loadFromProjectOpenDataJSON(distributionObject);
-			}
-			catch (DistributionException e)
-			{
-				dsEx.addError(e.toString());
-			}
-			distributionList.add(distribution);
+			loadDistribution ((JSONObject)distributionArray.get(i));
 		}
+	}
+
+	/**
+	 * This method takes in a JSON object and loads a distribution object.  It then
+	 * adds the distribution object to this objects distributionList.
+	 * @param distributionObject
+	 */
+	private void loadDistribution(JSONObject distributionObject)
+	{
+		Distribution distribution = new Distribution();
+		try{
+			distribution.loadFromProjectOpenDataJSON(distributionObject);
+		}
+		catch (DistributionException e)
+		{
+			dsEx.addError(e.toString());
+		}
+		distributionList.add(distribution);
 	}
 	
 	/**
@@ -1051,6 +1013,17 @@ public class Dataset {
 			}
 		}
 	}
+	
+	public void setLandingPage(Object landingPage) {
+		if (landingPage instanceof String)
+		{
+			setLandingPage((String)landingPage);
+		}
+		else if (landingPage instanceof URL)
+		{
+			setLandingPage((URL)landingPage);
+		}
+	}
 
 	public List<String> getBureauCodeList() {
 		return bureauCodeList;
@@ -1070,6 +1043,7 @@ public class Dataset {
 			else
 			{
 				throw new ParseException("Bureau Code must be \\d{3}:\\d{2}: " + bureauCode, 2);
+				//dsEx.addError("Bureau Code must be \\d{3}:\\d{2}: " + bureauCode);
 			}
 		}
 	}
@@ -1089,6 +1063,38 @@ public class Dataset {
 		for (int i = 0; i < bureauArray.size(); i++)
 		{
 			setBureauCodeList((String) bureauArray.get(i));
+		}
+	}
+	
+	public void setBureauCodeList(ArrayList<String> bureauCodeList)
+	{
+		this.bureauCodeList = bureauCodeList;
+	}
+	
+	public void setBureauCodeList(Object bureauCodeList)
+	{
+		if (bureauCodeList == null)
+		{
+			throw new NullPointerException("bureauCodeList cannot be null");
+		}
+		if( bureauCodeList instanceof ArrayList)
+		{
+			setBureauCodeList((ArrayList<String>)bureauCodeList);
+		}
+		else if (bureauCodeList instanceof JSONArray)
+		{
+			final JSONArray bureauArray = (JSONArray)bureauCodeList;
+			for (int i = 0; i < bureauArray.size(); i++)
+			{
+				try
+				{
+					setBureauCodeList((String) bureauArray.get(i));
+				}
+				catch(ParseException e)
+				{
+					dsEx.addError(e.toString());
+				}
+			}
 		}
 	}
 	
@@ -1128,6 +1134,37 @@ public class Dataset {
 		{
 			setProgramCodeList((String) programArray.get(i));
 		}
+	}
+	
+	public void setProgramCodeList(Object programCodeList)
+	{
+		if (programCodeList == null)
+		{
+			throw new NullPointerException("programCodeList cannot be null");
+		}
+		if( programCodeList instanceof ArrayList)
+		{
+			setProgramCodeList((ArrayList<String>)programCodeList);
+		}
+		else if (programCodeList instanceof JSONArray)
+		{
+			final JSONArray programArray = (JSONArray)programCodeList;
+			for (int i = 0; i < programArray.size(); i++)
+			{
+				try
+				{
+					setProgramCodeList((String) programArray.get(i));
+				}
+				catch(ParseException e)
+				{
+					dsEx.addError(e.toString());
+				}
+			}
+		}
+	}
+	public void setProgramCodeList(ArrayList<String> programCodeList)
+	{
+		this.programCodeList = programCodeList;
 	}
 
 	public String getPrimaryITInvestmentUII() {
@@ -1193,6 +1230,19 @@ public class Dataset {
 			{
 				this.dataQuality = false;
 			}
+		}
+	}
+	
+	//handle any case
+	private void setDataQuality(Object dataQuality)
+	{
+		if (dataQuality instanceof String)
+		{
+			setDataQuality ((String) dataQuality);
+		}
+		else if (dataQuality instanceof Boolean)
+		{
+			setDataQuality ((Boolean) dataQuality);
 		}
 	}
 
