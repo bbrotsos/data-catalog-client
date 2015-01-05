@@ -166,7 +166,6 @@ public class DatasetTest {
 		JSONObject datasetPOD_JSON = new JSONObject();
 		JSONObject datasetCKAN_JSON = new JSONObject();
 
-		
 		try{			
 			datasetCKAN_JSON = Utils.loadJsonObjectFile(datasetTestCKANFile);
 		}
