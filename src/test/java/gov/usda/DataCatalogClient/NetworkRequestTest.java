@@ -3,11 +3,13 @@ package gov.usda.DataCatalogClient;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.json.simple.parser.ParseException;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -97,7 +99,91 @@ public class NetworkRequestTest {
 	@Test
 	public void testCreateDataset()
 	{
-		fail("Not yet implemented");
+		Dataset createDS = new Dataset();
+		final String datasetTestProjectOpenDataFile = "sample_data/test/datasetTestProjectOpenData.json";
+
+		createDS = getProjectOpenDataDataset();
+		
+		try
+		{
+			NetworkRequest nr = new NetworkRequest("sample_data/config-ckan-demo.json");
+			nr.createDataset(createDS.toCKAN_JSON());
+		}
+		catch (IOException | ParseException e)
+		{
+			log.log(Level.SEVERE, e.toString());
+			//if http_reponse = 409 most likely conflict with "name"  This must be unique.
+			//possible random number collision
+			Assert.fail();
+		}
+	}
+	
+	/**
+	 * Test updating CKAN for a given dataset.
+	 */
+	@Test
+	public void testUpdateDataset()
+	{
+		//first create the dataset
+		Dataset updateDS = getProjectOpenDataDataset();
+		
+		try{
+			NetworkRequest nr = new NetworkRequest("sample_data/config-ckan-demo.json");
+			nr.createDataset(updateDS.toCKAN_JSON());
+		} 
+		catch(IOException | ParseException e)
+		{
+			log.log(Level.SEVERE, e.toString());
+			Assert.fail();
+		}
+		
+		//update the ds
+		updateDS.setDescription("UPDATED:" + updateDS.getDescription());
+		
+		try
+		{
+			NetworkRequest nr = new NetworkRequest("sample_data/config-ckan-demo.json");
+			nr.updateDataset(updateDS.getName(), updateDS.toCKAN_JSON());
+		}
+		catch (IOException | ParseException e)
+		{
+			log.log(Level.SEVERE, e.toString());
+			Assert.fail();
+		}
+	}
+	
+	private Dataset getProjectOpenDataDataset()
+	{
+		Dataset ds = new Dataset();
+		final String datasetTestProjectOpenDataFile = "sample_data/test/datasetTestProjectOpenData.json";
+
+		try{
+			ds.loadDatasetFromFile(datasetTestProjectOpenDataFile);
+		}
+		catch(IOException | DatasetException e)
+		{
+			log.log(Level.SEVERE, e.toString());
+			Assert.fail();
+		}
+		
+		int rand = generateSimpleRandom();
+		
+		ds.setTitle(ds.getTitle() + "_" + rand);
+		ds.setUniqueIdentifier(ds.getUniqueIdentifier() + rand);
+		
+		
+		return ds;
+	}
+	
+	/**
+	 * real simple random, don't use for anything else.
+	 * @return
+	 */
+	private int generateSimpleRandom()
+	{
+		Random random = new Random();
+	    int randomNumber = random.nextInt((1000 - 10) + 1) + 10;
+	    return randomNumber;
 	}
 
 }

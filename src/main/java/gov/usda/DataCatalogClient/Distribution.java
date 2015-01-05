@@ -94,6 +94,7 @@ public class Distribution {
 		setConformsTo ((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_CONFORMS_TO));
 		setDescribedByType((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_DESCRIBED_BY_TYPE));
 		setDescribedBy ((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_DESCRIBED_BY));
+    	setFormat ((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_FORMAT));	
 		if ((String) resourceCKAN_JSON.get("type") != null)
 		{
 			setType((String)resourceCKAN_JSON.get("type"));
@@ -105,11 +106,18 @@ public class Distribution {
     	
     	//resourceType is the check button when adding resource "link to download, link to api, link to file, link to accessurl
     	//accessurl = AccessURL; file = DownloadURL; api = API
+		//TODO:optimize, make clearer
     	resourceType = ((String) resourceCKAN_JSON.get("resource_type"));
     	if (resourceType == null)
     	{
-    		//default to download_url
-    		setDownloadURL((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_URL));
+    		if (format.equalsIgnoreCase("api"))
+    		{
+    			setAccessURL((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_URL));
+    		}
+    		else	
+    		{
+    			setDownloadURL((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_URL));
+    		}
     	}
     	else if (resourceType.equals("accessurl"))
     	{
@@ -119,7 +127,7 @@ public class Distribution {
     	{
     		setDownloadURL((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_URL));
     	}
-    	else if (resourceType.toLowerCase().equals("api"))
+    	else if (resourceType.toLowerCase().equals("api") )
     	{
     		setAccessURL((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_URL));
     	}
@@ -132,7 +140,6 @@ public class Distribution {
     	//looks weird: mediaType = format and format = formatReadable
     	//ok, this keeps backward compatiablity with POD 1.0
     	setMediaType((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_MEDIA_TYPE));
-    	setFormat ((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_FORMAT));	
     	if (distributionException.exceptionSize()>0)
     	{
     		throw (distributionException);

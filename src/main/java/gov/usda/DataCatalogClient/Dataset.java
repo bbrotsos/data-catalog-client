@@ -1,5 +1,6 @@
 package gov.usda.DataCatalogClient;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
@@ -289,6 +290,19 @@ public class Dataset {
 		}
 	}
 	
+	public void loadDatasetFromFile(String podFileName) throws DatasetException, IOException
+	{
+		JSONObject datasetObject;
+		try{
+		datasetObject = Utils.loadJsonObjectFile(podFileName);
+		}
+		catch (org.json.simple.parser.ParseException e)
+		{
+			throw new IOException ("Invalid JSON file:" + podFileName + " " + e.toString());
+		}
+		loadFromProjectOpenDataJSON(datasetObject);
+	}
+	
 	/**
 	 * Populates this class from a JSON Object at the package level delivered from CKAN. 
 	 * <p>
@@ -356,6 +370,7 @@ public class Dataset {
 	{
 		JSONObject datasetCKAN_JSON = new JSONObject();
 		
+		//TODO: take out hardcoded "private"
 		datasetCKAN_JSON.put("private", true);
 		
 		datasetCKAN_JSON.put("name", getName());
@@ -365,6 +380,7 @@ public class Dataset {
 		//datasetCKAN_JSON.put("owner_org", "f2e28a6c-fafb-4914-a590-91fbcd6ae339");
 		
 		//demo.ckan
+		//TODO remove hardcoded owner_org
 		datasetCKAN_JSON.put("owner_org", "9ca02aa2-5007-4e9c-a407-ff8bdd9f43aa");
 		
 		JSONArray extrasArray = new JSONArray();
@@ -397,15 +413,18 @@ public class Dataset {
 		{
 			extrasArray.add(createExtraObject(Publisher.CKAN_PUBLISHER, publisher.getName()));
 		}
+		//TODO: Why does issued and spatial send back 409 when creating dataset
+		/*
 		//issued might break create, this was commented out
 		if (issued != null)
 		{
 			extrasArray.add(createExtraObject(CKAN_DATASET_ISSUED, Utils.convertDateToISOString(issued)));
 		}
+		*/
 		
 		extrasArray.add(createExtraObject(CKAN_DATASET_RIGHTS, rights));
 		//spatial might break create, this was commented out
-		extrasArray.add(createExtraObject (CKAN_DATASET_SPATIAL, spatial));
+		//extrasArray.add(createExtraObject (CKAN_DATASET_SPATIAL, spatial));
 		extrasArray.add(createExtraObject(CKAN_DATASET_SYSTEM_OF_RECORDS, systemOfRecords));
 		extrasArray.add(createExtraObject(CKAN_DATASET_TEMPORAL, temporal));
 		extrasArray.add(createExtraObject(CKAN_DATASET_UNIQUE_IDENTIFIER, uniqueIdentifier));
