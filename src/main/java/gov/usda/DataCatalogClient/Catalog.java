@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -67,7 +69,8 @@ public class Catalog {
 	private List<Dataset> dataSetList;
 	
 	private CatalogException catalogException;
-	
+	private static final Logger log = Logger.getLogger(Catalog.class.getName());
+
 	public Catalog()
 	{
 		dataSetList = new ArrayList<Dataset>();
@@ -104,6 +107,9 @@ public class Catalog {
 				catalogException.addError(e.toString());
 			}
 		}
+		
+		addBureauNameToDataset();
+		
 		if (!validateCatalog() || catalogException.exceptionSize() > 0)
 		{
 			throw (catalogException);
@@ -137,21 +143,21 @@ public class Catalog {
 	 * tab delimitted lines.
 	 * @param filePath String The output file for the catalog tab delimitted file.
 	 */
-	public void outputCSV(String filePath) throws IOException
+	public void toCSV(String filePath) throws IOException
 	{
 		if (filePath == null)
 		{
 			throw (new NullPointerException("filepath cannot be null"));
 		}
 		PrintWriter out = null;
+		
+		String headerLine = "Agency Name\tTitle\tDescription\tFormat\tAccess URL\tFrequency\tBureau Code\tContact Email\tContactName\t";
+		headerLine = headerLine + "Landing Page\tProgram Code\tPublisher\tPublic Access Level\tAccess Level Comment\tTags\tLast Update\tRelease Date\tUnique Identifier\t";
+		headerLine = headerLine + "Data Dictionary\tLicense\tSpatial\tTemporal\tSystem Of Records\tData Quality\tLangauge\t";
+		headerLine = headerLine + "Program Code\tTheme\tReference\t";
 		try
 		{
 			out = new PrintWriter(filePath);
-
-			String headerLine = "Agency Name\tTitle\tDescription\tFormat\tAccess URL\tFrequency\tABureau Code\tContact Email\tContactName\t";
-			headerLine = headerLine + "Landing Page\tProgram Code\tPublisher\tPublic Access Level\tAccess Level Comment\tTags\tLast Update\tRelease Date\tUnique Identifier\t";
-			headerLine = headerLine + "Data Dictionary\tLicense\tSpatial\tTemporal\tSystem Of Records\tData Quality\tLangauge\t";
-			headerLine = headerLine + "Program Code\tTheme\tReference\t";
 			
 			out.println(headerLine);		
 			
@@ -202,11 +208,68 @@ public class Catalog {
 			{
 				catalogException.addError(e.toString());
 			}
-		}		
+		}	
+		
+		addBureauNameToDataset();
 		
 		if (!validateCatalog() || catalogException.exceptionSize() > 0)
 		{
 			throw (catalogException);
+		}
+	}
+	
+	/**
+	 * This method adds bureau names to datasets.
+	 * 1.  Get bureau names and abbreviations from config file and add to JSONArray
+	 * 2.  Loop through datasets and pull out bureau code
+	 * 3.  Loop through bureaus looking for match.
+	 * 4.  Enhance the dataset with bureau name and abbreviation
+	 */
+	private void addBureauNameToDataset()
+	{
+		JSONArray bureauArray = null;
+		try{
+			bureauArray = Utils.getBureauList();
+		}
+		catch (ParseException | IOException e)
+		{
+			log.log(Level.SEVERE, "Cannot load bureaus.  Please check that bureau_code_data.json is correctly formatted.");
+		}
+		
+		for (Dataset ds: dataSetList)
+		{
+			addBureauName(ds, bureauArray);
+		}
+	}
+	
+	/**
+	 * Adds bureau name and bureau abbreviation to a dataset from a config file, normally
+	 * bureau_config_data.json.  Called from addBureaNameToDataset which goes through
+	 * the entire catalog.
+	 * @param ds
+	 * @param bureauArray
+	 */
+	private void addBureauName(Dataset ds, JSONArray bureauArray)
+	{
+		Boolean found = false;
+		List<String> bureauCodeList = ds.getBureauCodeList();
+		for (String bureauCode: bureauCodeList)
+		{
+			for (int i=0; i< bureauArray.size(); i++)
+			{
+				JSONObject bureauObject = (JSONObject) bureauArray.get(i);
+				if (bureauCode.equals(bureauObject.get("bureau_code")))
+				{
+					ds.setBureauName((String)bureauObject.get("bureau_name"));
+					ds.setBureauAbbreviation((String) bureauObject.get("bureau_abbreviation"));
+					found = true;
+				}
+			}
+			if (!found)
+			{
+				ds.setBureauName("Name not found for bureau code: + " + bureauCode + ", see bureau configuration file." );
+			}
+			found = false;
 		}
 	}
 	

@@ -148,8 +148,13 @@ public class Dataset {
 	private String ownerOrganization;
 	private String webService;
 	
+	//Bureau specific (might move to struct or class)
+	private String bureauName;
+	private String bureauAbbreviation;
+	
 	private DatasetException dsEx;
 	private static final Logger log = Logger.getLogger(Dataset.class.getName());
+
 
 	public Dataset()
 	{
@@ -275,7 +280,6 @@ public class Dataset {
 	 * @param datasetCKAN_JSON JSONObject This is most likely directly from CKAN API call.  This
 	 * is also considered the Package level for CKAN.
 	 */
-	//TODO: break into smaller methods
 	public void loadDatasetFromCKAN_JSON(JSONObject datasetCKAN_JSON) throws DatasetException
 	{	
 		if (datasetCKAN_JSON == null)
@@ -456,6 +460,7 @@ public class Dataset {
 	public String toCSV()
 	{
 		String response = "";
+		response = response + bureauName + "\t";
     	response = response + title + "\t";
     	//TODO: make description CSVable
     	//response = response  + unEscapeString(description) + "\t";
@@ -1052,6 +1057,22 @@ public class Dataset {
 		}
 	}
 	
+	public String getBureauName() {
+		return bureauName;
+	}
+
+	public void setBureauName(String bureauName) {
+		this.bureauName = bureauName;
+	}
+
+	public String getBureauAbbreviation() {
+		return bureauAbbreviation;
+	}
+
+	public void setBureauAbbreviation(String bureauAbbreviation) {
+		this.bureauAbbreviation = bureauAbbreviation;
+	}
+
 	public List<String> getProgramCodeList() {
 		return programCodeList;
 	}
@@ -1308,7 +1329,6 @@ public class Dataset {
 	 * 
 	 * @return Boolean True of data set is valid; false if invalid dataset
 	 */
-	//TODO validate distribution accessurl for all public and restricted datasets
 	//if Format == API and AccessURL == null
 	//if downloadURL = "something" and accessURL == something
 	//if downloadURL = null and access URL == null

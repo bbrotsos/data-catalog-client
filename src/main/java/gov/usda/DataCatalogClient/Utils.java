@@ -171,4 +171,9 @@ public class Utils {
 		return csvString;
 	}
 	
+	static public JSONArray getBureauList() throws ParseException, IOException
+	{
+		return Utils.loadJsonArrayFile("sample_data/bureau_reference_data.json");
+	}
+	
 }

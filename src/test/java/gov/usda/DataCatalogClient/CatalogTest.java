@@ -57,8 +57,6 @@ public class CatalogTest {
 			log.log(Level.SEVERE, e.toString());
 		}
 		
-		System.out.println(catalogPod);
-		System.out.println(catalogCkan);
 		assertEquals (catalogPod, catalogCkan);
 		
 	}
@@ -78,6 +76,44 @@ public class CatalogTest {
 	@Test
 	public void testAddCatalogToCatalog(){
 		fail("Not yet implemented");
+	}
+	
+	/**
+	 * This tests bureau names adding to datasets correctly
+	 */
+	@Test
+	public void testAddBureauNamesToDatasets(){
+		final String catalogProjectOpenDataFileName = "sample_data/test/catalogTestProjectOpenData.json";
+
+		JSONObject catalogObjectPod = null;
+		
+		Catalog catalogPod = new Catalog();
+		
+		try
+		{
+			catalogObjectPod = Utils.loadJsonObjectFile(catalogProjectOpenDataFileName);
+		}
+		catch(ParseException | IOException e)
+		{
+			log.log(Level.SEVERE, e.toString());
+		}
+		
+		try{
+			catalogPod.loadFromProjectOpenDataJSON(catalogObjectPod);
+		}
+		catch (CatalogException e)
+		{
+			log.log(Level.SEVERE, e.toString());
+		}
+		
+		try{
+			catalogPod.toCSV("sample_data/test/catalog.csv");
+		}
+		catch(IOException e)
+		{
+			log.log(Level.SEVERE, e.toString());
+		}
+		
 	}
 
 

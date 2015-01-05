@@ -294,10 +294,9 @@ public class Distribution {
 	}
 	
 	/**
-	 * Returns a Map object of the distribution in Project Open Data specification.
+	 * Returns a JSON object of the distribution in Project Open Data specification.
 	 * @return
 	 */
-	//TODO: Change Map to JSONObject.  No need to preserve order anymore
 	@SuppressWarnings("unchecked")
 	public JSONObject toProjectOpenDataJSON()
 	{
