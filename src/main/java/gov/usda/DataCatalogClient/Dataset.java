@@ -74,6 +74,39 @@ public class Dataset {
 	public final static String PROJECT_OPEN_DATA_DATASET_LICENSE = "license";
 	public final static String PROJECT_OPEN_DATA_DATASET_CONFORMS_TO = "conformsTo";
 	public final static String PROJECT_OPEN_DATA_DATASET_IS_PART_OF = "isPartOf";
+	
+	//only using where CKAN differs from Project Open Data
+	public final static String CKAN_DATASET = "package";
+	public final static String CKAN_DATASET_DISTRIBUTION = "resources";
+	public final static String CKAN_DATASET_DESCRIPTION = "notes";
+	public final static String CKAN_DATASET_EXTRAS = "extras";
+	public final static String CKAN_DATASET_ACCESS_LEVEL = "public_access_level";
+	public final static String CKAN_DATASET_ACCRUAL_PERIODICITY = "accrual_periodicity";
+	public final static String CKAN_DATASET_BUREAU_CODE_LIST = "bureau_code";
+	public final static String CKAN_DATASET_CONFORMS_TO = "conforms_to";
+	public final static String CKAN_DATASET_DATA_QUALITY = "data_quality";
+	public final static String CKAN_DATASET_DATA_QUALITY_LEGACY ="dataQuality";
+	public final static String CKAN_DATASET_DESCRIBED_BY = "data_dictionary";
+	public final static String CKAN_DATASET_DESCRIBED_BY_LEGACY = "data_dict";
+	public final static String CKAN_DATASET_DESCRIBED_BY_TYPE = "data_dictionary_type";
+	//TODO: Description
+	public final static String CKAN_DATASET_IS_PART_OF = "is_parent";
+	public final static String CKAN_DATASET_ISSUED = "release_date";
+	public final static String CKAN_DATASET_LANDING_PAGE = "homepage_url";
+	public final static String CKAN_DATASET_LANGUAGE = "language";
+	public final static String CKAN_DATASET_LICENSE = "license_new";
+	public final static String CKAN_DATASET_MODIFIED = "modified";
+	public final static String CKAN_DATASET_PRIMARY_IT_INVESTMENT_UII = "primary_it_investment_uii";
+	public final static String CKAN_DATASET_PROGRAM_CODE = "program_code";
+	public final static String CKAN_DATASET_PROGRAM_CODE_LEGACY = "program_cdoe";
+	public final static String CKAN_DATASET_REFERENCES = "related_documents";
+	public final static String CKAN_DATASET_RIGHTS = "access_level_comment";
+	public final static String CKAN_DATASET_SPATIAL = "spatial";
+	public final static String CKAN_DATASET_SYSTEM_OF_RECORDS = "system_of_records";
+	public final static String CKAN_DATASET_TEMPORAL = "temporal";
+	public final static String CKAN_DATASET_THEME = "category";
+	public final static String CKAN_DATASET_TITLE = "title";
+	public final static String CKAN_DATASET_UNIQUE_IDENTIFIER = "unique_id";
 
 
 	//metadata documentation is at http://www.w3.org/TR/vocab-dcat/
@@ -131,6 +164,107 @@ public class Dataset {
 		contactPoint = new Contact();
 	}
 	
+	private void loadDistributionListFromCKAN(JSONArray resourcesArray)
+	{
+		if (resourcesArray == null)
+		{
+		   	log.log(Level.SEVERE, "There are no resources. This could be the case for datasets marked private.  Passively allowing this but need to validate in validate function");
+		}
+		else
+		{
+			for (int i=0; i < resourcesArray.size(); i++)
+		    {	    	
+		    	final JSONObject resource = (JSONObject) resourcesArray.get(i);
+
+	    		Distribution distribution = new Distribution();
+	    		try{
+	    			distribution.loadDistributionFromCKAN_JSON(resource);
+	    			distributionList.add(distribution);
+	    		}
+	    		catch (DistributionException e)
+	    		{
+	    			dsEx.addError("Distribution error" + e.toString());
+	    		}
+	    	}
+	    }
+	}
+	
+	private void loadExtraFromCKAN(String key, String value) throws ParseException
+	{
+		Publisher subOrganization = null;
+		value.trim();
+		switch (key)
+		{
+			case CKAN_DATASET_ACCESS_LEVEL: setAccessLevel(value); break;
+			case CKAN_DATASET_ACCRUAL_PERIODICITY: setAccrualPeriodicity(value); break;
+			case CKAN_DATASET_BUREAU_CODE_LIST: setBureauCodeList(value); break;
+			case CKAN_DATASET_CONFORMS_TO: setConformsTo(value); break;
+			case CKAN_DATASET_DATA_QUALITY:
+			case CKAN_DATASET_DATA_QUALITY_LEGACY: setDataQuality(value); break;
+			case CKAN_DATASET_DESCRIBED_BY:
+			case CKAN_DATASET_DESCRIBED_BY_LEGACY:setDescribedBy(value); break;
+			case CKAN_DATASET_DESCRIBED_BY_TYPE: setDescribedByType(value); break;
+			case CKAN_DATASET_DESCRIPTION: setDescription(value); break;
+			case CKAN_DATASET_IS_PART_OF: setIsPartOf(value); break;
+			case CKAN_DATASET_ISSUED: setIssued(value); break;
+			case CKAN_DATASET_LANDING_PAGE: setLandingPage(value); break;
+			case CKAN_DATASET_LANGUAGE: setLanguageList(value); break;
+			case CKAN_DATASET_LICENSE: setLicense(value); break;
+			case CKAN_DATASET_MODIFIED: setModified(value); break;
+			case CKAN_DATASET_PRIMARY_IT_INVESTMENT_UII: setPrimaryITInvestmentUII(value); break;
+			case CKAN_DATASET_PROGRAM_CODE: 
+			case CKAN_DATASET_PROGRAM_CODE_LEGACY: setProgramCodeList(value); break;
+			case CKAN_DATASET_REFERENCES: setReferenceList(value); break;
+			case CKAN_DATASET_RIGHTS: setRights(value); break;
+			case CKAN_DATASET_SPATIAL: setSpatial(value); break;
+			case CKAN_DATASET_SYSTEM_OF_RECORDS: setSystemOfRecords(value); break;
+			case CKAN_DATASET_TEMPORAL: setTemporal(value); break;
+			case CKAN_DATASET_THEME: setThemeList(value); break;
+			case CKAN_DATASET_TITLE: setTitle(value); break;
+			case CKAN_DATASET_UNIQUE_IDENTIFIER: setUniqueIdentifier(value); break;
+			case Contact.CKAN_CONTACT_EMAIL_ADDRESS: contactPoint.setEmailAddress(value); break;
+			case Contact.CKAN_CONTACT_FULL_NAME: contactPoint.setFullName(value); break;
+			case Publisher.CKAN_PUBLISHER_NAME: publisher.setName(value); break;
+			case Publisher.CKAN_PUBLISHER_SUBORGANIZATION_NAME : 
+				subOrganization = new Publisher();
+				subOrganization.setName(value); break;
+		}
+		
+		//move these lines elsewhere
+		contactPoint.setType("vcard:Contact");
+		publisher.setType("org:Organization");
+
+		if (subOrganization != null)
+		{
+			subOrganization.setType("org:Organization");
+			publisher.setSubOrganization(subOrganization);
+		}
+	}
+	
+	/**
+	 * For each CKAN extra loads into this dataset object.
+	 * @param extraList
+	 * @throws DatasetException
+	 */
+	private void loadExtraListFromCKAN(JSONArray extraList) throws DatasetException
+	{
+		Publisher subOrganization = new Publisher();
+	    for (int i = 0; i < extraList.size(); i++)
+		{			
+			JSONObject extraObject = (JSONObject) extraList.get(i);
+			String key = (String) extraObject.get("key");
+			String value = (String) extraObject.get("value");
+			
+			try{
+				loadExtraFromCKAN(key, value);
+			}
+			catch(ParseException e)
+			{
+				dsEx.addError(e.toString());
+			}
+		}
+	}
+	
 	/**
 	 * Populates this class from a JSON Object at the package level delivered from CKAN. 
 	 * <p>
@@ -147,209 +281,34 @@ public class Dataset {
 		{
 			throw new NullPointerException("datasetCKAN_JSON cannot be null");
 		}
-		
-		//This is used to store subOrganization.
-		//There is no order in JSON so there is no guarantee that publisher1 comes after publisher.
-		Publisher subOrganization = new Publisher();
-		
-		//optimize in the future
-		
+				
 		//issue, title is in two places. To solve this set it initially, and let extra tag overwrite if it exists in extra.
 		setTitle((String) datasetCKAN_JSON.get("title"));
 		setDescription((String) datasetCKAN_JSON.get("notes"));
 	    setModified ((String) datasetCKAN_JSON.get("metadata_modified"));
+		 
+	    loadDistributionListFromCKAN((JSONArray) datasetCKAN_JSON.get(CKAN_DATASET_DISTRIBUTION));
 	    
-	    final JSONArray resourcesArray = (JSONArray) datasetCKAN_JSON.get("resources");
-	    if (resourcesArray == null)
-		{
-	    	log.log(Level.SEVERE, "There are no resources. This could be the case for datasets marked private.  Passively allowing this but need to validate in validate function");
-		}
-	    else
-	    {
-	    	for (int i=0; i < resourcesArray.size(); i++)
-	    	{	    	
-	    		final JSONObject resource = (JSONObject) resourcesArray.get(i);
-
-	    		Distribution distribution = new Distribution();
-	    		try{
-	    			distribution.loadDistributionFromCKAN_JSON(resource);
-	    			distributionList.add(distribution);
-	    		}
-	    		catch (DistributionException e)
-	    		{
-	    			dsEx.addError("Distribution error" + e.toString());
-	    		}
-	    	}
-	    }
-
-	    final JSONArray extraList = (JSONArray) datasetCKAN_JSON.get("extras");
+	    final JSONArray extraList = (JSONArray) datasetCKAN_JSON.get(CKAN_DATASET_EXTRAS);
 	    if (extraList == null)
 	    {
 	    	throw new IllegalArgumentException("JSON is invalid.  extras array is required.");
 	    }
-	    for (int i = 0; i < extraList.size(); i++)
-		{			
-			JSONObject extraObject = (JSONObject) extraList.get(i);
-			String key = (String) extraObject.get("key");
-
-			String value = (String) extraObject.get("value");
-			if (key.equals("data_quality") || key.equals("dataQuality"))
-	    	{
-	    		setDataQuality(value);	    		
-	    	}
-	    	else if (key.equals("accrual_periodicity"))
-	    	{
-	    		setAccrualPeriodicity(value);
-	    	}
-	    	else if (key.equals("bureau_code"))
-	    	{
-	    		try{
-	    			setBureauCodeList(value);
-	    		}
-	    		catch (ParseException e)
-	    		{
-	    			dsEx.addError(e.toString());
-	    		}
-	    	}
-	    	else if (key.equals("unique_id"))
-	    	{
-	    		setUniqueIdentifier(value);
-	    	}
-	    	else if (key.equals("contact_email"))
-	    	{
-	    		contactPoint.setEmailAddress(value);
-	    	}
-	    	else if (key.equals("contact_name"))
-	    	{
-	    		contactPoint.setFullName(value);
-	    	}
-	    	else if (key.equals("homepage_url"))
-	    	{
-	    		setLandingPage(value);
-	    	}
-	    	//TODO: Fix ckan feed for misspelled program_ocde
-	    	else if (key.equals("program_code") || key.equals("program_ocde"))
-	    	{
-	    		try{
-	    			setProgramCodeList(value);
-	    		}
-	    		catch(ParseException e)
-	    		{
-	    			dsEx.addError(e.toString());
-	    		}
-	    	}
-	    	else if (key.equals("publisher"))
-	    	{
-	    		publisher.setName(value);
-	    		//CKAN does not have way to extract his field, so hardcoded
-	    		publisher.setType("org:Organization");
-	    	}
-	    	else if (key.equals("publisher_1"))
-	    	{
-	    		subOrganization.setName(value);
-	    		subOrganization.setType("org:Organization");
-	    	}
-	    	else if (key.equals("related_documents"))
-	    	{
-	    		setReferenceList(value);
-	    	}
-	    	else if (key.equals("release_date"))
-	    	{
-	    		setIssued(value);
-	    	}
-	    	else if (key.equals("spatial"))
-	    	{
-	    		setSpatial(value);
-	    	}
-	    	else if (key.equals("temporal"))
-	    	{
-	    		setTemporal(value);
-	    	}
-	    	else if (key.equals("public_access_level"))
-	    	{
-	    		setAccessLevel(value);
-	    	}
-	    	else if (key.equals("access_level_comment"))
-	    	{
-	    		setRights(value);
-	    	}
-	    	else if (key.equals("title"))
-	    	{
-	    		setTitle(value.trim());	    		
-	    	}
-	    	else if (key.equals("revision_timestamp"))
-	    	{
-	    		setModified(value);
-	    	}
-	    	else if (key.equals("notes"))
-	    	{
-	    		setComments(value);
-	    	}
-	    	else if (key.equals("category"))
-	    	{
-	    		setThemeList(value);	
-	    	}
-	    	else if (key.equals("modified"))
-	    	{
-	    		setModified(value);
-	    	}
-	    	else if (key.equals("system_of_records"))
-	    	{
-	    		setSystemOfRecords(value);
-	    	}
-	    	else if (key.equals("data_dictionary") || key.equals("data_dict"))
-	    	{
-	    		setDescribedBy(value);
-	    	}
-	    	else if (key.equals("data_dictionary_type"))
-	    	{
-	    		setDescribedByType(value);
-	    	}
-	    	else if (key.equals("language"))
-	    	{
-	    		setLanguageList(value);
-	    	}
-	    	else if (key.equals("primary_it_investment_uii"))
-	    	{
-	    		setPrimaryITInvestmentUII(value);
-	    	}
-	    	else if (key.equals("webservice"))
-	    	{
-	    		setWebService(value);
-	    	}
-	    	else if (key.equals("owner_org") || key.equals("ow"))
-	    	{
-	    		setOwnerOrganization(value);
-	    	}
-	    	else if (key.equals("license_new"))
-	    	{
-	    		setLicense(value);
-	    	}
-	    	else if (key.equals("conforms_to"))
-	    	{
-	    		setConformsTo(value);
-	    	}
-	    	else if (key.equals("is_parent"))
-	    	{
-	    		setIsPartOf(value);
-	    	}
-	    	else
-	    	{
-				log.log(Level.SEVERE, "Unaccounted for CKAN Element:" + key + " value: " + value);
-	    	}
-			
-		}
-		//TODO: Put this at a better location, or figure out if CKAN is going to output the contact type field.
-		contactPoint.setType("vcard:Contact");
+	    else
+	    {
+	    	loadExtraListFromCKAN(extraList);
+	    }
+	    
+		loadKeywordsFromCKAN((JSONArray)datasetCKAN_JSON.get("tags"));
 		
-		//put this at a better point too
-		if (subOrganization != null)
+		if (!validateDataset() || dsEx.exceptionSize() > 0)
 		{
-			publisher.setSubOrganization(subOrganization);
+			throw (dsEx);
 		}
-
-		
-		final JSONArray tagsArray = (JSONArray)datasetCKAN_JSON.get("tags");
+	}
+	
+	private void loadKeywordsFromCKAN(JSONArray tagsArray)
+	{
 		if (tagsArray == null)
 		{
 			throw new IllegalArgumentException("JSON is invalid for Project Open Data.  Expecting 'tags' array.");
@@ -359,11 +318,6 @@ public class Dataset {
 		{
 			final JSONObject tagObject = (JSONObject)tagsArray.get(k);
 			keywordList.add((String)tagObject.get("display_name"));
-		}
-		
-		if (!validateDataset() || dsEx.exceptionSize() > 0)
-		{
-			throw (dsEx);
 		}
 	}
 	
@@ -880,7 +834,7 @@ public class Dataset {
 		this.issued = issued;
 	}
 	
-	private void setIssued(String issued) throws DatasetException
+	private void setIssued(String issued)
 	{
 		if (issued != null)
 		{
@@ -889,7 +843,7 @@ public class Dataset {
 			}
 			catch(ParseException e)
 			{
-				throw new DatasetException("Invalid issued date", e);
+				dsEx.addError("Issued field has invalid ISO Date" + e);
 				//throw e;
 			}
 		}

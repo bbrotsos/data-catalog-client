@@ -11,10 +11,13 @@ import org.json.simple.JSONObject;
  *
  */
 public class Publisher {
-	public final static String PROJECT_OPEN_DATA_PUBLISHER = "@publisher";
+	public final static String PROJECT_OPEN_DATA_PUBLISHER = "publisher";
 	public final static String PROJECT_OPEN_DATA_PUBLISHER_TYPE = "@type";
 	public final static String PROJECT_OPEN_DATA_PUBLISHER_NAME = "name";
 	public final static String PROJECT_OPEN_DATA_PUBLISHER_SUBORGANIZATION = "subOrganizationOf";
+	
+	public final static String CKAN_PUBLISHER_NAME = "publisher";
+	public final static String CKAN_PUBLISHER_SUBORGANIZATION_NAME = "publisher_1";
 
 	private String type;
 	private String name;

@@ -60,12 +60,10 @@ public class Client {
 	{		
 		//TODO: First get id, we will use this later because we can't rely on names not changing.
 		//Dataset ckanDataset = getDatasetFromCKAN(updateDS.getName());
+		final NetworkRequest nr = new NetworkRequest();
+		final String datasetCKANString = nr.updateDataset(updateDS.getName(), updateDS.toCKAN_JSON());
 		
-		String datasetCKANString = "";
-		NetworkRequest nr = new NetworkRequest();
-		datasetCKANString = nr.updateDataset(updateDS.getName(), updateDS.toCKAN_JSON());
-		
-		JSONObject dataSetJSON = new JSONObject();
+		final JSONObject dataSetJSON;
 		Dataset ds = new Dataset();
 		
 		dataSetJSON = Utils.loadJsonObjectFromString(datasetCKANString);

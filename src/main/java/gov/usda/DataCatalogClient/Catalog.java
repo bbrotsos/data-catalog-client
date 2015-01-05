@@ -2,8 +2,6 @@ package gov.usda.DataCatalogClient;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +10,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
@@ -44,11 +41,11 @@ public class Catalog {
 	
 	//Project Open Data json field constants
 	public final static String PROJECT_OPEN_DATA_CATALOG_CONFORMS_TO = "conformsTo";
-	public final static String PROJECT_OPEN_DATA_CATALOG_TYPE = "@type";
 	public final static String PROJECT_OPEN_DATA_CATALOG_CONTEXT = "@context";
 	public final static String PROJECT_OPEN_DATA_CATALOG_DESCRIBED_BY = "describedBy";
 	public final static String PROJECT_OPEN_DATA_CATALOG_IDENTIFIER = "@id";
-
+	public final static String PROJECT_OPEN_DATA_CATALOG_TYPE = "@type";
+	
 	//Documentation on DCAT here: http://www.w3.org/TR/vocab-dcat/
 	private String title;
 	private String description;
@@ -222,14 +219,11 @@ public class Catalog {
 		{
 			throw (new NullPointerException("catalogJSONString cannot be null"));
 		}
-		JSONObject resourceCKAN_JSON = new JSONObject();
-		Object obj = new Object();
+		
+		JSONObject resourceCKAN_JSON = null; 
 		try{
-			JSONParser parser = new JSONParser();
-
-			obj = parser.parse(catalogJSONString);
-			resourceCKAN_JSON = (JSONObject)obj;
-		} 
+			resourceCKAN_JSON = Utils.loadJsonObjectFromString(catalogJSONString);
+		}
 		catch (ParseException e) 
 		{
 			catalogException.addError("Error parsing string: " + e.toString());
@@ -249,16 +243,10 @@ public class Catalog {
 		{
 			throw (new NullPointerException("catalogFileName cannot be null"));
 		}
-		String catalogCKAN_JSON_String = "";
-		Object obj = new Object();
 		JSONObject resourceCKAN_JSON = new JSONObject();
-		try 
-		{
-			catalogCKAN_JSON_String = new String(Files.readAllBytes(Paths.get(catalogFileName)));
-			JSONParser parser = new JSONParser();
-			obj = parser.parse(catalogCKAN_JSON_String);
-			resourceCKAN_JSON = (JSONObject)obj;
-		} 
+		try{
+			resourceCKAN_JSON = Utils.loadJsonObjectFile(catalogFileName);
+		}
 		catch (IOException | ParseException e) 
 		{
 			catalogException.addError(e.toString());
@@ -290,22 +278,22 @@ public class Catalog {
 		catalogJSON.put(PROJECT_OPEN_DATA_CATALOG_CONTEXT, "https://project-open-data.cio.gov/v1.1/schema/data.jsonld");
 		catalogJSON.put(PROJECT_OPEN_DATA_CATALOG_TYPE, "dcat:Catalog");
 	
-		for (int i = 0; i < dataSetList.size(); i++)
+		for(Dataset ds: dataSetList)
 		{
 			if (privateIndicator)
 			{
-				dataSetArray.add(dataSetList.get(i).toProjectOpenDataJSON());
+				dataSetArray.add(ds.toProjectOpenDataJSON());
 			}
 			else
 			{
-				String publicAccessLevel = dataSetList.get(i).getAccessLevel();
+				String publicAccessLevel = ds.getAccessLevel();
 				if (publicAccessLevel.equals("public") || publicAccessLevel.equals("restricted"))
 				{
-					dataSetArray.add(dataSetList.get(i).toProjectOpenDataJSON());
+					dataSetArray.add(ds.toProjectOpenDataJSON());
 				}
 			}
 		}
-		
+	
 		catalogJSON.put(Dataset.PROJECT_OPEN_DATA_DATASET, dataSetArray);
 		Utils.printJSON(podFilePath, catalogJSON); 
 	}
@@ -419,6 +407,11 @@ public class Catalog {
 		return validIndicator;
 	}
 	
+	/**
+	 * Search through datasetList looking for identifiers that are equal.  All identifiers
+	 * should be unique.
+	 * @return
+	 */
 	public Boolean validateUniqueIdentifiers()
 	{
 		Boolean validIndicator = true;

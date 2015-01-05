@@ -18,6 +18,9 @@ public class Contact {
 	public final static String PROJECT_OPEN_DATA_CONTACT_POINT_TYPE = "@type";
 	public final static String PROJECT_OPEN_DATA_CONTACT_POINT_FULL_NAME = "fn";
 	public final static String PROJECT_OPEN_DATA_CONTACT_POINT_EMAIL_ADDRESS = "hasEmail";
+	
+	public final static String CKAN_CONTACT_FULL_NAME = "contact_name";
+	public final static String CKAN_CONTACT_EMAIL_ADDRESS = "contact_email";
 
 	private String type;
 	private String fullName;

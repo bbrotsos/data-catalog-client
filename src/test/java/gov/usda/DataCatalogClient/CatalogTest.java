@@ -2,11 +2,19 @@ package gov.usda.DataCatalogClient;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class CatalogTest {
+
+	private static final Logger log = Logger.getLogger(CatalogTest.class.getName());
 
 	@Before
 	public void setUp() throws Exception {
@@ -17,11 +25,42 @@ public class CatalogTest {
 	}
 
 	/**
-	 * Load CKAN organization cataglog, load project open data catalog, compare.
+	 * Load CKAN organization catalog, load project open data catalog, compare.
 	 */
 	@Test
 	public void testLoadCatalog() {
-		fail("Not yet implemented");
+		final String catalogProjectOpenDataFileName = "sample_data/test/catalogTestProjectOpenData.json";
+		final String catalogCkanFileName = "sample_data/test/catalogTestCKAN.json";
+
+		JSONObject catalogObjectPod = null;
+		JSONObject catalogObjectCkan = null;
+		
+		Catalog catalogPod = new Catalog();
+		Catalog catalogCkan = new Catalog();
+		
+		try
+		{
+			catalogObjectPod = Utils.loadJsonObjectFile(catalogProjectOpenDataFileName);
+			catalogObjectCkan = Utils.loadJsonObjectFile(catalogCkanFileName);
+		}
+		catch(ParseException | IOException e)
+		{
+			log.log(Level.SEVERE, e.toString());
+		}
+		
+		try{
+			catalogPod.loadFromProjectOpenDataJSON(catalogObjectPod);
+			catalogCkan.loadCatalogFromCKAN_JSON(catalogObjectCkan);
+		}
+		catch (CatalogException e)
+		{
+			log.log(Level.SEVERE, e.toString());
+		}
+		
+		System.out.println(catalogPod);
+		System.out.println(catalogCkan);
+		assertEquals (catalogPod, catalogCkan);
+		
 	}
 	
 	/**
