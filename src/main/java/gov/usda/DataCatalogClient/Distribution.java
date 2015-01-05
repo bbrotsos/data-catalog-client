@@ -21,35 +21,35 @@ public class Distribution {
 
 	//Project Open Data JSON Fields
 	public final static String PROJECT_OPEN_DATA_DISTRIBUTION= "distribution";
-	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_TITLE = "title";
-	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIPTION = "description";
 	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_ACCESS_URL = "accessURL";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_CONFORMS_TO =  "conformsTo";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIPTION = "description";
 	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_DOWNLOAD_URL = "downloadURL";
-	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_MEDIA_TYPE = "mediaType";
-	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_FORMAT = "format";
 	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY = "describedBy";
 	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY_TYPE = "describedByType";
-	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_CONFORMS_TO =  "conformsTo";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_FORMAT = "format";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_MEDIA_TYPE = "mediaType";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_TITLE = "title";
 	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_TYPE = "@type";
 	
 	//CKAN Data Fields, media type looks odd to continue backwards compliance with Project Open Data 1.0
-	public final static String CKAN_DISTRIBUTION_TITLE = "name";
 	public final static String CKAN_DISTRIBUTION_DESCRIPTION = "description";
 	public final static String CKAN_DISTRIBUTION_CONFORMS_TO = "conformsTo";
 	public final static String CKAN_DISTRIBUTION_DESCRIBED_BY = "describedBy";
 	public final static String CKAN_DISTRIBUTION_DESCRIBED_BY_TYPE = "describedByType";
-	public final static String CKAN_DISTRIBUTION_URL = "url";
-	public final static String CKAN_DISTRIBUTION_MEDIA_TYPE = "format";
 	public final static String CKAN_DISTRIBUTION_FORMAT = "formatReadable";
+	public final static String CKAN_DISTRIBUTION_MEDIA_TYPE = "format";
+	public final static String CKAN_DISTRIBUTION_TITLE = "name";
+	public final static String CKAN_DISTRIBUTION_URL = "url";
 
 
 	//Common DCAT & POD metadata fields
-	private String title;
-	private String description;
 	private URL accessURL;
+	private String description;
 	private URL downloadURL;
-	private String mediaType;
 	private String format;
+	private String mediaType;
+	private String title;
 	
 	//Additional DCAT fields http://www.w3.org/TR/vocab-dcat/
 	private Integer byteSize;
@@ -59,9 +59,9 @@ public class Distribution {
 	private String rights;
 	
 	//Additional POD Fields: https://project-open-data.cio.gov/v1.1/schema/#accessLevel
+	private String conformsTo;
 	private String describedBy;
 	private String describedByType;
-	private String conformsTo;
 	private String type;
 	
 	//This is for checkbox "link to api, etc in CKAN

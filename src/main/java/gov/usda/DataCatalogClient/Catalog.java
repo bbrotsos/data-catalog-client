@@ -47,21 +47,22 @@ public class Catalog {
 	public final static String PROJECT_OPEN_DATA_CATALOG_TYPE = "@type";
 	
 	//Documentation on DCAT here: http://www.w3.org/TR/vocab-dcat/
-	private String title;
 	private String description;
+	private String homepage;
 	private Date issued;
 	private String language;
 	private String license;
 	private String rights;
 	private String spatial;
-	private String homepage;
+	private String title;
+
 	
 	//Project Open Data additional fields: https://project-open-data.cio.gov/v1.1/schema/#accessLevel
+	private String conformsTo;
 	private String context;
+	private String describedBy;
 	private String id;
 	private String type;
-	private String conformsTo;
-	private String describedBy;
 	
 	private List<Dataset> dataSetList;
 	

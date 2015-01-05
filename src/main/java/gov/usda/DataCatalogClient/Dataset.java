@@ -49,36 +49,38 @@ public class Dataset {
 
 	//Project Open Data 1.1 JSON fields  https://project-open-data.cio.gov/v1.1/schema/
 	public final static String PROJECT_OPEN_DATA_DATASET = "dataset";
-	public final static String PROJECT_OPEN_DATA_DATASET_TITLE = "title";
-	public final static String PROJECT_OPEN_DATA_DATASET_DESCRIPTION = "description";
-	public final static String PROJECT_OPEN_DATA_DATASET_ISSUED = "issued";
-	public final static String PROJECT_OPEN_DATA_DATASET_MODIFIED = "modified";
-	public final static String PROJECT_OPEN_DATA_DATASET_KEYWORD = "keyword";
-	public final static String PROJECT_OPEN_DATA_DATASET_LANGUAGE = "language";
-	public final static String PROJECT_OPEN_DATA_DATASET_THEME = "theme";
-	public final static String PROJECT_OPEN_DATA_DATASET_TEMPORAL = "temporal";
-	public final static String PROJECT_OPEN_DATA_DATASET_SPATIAL = "spatial";
-	public final static String PROJECT_OPEN_DATA_DATASET_ACCRUAL_PERIODICITY = "accrualPeriodicity";
-	public final static String PROJECT_OPEN_DATA_DATASET_LANDING_PAGE = "landingPage";
-	public final static String PROJECT_OPEN_DATA_DATASET_UNIQUE_IDENTIFIER = "identifier";
-	public final static String PROJECT_OPEN_DATA_DATASET_BUREAU_CODE = "bureauCode";
-	public final static String PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE = "programCode";
-	public final static String PROJECT_OPEN_DATA_DATASET_PRIMARY_IT_INVESTMENT_UII = "primaryITInvestmentUII";
 	public final static String PROJECT_OPEN_DATA_DATASET_ACCESS_LEVEL = "accessLevel";
-	public final static String PROJECT_OPEN_DATA_DATASET_RIGHTS = "rights";
-	public final static String PROJECT_OPEN_DATA_DATASET_SYSTEM_OF_RECORDS = "systemOfRecords";
+	public final static String PROJECT_OPEN_DATA_DATASET_ACCRUAL_PERIODICITY = "accrualPeriodicity";
+	public final static String PROJECT_OPEN_DATA_DATASET_BUREAU_CODE = "bureauCode";
+	public final static String PROJECT_OPEN_DATA_DATASET_CONFORMS_TO = "conformsTo";
 	public final static String PROJECT_OPEN_DATA_DATASET_DATA_QUALITY = "dataQuality";
-	public final static String PROJECT_OPEN_DATA_DATASET_REFERENCES = "references";
 	public final static String PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY = "describedBy";
 	public final static String PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY_TYPE = "describedByType";
-	public final static String PROJECT_OPEN_DATA_DATASET_LICENSE = "license";
-	public final static String PROJECT_OPEN_DATA_DATASET_CONFORMS_TO = "conformsTo";
+	public final static String PROJECT_OPEN_DATA_DATASET_DESCRIPTION = "description";
+	public final static String PROJECT_OPEN_DATA_DATASET_UNIQUE_IDENTIFIER = "identifier";
 	public final static String PROJECT_OPEN_DATA_DATASET_IS_PART_OF = "isPartOf";
+	public final static String PROJECT_OPEN_DATA_DATASET_ISSUED = "issued";
+	public final static String PROJECT_OPEN_DATA_DATASET_LICENSE = "license";
+	public final static String PROJECT_OPEN_DATA_DATASET_KEYWORD = "keyword";
+	public final static String PROJECT_OPEN_DATA_DATASET_LANDING_PAGE = "landingPage";
+	public final static String PROJECT_OPEN_DATA_DATASET_LANGUAGE = "language";
+	public final static String PROJECT_OPEN_DATA_DATASET_MODIFIED = "modified";
+	public final static String PROJECT_OPEN_DATA_DATASET_PRIMARY_IT_INVESTMENT_UII = "primaryITInvestmentUII";
+	public final static String PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE = "programCode";
+	public final static String PROJECT_OPEN_DATA_DATASET_REFERENCES = "references";
+	public final static String PROJECT_OPEN_DATA_DATASET_RIGHTS = "rights";
+	public final static String PROJECT_OPEN_DATA_DATASET_SPATIAL = "spatial";
+	public final static String PROJECT_OPEN_DATA_DATASET_SYSTEM_OF_RECORDS = "systemOfRecords";
+	public final static String PROJECT_OPEN_DATA_DATASET_TEMPORAL = "temporal";
+	public final static String PROJECT_OPEN_DATA_DATASET_TITLE = "title";
+	public final static String PROJECT_OPEN_DATA_DATASET_THEME = "theme";
+
 	
 	//only using where CKAN differs from Project Open Data
 	public final static String CKAN_DATASET = "package";
 	public final static String CKAN_DATASET_DISTRIBUTION = "resources";
-	public final static String CKAN_DATASET_DESCRIPTION = "notes";
+	public final static String CKAN_DATASET_DESCRIPTION_NOTES = "notes";
+	public final static String CKAN_DATASET_DESCRIPTION = "description";
 	public final static String CKAN_DATASET_EXTRAS = "extras";
 	public final static String CKAN_DATASET_ACCESS_LEVEL = "public_access_level";
 	public final static String CKAN_DATASET_ACCRUAL_PERIODICITY = "accrual_periodicity";
@@ -110,58 +112,58 @@ public class Dataset {
 
 
 	//metadata documentation is at http://www.w3.org/TR/vocab-dcat/
-	private String title;
-	private String description;
-	private Date issued;
-	private Date modified;
-	//These three are lists for Project Open Data compliance
-	private List<String> keywordList;
-	private List<String> languageList;
-	private List<String> themeList;
-	private Contact contactPoint;
-	private Publisher publisher;
-	private String temporal;
-	private String spatial;
 	private String accrualPeriodicity;
-	private URL landingPage;
+	private Contact contactPoint;
+	private String description;
 	private List<Distribution> distributionList;
+	private Date issued;
+	private List<String> keywordList;
+	private URL landingPage;
+	private List<String> languageList;
+	private Date modified;
+	private Publisher publisher;
+	private String spatial;
+	private List<String> themeList;
+	private String temporal;
+	private String title;
 	
 	//federal government project open data extension documentation here: https://project-open-data.cio.gov/v1.1/schema/
-	private String uniqueIdentifier;
-	private List<String> bureauCodeList;
-	private List<String> programCodeList;
-	private String primaryITInvestmentUII;
 	private String accessLevel;
-	private String rights;
-	private String systemOfRecords;
+	private List<String> bureauCodeList;
+	private String conformsTo;
 	private Boolean dataQuality;
-	private List<String> referenceList;
 	private String describedBy;
 	private String describedByType;
-	private String license;
-	private String conformsTo;
 	private String isPartOf;
+	private String license;
+	private List<String> programCodeList;
+	private String primaryITInvestmentUII;
+	private List<String> referenceList;
+	private String rights;
+	private String systemOfRecords;
+	private String uniqueIdentifier;
+
 
 	//Agency specific (legacy)
 	private String comments;
-	private String webService;
 	private String ownerOrganization;
+	private String webService;
 	
 	private DatasetException dsEx;
 	private static final Logger log = Logger.getLogger(Dataset.class.getName());
 
 	public Dataset()
 	{
-		dsEx = new DatasetException();
+		contactPoint = new Contact();
 		bureauCodeList = new ArrayList<String>();
-		programCodeList = new ArrayList<String>();
+		dsEx = new DatasetException();
+		distributionList = new ArrayList<Distribution>();
 		keywordList = new ArrayList<String>();
 		languageList = new ArrayList<String>();
-		themeList = new ArrayList<String>();
-		referenceList = new ArrayList<String>();
-		distributionList = new ArrayList<Distribution>();
+		programCodeList = new ArrayList<String>();
 		publisher = new Publisher();
-		contactPoint = new Contact();
+		referenceList = new ArrayList<String>();
+		themeList = new ArrayList<String>();
 	}
 	
 	private void loadDistributionListFromCKAN(JSONArray resourcesArray)
@@ -284,7 +286,7 @@ public class Dataset {
 				
 		//issue, title is in two places. To solve this set it initially, and let extra tag overwrite if it exists in extra.
 		setTitle((String) datasetCKAN_JSON.get("title"));
-		setDescription((String) datasetCKAN_JSON.get("notes"));
+		setDescription((String) datasetCKAN_JSON.get(CKAN_DATASET_DESCRIPTION_NOTES));
 	    setModified ((String) datasetCKAN_JSON.get("metadata_modified"));
 		 
 	    loadDistributionListFromCKAN((JSONArray) datasetCKAN_JSON.get(CKAN_DATASET_DISTRIBUTION));

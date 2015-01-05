@@ -15,17 +15,17 @@ import org.json.simple.JSONObject;
 public class Contact {
 
 	public final static String PROJECT_OPEN_DATA_CONTACT_POINT = "contactPoint";
-	public final static String PROJECT_OPEN_DATA_CONTACT_POINT_TYPE = "@type";
 	public final static String PROJECT_OPEN_DATA_CONTACT_POINT_FULL_NAME = "fn";
 	public final static String PROJECT_OPEN_DATA_CONTACT_POINT_EMAIL_ADDRESS = "hasEmail";
-	
-	public final static String CKAN_CONTACT_FULL_NAME = "contact_name";
-	public final static String CKAN_CONTACT_EMAIL_ADDRESS = "contact_email";
+	public final static String PROJECT_OPEN_DATA_CONTACT_POINT_TYPE = "@type";
 
-	private String type;
-	private String fullName;
+	public final static String CKAN_CONTACT_EMAIL_ADDRESS = "contact_email";
+	public final static String CKAN_CONTACT_FULL_NAME = "contact_name";
+
 	private String emailAddress;
-	
+	private String fullName;
+	private String type;
+
 	private ContactException contactException = new ContactException();
 	
 	public String getType() {
@@ -81,9 +81,10 @@ public class Contact {
 	public JSONObject toProjectOpenDataJSON()
 	{
 		JSONObject contactPointMap = new JSONObject();
-		contactPointMap.put(PROJECT_OPEN_DATA_CONTACT_POINT_TYPE, type);
-		contactPointMap.put(PROJECT_OPEN_DATA_CONTACT_POINT_FULL_NAME , getFullName());
 		contactPointMap.put(PROJECT_OPEN_DATA_CONTACT_POINT_EMAIL_ADDRESS, getEmailAddress());
+		contactPointMap.put(PROJECT_OPEN_DATA_CONTACT_POINT_FULL_NAME , getFullName());
+		contactPointMap.put(PROJECT_OPEN_DATA_CONTACT_POINT_TYPE, type);
+
 		return contactPointMap;
 	}
 	
@@ -104,9 +105,9 @@ public class Contact {
 		{
 			throw new ContactException("contact cannot be empty");
 		}
-		setType((String) contactProjectOpenDataJSON.get(PROJECT_OPEN_DATA_CONTACT_POINT_TYPE));
-		setFullName((String) contactProjectOpenDataJSON.get(PROJECT_OPEN_DATA_CONTACT_POINT_FULL_NAME ));
 		setEmailAddress((String) contactProjectOpenDataJSON.get(PROJECT_OPEN_DATA_CONTACT_POINT_EMAIL_ADDRESS));
+		setFullName((String) contactProjectOpenDataJSON.get(PROJECT_OPEN_DATA_CONTACT_POINT_FULL_NAME ));
+		setType((String) contactProjectOpenDataJSON.get(PROJECT_OPEN_DATA_CONTACT_POINT_TYPE));
 		validateContact();
 	}
 	
