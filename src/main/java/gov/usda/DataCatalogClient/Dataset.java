@@ -113,21 +113,22 @@ public class Dataset {
 	//Enumeration for handling access levels.  More documentation at Project Open Data.
 	public enum AccessLevel
 	{
-		PUBLIC("public"), RESTRICTED("restricted public"), PRIVATE ("non-public");
+		PUBLIC("public"), 
+		RESTRICTED("restricted public"), 
+		PRIVATE ("non-public");
+		
 		private final String accessLevel;
 		
 		private AccessLevel(String accessLevel)
 		{
 			this.accessLevel = accessLevel;
 		}
-		
 		@Override
 		public String toString()
 		{
 			return this.accessLevel;
 		}
 	};
-
 
 	//metadata documentation is at http://www.w3.org/TR/vocab-dcat/
 	private String accrualPeriodicity;
@@ -273,7 +274,6 @@ public class Dataset {
 	 */
 	private void loadExtraListFromCKAN(JSONArray extraList) throws DatasetException
 	{
-		Publisher subOrganization = new Publisher();
 	    for (int i = 0; i < extraList.size(); i++)
 		{			
 			JSONObject extraObject = (JSONObject) extraList.get(i);
@@ -392,17 +392,17 @@ public class Dataset {
 			extrasArray.add(createExtraObject(Contact.CKAN_CONTACT_FULL_NAME, contactPoint.getFullName()));
 		}
 		extrasArray.add(createExtraObject(CKAN_DATASET_CONFORMS_TO, conformsTo));
-		extrasArray.add(createExtraObject(CKAN_DATASET_DESCRIBED_BY, describedBy));
-		extrasArray.add(createExtraObject(CKAN_DATASET_DESCRIBED_BY_TYPE, describedByType));
 		if (dataQuality != null)
 		{
 			extrasArray.add(createExtraObject(CKAN_DATASET_DATA_QUALITY, dataQuality.toString()));
 		}
+		extrasArray.add(createExtraObject(CKAN_DATASET_DESCRIBED_BY, describedBy));
+		extrasArray.add(createExtraObject(CKAN_DATASET_DESCRIBED_BY_TYPE, describedByType));
+		extrasArray.add(createExtraObject(CKAN_DATASET_IS_PART_OF, isPartOf));
 		if (landingPage != null)
 		{
 			extrasArray.add(createExtraObject(CKAN_DATASET_LANDING_PAGE, landingPage.toString()));
 		}
-		extrasArray.add(createExtraObject(CKAN_DATASET_IS_PART_OF, isPartOf));
 		extrasArray.add(createExtraObject(CKAN_DATASET_LICENSE, license));
 		if (modified != null)
 		{
@@ -414,25 +414,28 @@ public class Dataset {
 			extrasArray.add(createExtraObject(Publisher.CKAN_PUBLISHER, publisher.getName()));
 		}
 		//TODO: Why does issued and spatial send back 409 when creating dataset
-		/*
+		
 		//issued might break create, this was commented out
+		//TODO: This should be release_date, but some CKAN repositories use that as a reserved word
 		if (issued != null)
 		{
-			extrasArray.add(createExtraObject(CKAN_DATASET_ISSUED, Utils.convertDateToISOString(issued)));
+			extrasArray.add(createExtraObject("issued", Utils.convertDateToISOString(issued)));
 		}
-		*/
 		
 		extrasArray.add(createExtraObject(CKAN_DATASET_RIGHTS, rights));
 		//spatial might break create, this was commented out
+		//This should really be spatial-text.  spatial is a reserverd word, more here: http://docs.ckan.org/en/ckan-1.7/geospatial.html
 		//extrasArray.add(createExtraObject (CKAN_DATASET_SPATIAL, spatial));
 		extrasArray.add(createExtraObject(CKAN_DATASET_SYSTEM_OF_RECORDS, systemOfRecords));
 		extrasArray.add(createExtraObject(CKAN_DATASET_TEMPORAL, temporal));
 		extrasArray.add(createExtraObject(CKAN_DATASET_UNIQUE_IDENTIFIER, uniqueIdentifier));
-		extrasArray.add(createExtraObject(CKAN_DATASET_PROGRAM_CODE, Utils.listToCSV(programCodeList)));
-		extrasArray.add(createExtraObject(CKAN_DATASET_LANGUAGE, Utils.listToCSV(languageList)));
+		
+		//add lists
 		extrasArray.add(createExtraObject(CKAN_DATASET_BUREAU_CODE_LIST, Utils.listToCSV(bureauCodeList)));
-		extrasArray.add(createExtraObject(CKAN_DATASET_THEME, Utils.listToCSV(themeList)));
+		extrasArray.add(createExtraObject(CKAN_DATASET_LANGUAGE, Utils.listToCSV(languageList)));
+		extrasArray.add(createExtraObject(CKAN_DATASET_PROGRAM_CODE, Utils.listToCSV(programCodeList)));
 		extrasArray.add(createExtraObject(CKAN_DATASET_REFERENCES,Utils.listToCSV(referenceList)));
+		extrasArray.add(createExtraObject(CKAN_DATASET_THEME, Utils.listToCSV(themeList)));
 		
 		JSONArray tagsArray = new JSONArray();
 		for (int i = 0; i < keywordList.size(); i++)
