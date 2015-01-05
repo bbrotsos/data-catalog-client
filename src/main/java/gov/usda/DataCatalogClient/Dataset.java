@@ -75,7 +75,6 @@ public class Dataset {
 	public final static String PROJECT_OPEN_DATA_DATASET_TITLE = "title";
 	public final static String PROJECT_OPEN_DATA_DATASET_THEME = "theme";
 
-	
 	//only using where CKAN differs from Project Open Data
 	public final static String CKAN_DATASET = "package";
 	public final static String CKAN_DATASET_DISTRIBUTION = "resources";
@@ -347,52 +346,52 @@ public class Dataset {
 		datasetCKAN_JSON.put("owner_org", "9ca02aa2-5007-4e9c-a407-ff8bdd9f43aa");
 		
 		JSONArray extrasArray = new JSONArray();
-		extrasArray.add(createExtraObject("public_access_level", accessLevel));
-		extrasArray.add(createExtraObject("access_level_comment", rights));
+		extrasArray.add(createExtraObject(CKAN_DATASET_ACCESS_LEVEL, accessLevel));
+		extrasArray.add(createExtraObject(CKAN_DATASET_ACCRUAL_PERIODICITY, accrualPeriodicity));
 		if (contactPoint != null)
 		{
-			extrasArray.add(createExtraObject("contact_email", contactPoint.getEmailAddress()));
-			extrasArray.add(createExtraObject("contact_name", contactPoint.getFullName()));
+			extrasArray.add(createExtraObject(Contact.CKAN_CONTACT_EMAIL_ADDRESS, contactPoint.getEmailAddress()));
+			extrasArray.add(createExtraObject(Contact.CKAN_CONTACT_FULL_NAME, contactPoint.getFullName()));
 		}
-		extrasArray.add(createExtraObject("accrual_periodicity", accrualPeriodicity));
-		extrasArray.add(createExtraObject("conforms_to", conformsTo));
-		extrasArray.add(createExtraObject("data_dictionary", describedBy));
-		extrasArray.add(createExtraObject("data_dictionary_type", describedByType));
+		extrasArray.add(createExtraObject(CKAN_DATASET_CONFORMS_TO, conformsTo));
+		extrasArray.add(createExtraObject(CKAN_DATASET_DESCRIBED_BY, describedBy));
+		extrasArray.add(createExtraObject(CKAN_DATASET_DESCRIBED_BY_TYPE, describedByType));
 		if (dataQuality != null)
 		{
-			extrasArray.add(createExtraObject("data_quality", dataQuality.toString()));
+			extrasArray.add(createExtraObject(CKAN_DATASET_DATA_QUALITY, dataQuality.toString()));
 		}
 		if (landingPage != null)
 		{
-			extrasArray.add(createExtraObject("homepage_url", landingPage.toString()));
+			extrasArray.add(createExtraObject(CKAN_DATASET_LANDING_PAGE, landingPage.toString()));
 		}
-		extrasArray.add(createExtraObject("is_parent", isPartOf));
-		extrasArray.add(createExtraObject("license_new", license));
+		extrasArray.add(createExtraObject(CKAN_DATASET_IS_PART_OF, isPartOf));
+		extrasArray.add(createExtraObject(CKAN_DATASET_LICENSE, license));
 		if (modified != null)
 		{
-			extrasArray.add(createExtraObject("modified", Utils.convertDateToISOString(modified)));
+			extrasArray.add(createExtraObject(CKAN_DATASET_MODIFIED, Utils.convertDateToISOString(modified)));
 		}
-		extrasArray.add(createExtraObject("primary_it_investment_uii", primaryITInvestmentUII));
+		extrasArray.add(createExtraObject(CKAN_DATASET_PRIMARY_IT_INVESTMENT_UII, primaryITInvestmentUII));
 		if (publisher != null)
 		{
-			extrasArray.add(createExtraObject("publisher", publisher.getName()));
+			extrasArray.add(createExtraObject(Publisher.CKAN_PUBLISHER, publisher.getName()));
 		}
-		/*
+		//issued might break create, this was commented out
 		if (issued != null)
 		{
-			extrasArray.add(createExtraObject("release_date", Utils.convertDateToISOString(issued)));
+			extrasArray.add(createExtraObject(CKAN_DATASET_ISSUED, Utils.convertDateToISOString(issued)));
 		}
 		
-		extrasArray.add(createExtraObject("spatial", spatial));
-		*/
-		extrasArray.add(createExtraObject("system_of_records", systemOfRecords));
-		extrasArray.add(createExtraObject("temporal", temporal));
-		extrasArray.add(createExtraObject("unique_id", uniqueIdentifier));
-		extrasArray.add(createExtraObject("program_code", Utils.listToCSV(programCodeList)));
-		extrasArray.add(createExtraObject("language", Utils.listToCSV(languageList)));
-		extrasArray.add(createExtraObject("bureau_code", Utils.listToCSV(bureauCodeList)));
-		extrasArray.add(createExtraObject("category", Utils.listToCSV(themeList)));
-		extrasArray.add(createExtraObject("related_documents",Utils.listToCSV(referenceList)));
+		extrasArray.add(createExtraObject(CKAN_DATASET_RIGHTS, rights));
+		//spatial might break create, this was commented out
+		extrasArray.add(createExtraObject (CKAN_DATASET_SPATIAL, spatial));
+		extrasArray.add(createExtraObject(CKAN_DATASET_SYSTEM_OF_RECORDS, systemOfRecords));
+		extrasArray.add(createExtraObject(CKAN_DATASET_TEMPORAL, temporal));
+		extrasArray.add(createExtraObject(CKAN_DATASET_UNIQUE_IDENTIFIER, uniqueIdentifier));
+		extrasArray.add(createExtraObject(CKAN_DATASET_PROGRAM_CODE, Utils.listToCSV(programCodeList)));
+		extrasArray.add(createExtraObject(CKAN_DATASET_LANGUAGE, Utils.listToCSV(languageList)));
+		extrasArray.add(createExtraObject(CKAN_DATASET_BUREAU_CODE_LIST, Utils.listToCSV(bureauCodeList)));
+		extrasArray.add(createExtraObject(CKAN_DATASET_THEME, Utils.listToCSV(themeList)));
+		extrasArray.add(createExtraObject(CKAN_DATASET_REFERENCES,Utils.listToCSV(referenceList)));
 		
 		JSONArray tagsArray = new JSONArray();
 		for (int i = 0; i < keywordList.size(); i++)
@@ -413,7 +412,7 @@ public class Dataset {
 				extrasArray.remove(i);
 			}
 		}
-		datasetCKAN_JSON.put("extras", extrasArray);
+		datasetCKAN_JSON.put(CKAN_DATASET_EXTRAS, extrasArray);
 		
 		//add distribution
 		JSONArray distributionArray = new JSONArray();
@@ -423,10 +422,9 @@ public class Dataset {
 			distributionObject = distributionList.get(i).toCKAN_JSON();
 			distributionArray.add(distributionObject);
 		}
-		datasetCKAN_JSON.put("resources", distributionArray);
+		datasetCKAN_JSON.put(CKAN_DATASET_DISTRIBUTION, distributionArray);
 		
 		return datasetCKAN_JSON;
-		
 	}
 	
 	/**
