@@ -232,7 +232,8 @@ public class Distribution {
 			distributionException.addError("Access URL or Download URL cannot both be blank");
 			validIndicator = false;
 		}
-		else if (format.toLowerCase().equals("api") && accessURL == null)
+		
+		else if (format != null && format.toLowerCase().equals("api") && accessURL == null)
 		{
 			distributionException.addError("If format field equals api, access URL cannot be blank.");
 			validIndicator = false;

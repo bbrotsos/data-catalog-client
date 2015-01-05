@@ -76,7 +76,7 @@ public class Dataset {
 	public final static String PROJECT_OPEN_DATA_DATASET_THEME = "theme";
 
 	//only using where CKAN differs from Project Open Data
-	public final static String CKAN_DATASET = "package";
+	public final static String CKAN_DATASET = "packages";
 	public final static String CKAN_DATASET_DISTRIBUTION = "resources";
 	public final static String CKAN_DATASET_DESCRIPTION_NOTES = "notes";
 	public final static String CKAN_DATASET_DESCRIPTION = "description";
@@ -108,6 +108,24 @@ public class Dataset {
 	public final static String CKAN_DATASET_THEME = "category";
 	public final static String CKAN_DATASET_TITLE = "title";
 	public final static String CKAN_DATASET_UNIQUE_IDENTIFIER = "unique_id";
+	
+	//Enumeration for handling access levels.  More documentation at Project Open Data.
+	public enum AccessLevel
+	{
+		PUBLIC("public"), RESTRICTED("restricted public"), PRIVATE ("non-public");
+		private final String accessLevel;
+		
+		private AccessLevel(String accessLevel)
+		{
+			this.accessLevel = accessLevel;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return this.accessLevel;
+		}
+	};
 
 
 	//metadata documentation is at http://www.w3.org/TR/vocab-dcat/
@@ -464,6 +482,7 @@ public class Dataset {
     	response = response + title + "\t";
     	//TODO: make description CSVable
     	//response = response  + unEscapeString(description) + "\t";
+    	response = response + " \t";
     	
     	if (distributionList.size() > 0)
 		{
@@ -474,7 +493,7 @@ public class Dataset {
     				response = response + ", ";
     			}
 				Distribution outputDistribution = distributionList.get(i);
-				response = response + outputDistribution.getFormat();
+				response = response + outputDistribution.getMediaType();
     		}
     		response = response + "\t";
 		}
@@ -491,7 +510,7 @@ public class Dataset {
     				response = response + ", ";
     			}
     			Distribution outputDistribution = distributionList.get(i);
-				response = response + outputDistribution.getAccessURL();
+				response = response + outputDistribution.getDownloadURL();
     		}
     		response = response + "\t";
 		}
@@ -502,23 +521,25 @@ public class Dataset {
     	
     	response = response +  accrualPeriodicity + "\t";
     	response = response + bureauCodeList.get(0) + "\t";
+    	
     	response = response + contactPoint.getEmailAddress() +"\t";
     	response = response + contactPoint.getFullName()+ "\t";
     	response = response + landingPage + "\t";
     	for (int i=0; i < programCodeList.size(); i++)
-    	{
+		{
     		response = response + programCodeList.get(i) + ";";
-    	}
+		}
     	response = response + "\t";
-    	//response = response + bureauName + ", Department of Agriculture\t";
-    	response = response + accessLevel + "\t";
-    	response = response + rights+ "\t";
+
+    	response = response + publisher.getName() + "\t";
+       	response = response + accessLevel + "\t";
+    	response = response + rights + "\t";
     	for (int i=0; i < keywordList.size(); i++)
     	{
     		response = response + keywordList.get(i) + ";";
     	}
     	response = response + "\t";
-    	response = response + modified+ "\t";
+    	response = response + Utils.convertDateToISOString(modified) + "\t";
     	response = response + issued + "\t";
 
     	response = response + uniqueIdentifier + "\t";
@@ -533,11 +554,7 @@ public class Dataset {
     		response = response + languageList.get(i) + ";";
 		}
     	response = response + "\t";
-    	for (int i=0; i < programCodeList.size(); i++)
-		{
-    		response = response + programCodeList.get(i) + ";";
-		}
-    	response = response + "\t";
+    	
     	for (int i=0; i < themeList.size(); i++)
 		{
     		response = response + themeList.get(i) + ";";
@@ -1157,7 +1174,7 @@ public class Dataset {
 	public void setAccessLevel(String accessLevel) {
 		if (accessLevel != null)
 		{
-			if (accessLevel.equals("public") || accessLevel.equals("non-public") || accessLevel.equals("restricted"))
+			if (accessLevel.equals(AccessLevel.PUBLIC.toString()) || accessLevel.equals(AccessLevel.PRIVATE.toString()) || accessLevel.equals(AccessLevel.RESTRICTED.toString()))
 			{
 				this.accessLevel = accessLevel;
 			}
@@ -1388,7 +1405,7 @@ public class Dataset {
 		//extra distribution checks for dataset
 		//can't check distribution size unless access is filled so this is a case you 
 		//need to run the program twice to find error.
-		else if (distributionList.size() == 0 && !accessLevel.equals("non-public"))
+		else if (distributionList.size() == 0 && !accessLevel.equals(AccessLevel.PRIVATE.toString()))
 		{
 			dsEx.addError("At least one distribution is required when dataset is public or restricted.");
 			validIndicator = false;
@@ -1396,8 +1413,13 @@ public class Dataset {
 		for (int i=0; i< distributionList.size(); i++)
 		{
 			final Distribution d = distributionList.get(i);
+			
 			try{
-				if (accessLevel.equals("public") || accessLevel.equals("restricted"))
+				if (accessLevel == null)
+				{
+					System.out.println(title);
+				}
+				else if (accessLevel.equals(AccessLevel.PUBLIC.toString()) || accessLevel.equals(AccessLevel.PRIVATE.toString()))
 				{
 					d.validatePublicDistribution();
 				}

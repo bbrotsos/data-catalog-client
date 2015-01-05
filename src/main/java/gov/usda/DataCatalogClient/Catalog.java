@@ -48,6 +48,8 @@ public class Catalog {
 	public final static String PROJECT_OPEN_DATA_CATALOG_IDENTIFIER = "@id";
 	public final static String PROJECT_OPEN_DATA_CATALOG_TYPE = "@type";
 	
+	public final static String CKAN_CATALOG = "result";
+	
 	//Documentation on DCAT here: http://www.w3.org/TR/vocab-dcat/
 	private String description;
 	private String homepage;
@@ -91,8 +93,8 @@ public class Catalog {
 		{
 			throw (new NullPointerException("JSONObject catalogCKAN_JSON cannot be null"));
 		}
-		final JSONObject resultObject= (JSONObject) catalogCKAN_JSON.get("result");
-		final JSONArray packageList = (JSONArray) resultObject.get("packages");				
+		final JSONObject resultObject= (JSONObject) catalogCKAN_JSON.get(CKAN_CATALOG);
+		final JSONArray packageList = (JSONArray) resultObject.get(Dataset.CKAN_DATASET);				
 		for(int i = 0; i < packageList.size(); i++)
 		{
 			final JSONObject packageObject = (JSONObject) packageList.get(i);
@@ -151,10 +153,12 @@ public class Catalog {
 		}
 		PrintWriter out = null;
 		
-		String headerLine = "Agency Name\tTitle\tDescription\tFormat\tAccess URL\tFrequency\tBureau Code\tContact Email\tContactName\t";
+		String headerLine = "Agency Name\t"; 
+		headerLine = headerLine + "Title\t";
+		headerLine = headerLine + "Description\tMedia Type\tDownload URL\tFrequency\tBureau Code\tContact Email\tContactName\t";
 		headerLine = headerLine + "Landing Page\tProgram Code\tPublisher\tPublic Access Level\tAccess Level Comment\tTags\tLast Update\tRelease Date\tUnique Identifier\t";
 		headerLine = headerLine + "Data Dictionary\tLicense\tSpatial\tTemporal\tSystem Of Records\tData Quality\tLangauge\t";
-		headerLine = headerLine + "Program Code\tTheme\tReference\t";
+		headerLine = headerLine + "Theme\tReference\t";
 		try
 		{
 			out = new PrintWriter(filePath);
@@ -163,7 +167,7 @@ public class Catalog {
 			
 			for (int i=0; i < dataSetList.size(); i++)
 			{
-				if (!dataSetList.get(i).getAccessLevel().equals("non-public"))
+				if (!dataSetList.get(i).getAccessLevel().equals(Dataset.AccessLevel.PRIVATE.toString()))
 				{
 					out.println(dataSetList.get(i).toCSV());
 				}
@@ -267,7 +271,7 @@ public class Catalog {
 			}
 			if (!found)
 			{
-				ds.setBureauName("Name not found for bureau code: + " + bureauCode + ", see bureau configuration file." );
+				ds.setBureauName("Name not found for bureau code: " + bureauCode + ", see bureau configuration file." );
 			}
 			found = false;
 		}

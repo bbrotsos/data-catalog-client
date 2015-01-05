@@ -126,10 +126,8 @@ public class Utils {
 		{
 			throw new NullPointerException("date cannot be null");
 		}
-		DateFormat isoDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-		String isoDateString = isoDateTimeFormat.format(date);
-		
-		return isoDateString;
+		DateTime dateTime = new DateTime(date);
+		return dateTime.toString();
 	}
 	
 	//TODO: might be issues with SimpleDateFormat in static method.
