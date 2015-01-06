@@ -227,24 +227,27 @@ public class Client {
     	for (int i=0; i< bureauList.size(); i++)
     	{
     		JSONObject bureau = (JSONObject) bureauList.get(i);
-    		String bureauFileName = "ckan/" + downloadFilePath +"/" + (String)bureau.get("bureau_abbreviation") + "-data.json";
-    		File bureauFile = new File(bureauFileName);
-    		if (!bureauFile.exists())
+    		if (bureau.get("bureau_ckan_identifier") != null)
     		{
-    			Catalog bureauCatalog = new Catalog();
-    			bureauCatalog = getCatalogFromNetwork(bureau, bureauFileName, downloadFilePath);
-    			entireCatalog.addFromOtherCatalog(bureauCatalog);
-    		}
-    		else
-    		{
-    			try
+    			String bureauFileName = "ckan/" + downloadFilePath +"/" + (String)bureau.get("bureau_abbreviation") + "-data.json";
+    			File bureauFile = new File(bureauFileName);
+    			if (!bureauFile.exists())
     			{
-    				entireCatalog.loadCatalogFromJSONString(getOrganizationFromDisk(bureauFileName));
+    				Catalog bureauCatalog = new Catalog();
+    				bureauCatalog = getCatalogFromNetwork(bureau, bureauFileName, downloadFilePath);
+    				entireCatalog.addFromOtherCatalog(bureauCatalog);
     			}
-    			catch(CatalogException e)
+    			else
     			{
-    				datasetErrors.add(e.toString());
-    				System.out.println(e.toString());
+    				try
+    				{
+    					entireCatalog.loadCatalogFromJSONString(getOrganizationFromDisk(bureauFileName));
+    				}
+    				catch(CatalogException e)
+    				{
+    					datasetErrors.add(e.toString());
+    					System.out.println(e.toString());
+    				}
     			}
     		}
     	}

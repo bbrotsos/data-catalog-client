@@ -91,23 +91,23 @@ public class Contact {
 	/**
 	 * This method takes in a Project Open Data contactPoint json file.
 	 * 
-	 * {
-	 *    "@type": "vcard:Contact",
-	 *    "fn": "Jane Doe",
-	 *    "hasEmail": "mailto:jane.doe@us.gov"
-     * }
+	 * { "@type": "vcard:Contact", "fn": "Jane Doe", "hasEmail":
+	 * "mailto:jane.doe@us.gov" }
+	 * 
 	 * @param contactProjectOpenDataJSON
 	 * @throws ContactException
 	 */
-	public void loadDatasetFromPOD_JSON(JSONObject contactProjectOpenDataJSON) throws ContactException
-	{
-		if (contactProjectOpenDataJSON == null)
-		{
+	public void loadDatasetFromPOD_JSON(JSONObject contactProjectOpenDataJSON)
+			throws ContactException {
+		if (contactProjectOpenDataJSON == null) {
 			throw new ContactException("contact cannot be empty");
 		}
-		setEmailAddress((String) contactProjectOpenDataJSON.get(PROJECT_OPEN_DATA_CONTACT_POINT_EMAIL_ADDRESS));
-		setFullName((String) contactProjectOpenDataJSON.get(PROJECT_OPEN_DATA_CONTACT_POINT_FULL_NAME ));
-		setType((String) contactProjectOpenDataJSON.get(PROJECT_OPEN_DATA_CONTACT_POINT_TYPE));
+		setEmailAddress((String) contactProjectOpenDataJSON
+				.get(PROJECT_OPEN_DATA_CONTACT_POINT_EMAIL_ADDRESS));
+		setFullName((String) contactProjectOpenDataJSON
+				.get(PROJECT_OPEN_DATA_CONTACT_POINT_FULL_NAME));
+		setType((String) contactProjectOpenDataJSON
+				.get(PROJECT_OPEN_DATA_CONTACT_POINT_TYPE));
 		validateContact();
 	}
 	

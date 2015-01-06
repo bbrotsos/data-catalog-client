@@ -46,7 +46,7 @@ import org.json.simple.JSONObject;
  * @author bbrotsos
  *
  */
-public class Dataset {
+public class Dataset implements Comparable<Dataset> {
 
 	//Project Open Data 1.1 JSON fields  https://project-open-data.cio.gov/v1.1/schema/
 	public final static String PROJECT_OPEN_DATA_DATASET = "dataset";
@@ -571,8 +571,13 @@ public class Dataset {
     	}
     	response = response + "\t";
     	response = response + Utils.convertDateToISOString(modified) + "\t";
-    	response = response + issued + "\t";
-
+    	if (issued != null)
+    	{
+    		response = response + Utils.convertDateToISOString(issued) + "\t";
+    	}
+    	else{
+    		response = response + "\t";
+    	}
     	response = response + uniqueIdentifier + "\t";
     	response = response + describedBy + "\t";
     	response = response + license + "\t";
@@ -634,15 +639,13 @@ public class Dataset {
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_LICENSE, license);
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_SPATIAL, spatial);
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_TEMPORAL, temporal);
-		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_ISSUED, issued);
-		dataSetJSON.put("accrualPeriodicity", accrualPeriodicity);
-		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_SYSTEM_OF_RECORDS, systemOfRecords);
-		dataSetJSON.put("primaryITInvestmentUII", primaryITInvestmentUII);
-
 		if (issued != null)
 		{
 			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_ISSUED, Utils.convertDateToISOString(issued));
-		}
+		}		
+		dataSetJSON.put("accrualPeriodicity", accrualPeriodicity);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_SYSTEM_OF_RECORDS, systemOfRecords);
+		dataSetJSON.put("primaryITInvestmentUII", primaryITInvestmentUII);
 		
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_DATA_QUALITY, dataQuality);
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_LANDING_PAGE, landingPage);
@@ -1581,4 +1584,31 @@ public class Dataset {
 				+ isPartOf + ", comments=" + comments + ", webService="
 				+ webService + ", ownerOrganization=" + ownerOrganization + "]";
 	}
+	
+	
+	
+	/**
+	 * Sorts list first by bureauName and then by title.  if bureau name is null compare by bureauCode
+	 */
+	@Override
+	public int compareTo(Dataset other) 
+	{
+		if (other==null)
+		{
+			throw new NullPointerException("compareTo other cannot be null in Dataset");
+		}
+		int agencyCompare = 0;
+		int titleCompare = 0;
+		if (bureauName != null)
+		{
+			agencyCompare = this.bureauName.compareTo(other.bureauName);
+		}
+		else
+		{
+			agencyCompare = this.bureauCodeList.get(0).compareTo(other.bureauCodeList.get(0));
+		}
+		titleCompare = agencyCompare == 0 ? this.title.compareTo(other.title) : agencyCompare;
+	
+		return titleCompare;
+    }
 }

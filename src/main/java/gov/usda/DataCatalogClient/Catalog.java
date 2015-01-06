@@ -3,6 +3,7 @@ package gov.usda.DataCatalogClient;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -129,6 +130,8 @@ public class Catalog {
 		
 		addBureauNameToDataset();
 		
+		Collections.sort(dataSetList);
+		
 		if (!validateCatalog() || catalogException.exceptionSize() > 0)
 		{
 			throw (catalogException);
@@ -230,6 +233,7 @@ public class Catalog {
 		}	
 		
 		addBureauNameToDataset();
+		Collections.sort(dataSetList);
 		
 		if (!validateCatalog() || catalogException.exceptionSize() > 0)
 		{
