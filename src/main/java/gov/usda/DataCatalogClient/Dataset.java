@@ -383,6 +383,39 @@ public class Dataset {
 		//TODO remove hardcoded owner_org
 		datasetCKAN_JSON.put("owner_org", "9ca02aa2-5007-4e9c-a407-ff8bdd9f43aa");
 		
+		datasetCKAN_JSON.put(CKAN_DATASET_EXTRAS, addCkanExtras());
+		
+		JSONArray tagsArray = new JSONArray();
+		for (int i = 0; i < keywordList.size(); i++)
+		{
+			JSONObject tagObject = new JSONObject();
+			tagObject.put("name", keywordList.get(i));
+			tagObject.put("display_name", keywordList.get(i));
+			tagsArray.add(tagObject);
+		}
+		datasetCKAN_JSON.put("tags", tagsArray);
+		
+		//add distribution
+		JSONArray distributionArray = new JSONArray();
+		for (int i=0; i < distributionList.size(); i++)
+		{
+			JSONObject distributionObject = new JSONObject();
+			distributionObject = distributionList.get(i).toCKAN_JSON();
+			distributionArray.add(distributionObject);
+		}
+		datasetCKAN_JSON.put(CKAN_DATASET_DISTRIBUTION, distributionArray);
+		
+		return datasetCKAN_JSON;
+	}
+	/**
+	 * Complies the extra list in special CKAN format that supports Project Open Data.
+	 * @return
+	 */
+	//Suppressing Warnings, there is no way to turn fix this with JSON Object unless I change
+	//the package
+	@SuppressWarnings("unchecked")
+	private JSONArray addCkanExtras()
+	{
 		JSONArray extrasArray = new JSONArray();
 		extrasArray.add(createExtraObject(CKAN_DATASET_ACCESS_LEVEL, accessLevel));
 		extrasArray.add(createExtraObject(CKAN_DATASET_ACCRUAL_PERIODICITY, accrualPeriodicity));
@@ -413,7 +446,6 @@ public class Dataset {
 		{
 			extrasArray.add(createExtraObject(Publisher.CKAN_PUBLISHER, publisher.getName()));
 		}
-		//TODO: Why does issued and spatial send back 409 when creating dataset
 		
 		//issued might break create, this was commented out
 		//TODO: This should be release_date, but some CKAN repositories use that as a reserved word
@@ -436,17 +468,6 @@ public class Dataset {
 		extrasArray.add(createExtraObject(CKAN_DATASET_PROGRAM_CODE, Utils.listToCSV(programCodeList)));
 		extrasArray.add(createExtraObject(CKAN_DATASET_REFERENCES,Utils.listToCSV(referenceList)));
 		extrasArray.add(createExtraObject(CKAN_DATASET_THEME, Utils.listToCSV(themeList)));
-		
-		JSONArray tagsArray = new JSONArray();
-		for (int i = 0; i < keywordList.size(); i++)
-		{
-			JSONObject tagObject = new JSONObject();
-			tagObject.put("name", keywordList.get(i));
-			tagObject.put("display_name", keywordList.get(i));
-			tagsArray.add(tagObject);
-		}
-		datasetCKAN_JSON.put("tags", tagsArray);
-		
 		//get rid of nulls, ckan will give errors
 		for (int i=0; i< extrasArray.size(); i++)
 		{
@@ -456,19 +477,7 @@ public class Dataset {
 				extrasArray.remove(i);
 			}
 		}
-		datasetCKAN_JSON.put(CKAN_DATASET_EXTRAS, extrasArray);
-		
-		//add distribution
-		JSONArray distributionArray = new JSONArray();
-		for (int i=0; i < distributionList.size(); i++)
-		{
-			JSONObject distributionObject = new JSONObject();
-			distributionObject = distributionList.get(i).toCKAN_JSON();
-			distributionArray.add(distributionObject);
-		}
-		datasetCKAN_JSON.put(CKAN_DATASET_DISTRIBUTION, distributionArray);
-		
-		return datasetCKAN_JSON;
+		return extrasArray;
 	}
 	
 	/**
@@ -999,7 +1008,7 @@ public class Dataset {
 	}
 	
 	private void setLandingPage(String landingPage){
-		if (landingPage != null)
+		if (landingPage != null && !landingPage.isEmpty())
 		{
 			try 
 			{
@@ -1007,7 +1016,7 @@ public class Dataset {
 			}
 			catch(MalformedURLException e)
 			{
-				dsEx.addError("Landing Page is invalid URL." + e);
+				dsEx.addError("Landing Page is invalid URL." + e.toString());
 			}
 		}
 	}
@@ -1041,7 +1050,6 @@ public class Dataset {
 			else
 			{
 				throw new ParseException("Bureau Code must be \\d{3}:\\d{2}: " + bureauCode, 2);
-				//dsEx.addError("Bureau Code must be \\d{3}:\\d{2}: " + bureauCode);
 			}
 		}
 	}

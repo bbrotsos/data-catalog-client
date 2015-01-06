@@ -152,6 +152,7 @@ public class Client {
 			//TODO: Remove this catch
 			datasetErrors.add(e.toString());
 		}
+		System.out.println("Downloaded " + organizationIdentifier);
 		return catalog;
 	}
 	
@@ -243,6 +244,7 @@ public class Client {
     			catch(CatalogException e)
     			{
     				datasetErrors.add(e.toString());
+    				System.out.println(e.toString());
     			}
     		}
     	}

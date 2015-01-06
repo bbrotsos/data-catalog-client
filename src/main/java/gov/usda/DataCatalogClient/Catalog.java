@@ -59,7 +59,6 @@ public class Catalog {
 	private String rights;
 	private String spatial;
 	private String title;
-
 	
 	//Project Open Data additional fields: https://project-open-data.cio.gov/v1.1/schema/#accessLevel
 	private String conformsTo;
@@ -72,6 +71,24 @@ public class Catalog {
 	
 	private CatalogException catalogException;
 	private static final Logger log = Logger.getLogger(Catalog.class.getName());
+	
+	/**
+	 * The Public Data Listing contains all datasets in datasetList that have accessLevel set
+	 * for Dataset.AccessLevel.PUBLIC or Dataset.AccessLevel.Restricted.
+	 * 
+	 * The Enterprise Data Inventory has all dataset in datasetList.  This includes datasets
+	 * marked Dataset.AccessLevel.Private which is "non-public" in the data.json file.
+	 * 
+	 * More information can be found at Project Open Data website.
+	 * 
+	 * @author bbrotsos
+	 *
+	 */
+	public enum DataListingCode
+	{
+		PUBLIC_DATA_LISTING, 
+		ENTERPRISE_DATA_INVENTORY;
+	};
 
 	public Catalog()
 	{
@@ -162,9 +179,7 @@ public class Catalog {
 		try
 		{
 			out = new PrintWriter(filePath);
-			
 			out.println(headerLine);		
-			
 			for (int i=0; i < dataSetList.size(); i++)
 			{
 				if (!dataSetList.get(i).getAccessLevel().equals(Dataset.AccessLevel.PRIVATE.toString()))
@@ -332,9 +347,9 @@ public class Catalog {
 	 * @param privateIndicator
 	 */
 	@SuppressWarnings("unchecked")
-	public void toProjectOpenDataJSON(String podFilePath, Boolean privateIndicator) throws IOException
+	public void toProjectOpenDataJSON(String podFilePath, DataListingCode dataListingType) throws IOException
 	{	
-		if (podFilePath == null || privateIndicator == null)
+		if (podFilePath == null || dataListingType == null)
 		{
 			throw (new NullPointerException("podFilePath or privateIndicator cannot be null."));
 		}
@@ -346,21 +361,30 @@ public class Catalog {
 		catalogJSON.put(PROJECT_OPEN_DATA_CATALOG_CONTEXT, "https://project-open-data.cio.gov/v1.1/schema/data.jsonld");
 		catalogJSON.put(PROJECT_OPEN_DATA_CATALOG_TYPE, "dcat:Catalog");
 	
+		int privateCount = 0;
+		int publicCount = 0;
 		for(Dataset ds: dataSetList)
 		{
-			if (privateIndicator)
+			
+			if (dataListingType.equals(DataListingCode.ENTERPRISE_DATA_INVENTORY))
 			{
 				dataSetArray.add(ds.toProjectOpenDataJSON());
+				privateCount++;
 			}
-			else
+			else if (dataListingType.equals(DataListingCode.PUBLIC_DATA_LISTING))
 			{
 				String publicAccessLevel = ds.getAccessLevel();
-				if (publicAccessLevel.equals("public") || publicAccessLevel.equals("restricted"))
+				if (publicAccessLevel.equals(Dataset.AccessLevel.PUBLIC.toString()) || publicAccessLevel.equals(Dataset.AccessLevel.PUBLIC.toString()))
 				{
 					dataSetArray.add(ds.toProjectOpenDataJSON());
+					publicCount++;
 				}
 			}
 		}
+		System.out.println("Public Count: " + publicCount);
+		System.out.println("DatasetArray: " + dataSetArray.size());
+		System.out.println("Private Count: " + privateCount);
+		System.out.println(dataSetList.size());
 	
 		catalogJSON.put(Dataset.PROJECT_OPEN_DATA_DATASET, dataSetArray);
 		Utils.printJSON(podFilePath, catalogJSON); 
@@ -551,8 +575,6 @@ public class Catalog {
 				append(type).
 				toHashCode();
 	}
-	
-	
 	
 	@Override
 	public String toString() {

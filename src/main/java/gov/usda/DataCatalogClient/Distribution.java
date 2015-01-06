@@ -110,7 +110,7 @@ public class Distribution {
     	resourceType = ((String) resourceCKAN_JSON.get("resource_type"));
     	if (resourceType == null)
     	{
-    		if (format.equalsIgnoreCase("api"))
+    		if (format != null && format.equalsIgnoreCase("api"))
     		{
     			setAccessURL((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_URL));
     		}

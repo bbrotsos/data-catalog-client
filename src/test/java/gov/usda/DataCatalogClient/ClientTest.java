@@ -26,11 +26,11 @@ public class ClientTest {
 	public void testLoadOrganizations() {
 		Catalog catalog = new Catalog();
     	Client odpClient = new Client();
- 
     	
     	try{
-    		catalog = odpClient.loadOrganizationsIntoCatalog("edi_2014-12-30");
+    		catalog = odpClient.loadOrganizationsIntoCatalog("edi_2014-01-05");
     		catalog.toCSV("sample_data/test/catalog_full.txt");
+    		catalog.toProjectOpenDataJSON("sample_data/test/data.json", Catalog.DataListingCode.PUBLIC_DATA_LISTING);
     	}
     	catch(CatalogException | IOException e)
     	{

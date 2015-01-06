@@ -84,7 +84,7 @@ public class NetworkRequestTest {
 			catalogException = e;
 		}
 		try{
-			testCatalog.toProjectOpenDataJSON("ckan_data.json", true);
+			testCatalog.toProjectOpenDataJSON("ckan_data.json", Catalog.DataListingCode.PUBLIC_DATA_LISTING);
 		}
 		catch(IOException e)
 		{

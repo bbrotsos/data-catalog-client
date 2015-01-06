@@ -31,9 +31,8 @@ public class App
     
     	if (catalog.validateCatalog())
     	{
-    		Boolean privateIndicator = false;
     		try{
-    			catalog.toProjectOpenDataJSON("data.json", privateIndicator);
+    			catalog.toProjectOpenDataJSON("data.json",Catalog.DataListingCode.PUBLIC_DATA_LISTING);
     		}
     		catch(IOException e)
     		{
