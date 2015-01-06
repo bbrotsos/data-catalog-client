@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -124,8 +126,10 @@ public class Utils {
 		{
 			throw new NullPointerException("date cannot be null");
 		}
-		DateTime dateTime = new DateTime(date);
-		return dateTime.toString();
+		//only want date for output.
+		DateTime dateTime = new DateTime(date).hourOfDay().roundFloorCopy();
+		DateTimeFormatter formatter =  DateTimeFormat.forPattern("YYYY-MM-dd");
+		return formatter.print(dateTime);
 	}
 	
 	//TODO: might be issues with SimpleDateFormat in static method.
