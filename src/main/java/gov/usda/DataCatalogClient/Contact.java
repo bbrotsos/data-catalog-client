@@ -81,7 +81,7 @@ public class Contact {
 	public JSONObject toProjectOpenDataJSON()
 	{
 		JSONObject contactPointMap = new JSONObject();
-		contactPointMap.put(PROJECT_OPEN_DATA_CONTACT_POINT_EMAIL_ADDRESS, getEmailAddress());
+		contactPointMap.put(PROJECT_OPEN_DATA_CONTACT_POINT_EMAIL_ADDRESS, "mailto:" + getEmailAddress());
 		contactPointMap.put(PROJECT_OPEN_DATA_CONTACT_POINT_FULL_NAME , getFullName());
 		contactPointMap.put(PROJECT_OPEN_DATA_CONTACT_POINT_TYPE, type);
 

@@ -161,9 +161,7 @@ public class Distribution {
 		}
 		setTitle ((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_TITLE));
 		setDescription ((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIPTION ));
-		
-		
-		
+	
 		//catch here so we get all errors.
 		try{
 			//TODO: the return of JSONObject with URL and List<> is making code difficult to read
@@ -261,14 +259,18 @@ public class Distribution {
 	
 	/*
 	 * This outputs the object in CKAN Formatted JSON Object.  This is called a Resource in CKAN.
+	 * This currently suppresses title and description until validation checks.
 	 */
 	@SuppressWarnings("unchecked")
 	public JSONObject toCKAN_JSON()
 	{
 		JSONObject distributionCKAN_JSON = new JSONObject();
 		
-		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_TITLE, title);
-		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_DESCRIPTION, description);
+		//distributionCKAN_JSON.put(CKAN_DISTRIBUTION_TITLE, title);
+		if (description != null && !description.isEmpty())
+		{
+		//	distributionCKAN_JSON.put(CKAN_DISTRIBUTION_DESCRIPTION, description);
+		}
 		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_FORMAT, format);
 		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_MEDIA_TYPE, mediaType);
 		distributionCKAN_JSON.put("resource_type", resourceType);
@@ -312,8 +314,15 @@ public class Distribution {
 		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_TYPE, type);
 		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DOWNLOAD_URL, downloadURL);
 		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_MEDIA_TYPE, mediaType);
-		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_TITLE, title);
-		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIPTION , description);
+		if (!(title == null) && !title.isEmpty())
+		{
+			distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_TITLE, title);
+		}
+		if (!(description == null) && !description.isEmpty())
+		{
+			distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIPTION , description);
+		}
+		
 		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_ACCESS_URL, accessURL);
 		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_FORMAT, format);
 		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY, describedBy);
@@ -327,7 +336,10 @@ public class Distribution {
 		return title;
 	}
 	private void setTitle(String title) {
-		this.title = title;
+		if (title != null)
+		{
+			this.title = title.trim();
+		}
 	}
 	public String getDescription() {
 		return description;

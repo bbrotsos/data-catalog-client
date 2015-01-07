@@ -165,7 +165,7 @@ public class Catalog {
 	 * tab delimitted lines.
 	 * @param filePath String The output file for the catalog tab delimitted file.
 	 */
-	public void toCSV(String filePath) throws IOException
+	public void toCSV(String filePath, DataListingCode dataListingCode) throws IOException
 	{
 		if (filePath == null)
 		{
@@ -183,11 +183,18 @@ public class Catalog {
 		{
 			out = new PrintWriter(filePath);
 			out.println(headerLine);		
-			for (int i=0; i < dataSetList.size(); i++)
+			for (Dataset ds: dataSetList)
 			{
-				if (!dataSetList.get(i).getAccessLevel().equals(Dataset.AccessLevel.PRIVATE.toString()))
+				if (dataListingCode.equals(DataListingCode.ENTERPRISE_DATA_INVENTORY))
 				{
-					out.println(dataSetList.get(i).toCSV());
+					out.println(ds.toCSV());
+				}
+				else if (dataListingCode.equals(DataListingCode.PUBLIC_DATA_LISTING)) 
+				{
+					if (ds.getAccessLevel().equals(Dataset.AccessLevel.PUBLIC.toString()) || ds.getAccessLevel().equals(Dataset.AccessLevel.RESTRICTED))
+					{
+						out.println(ds.toCSV());
+					}
 				}
 			}
 		}
@@ -378,7 +385,7 @@ public class Catalog {
 			else if (dataListingType.equals(DataListingCode.PUBLIC_DATA_LISTING))
 			{
 				String publicAccessLevel = ds.getAccessLevel();
-				if (publicAccessLevel.equals(Dataset.AccessLevel.PUBLIC.toString()) || publicAccessLevel.equals(Dataset.AccessLevel.PUBLIC.toString()))
+				if (publicAccessLevel.equals(Dataset.AccessLevel.PUBLIC.toString()) || publicAccessLevel.equals(Dataset.AccessLevel.RESTRICTED.toString()))
 				{
 					dataSetArray.add(ds.toProjectOpenDataJSON());
 					publicCount++;

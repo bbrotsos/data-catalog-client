@@ -128,7 +128,7 @@ public class Utils {
 		}
 		//only want date for output.
 		DateTime dateTime = new DateTime(date).hourOfDay().roundFloorCopy();
-		DateTimeFormatter formatter =  DateTimeFormat.forPattern("YYYY-MM-dd");
+		DateTimeFormatter formatter =  DateTimeFormat.forPattern("yyyy-MM-dd");
 		return formatter.print(dateTime);
 	}
 	
@@ -174,6 +174,87 @@ public class Utils {
 	static public JSONArray getBureauList() throws ParseException, IOException
 	{
 		return Utils.loadJsonArrayFile("sample_data/bureau_reference_data.json");
+	}
+	
+	static public String toISO8661(String periodicity)
+	{
+		if (periodicity == null)
+		{
+			throw new NullPointerException ("Periodicity cannot be null");
+		}
+		if (periodicity.equals("Annual"))
+		{
+			return "R/P1Y";
+		}
+		else if (periodicity.equals("Bimonthly"))
+		{
+			return "R/P2M";
+		}
+		else if (periodicity.equals("Semiweekly"))
+		{
+			return "R/P3.5D";
+		}
+		
+		else if (periodicity.equals("Daily"))
+		{
+			return "R/P1D";
+		}
+		else if (periodicity.equals("Biweekly"))
+		{
+			return "R/P2W";
+		}
+		else if (periodicity.equals("Semiannual"))
+		{
+			return "R/P6M";
+		}
+		else if (periodicity.equals("Biennial"))
+		{
+			return "R/P2Y";
+		}
+		else if (periodicity.equals("Triennial"))
+		{
+			return "R/P3Y";
+		}
+		else if (periodicity.equals("Three times a week"))
+		{
+			return "R/P0.33W";
+		}
+		else if (periodicity.equals("Three times a month"))
+		{
+			return "R/P0.33M";
+		}
+		else if (periodicity.equals("Continuously updated"))
+		{
+			return "R/PT1S";
+		}
+		else if (periodicity.equals("Monthly"))
+		{
+			return "R/P1M";
+		}
+		else if (periodicity.equals("Quarterly"))
+		{
+			return "R/P3M";
+		}
+		else if (periodicity.equals("Semimonthly"))
+		{
+			return "R/P0.5M";
+		}
+		else if (periodicity.equals("Three times a year"))
+		{
+			return "R/P4M";
+		}
+		else if (periodicity.equals("Weekly"))
+		{
+			return "R/P1W";
+		}
+		else if (periodicity.equals("Completely irregular"))
+		{
+			return "irregular";
+		}
+		else
+		{
+			throw new IllegalArgumentException("Accrual Periodicity is invalid");
+		}
 	}
 	
 }

@@ -638,7 +638,10 @@ public class Dataset implements Comparable<Dataset> {
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_IS_PART_OF, isPartOf);
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_LICENSE, license);
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_SPATIAL, spatial);
-		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_TEMPORAL, temporal);
+		if (temporal != null && temporal.isEmpty() && !temporal.equals(""))
+		{
+			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_TEMPORAL, temporal);
+		}
 		if (issued != null)
 		{
 			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_ISSUED, Utils.convertDateToISOString(issued));
@@ -838,7 +841,7 @@ public class Dataset implements Comparable<Dataset> {
 			for (int i=0; i<jsonArray.size(); i++)
 			{
 				value = (String) jsonArray.get(i);
-				returnList.add(value);
+				returnList.add(value.trim());
 			}
 		}
 		return returnList;
@@ -939,11 +942,13 @@ public class Dataset implements Comparable<Dataset> {
 	}
 
 	public void setLanguageList(List<String> languageList) {
+		for (String s: languageList)
+			s.trim();
 		this.languageList = languageList;
 	}
 	
 	public void setLanguageList(String languageListString){
-		this.languageList.add(languageListString);
+		this.languageList.add(languageListString.trim());
 	}
 
 	public List<String> getThemeList() {
@@ -999,7 +1004,7 @@ public class Dataset implements Comparable<Dataset> {
 	}
 
 	public void setAccrualPeriodicity(String accrualPeriodicity) {
-		this.accrualPeriodicity = accrualPeriodicity;
+		this.accrualPeriodicity = Utils.toISO8661(accrualPeriodicity);
 	}
 
 	public URL getLandingPage() {
@@ -1357,7 +1362,7 @@ public class Dataset implements Comparable<Dataset> {
 	}
 
 	public void setLicense(String license) {
-		this.license = license;
+		this.license = license.trim();
 	}
 	
 	public String getIsPartOf() {
