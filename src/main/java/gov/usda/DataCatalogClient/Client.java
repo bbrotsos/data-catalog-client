@@ -246,7 +246,7 @@ public class Client {
     				catch(CatalogException e)
     				{
     					datasetErrors.add(e.toString());
-    					System.out.println(e.toString());
+    					//System.out.println(e.toString());
     				}
     			}
     		}

@@ -232,6 +232,7 @@ public class Distribution {
 	public boolean validatePublicDistribution() throws DistributionException
 	{
 		boolean validIndicator = true;
+		changeExcelMimeType();
 		if (accessURL == null & downloadURL == null)
 		{
 			distributionException.addError("Access URL or Download URL cannot both be blank");
@@ -255,6 +256,26 @@ public class Distribution {
 		}
 		
 		return validIndicator;
+	}
+	
+	private void changeExcelMimeType()
+	{
+		if (mediaType != null && mediaType.equals("application/xls"))
+		{
+			final String fileExtension = downloadURL.toString().substring(downloadURL.toString().lastIndexOf("."));
+			if (fileExtension.equals(".xls"))
+			{
+				mediaType = "application/vnd.ms-excel";
+			}
+			else if (fileExtension.equals(".xlsx"))
+			{
+				mediaType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+			}
+			else
+			{
+				mediaType = "application/vnd.ms-excel";
+			}
+		}
 	}
 	
 	/*
@@ -398,6 +419,12 @@ public class Distribution {
 	}
 	
 	//TODO: load IANA mimetypes and validate
+	/**
+	 * This fixes a common problem of putting the wrong mime type for xls documents.  This
+	 * should really be fixed at the source.
+	 * Changed param to _mediaType for clarity.
+	 * @param mediaType
+	 */
 	private void setMediaType(String mediaType) {
 		this.mediaType = mediaType;
 	}

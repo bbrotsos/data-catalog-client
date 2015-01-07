@@ -28,7 +28,7 @@ public class ClientTest {
     	Client odpClient = new Client();
     	
     	try{
-    		catalog = odpClient.loadOrganizationsIntoCatalog("edi_2014-01-06");
+    		catalog = odpClient.loadOrganizationsIntoCatalog("edi_2014-01-06_003");
     		catalog.toCSV("sample_data/test/catalog_full.txt", Catalog.DataListingCode.ENTERPRISE_DATA_INVENTORY);
     		catalog.toProjectOpenDataJSON("sample_data/test/data.json", Catalog.DataListingCode.PUBLIC_DATA_LISTING);
     	}

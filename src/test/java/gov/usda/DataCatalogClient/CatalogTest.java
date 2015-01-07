@@ -107,7 +107,7 @@ public class CatalogTest {
 		}
 		
 		try{
-			catalogPod.toCSV("sample_data/test/catalog.csv");
+			catalogPod.toCSV("sample_data/test/catalog.csv", Catalog.DataListingCode.PUBLIC_DATA_LISTING);
 		}
 		catch(IOException e)
 		{
