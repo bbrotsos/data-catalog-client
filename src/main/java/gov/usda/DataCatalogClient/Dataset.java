@@ -485,6 +485,9 @@ public class Dataset implements Comparable<Dataset> {
 		return extrasArray;
 	}
 	
+	
+	
+	
 	/**
 	 * Method to create CKAN compatible extra object.
 	 * <p>
@@ -505,7 +508,110 @@ public class Dataset implements Comparable<Dataset> {
 	}
 	
 	/**
-	 * Outputs data set line in tab delimited format
+	 * This is to use Apache CSVParser
+	 * @return
+	 */
+	public List<String> datasetToListString()
+	{
+		List<String> datasetString = new ArrayList<String>();
+		datasetString.add(bureauName);
+		datasetString.add(title);
+		datasetString.add(description);
+		
+    	if (distributionList.size() > 0)
+		{
+    		String mediaTypeString = "";
+			String downloadURLString = "";
+			for (int i=0; i< distributionList.size(); i++)
+    		{
+    			if (i > 0)
+    			{
+    				downloadURLString = downloadURLString  + ", ";
+    				mediaTypeString = mediaTypeString + ", ";
+    			}
+				Distribution outputDistribution = distributionList.get(i);
+				mediaTypeString = mediaTypeString + outputDistribution.getMediaType();
+				downloadURLString = downloadURLString + outputDistribution.getDownloadURL();
+    		}
+    		datasetString.add(mediaTypeString);
+    		datasetString.add(downloadURLString);
+
+		}
+
+    	datasetString.add(accrualPeriodicity);
+    	datasetString.add(bureauCodeList.get(0));
+    	datasetString.add(contactPoint.getEmailAddress());
+    	datasetString.add(contactPoint.getFullName());
+    	if (landingPage != null)
+    	{
+    		datasetString.add(landingPage.toString());
+    	}
+    	else
+    	{
+    		datasetString.add(null);
+    	}
+    	String programCodeString = "";
+    	for (int i=0; i < programCodeList.size(); i++)
+		{
+    		programCodeString = programCodeString + programCodeList.get(i) + ";";
+		}
+    	datasetString.add(programCodeString);
+    	datasetString.add(publisher.getName());
+    	datasetString.add(accessLevel);
+    	datasetString.add(rights );
+    	String keywordString = "";
+    	for (int i=0; i < keywordList.size(); i++)
+		{
+    		keywordString = keywordString + keywordList.get(i) + ";";
+		}
+    	datasetString.add(keywordString);
+    	datasetString.add(Utils.convertDateToISOString(modified));
+    	if (issued != null)
+    	{
+    		datasetString.add(Utils.convertDateToISOString(issued));
+    	}
+    	else
+    	{
+    		datasetString.add(null);
+    	}
+    	datasetString.add(uniqueIdentifier);
+    	datasetString.add(describedBy);
+    	datasetString.add(license);
+    	datasetString.add(spatial);
+    	datasetString.add(temporal);
+    	datasetString.add(systemOfRecords);
+    	if (dataQuality != null)
+    	{
+    		datasetString.add(dataQuality.toString());
+    	}
+    	else
+    	{
+    		datasetString.add(null);
+    	}
+    	String languageListString = "";
+    	for (int i=0; i < languageList.size(); i++)
+    	{
+    		languageListString = languageListString + languageList.get(i) + ";";
+		}
+    	datasetString.add(languageListString);
+    	String themeListString = "";
+    	for (int i=0; i < themeList.size(); i++)
+		{
+    		themeListString = themeListString + themeList.get(i) + ";";
+		}
+    	datasetString.add(themeListString);
+    	String referenceListString = "";
+    	for (int i=0; i < referenceList.size(); i++)
+		{
+    		referenceListString = referenceListString + referenceList.get(i) + ";";
+		}
+    	datasetString.add(referenceListString);
+    	return datasetString;
+		
+	}
+	
+	/**
+	 * Outputs data set line in tab delimited format.  This method is obsolete, use datasetToListString
 	 * <p>
 	 * This method is to convert the object to one line of tab delimited format.
 	 * @return String This string is tab delimited format of the Dataset object.

@@ -29,7 +29,7 @@ public class ClientTest {
     	
     	try{
     		catalog = odpClient.loadOrganizationsIntoCatalog("edi_2014-01-06_003");
-    		catalog.toCSV("sample_data/test/catalog_full.txt", Catalog.DataListingCode.ENTERPRISE_DATA_INVENTORY);
+    		catalog.toCSV("sample_data/test/catalog_full.csv", Catalog.DataListingCode.PUBLIC_DATA_LISTING);
     		catalog.toProjectOpenDataJSON("sample_data/test/data.json", Catalog.DataListingCode.PUBLIC_DATA_LISTING);
     	}
     	catch(CatalogException | IOException e)

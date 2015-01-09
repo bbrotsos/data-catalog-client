@@ -20,7 +20,6 @@ public class App
     	Client odpClient = new Client();
  
     	//take in filepath to store saved downloads from network, update filepath for fresh results
-    	
     	try{
     		catalog = odpClient.loadOrganizationsIntoCatalog("edi_2014-12-30");
     	}

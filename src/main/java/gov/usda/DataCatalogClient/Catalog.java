@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.json.simple.JSONArray;
@@ -164,6 +166,8 @@ public class Catalog {
 	 * Begins the process by listing out the header and calling all datasets to create
 	 * tab delimitted lines.
 	 * @param filePath String The output file for the catalog tab delimitted file.
+	 * @param dataListCode DataListingCode This will either print the Public Data Listing or the Enterprise 
+	 * Data Inventory
 	 */
 	public void toCSV(String filePath, DataListingCode dataListingCode) throws IOException
 	{
@@ -172,28 +176,54 @@ public class Catalog {
 			throw (new NullPointerException("filepath cannot be null"));
 		}
 		PrintWriter out = null;
-		
-		String headerLine = "Agency Name\t"; 
-		headerLine = headerLine + "Title\t";
-		headerLine = headerLine + "Description\tMedia Type\tDownload URL\tFrequency\tBureau Code\tContact Email\tContactName\t";
-		headerLine = headerLine + "Landing Page\tProgram Code\tPublisher\tPublic Access Level\tAccess Level Comment\tTags\tLast Update\tRelease Date\tUnique Identifier\t";
-		headerLine = headerLine + "Data Dictionary\tLicense\tSpatial\tTemporal\tSystem Of Records\tData Quality\tLangauge\t";
-		headerLine = headerLine + "Theme\tReference\t";
+		CSVPrinter csvPrinter = null;
+		CSVFormat csvFormat = CSVFormat.DEFAULT.withRecordSeparator("\n");
+		List<String> catalogString = new ArrayList<String>();
+		catalogString.add("Agency Name");
+		catalogString.add("Title");
+		catalogString.add("Description");
+		catalogString.add("MediaType");
+		catalogString.add("Download URL");
+		catalogString.add("Frequency");
+		catalogString.add("Bureau Code");
+		catalogString.add("Contact Email");
+		catalogString.add("Contact Name");
+		catalogString.add("Landing Page");
+		catalogString.add("Program Code");
+		catalogString.add("Publisher");
+		catalogString.add("Public Access Level");
+		catalogString.add("Access Level Comment");
+		catalogString.add("Tags");
+		catalogString.add("Last Update");
+		catalogString.add("Release Date");
+		catalogString.add("Unique Identifier");
+		catalogString.add("Data Dictionary");
+		catalogString.add("License");
+		catalogString.add("Spatial");
+		catalogString.add("Temporal");
+		catalogString.add("System of Records");
+		catalogString.add("Data Quality");
+		catalogString.add("Language");
+		catalogString.add("Theme");
+		catalogString.add("Reference");
+
+
 		try
 		{
 			out = new PrintWriter(filePath);
-			out.println(headerLine);		
+			csvPrinter = new CSVPrinter(out, csvFormat);
+			csvPrinter.printRecord(catalogString);
 			for (Dataset ds: dataSetList)
 			{
 				if (dataListingCode.equals(DataListingCode.ENTERPRISE_DATA_INVENTORY))
 				{
-					out.println(ds.toCSV());
+					csvPrinter.printRecord(ds.datasetToListString());
 				}
 				else if (dataListingCode.equals(DataListingCode.PUBLIC_DATA_LISTING)) 
 				{
 					if (ds.getAccessLevel().equals(Dataset.AccessLevel.PUBLIC.toString()) || ds.getAccessLevel().equals(Dataset.AccessLevel.RESTRICTED))
 					{
-						out.println(ds.toCSV());
+						csvPrinter.printRecord(ds.datasetToListString());
 					}
 				}
 			}
@@ -204,6 +234,7 @@ public class Catalog {
 		}
 		finally{
 			out.close();
+			csvPrinter.close();
 		}
 	}
 	
