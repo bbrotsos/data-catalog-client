@@ -105,7 +105,7 @@ public class Catalog {
 	 * the packages and calling the loadDataset methods at the dataset level.
 	 * @param catalogCKAN_JSON JSONObject The results from a CKAN query.
 	 */
-	public void loadCatalogFromCKAN_JSON(JSONObject catalogCKAN_JSON) throws CatalogException
+	public void loadCatalogFromCKAN(JSONObject catalogCKAN_JSON) throws CatalogException
 	{
 		if (catalogCKAN_JSON == null)
 		{
@@ -323,7 +323,7 @@ public class Catalog {
 			catalogException.addError("Error parsing string: " + e.toString());
 		}
 			
-		loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
+		loadCatalogFromCKAN(resourceCKAN_JSON);
 	}
 	
 
@@ -347,7 +347,7 @@ public class Catalog {
 			throw (catalogException);
 		}
 				
-		loadCatalogFromCKAN_JSON(resourceCKAN_JSON);
+		loadCatalogFromCKAN(resourceCKAN_JSON);
 	}
 	
 	/**

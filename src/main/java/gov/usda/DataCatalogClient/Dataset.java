@@ -77,6 +77,8 @@ public class Dataset implements Comparable<Dataset> {
 	public final static String PROJECT_OPEN_DATA_DATASET_THEME = "theme";
 
 	//only using where CKAN differs from Project Open Data
+	//TODO: Description can be placed at package or extra level
+	//TODO: Title can be placed at package or extra level
 	public final static String CKAN_DATASET = "packages";
 	public final static String CKAN_DATASET_DISTRIBUTION = "resources";
 	public final static String CKAN_DATASET_DESCRIPTION_NOTES = "notes";
@@ -91,7 +93,6 @@ public class Dataset implements Comparable<Dataset> {
 	public final static String CKAN_DATASET_DESCRIBED_BY = "data_dictionary";
 	public final static String CKAN_DATASET_DESCRIBED_BY_LEGACY = "data_dict";
 	public final static String CKAN_DATASET_DESCRIBED_BY_TYPE = "data_dictionary_type";
-	//TODO: Description
 	public final static String CKAN_DATASET_IS_PART_OF = "is_parent";
 	public final static String CKAN_DATASET_ISSUED = "release_date";
 	public final static String CKAN_DATASET_LANDING_PAGE = "homepage_url";
@@ -109,6 +110,10 @@ public class Dataset implements Comparable<Dataset> {
 	public final static String CKAN_DATASET_THEME = "category";
 	public final static String CKAN_DATASET_TITLE = "title";
 	public final static String CKAN_DATASET_UNIQUE_IDENTIFIER = "unique_id";
+	
+	//additional field for CKAN to make private
+	public final static String CKAN_DATASET_PRIVATE = "private";
+	public final static Boolean CKAN_DATASET_PRIVATE_VALUE = true;
 	
 	//Enumeration for handling access levels.  More documentation at Project Open Data.
 	public enum AccessLevel
@@ -370,9 +375,9 @@ public class Dataset implements Comparable<Dataset> {
 	{
 		JSONObject datasetCKAN_JSON = new JSONObject();
 		
-		//TODO: take out hardcoded "private"
-		datasetCKAN_JSON.put("private", true);
+		datasetCKAN_JSON.put(CKAN_DATASET_PRIVATE, CKAN_DATASET_PRIVATE_VALUE);
 		
+		//TODO: take out hardcoded "name, notes, etc"
 		datasetCKAN_JSON.put("name", getName());
 		datasetCKAN_JSON.put("notes", description);
 		datasetCKAN_JSON.put("title", this.title);

@@ -50,7 +50,7 @@ public class CatalogTest {
 		
 		try{
 			catalogPod.loadFromProjectOpenDataJSON(catalogObjectPod);
-			catalogCkan.loadCatalogFromCKAN_JSON(catalogObjectCkan);
+			catalogCkan.loadCatalogFromCKAN(catalogObjectCkan);
 		}
 		catch (CatalogException e)
 		{

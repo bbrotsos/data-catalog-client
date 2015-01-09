@@ -20,9 +20,9 @@ import org.json.simple.JSONObject;
 public class Distribution {
 
 	//Project Open Data JSON Fields
-	public final static String PROJECT_OPEN_DATA_DISTRIBUTION= "distribution";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION = "distribution";
 	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_ACCESS_URL = "accessURL";
-	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_CONFORMS_TO =  "conformsTo";
+	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_CONFORMS_TO = "conformsTo";
 	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIPTION = "description";
 	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_DOWNLOAD_URL = "downloadURL";
 	public final static String PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY = "describedBy";
@@ -41,7 +41,6 @@ public class Distribution {
 	public final static String CKAN_DISTRIBUTION_MEDIA_TYPE = "format";
 	public final static String CKAN_DISTRIBUTION_TITLE = "name";
 	public final static String CKAN_DISTRIBUTION_URL = "url";
-
 
 	//Common DCAT & POD metadata fields
 	private URL accessURL;
@@ -422,7 +421,7 @@ public class Distribution {
 	/**
 	 * This fixes a common problem of putting the wrong mime type for xls documents.  This
 	 * should really be fixed at the source.
-	 * Changed param to _mediaType for clarity.
+	 * 
 	 * @param mediaType
 	 */
 	private void setMediaType(String mediaType) {
