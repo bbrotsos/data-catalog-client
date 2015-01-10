@@ -115,6 +115,17 @@ public class Dataset implements Comparable<Dataset> {
 	public final static String CKAN_DATASET_PRIVATE = "private";
 	public final static Boolean CKAN_DATASET_PRIVATE_VALUE = true;
 	
+	/**
+	 * There are 3 attributes in CKAN at Dataset level.  TODO:I do not know difference between 
+	 * revision_timestamp and metadata_modified.
+	 *   "revision_timestamp": "2014-11-23T20:42:20.229991",
+	 *   "metadata_created": "2014-11-23T20:40:25.356753",
+	 *   "metadata_modified": "2014-11-23T20:54:10.573784",
+	 */
+	public final static String CKAN_DATASET_REVISION_TIMESTAMP = "revision_timestamp";
+	public final static String CKAN_DATASET_METADATA_CREATED = "metadata_created";
+	public final static String CKAN_DATASET_METADATA_MODIFIED = "metadata_modified";
+	
 	//Enumeration for handling access levels.  More documentation at Project Open Data.
 	public enum AccessLevel
 	{
@@ -166,7 +177,14 @@ public class Dataset implements Comparable<Dataset> {
 	private String rights;
 	private String systemOfRecords;
 	private String uniqueIdentifier;
-
+	
+	//CKAN Specific
+	private Date metadataModifiedDate;
+	private Date metadataCreatedDate;
+	private Date revisionTimeStamp;
+	
+	//This needs to be populated in order run create
+	private String organizationIdentifier;
 
 	//Agency specific (legacy)
 	private String comments;
@@ -327,8 +345,14 @@ public class Dataset implements Comparable<Dataset> {
 		//issue, title is in two places. To solve this set it initially, and let extra tag overwrite if it exists in extra.
 		setTitle((String) datasetCKAN_JSON.get("title"));
 		setDescription((String) datasetCKAN_JSON.get(CKAN_DATASET_DESCRIPTION_NOTES));
-	    setModified ((String) datasetCKAN_JSON.get("metadata_modified"));
-		 
+	    
+		//TODO:Both of these are set to anaylize when CKAN metadata modified date is different from
+		//extra where key equals "modified"
+		setModified ((String) datasetCKAN_JSON.get(CKAN_DATASET_METADATA_MODIFIED));
+	    setMetadataModifiedDate ((String) datasetCKAN_JSON.get(CKAN_DATASET_METADATA_MODIFIED));
+	    setMetadataCreatedDate((String) datasetCKAN_JSON.get(CKAN_DATASET_METADATA_CREATED));
+	    setRevisionTimeStamp((String) datasetCKAN_JSON.get(CKAN_DATASET_REVISION_TIMESTAMP));
+	    
 	    loadDistributionListFromCKAN((JSONArray) datasetCKAN_JSON.get(CKAN_DATASET_DISTRIBUTION));
 	    
 	    final JSONArray extraList = (JSONArray) datasetCKAN_JSON.get(CKAN_DATASET_EXTRAS);
@@ -606,6 +630,32 @@ public class Dataset implements Comparable<Dataset> {
     		referenceListString = referenceListString + referenceList.get(i) + ";";
 		}
     	datasetString.add(referenceListString);
+    	
+    	if (metadataCreatedDate != null)
+    	{
+    		datasetString.add(Utils.convertDateToISOString(metadataCreatedDate));
+    	}
+    	else
+    	{
+    		datasetString.add(null);
+    	}
+    	if (metadataModifiedDate != null)
+    	{
+    		datasetString.add(Utils.convertDateToISOString(metadataModifiedDate));
+    	}
+    	else
+    	{
+    		datasetString.add(null);
+    	}
+    	if (revisionTimeStamp != null)
+    	{
+    		datasetString.add(Utils.convertDateToISOString(revisionTimeStamp));
+    	}
+    	else
+    	{
+    		datasetString.add(null);
+    	}
+    	
     	return datasetString;
 		
 	}
@@ -617,6 +667,7 @@ public class Dataset implements Comparable<Dataset> {
 	 * @return String This string is tab delimited format of the Dataset object.
 	 */
 	//TODO: Optimize by using new String() rather than +
+	//TODO: Delete this method
 	public String toCSV()
 	{
 		String response = "";
@@ -1484,6 +1535,77 @@ public class Dataset implements Comparable<Dataset> {
 		this.isPartOf = isPartOf;
 	}
 	
+	public Date getMetadataModifiedDate() {
+		return metadataModifiedDate;
+	}
+
+	public void setMetadataModifiedDate(Date metadataModifiedDate) {
+		this.metadataModifiedDate = metadataModifiedDate;
+	}
+	
+	public void setMetadataModifiedDate(String metadataModifiedString){
+		if (metadataModifiedString != null)
+		{
+			try{
+				this.metadataModifiedDate= Utils.convertISOStringToDate(metadataModifiedString);
+			}
+			catch(ParseException e)
+			{
+				dsEx.addError("Issued field has invalid ISO Date" + e);
+			}
+		}
+	}
+
+	public Date getMetadataCreatedDate() {
+		return metadataCreatedDate;
+	}
+
+	public void setMetadataCreatedDate(Date metadataCreatedDate) {
+		this.metadataCreatedDate = metadataCreatedDate;
+	}
+	
+	public void setMetadataCreatedDate(String metadataCreatedDateString){
+		if (metadataCreatedDateString != null)
+		{
+			try{
+				this.metadataCreatedDate = Utils.convertISOStringToDate(metadataCreatedDateString);
+			}
+			catch(ParseException e)
+			{
+				dsEx.addError("Issued field has invalid ISO Date" + e);
+			}
+		}
+	}
+
+	public Date getRevisionTimeStamp() {
+		return revisionTimeStamp;
+	}
+
+	public void setRevisionTimeStamp(Date revisionTimeStamp) {
+		this.revisionTimeStamp = revisionTimeStamp;
+	}
+	
+	//TODO: Add generic method for setting date/string
+	public void setRevisionTimeStamp(String revisionTimeStampString){
+		if (revisionTimeStampString != null)
+		{
+			try{
+				this.revisionTimeStamp = Utils.convertISOStringToDate(revisionTimeStampString);
+			}
+			catch(ParseException e){
+				dsEx.addError("Issued field has invalid ISO Date" + e);
+			}
+		}
+	}
+
+	public String getOrganizationIdentifier() {
+		return organizationIdentifier;
+	}
+
+	public void setOrganizationIdentifier(String organizationIdentifier) {
+		this.organizationIdentifier = organizationIdentifier;
+	}
+
 	/**
 	 * Checks to make sure dataset business logic for Project Open Data 1.1 is valid
 	 * <p>

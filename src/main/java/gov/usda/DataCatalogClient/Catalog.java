@@ -206,7 +206,9 @@ public class Catalog {
 		catalogString.add("Language");
 		catalogString.add("Theme");
 		catalogString.add("Reference");
-
+		catalogString.add("CKAN Create Date");
+		catalogString.add("CKAN Modified Date");
+		catalogString.add("CKAN Revision Timestamp");
 
 		try
 		{
