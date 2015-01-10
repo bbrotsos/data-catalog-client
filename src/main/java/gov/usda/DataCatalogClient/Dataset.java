@@ -655,6 +655,10 @@ public class Dataset implements Comparable<Dataset> {
     	{
     		datasetString.add(null);
     	}
+    	if (!(isPartOf == null) && !isPartOf.equals("false"))
+    	{
+    		datasetString.add(isPartOf);
+    	}
     	
     	return datasetString;
 		
@@ -797,7 +801,10 @@ public class Dataset implements Comparable<Dataset> {
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_RIGHTS, rights);
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY, describedBy);
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_DESCRIBED_BY_TYPE, describedByType);
-		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_IS_PART_OF, isPartOf);
+    	if (!(isPartOf == null) && !isPartOf.equals("false"))
+    	{
+    		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_IS_PART_OF, isPartOf);
+    	}
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_LICENSE, license);
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_SPATIAL, spatial);
 		if (temporal != null && temporal.isEmpty() && !temporal.equals(""))
@@ -808,9 +815,9 @@ public class Dataset implements Comparable<Dataset> {
 		{
 			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_ISSUED, Utils.convertDateToISOString(issued));
 		}		
-		dataSetJSON.put("accrualPeriodicity", accrualPeriodicity);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_ACCRUAL_PERIODICITY , accrualPeriodicity);
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_SYSTEM_OF_RECORDS, systemOfRecords);
-		dataSetJSON.put("primaryITInvestmentUII", primaryITInvestmentUII);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_PRIMARY_IT_INVESTMENT_UII, primaryITInvestmentUII);
 		
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_DATA_QUALITY, dataQuality);
 		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_LANDING_PAGE, landingPage);
@@ -826,7 +833,7 @@ public class Dataset implements Comparable<Dataset> {
 		{
 			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_PROGRAM_CODE, programCodeList);
 		}
-		dataSetJSON.put("bureauCode", bureauCodeList);
+		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_BUREAU_CODE, bureauCodeList);
 		if (themeList.size() > 0)
 		{
 			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_THEME, themeList);
