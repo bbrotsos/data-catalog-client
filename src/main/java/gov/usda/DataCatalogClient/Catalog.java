@@ -209,6 +209,7 @@ public class Catalog {
 		catalogString.add("CKAN Create Date");
 		catalogString.add("CKAN Modified Date");
 		catalogString.add("CKAN Revision Timestamp");
+		catalogString.add("Is Part Of");
 
 		try
 		{

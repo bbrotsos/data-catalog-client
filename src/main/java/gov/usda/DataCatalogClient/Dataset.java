@@ -184,11 +184,10 @@ public class Dataset implements Comparable<Dataset> {
 	private Date revisionTimeStamp;
 	
 	//This needs to be populated in order run create
-	private String organizationIdentifier;
+	private String ownerOrganization;
 
 	//Agency specific (legacy)
 	private String comments;
-	private String ownerOrganization;
 	private String webService;
 	
 	//Bureau specific (might move to struct or class)
@@ -408,9 +407,7 @@ public class Dataset implements Comparable<Dataset> {
 		//dataio
 		//datasetCKAN_JSON.put("owner_org", "f2e28a6c-fafb-4914-a590-91fbcd6ae339");
 		
-		//demo.ckan
-		//TODO remove hardcoded owner_org
-		datasetCKAN_JSON.put("owner_org", "9ca02aa2-5007-4e9c-a407-ff8bdd9f43aa");
+		datasetCKAN_JSON.put("owner_org", ownerOrganization);
 		
 		datasetCKAN_JSON.put(CKAN_DATASET_EXTRAS, addCkanExtras());
 		
@@ -1605,13 +1602,6 @@ public class Dataset implements Comparable<Dataset> {
 		}
 	}
 
-	public String getOrganizationIdentifier() {
-		return organizationIdentifier;
-	}
-
-	public void setOrganizationIdentifier(String organizationIdentifier) {
-		this.organizationIdentifier = organizationIdentifier;
-	}
 
 	/**
 	 * Checks to make sure dataset business logic for Project Open Data 1.1 is valid

@@ -253,6 +253,7 @@ public class Utils {
 		}
 		else
 		{
+			//TODO: Test if it's already valid ISO
 			throw new IllegalArgumentException("Accrual Periodicity is invalid");
 		}
 	}

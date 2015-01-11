@@ -100,9 +100,9 @@ public class NetworkRequestTest {
 	public void testCreateDataset()
 	{
 		Dataset createDS = new Dataset();
-		final String datasetTestProjectOpenDataFile = "sample_data/test/datasetTestProjectOpenData.json";
 
 		createDS = getProjectOpenDataDataset();
+		createDS.setOwnerOrganization("9ca02aa2-5007-4e9c-a407-ff8bdd9f43aa");
 		
 		try
 		{
@@ -126,6 +126,8 @@ public class NetworkRequestTest {
 	{
 		//first create the dataset
 		Dataset updateDS = getProjectOpenDataDataset();
+		updateDS.setOwnerOrganization("9ca02aa2-5007-4e9c-a407-ff8bdd9f43aa");
+
 		
 		try{
 			NetworkRequest nr = new NetworkRequest("sample_data/config-ckan-demo.json");

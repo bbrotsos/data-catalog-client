@@ -286,10 +286,13 @@ public class Distribution {
 	{
 		JSONObject distributionCKAN_JSON = new JSONObject();
 		
-		//distributionCKAN_JSON.put(CKAN_DISTRIBUTION_TITLE, title);
+		if (title != null && !title.isEmpty())
+		{
+			distributionCKAN_JSON.put(CKAN_DISTRIBUTION_TITLE, title);
+		}
 		if (description != null && !description.isEmpty())
 		{
-		//	distributionCKAN_JSON.put(CKAN_DISTRIBUTION_DESCRIPTION, description);
+			distributionCKAN_JSON.put(CKAN_DISTRIBUTION_DESCRIPTION, description);
 		}
 		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_FORMAT, format);
 		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_MEDIA_TYPE, mediaType);

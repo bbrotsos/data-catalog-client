@@ -160,7 +160,7 @@ public class Client {
 	 * Loads a bureau list json array from a configuration file.
 	 * @return
 	 */
-	public JSONArray getBureauList()
+	private JSONArray getBureauList()
 	{
 		JSONArray bureauList = new JSONArray();
     	String bureauJSONString = "";
@@ -258,6 +258,7 @@ public class Client {
 	 * Takes in a Project Open Data compliant Dataset object and creates this on CKAN server.
 	 * This will return the dataset created in that call.
 	 * 
+	 * The dataset needs an ownerOrganization for creation
 	 * 
 	 * @param ds
 	 * @return
@@ -266,6 +267,12 @@ public class Client {
 	 */
 	public Dataset createDataset(Dataset ds) throws DatasetException, IOException
 	{
+		ds.validateDataset();
+		if (ds.getOwnerOrganization() == null)
+		{
+			throw new DatasetException("In order to create dataset, ownerOrganization must be set");
+		}
+		
 		NetworkRequest nr;
 		Dataset returnedDataset = new Dataset();
 		
@@ -295,7 +302,7 @@ public class Client {
 	 * @param filePath  Path to create file
 	 * @throws IOException
 	 */
-	public void createDirectory(String filePath) throws IOException
+	private void createDirectory(String filePath) throws IOException
 	{
 		Path ckanOrganizationDirectory = Paths.get(filePath);
 		if (Files.notExists(ckanOrganizationDirectory))
