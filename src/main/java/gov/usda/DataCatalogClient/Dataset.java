@@ -20,12 +20,13 @@ import org.json.simple.JSONObject;
  * The Dataset class is based on Project Open Data metadata specification 1.1. More
  * details can be found here: https://project-open-data.cio.gov/v1.1/schema/#dataset
  * 
- * There are two ways to load the dataset object:
+ * There are three ways to load the dataset object:
  * 
  * 1.  Load Dataset from a CKAN JSON Object.    @see loadDatasetFromCKAN_JSON(JSONObject):void
  * 2.  Load Dataset from a Project Open Data compliant JSON Object.  @see loadDatasetFromProjectOpenDataJSON(JSONObject):void
+ * 3.  Load dataset from Project Open Data file @see loadDatasetFromFile(String)
  * 
- * Both of these methods will throw a Dataset Exception if the JSON is not in Project
+ * These methods will throw a Dataset Exception if the JSON is not in Project
  * Open Data compliance.
  * 
  * Also, the variables are exposed so another way to populate Dataset is to set variables like 
@@ -212,6 +213,7 @@ public class Dataset implements Comparable<Dataset> {
 		themeList = new ArrayList<String>();
 	}
 	
+	//TODO: Add documentation to methods
 	private void loadDistributionListFromCKAN(JSONArray resourcesArray)
 	{
 		if (resourcesArray == null)
@@ -506,9 +508,6 @@ public class Dataset implements Comparable<Dataset> {
 		return extrasArray;
 	}
 	
-	
-	
-	
 	/**
 	 * Method to create CKAN compatible extra object.
 	 * <p>
@@ -674,8 +673,7 @@ public class Dataset implements Comparable<Dataset> {
 		String response = "";
 		response = response + bureauName + "\t";
     	response = response + title + "\t";
-    	//TODO: make description CSVable
-    	//response = response  + unEscapeString(description) + "\t";
+    	
     	response = response + " \t";
     	
     	if (distributionList.size() > 0)

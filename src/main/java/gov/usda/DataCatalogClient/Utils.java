@@ -5,7 +5,11 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -132,8 +136,7 @@ public class Utils {
 		return formatter.print(dateTime);
 	}
 	
-	//TODO: might be issues with SimpleDateFormat in static method.
-	//qualify ParseException because this is also thrown by json.simple.
+	
 	/**
 	 * This goes for simple cases so there is not the need to add yet 
 	 * another library.  Might want to go for full library in the future.
@@ -176,86 +179,52 @@ public class Utils {
 		return Utils.loadJsonArrayFile("sample_data/bureau_reference_data.json");
 	}
 	
+	/**
+	 * Change legacy Project Open Data frequency to ISO 8661
+	 * @param periodicity
+	 * @return
+	 */
 	static public String toISO8661(String periodicity)
 	{
 		if (periodicity == null)
 		{
 			throw new NullPointerException ("Periodicity cannot be null");
 		}
-		if (periodicity.equals("Annual"))
-		{
-			return "R/P1Y";
-		}
-		else if (periodicity.equals("Bimonthly"))
-		{
-			return "R/P2M";
-		}
-		else if (periodicity.equals("Semiweekly"))
-		{
-			return "R/P3.5D";
-		}
+	
+		Map<String, String> isoFrequencyMapping = new HashMap<String, String>();
+		isoFrequencyMapping.put("Annual", "R/P1Y");
+		isoFrequencyMapping.put("Bimonthly", "R/P2M");
+		isoFrequencyMapping.put("Semiweekly", "R/P3.5D");
+		isoFrequencyMapping.put("Daily", "R/P1D");
+		isoFrequencyMapping.put("Biweekly", "R/P2W");
+		isoFrequencyMapping.put("Semiannual", "R/P6M");
+		isoFrequencyMapping.put("Biennial", "R/P2Y");
+		isoFrequencyMapping.put("Triennial", "R/P3Y");
+		isoFrequencyMapping.put("Three times a week", "R/P0.33W");
+		isoFrequencyMapping.put("Three times a month", "R/P0.33M");
+		isoFrequencyMapping.put("Continuously updated","R/PT1S");
+		isoFrequencyMapping.put("Monthly", "R/P1M");
+		isoFrequencyMapping.put("Quarterly", "R/P3M");
+		isoFrequencyMapping.put("Semimonthly", "R/P0.5M");
+		isoFrequencyMapping.put("Three times a year", "R/P4M");
+		isoFrequencyMapping.put("Weekly", "R/P1W");
+		isoFrequencyMapping.put("Completely irregular", "irregular");
 		
-		else if (periodicity.equals("Daily"))
+		for (Entry<String, String> isoEntry: isoFrequencyMapping.entrySet())
 		{
-			return "R/P1D";
+			if (periodicity.equals(isoEntry.getKey()))
+			{
+				return isoEntry.getValue();
+			}
+			else if (periodicity.equals(isoEntry.getValue()))
+			{
+				//This case is when a valid ISO frequency was sent in as a parameter.
+				return periodicity;
+			}
 		}
-		else if (periodicity.equals("Biweekly"))
-		{
-			return "R/P2W";
-		}
-		else if (periodicity.equals("Semiannual"))
-		{
-			return "R/P6M";
-		}
-		else if (periodicity.equals("Biennial"))
-		{
-			return "R/P2Y";
-		}
-		else if (periodicity.equals("Triennial"))
-		{
-			return "R/P3Y";
-		}
-		else if (periodicity.equals("Three times a week"))
-		{
-			return "R/P0.33W";
-		}
-		else if (periodicity.equals("Three times a month"))
-		{
-			return "R/P0.33M";
-		}
-		else if (periodicity.equals("Continuously updated"))
-		{
-			return "R/PT1S";
-		}
-		else if (periodicity.equals("Monthly"))
-		{
-			return "R/P1M";
-		}
-		else if (periodicity.equals("Quarterly"))
-		{
-			return "R/P3M";
-		}
-		else if (periodicity.equals("Semimonthly"))
-		{
-			return "R/P0.5M";
-		}
-		else if (periodicity.equals("Three times a year"))
-		{
-			return "R/P4M";
-		}
-		else if (periodicity.equals("Weekly"))
-		{
-			return "R/P1W";
-		}
-		else if (periodicity.equals("Completely irregular"))
-		{
-			return "irregular";
-		}
-		else
-		{
-			//TODO: Test if it's already valid ISO
-			throw new IllegalArgumentException("Accrual Periodicity is invalid");
-		}
+		//value not valid legacy Project Open Data or ISO 8661
+		throw new IllegalArgumentException("Accrual Periodicity is invalid");
+		
 	}
 	
 }

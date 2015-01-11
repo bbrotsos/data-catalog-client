@@ -59,6 +59,8 @@ public class Client {
 	public Dataset updateDataset(Dataset updateDS) throws ParseException, IOException, DatasetException
 	{		
 		//TODO: First get id, we will use this later because we can't rely on names not changing.
+		//What happens when title changed, we need to search on actual id
+		//if two results come back, throw error to update manually in CKAN
 		//Dataset ckanDataset = getDatasetFromCKAN(updateDS.getName());
 		final NetworkRequest nr = new NetworkRequest();
 		final String datasetCKANString = nr.updateDataset(updateDS.getName(), updateDS.toCKAN_JSON());

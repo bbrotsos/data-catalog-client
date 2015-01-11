@@ -58,7 +58,6 @@ public class CatalogTest {
 		}
 		
 		assertEquals (catalogPod, catalogCkan);
-		
 	}
 	
 	/**
