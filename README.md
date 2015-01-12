@@ -18,7 +18,7 @@ Example usage:
     	//create edi or pdl
     	catalog.toProjectOpenDataJSON("data.json");
     	
-    	//Add new dataset
+    	//Add new dataset to ckan
     	Dataset ds = new Dataset();
     	ds.setTitle("My New Title");
     	ds.setDescription("New dataset for CKAN");
