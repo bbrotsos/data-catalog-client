@@ -21,24 +21,25 @@ import org.json.simple.JSONObject;
  * details can be found here: https://project-open-data.cio.gov/v1.1/schema/#dataset
  * 
  * There are three ways to load the dataset object:
- * 
+ * <p>
  * 1.  Load Dataset from a CKAN JSON Object.    @see loadDatasetFromCKAN_JSON(JSONObject):void
  * 2.  Load Dataset from a Project Open Data compliant JSON Object.  @see loadDatasetFromProjectOpenDataJSON(JSONObject):void
  * 3.  Load dataset from Project Open Data file @see loadDatasetFromFile(String)
- * 
+ * <p>
  * These methods will throw a Dataset Exception if the JSON is not in Project
  * Open Data compliance.
- * 
+ * <p>
  * Also, the variables are exposed so another way to populate Dataset is to set variables like 
+ * <code>
  * Dataset ds = new Dataset();
  * ds.setTitle("My new Title");
  * ...
  * ds.validate();  //validates to ensure Project Open Data Compliance.
- * 
+ * </code>
  * No builders were implemented because the most normal use-case is loading from a JSON file.
- * 
+ * <p>
  * The Dataset class also has methods for outputting the dataset in multiple formats.
- * 
+ * <p>
  * 1.  CKAN formated JSON Object: @see toCKAN_JSON():JSONObject
  * 2.  Project Open Data compliant Map.  Linked HashMap is used to preserve order against JSON specification.  This is used
  * for testing.  @see toProjectOpenDataJSON(): Map
@@ -95,7 +96,13 @@ public class Dataset implements Comparable<Dataset> {
 	public final static String CKAN_DATASET_DESCRIBED_BY_LEGACY = "data_dict";
 	public final static String CKAN_DATASET_DESCRIBED_BY_TYPE = "data_dictionary_type";
 	public final static String CKAN_DATASET_IS_PART_OF = "is_parent";
-	public final static String CKAN_DATASET_ISSUED = "release_date";
+	/**
+	 * CKAN has extra 'release_date' as a reserved word.  When creating a dataset this software
+	 * outputs CKAN_DATASET_ISSUED, when loading it looks for both CKAN_DATASET_ISSUED
+	 * and CKAN_DATASET_RELEASE_DATE
+	 */
+	public final static String CKAN_DATASET_ISSUED = "issued";
+	public final static String CKAN_DATASET_RELEASE_DATE = "release_date";
 	public final static String CKAN_DATASET_LANDING_PAGE = "homepage_url";
 	public final static String CKAN_DATASET_LANGUAGE = "language";
 	public final static String CKAN_DATASET_LICENSE = "license_new";
@@ -105,7 +112,13 @@ public class Dataset implements Comparable<Dataset> {
 	public final static String CKAN_DATASET_PROGRAM_CODE_LEGACY = "program_cdoe";
 	public final static String CKAN_DATASET_REFERENCES = "related_documents";
 	public final static String CKAN_DATASET_RIGHTS = "access_level_comment";
+	/**
+	 * CKAN spatial for extras is a keyword.  This puts SPATIAL_TEXT when creating a dataset
+	 * but looks for both SPATIAL AND SPATIAL_TEXT when loading.  More here:
+	 * http://docs.ckan.org/en/ckan-1.7/geospatial.html
+	 */
 	public final static String CKAN_DATASET_SPATIAL = "spatial";
+	public final static String CKAN_DATASET_SPATIAL_TEXT = "spatial-text";
 	public final static String CKAN_DATASET_SYSTEM_OF_RECORDS = "system_of_records";
 	public final static String CKAN_DATASET_TEMPORAL = "temporal";
 	public final static String CKAN_DATASET_THEME = "category";
@@ -117,11 +130,7 @@ public class Dataset implements Comparable<Dataset> {
 	public final static Boolean CKAN_DATASET_PRIVATE_VALUE = true;
 	
 	/**
-	 * There are 3 attributes in CKAN at Dataset level.  TODO:I do not know difference between 
-	 * revision_timestamp and metadata_modified.
-	 *   "revision_timestamp": "2014-11-23T20:42:20.229991",
-	 *   "metadata_created": "2014-11-23T20:40:25.356753",
-	 *   "metadata_modified": "2014-11-23T20:54:10.573784",
+	 * There are 3 attributes in CKAN at Dataset level.
 	 */
 	public final static String CKAN_DATASET_REVISION_TIMESTAMP = "revision_timestamp";
 	public final static String CKAN_DATASET_METADATA_CREATED = "metadata_created";
@@ -256,7 +265,8 @@ public class Dataset implements Comparable<Dataset> {
 			case CKAN_DATASET_DESCRIBED_BY_TYPE: setDescribedByType(value); break;
 			case CKAN_DATASET_DESCRIPTION: setDescription(value); break;
 			case CKAN_DATASET_IS_PART_OF: setIsPartOf(value); break;
-			case CKAN_DATASET_ISSUED: setIssued(value); break;
+			case CKAN_DATASET_ISSUED:
+			case CKAN_DATASET_RELEASE_DATE: setIssued(value); break;
 			case CKAN_DATASET_LANDING_PAGE: setLandingPage(value); break;
 			case CKAN_DATASET_LANGUAGE: setLanguageList(value); break;
 			case CKAN_DATASET_LICENSE: setLicense(value); break;
@@ -266,7 +276,8 @@ public class Dataset implements Comparable<Dataset> {
 			case CKAN_DATASET_PROGRAM_CODE_LEGACY: setProgramCodeList(value); break;
 			case CKAN_DATASET_REFERENCES: setReferenceList(value); break;
 			case CKAN_DATASET_RIGHTS: setRights(value); break;
-			case CKAN_DATASET_SPATIAL: setSpatial(value); break;
+			case CKAN_DATASET_SPATIAL:
+			case CKAN_DATASET_SPATIAL_TEXT: setSpatial(value); break;
 			case CKAN_DATASET_SYSTEM_OF_RECORDS: setSystemOfRecords(value); break;
 			case CKAN_DATASET_TEMPORAL: setTemporal(value); break;
 			case CKAN_DATASET_THEME: setThemeList(value); break;
@@ -479,13 +490,13 @@ public class Dataset implements Comparable<Dataset> {
 		//TODO: This should be release_date, but some CKAN repositories use that as a reserved word
 		if (issued != null)
 		{
-			extrasArray.add(createExtraObject("issued", Utils.convertDateToISOString(issued)));
+			extrasArray.add(createExtraObject(CKAN_DATASET_ISSUED, Utils.convertDateToISOString(issued)));
 		}
 		
 		extrasArray.add(createExtraObject(CKAN_DATASET_RIGHTS, rights));
 		//spatial might break create, this was commented out
 		//This should really be spatial-text.  spatial is a reserverd word, more here: http://docs.ckan.org/en/ckan-1.7/geospatial.html
-		//extrasArray.add(createExtraObject (CKAN_DATASET_SPATIAL, spatial));
+		extrasArray.add(createExtraObject (CKAN_DATASET_SPATIAL_TEXT, spatial));
 		extrasArray.add(createExtraObject(CKAN_DATASET_SYSTEM_OF_RECORDS, systemOfRecords));
 		extrasArray.add(createExtraObject(CKAN_DATASET_TEMPORAL, temporal));
 		extrasArray.add(createExtraObject(CKAN_DATASET_UNIQUE_IDENTIFIER, uniqueIdentifier));
@@ -538,6 +549,7 @@ public class Dataset implements Comparable<Dataset> {
 		datasetString.add(title);
 		datasetString.add(description);
 		
+		//TODO: move to distribution class
     	if (distributionList.size() > 0)
 		{
     		String mediaTypeString = "";
@@ -657,114 +669,6 @@ public class Dataset implements Comparable<Dataset> {
     	}
     	
     	return datasetString;
-		
-	}
-	
-	/**
-	 * Outputs data set line in tab delimited format.  This method is obsolete, use datasetToListString
-	 * <p>
-	 * This method is to convert the object to one line of tab delimited format.
-	 * @return String This string is tab delimited format of the Dataset object.
-	 */
-	//TODO: Optimize by using new String() rather than +
-	//TODO: Delete this method
-	public String toCSV()
-	{
-		String response = "";
-		response = response + bureauName + "\t";
-    	response = response + title + "\t";
-    	
-    	response = response + " \t";
-    	
-    	if (distributionList.size() > 0)
-		{
-    		for (int i=0; i< distributionList.size(); i++)
-    		{
-    			if (i > 0)
-    			{
-    				response = response + ", ";
-    			}
-				Distribution outputDistribution = distributionList.get(i);
-				response = response + outputDistribution.getMediaType();
-    		}
-    		response = response + "\t";
-		}
-    	else
-    	{
-    		response = response + "\t";
-    	}
-    	if (distributionList.size() > 0)
-		{
-    		for (int i=0; i< distributionList.size(); i++)
-    		{
-    			if (i > 0)
-    			{
-    				response = response + ", ";
-    			}
-    			Distribution outputDistribution = distributionList.get(i);
-				response = response + outputDistribution.getDownloadURL();
-    		}
-    		response = response + "\t";
-		}
-    	else
-    	{
-    		response = response + "\t";
-    	}
-    	
-    	response = response +  accrualPeriodicity + "\t";
-    	response = response + bureauCodeList.get(0) + "\t";
-    	
-    	response = response + contactPoint.getEmailAddress() +"\t";
-    	response = response + contactPoint.getFullName()+ "\t";
-    	response = response + landingPage + "\t";
-    	for (int i=0; i < programCodeList.size(); i++)
-		{
-    		response = response + programCodeList.get(i) + ";";
-		}
-    	response = response + "\t";
-
-    	response = response + publisher.getName() + "\t";
-       	response = response + accessLevel + "\t";
-    	response = response + rights + "\t";
-    	for (int i=0; i < keywordList.size(); i++)
-    	{
-    		response = response + keywordList.get(i) + ";";
-    	}
-    	response = response + "\t";
-    	response = response + Utils.convertDateToISOString(modified) + "\t";
-    	if (issued != null)
-    	{
-    		response = response + Utils.convertDateToISOString(issued) + "\t";
-    	}
-    	else{
-    		response = response + "\t";
-    	}
-    	response = response + uniqueIdentifier + "\t";
-    	response = response + describedBy + "\t";
-    	response = response + license + "\t";
-    	response = response + spatial + "\t";
-    	response = response + temporal+ "\t";
-    	response = response + systemOfRecords + "\t";
-    	response = response + dataQuality + "\t"; 	
-    	for (int i=0; i < languageList.size(); i++)
-    	{
-    		response = response + languageList.get(i) + ";";
-		}
-    	response = response + "\t";
-    	
-    	for (int i=0; i < themeList.size(); i++)
-		{
-    		response = response + themeList.get(i) + ";";
-		}
-    	response = response + "\t";
-    	
-    	for (int i=0; i < referenceList.size(); i++)
-		{
-    		response = response + referenceList.get(i) + ";";
-		}
-    	response = response + "\t";
-    	
-    	return response;
 	}
 	
 	/**
@@ -1817,8 +1721,6 @@ public class Dataset implements Comparable<Dataset> {
 				+ isPartOf + ", comments=" + comments + ", webService="
 				+ webService + ", ownerOrganization=" + ownerOrganization + "]";
 	}
-	
-	
 	
 	/**
 	 * Sorts list first by bureauName and then by title.  if bureau name is null compare by bureauCode
