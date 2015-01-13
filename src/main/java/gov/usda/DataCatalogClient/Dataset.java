@@ -248,6 +248,13 @@ public class Dataset implements Comparable<Dataset> {
 	    }
 	}
 	
+	/**
+	 * This method takes a key and value using the CKAN Extra format and converts it to 
+	 * DCAT/Project Open Data.
+	 * @param key String The key in the CKAN extra field.
+	 * @param value String The value in the CKAN extra fields
+	 * @throws ParseException  This will be thrown if the dates: issued or modified is not valid iso dates
+	 */
 	private void loadExtraFromCKAN(String key, String value) throws ParseException
 	{
 		Publisher subOrganization = null;
@@ -325,6 +332,14 @@ public class Dataset implements Comparable<Dataset> {
 		}
 	}
 	
+	/**
+	 * This method takes a valid data.json file that conforms to Dataset in Project open data
+	 * and loads it into Dataset object.
+	 * @param podFileName String The name of the file to import.
+	 * @throws DatasetException This is thrown when the data.json file is not valid Project Open Data 1.1 json format.
+	 * This can include business validation rules. 
+	 * @throws IOException This is thrown if there is issue reading the file, most likely file does not exist
+	 */
 	public void loadDatasetFromFile(String podFileName) throws DatasetException, IOException
 	{
 		JSONObject datasetObject;
@@ -385,6 +400,10 @@ public class Dataset implements Comparable<Dataset> {
 		}
 	}
 	
+	/**
+	 * Loads CKAN tags into this object.  
+	 * @param tagsArray An array from CKAN
+	 */
 	private void loadKeywordsFromCKAN(JSONArray tagsArray)
 	{
 		if (tagsArray == null)
@@ -395,6 +414,7 @@ public class Dataset implements Comparable<Dataset> {
 		for(int k=0; k<tagsArray.size(); k++)
 		{
 			final JSONObject tagObject = (JSONObject)tagsArray.get(k);
+			//TODO: use static final
 			keywordList.add((String)tagObject.get("display_name"));
 		}
 	}
@@ -446,6 +466,7 @@ public class Dataset implements Comparable<Dataset> {
 		
 		return datasetCKAN_JSON;
 	}
+	
 	/**
 	 * Complies the extra list in special CKAN format that supports Project Open Data.
 	 * @return
@@ -486,8 +507,6 @@ public class Dataset implements Comparable<Dataset> {
 			extrasArray.add(createExtraObject(Publisher.CKAN_PUBLISHER, publisher.getName()));
 		}
 		
-		//issued might break create, this was commented out
-		//TODO: This should be release_date, but some CKAN repositories use that as a reserved word
 		if (issued != null)
 		{
 			extrasArray.add(createExtraObject(CKAN_DATASET_ISSUED, Utils.convertDateToISOString(issued)));

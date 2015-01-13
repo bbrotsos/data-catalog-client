@@ -23,7 +23,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/Users/bbrotsos/Projects/USDA/2014-11-21_ODP/workspace_v0.0/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="/Users/bbrotsos/Projects/USDA/2014-11-21_ODP/workspace_v0.0/gson-2.3.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
