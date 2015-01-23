@@ -11,10 +11,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 /**
  * The Dataset class is based on Project Open Data metadata specification 1.1. More
@@ -431,15 +438,13 @@ public class Dataset implements Comparable<Dataset> {
 	{
 		JSONObject datasetCKAN_JSON = new JSONObject();
 		
-		datasetCKAN_JSON.put(CKAN_DATASET_PRIVATE, CKAN_DATASET_PRIVATE_VALUE);
+		//TODO: make this a variable.  Always set to Private for testing
+		//datasetCKAN_JSON.put(CKAN_DATASET_PRIVATE, CKAN_DATASET_PRIVATE_VALUE);
 		
 		//TODO: take out hardcoded "name, notes, etc"
 		datasetCKAN_JSON.put("name", getName());
 		datasetCKAN_JSON.put("notes", description);
 		datasetCKAN_JSON.put("title", this.title);
-		//dataio
-		//datasetCKAN_JSON.put("owner_org", "f2e28a6c-fafb-4914-a590-91fbcd6ae339");
-		
 		datasetCKAN_JSON.put("owner_org", ownerOrganization);
 		
 		datasetCKAN_JSON.put(CKAN_DATASET_EXTRAS, addCkanExtras());
@@ -477,6 +482,10 @@ public class Dataset implements Comparable<Dataset> {
 	private JSONArray addCkanExtras()
 	{
 		JSONArray extrasArray = new JSONArray();
+		
+		//The fields title and description are added at both the Dataset and Extra
+		extrasArray.add(createExtraObject(PROJECT_OPEN_DATA_DATASET_TITLE, title));
+		extrasArray.add(createExtraObject("notes", description));
 		extrasArray.add(createExtraObject(CKAN_DATASET_ACCESS_LEVEL, accessLevel));
 		extrasArray.add(createExtraObject(CKAN_DATASET_ACCRUAL_PERIODICITY, accrualPeriodicity));
 		if (contactPoint != null)
@@ -484,22 +493,38 @@ public class Dataset implements Comparable<Dataset> {
 			extrasArray.add(createExtraObject(Contact.CKAN_CONTACT_EMAIL_ADDRESS, contactPoint.getEmailAddress()));
 			extrasArray.add(createExtraObject(Contact.CKAN_CONTACT_FULL_NAME, contactPoint.getFullName()));
 		}
-		extrasArray.add(createExtraObject(CKAN_DATASET_CONFORMS_TO, conformsTo));
+		if (conformsTo != null)
+		{
+			extrasArray.add(createExtraObject(CKAN_DATASET_CONFORMS_TO, conformsTo));
+		}
 		if (dataQuality != null)
 		{
 			extrasArray.add(createExtraObject(CKAN_DATASET_DATA_QUALITY, dataQuality.toString()));
 		}
-		extrasArray.add(createExtraObject(CKAN_DATASET_DESCRIBED_BY, describedBy));
-		extrasArray.add(createExtraObject(CKAN_DATASET_DESCRIBED_BY_TYPE, describedByType));
-		extrasArray.add(createExtraObject(CKAN_DATASET_IS_PART_OF, isPartOf));
+		if (describedBy != null)
+		{
+			extrasArray.add(createExtraObject(CKAN_DATASET_DESCRIBED_BY, describedBy));
+		}
+		if (describedByType != null)
+		{
+			extrasArray.add(createExtraObject(CKAN_DATASET_DESCRIBED_BY_TYPE, describedByType));
+		}
+		if (isPartOf != null)
+		{
+			extrasArray.add(createExtraObject(CKAN_DATASET_IS_PART_OF, isPartOf));
+		}
 		if (landingPage != null)
 		{
 			extrasArray.add(createExtraObject(CKAN_DATASET_LANDING_PAGE, landingPage.toString()));
 		}
-		extrasArray.add(createExtraObject(CKAN_DATASET_LICENSE, license));
+		if (license != null)
+		{
+			extrasArray.add(createExtraObject(CKAN_DATASET_LICENSE, license));
+		}
 		if (modified != null)
 		{
-			extrasArray.add(createExtraObject(CKAN_DATASET_MODIFIED, Utils.convertDateToISOString(modified)));
+			//TODO: uncomment this line, testing create on ckan
+			//extrasArray.add(createExtraObject(CKAN_DATASET_MODIFIED, Utils.convertDateToISOString(modified)));
 		}
 		extrasArray.add(createExtraObject(CKAN_DATASET_PRIMARY_IT_INVESTMENT_UII, primaryITInvestmentUII));
 		if (publisher != null)
@@ -512,21 +537,39 @@ public class Dataset implements Comparable<Dataset> {
 			extrasArray.add(createExtraObject(CKAN_DATASET_ISSUED, Utils.convertDateToISOString(issued)));
 		}
 		
-		extrasArray.add(createExtraObject(CKAN_DATASET_RIGHTS, rights));
+		if (rights != null)
+		{
+			extrasArray.add(createExtraObject(CKAN_DATASET_RIGHTS, rights));
+		}
 		//spatial might break create, this was commented out
 		//This should really be spatial-text.  spatial is a reserverd word, more here: http://docs.ckan.org/en/ckan-1.7/geospatial.html
-		extrasArray.add(createExtraObject (CKAN_DATASET_SPATIAL_TEXT, spatial));
-		extrasArray.add(createExtraObject(CKAN_DATASET_SYSTEM_OF_RECORDS, systemOfRecords));
-		extrasArray.add(createExtraObject(CKAN_DATASET_TEMPORAL, temporal));
-		extrasArray.add(createExtraObject(CKAN_DATASET_UNIQUE_IDENTIFIER, uniqueIdentifier));
-		
+		if (spatial != null)
+		{
+			extrasArray.add(createExtraObject (CKAN_DATASET_SPATIAL_TEXT, spatial));
+		}
+		if (systemOfRecords != null)
+		{
+			extrasArray.add(createExtraObject(CKAN_DATASET_SYSTEM_OF_RECORDS, systemOfRecords));
+		}
+		if (temporal != null)
+		{
+			extrasArray.add(createExtraObject(CKAN_DATASET_TEMPORAL, temporal));
+		}
+		if (uniqueIdentifier != null)
+		{
+			extrasArray.add(createExtraObject(CKAN_DATASET_UNIQUE_IDENTIFIER, uniqueIdentifier));
+		}
 		//add lists
 		extrasArray.add(createExtraObject(CKAN_DATASET_BUREAU_CODE_LIST, Utils.listToCSV(bureauCodeList)));
 		extrasArray.add(createExtraObject(CKAN_DATASET_LANGUAGE, Utils.listToCSV(languageList)));
 		extrasArray.add(createExtraObject(CKAN_DATASET_PROGRAM_CODE, Utils.listToCSV(programCodeList)));
 		extrasArray.add(createExtraObject(CKAN_DATASET_REFERENCES,Utils.listToCSV(referenceList)));
-		extrasArray.add(createExtraObject(CKAN_DATASET_THEME, Utils.listToCSV(themeList)));
+		if (themeList.size() > 0)
+		{
+			extrasArray.add(createExtraObject(CKAN_DATASET_THEME, Utils.listToCSV(themeList)));
+		}
 		//get rid of nulls, ckan will give errors
+		//TODO: Optimize where null values are added, too many if!null is cluttering code.
 		for (int i=0; i< extrasArray.size(); i++)
 		{
 			JSONObject extraObject = (JSONObject) extrasArray.get(i);
@@ -552,8 +595,11 @@ public class Dataset implements Comparable<Dataset> {
 	private JSONObject createExtraObject(String key, String value)
 	{
 		JSONObject extraObject = new JSONObject();
-		extraObject.put("key", key);
-		extraObject.put("value", value);
+		if (value != null)
+		{
+			extraObject.put("key", key);
+			extraObject.put("value", value);
+		}
 		return extraObject;
 	}
 	
@@ -582,11 +628,11 @@ public class Dataset implements Comparable<Dataset> {
     			}
 				Distribution outputDistribution = distributionList.get(i);
 				mediaTypeString = mediaTypeString + outputDistribution.getMediaType();
+				
 				downloadURLString = downloadURLString + outputDistribution.getDownloadURL();
     		}
-    		datasetString.add(mediaTypeString);
-    		datasetString.add(downloadURLString);
-
+			datasetString.add(mediaTypeString);
+			datasetString.add(downloadURLString);
 		}
 
     	datasetString.add(accrualPeriodicity);
@@ -1091,7 +1137,10 @@ public class Dataset implements Comparable<Dataset> {
 	}
 
 	public void setAccrualPeriodicity(String accrualPeriodicity) {
-		this.accrualPeriodicity = Utils.toISO8661(accrualPeriodicity);
+		if (accrualPeriodicity != null)
+		{
+			this.accrualPeriodicity = Utils.toISO8661(accrualPeriodicity);
+		}
 	}
 
 	public URL getLandingPage() {
@@ -1449,7 +1498,10 @@ public class Dataset implements Comparable<Dataset> {
 	}
 
 	public void setLicense(String license) {
-		this.license = license.trim();
+		if (license != null)
+		{
+			this.license = license.trim();
+		}
 	}
 	
 	public String getIsPartOf() {
@@ -1521,6 +1573,127 @@ public class Dataset implements Comparable<Dataset> {
 				dsEx.addError("Issued field has invalid ISO Date" + e);
 			}
 		}
+	}
+	
+	public Element toLegacyXML(Document doc)
+	{
+		Element datasetElement = null;
+		datasetElement = doc.createElement("dataset");
+		datasetElement.appendChild(fieldToLegacyXML("title", title, doc));
+		datasetElement.appendChild(fieldToLegacyXML("description", description, doc));
+		datasetElement.appendChild(fieldToLegacyXML("accessLevel", accessLevel, doc));
+		if (accrualPeriodicity != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("accrualPeriodicity", accrualPeriodicity, doc));
+		}
+		if (conformsTo != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("conformsTo", conformsTo, doc));
+		}
+		if (describedBy != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("describedBy", describedBy, doc));
+		}
+		if (describedByType != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("describedByType", describedByType, doc));
+		}
+		if (isPartOf != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("isPartOf", isPartOf, doc));
+		}
+		if (issued != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("issued", Utils.convertDateToISOString(issued), doc));
+		}
+		if (landingPage != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("landingPage", landingPage.toString(), doc));
+		}
+		if (license != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("license", license.toString(), doc));
+		}
+		if (modified != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("modified", Utils.convertDateToISOString(modified), doc));
+		}
+		if (primaryITInvestmentUII != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("primaryITInvestmentUII", primaryITInvestmentUII , doc));
+		}
+		if (rights != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("rights", rights, doc));
+		}
+		if (spatial != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("spatial", spatial, doc));
+		}
+		if (systemOfRecords != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("systemOfRecords", systemOfRecords , doc));
+		}
+		if (temporal != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("temporal", temporal, doc));
+		}
+		if (uniqueIdentifier != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("uniqueIdentifier", uniqueIdentifier, doc));
+		}
+		
+		//TODO: dataQuality, webservice
+		
+		datasetElement.appendChild(publisher.toLegacyXML(doc));
+		datasetElement.appendChild(contactPoint.toLegacyXML(doc));
+		
+		if (bureauCodeList.size() > 0)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("bureauCode", Utils.listToCSV(bureauCodeList), doc));
+		}
+		if (programCodeList.size() > 0)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("programCode", Utils.listToCSV(programCodeList), doc));
+		}
+		if (referenceList.size() > 0)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("references", Utils.listToCSV(referenceList), doc));
+		}
+		if (themeList.size() > 0)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("categories", Utils.listToCSV(themeList), doc));
+		}
+		
+		//TODO: Check size >0
+		for (String tag: keywordList)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("keyword", tag, doc));
+		}
+		
+		//TODO: Check size < 0
+		for (Distribution dist: distributionList)
+		{
+			datasetElement.appendChild(dist.toLegacyXML(doc));
+		}
+			
+		return datasetElement;
+	}
+	
+	
+	
+	
+	private Element fieldToLegacyXML(String elementName, String elementValue, Document doc)
+	{
+		Element fieldElement = null;
+		if (elementValue == null)
+		{
+			return fieldElement;
+		}
+	
+		fieldElement = doc.createElement(elementName);
+		fieldElement.setTextContent(elementValue);
+		return fieldElement;
 	}
 
 

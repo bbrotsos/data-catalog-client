@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.json.simple.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * The Distribution class is a based on a combination of Project Open Data metadata specification
@@ -294,9 +296,14 @@ public class Distribution {
 		{
 			distributionCKAN_JSON.put(CKAN_DISTRIBUTION_DESCRIPTION, description);
 		}
-		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_FORMAT, format);
-		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_MEDIA_TYPE, mediaType);
-		distributionCKAN_JSON.put("resource_type", resourceType);
+		if (format != null)
+		{
+			distributionCKAN_JSON.put(CKAN_DISTRIBUTION_FORMAT, format);
+		}
+		if (mediaType != null)
+		{
+			distributionCKAN_JSON.put(CKAN_DISTRIBUTION_MEDIA_TYPE, mediaType);
+		}
 		if (resourceType == null)
     	{
     		//default to download_url
@@ -318,10 +325,22 @@ public class Distribution {
 			distributionCKAN_JSON.put(CKAN_DISTRIBUTION_URL, downloadURL.toString());
     	}
     	
-		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_DESCRIBED_BY, describedBy);
-		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_DESCRIBED_BY, describedByType);
-		distributionCKAN_JSON.put(CKAN_DISTRIBUTION_CONFORMS_TO, conformsTo);
-		distributionCKAN_JSON.put("@type", type);
+		if (describedBy != null)
+		{
+			distributionCKAN_JSON.put(CKAN_DISTRIBUTION_DESCRIBED_BY, describedBy);
+		}
+		if (describedByType != null)
+		{
+			distributionCKAN_JSON.put(CKAN_DISTRIBUTION_DESCRIBED_BY, describedByType);
+		}
+		if (conformsTo != null)
+		{
+			distributionCKAN_JSON.put(CKAN_DISTRIBUTION_CONFORMS_TO, conformsTo);
+		}
+		if (type != null)
+		{
+			distributionCKAN_JSON.put("@type", type);
+		}
 		
 		return distributionCKAN_JSON;
 	}
@@ -479,6 +498,73 @@ public class Distribution {
 	}
 	private void setType(String type) {
 		this.type = type;
+	}
+	
+	public Element toLegacyXML(Document doc)
+	{
+		Element distributionElement = null;
+		distributionElement = doc.createElement("distribution");
+		if (accessURL != null)
+		{
+			distributionElement.appendChild(fieldToLegacyXML("accessURL", accessURL.toString(), doc));
+		}
+		if (byteSize != null)
+		{
+			distributionElement.appendChild(fieldToLegacyXML("byteSize", byteSize.toString(), doc));
+		}
+		if (conformsTo != null)
+		{
+			distributionElement.appendChild(fieldToLegacyXML("conformsTo", conformsTo, doc));
+		}
+		if (describedBy != null)
+		{
+			distributionElement.appendChild(fieldToLegacyXML("describedBy", describedBy, doc));
+		}
+		if (describedByType != null)
+		{
+			distributionElement.appendChild(fieldToLegacyXML("describedByTye", describedByType, doc));
+		}
+		if (description != null)
+		{
+			distributionElement.appendChild(fieldToLegacyXML("description", description, doc));
+		}
+		if (downloadURL != null)
+		{
+			distributionElement.appendChild(fieldToLegacyXML("downloadURL", downloadURL.toString(), doc));
+		}
+		if (format != null)
+		{
+			distributionElement.appendChild(fieldToLegacyXML("format", format, doc));
+		}
+		if (mediaType != null)
+		{
+			distributionElement.appendChild(fieldToLegacyXML("mediaType", mediaType, doc));
+		}
+		if (title != null)
+		{
+			distributionElement.appendChild(fieldToLegacyXML("title", title, doc));
+		}
+		if (type != null)
+		{
+			distributionElement.appendChild(fieldToLegacyXML("type", type, doc));
+		}
+		
+		//TODO: issued, license, rights
+		return distributionElement;
+	}
+	
+	//TODO: Consolidate this method with dataset level
+	private Element fieldToLegacyXML(String elementName, String elementValue, Document doc)
+	{
+		Element fieldElement = null;
+		if (elementValue == null)
+		{
+			return fieldElement;
+		}
+	
+		fieldElement = doc.createElement(elementName);
+		fieldElement.setTextContent(elementValue);
+		return fieldElement;
 	}
 	
 	/**

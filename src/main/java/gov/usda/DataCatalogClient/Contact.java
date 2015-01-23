@@ -4,6 +4,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.json.simple.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 /**
  * The Contact class is based on Project Open Data Metadata specification 1.1.
  * More details can be found here: https://project-open-data.cio.gov/v1.1/schema/#contactPoint
@@ -137,6 +139,40 @@ public class Contact {
 		return validIndicator;
 	}
 
+	public Element toLegacyXML(Document doc)
+	{
+			
+		Element contactElement = doc.createElement("contactPoint");
+		if (emailAddress != null)
+		{
+			contactElement.appendChild(fieldToLegacyXML("emailAddress", emailAddress, doc));
+		}
+		if (fullName != null)
+		{
+			contactElement.appendChild(fieldToLegacyXML("fn", fullName, doc));
+		}
+		if (type != null)
+		{
+			contactElement.appendChild(fieldToLegacyXML("type", type, doc));
+		}
+		
+		return contactElement;
+	}
+	
+	//TODO: Consolidate this method with dataset level
+		private Element fieldToLegacyXML(String elementName, String elementValue, Document doc)
+		{
+			Element fieldElement = null;
+			if (elementValue == null)
+			{
+				return fieldElement;
+			}
+		
+			fieldElement = doc.createElement(elementName);
+			fieldElement.setTextContent(elementValue);
+			return fieldElement;
+		}
+	
 	@Override
 	public boolean equals(Object o)
 	{

@@ -1,8 +1,19 @@
 package gov.usda.DataCatalogClient;
 
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.json.simple.JSONObject;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * The Publisher class is based on Project Open Data metadata specification 1.1.
@@ -25,6 +36,9 @@ public class Publisher {
 	private String name;
 	private Publisher subOrganization;
 	private String type;
+	
+	private static final Logger log = Logger.getLogger(Publisher.class.getName());
+
 
 	public String getType() {
 		return type;
@@ -81,7 +95,27 @@ public class Publisher {
 				.get(PROJECT_OPEN_DATA_PUBLISHER_TYPE));
 
 		validatePublisher();
-
+	}
+	
+	public Element toLegacyXML(Document doc)
+	{
+			
+		Element publisherElement = doc.createElement("publisher");
+		Element nameElement = doc.createElement("name");
+		Element typeElement = doc.createElement("type");
+		nameElement.setTextContent(name);
+		typeElement.setTextContent(type);
+		if (subOrganization != null)
+		{
+			Element subOrganizationElement = doc.createElement("subOrganization");
+			subOrganizationElement.appendChild(subOrganization.toLegacyXML(doc));
+			publisherElement.appendChild(subOrganizationElement);
+		}
+		publisherElement.appendChild(nameElement);
+		publisherElement.appendChild(typeElement);
+		doc.appendChild(publisherElement);
+			
+		return publisherElement;
 	}
 
 	public Boolean validatePublisher() throws PublisherException {

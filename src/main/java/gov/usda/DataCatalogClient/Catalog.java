@@ -1,5 +1,6 @@
 package gov.usda.DataCatalogClient;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -9,6 +10,15 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -16,6 +26,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * The Catalog class is based on Project Open Data metadata specification 1.1 https://project-open-data.cio.gov/v1.1/schema/
@@ -171,6 +183,7 @@ public class Catalog {
 	 */
 	public void toCSV(String filePath, DataListingCode dataListingCode) throws IOException
 	{
+		Collections.sort(dataSetList);
 		if (filePath == null)
 		{
 			throw (new NullPointerException("filepath cannot be null"));
@@ -394,6 +407,8 @@ public class Catalog {
 	@SuppressWarnings("unchecked")
 	public void toProjectOpenDataJSON(String podFilePath, DataListingCode dataListingType) throws IOException
 	{	
+		Collections.sort(dataSetList);
+
 		if (podFilePath == null || dataListingType == null)
 		{
 			throw (new NullPointerException("podFilePath or privateIndicator cannot be null."));
@@ -527,6 +542,38 @@ public class Catalog {
 	public int size()
 	{
 		return dataSetList.size();
+	}
+	
+	public void toLegacyXML(String xmlFileName, DataListingCode dataListingType)
+	{
+		Element catalogElement = null;
+		try
+		{
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			Document doc = docBuilder.newDocument();
+			catalogElement = doc.createElement("catalog");
+			for (Dataset ds: dataSetList)
+			{
+				if (dataListingType.equals(DataListingCode.PUBLIC_DATA_LISTING))
+				{
+					String publicAccessLevel = ds.getAccessLevel();
+					if (publicAccessLevel.equals(Dataset.AccessLevel.PUBLIC.toString()) || publicAccessLevel.equals(Dataset.AccessLevel.RESTRICTED.toString()))
+					{
+						catalogElement.appendChild(ds.toLegacyXML(doc));
+					}
+				}
+			}
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(catalogElement);
+			StreamResult result = new StreamResult(new File(xmlFileName));
+			transformer.transform(source, result);	 
+		}
+		catch(ParserConfigurationException | TransformerException e)
+		{
+			log.log(Level.SEVERE, "Error in field to Legacy dataset " + title + " " + e.toString());
+		}
 	}
 	
 	/**
