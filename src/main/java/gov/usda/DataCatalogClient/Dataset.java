@@ -1590,6 +1590,10 @@ public class Dataset implements Comparable<Dataset> {
 		{
 			datasetElement.appendChild(fieldToLegacyXML("conformsTo", conformsTo, doc));
 		}
+		if (dataQuality != null)
+		{
+			datasetElement.appendChild(fieldToLegacyXML("dataQuality", dataQuality.toString(), doc));
+		}
 		if (describedBy != null)
 		{
 			datasetElement.appendChild(fieldToLegacyXML("describedBy", describedBy, doc));
@@ -1643,7 +1647,7 @@ public class Dataset implements Comparable<Dataset> {
 			datasetElement.appendChild(fieldToLegacyXML("uniqueIdentifier", uniqueIdentifier, doc));
 		}
 		
-		//TODO: dataQuality, webservice
+		//TODO: dataQuality, 
 		
 		datasetElement.appendChild(publisher.toLegacyXML(doc));
 		datasetElement.appendChild(contactPoint.toLegacyXML(doc));
