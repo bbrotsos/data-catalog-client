@@ -1644,7 +1644,7 @@ public class Dataset implements Comparable<Dataset> {
 		}
 		if (uniqueIdentifier != null)
 		{
-			datasetElement.appendChild(fieldToLegacyXML("uniqueIdentifier", uniqueIdentifier, doc));
+			datasetElement.appendChild(fieldToLegacyXML("identifier", uniqueIdentifier, doc));
 		}
 		
 		//TODO: dataQuality, 
@@ -1669,13 +1669,13 @@ public class Dataset implements Comparable<Dataset> {
 			datasetElement.appendChild(fieldToLegacyXML("categories", Utils.listToCSV(themeList), doc));
 		}
 		
-		//TODO: Check size >0
+		//TODO: Required field but Check size<>0
 		for (String tag: keywordList)
 		{
 			datasetElement.appendChild(fieldToLegacyXML("keyword", tag, doc));
 		}
 		
-		//TODO: Check size < 0
+		//TODO: required field but check size < 0
 		for (Distribution dist: distributionList)
 		{
 			datasetElement.appendChild(dist.toLegacyXML(doc));

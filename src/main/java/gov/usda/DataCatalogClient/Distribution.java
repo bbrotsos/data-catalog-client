@@ -522,7 +522,7 @@ public class Distribution {
 		}
 		if (describedByType != null)
 		{
-			distributionElement.appendChild(fieldToLegacyXML("describedByTye", describedByType, doc));
+			distributionElement.appendChild(fieldToLegacyXML("describedByType", describedByType, doc));
 		}
 		if (description != null)
 		{
