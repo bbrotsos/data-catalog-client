@@ -51,7 +51,7 @@ public class ClientTest {
     			 */
     			//catalog.loadFromProjectOpenDataJSON(Utils.loadJsonObjectFile("input/data-ars.json"));
 
-    			catalog.loadFromProjectOpenDataJSON(Utils.loadJsonObjectFile("input/data-2017-01-19.json"));
+    			catalog.loadFromProjectOpenDataJSON(Utils.loadJsonObjectFile("input/data-2017-01-20.json"));
     			catalog.addFromOtherCatalog(catalog_ag_data_commons);
     			catalog.addFromOtherCatalog(catalog_fs);
     		}
