@@ -41,7 +41,7 @@ public class ClientTest {
     			
     			/* 
     			 * If the Ag Data Commons times out, download fresh copy, uncomment the following line 
-    			 * and comment line above that downloads from data.nal.usda.gov
+    			 * and comment line above that downloads from data.nal.usda.gov file.
     			 */
     			//catalog.loadFromProjectOpenDataJSON(Utils.loadJsonObjectFile("input/data-ars.json"));
     			
