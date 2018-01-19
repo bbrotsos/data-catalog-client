@@ -1,0 +1,186 @@
+{
+  "conformsTo": "https://project-open-data.cio.gov/v1.1/schema",
+  "describedBy": "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
+  "@context": "https://project-open-data.cio.gov/v1.1/schema/data.jsonld",
+  "@type": "dcat:Catalog",
+  "dataset": [
+    {
+      "title": "Department of Agriculture Congressional Logs for Fiscal Year 2014",
+      "description": "This dataset is Congressional Correspondence from the Office of the Executive Secretariat for the Department of Agriculture.",
+      "keyword": [
+        "Congressional Logs"
+      ],
+      "modified": "2014-12-22T13:35:39.084-0500",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Department of Agriculture"
+      },
+      "contactPoint": {
+        "fn": "Alexi Graves",
+        "hasEmail": "mailto:Alexis.Graves@ocio.usda.gov"
+      },
+      "identifier": "USDA-DM-002",
+      "accessLevel": "public",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "mediaType": "application/vnd.ms-excel",
+          "title": "Congressional Logs for Fiscal Year 2014",
+          "distributionURL": "http://www.dm.usda.gov/foia/docs/Copy%20of%20ECM%20Congressional%20Logs%20FY14.xls"
+        }
+      ],
+      "programCode": [
+        "005:059"
+      ],
+      "bureauCode": [
+        "005:12"
+      ]
+    },
+    {
+      "title": "Department of Agriculture Secretary's Calendar Schedule",
+      "description": "This dataset is a listing of the Secretary of Agriculture's public schedule.",
+      "keyword": [
+        "FOIA"
+      ],
+      "modified": "2014-12-22T13:35:39.085-0500",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Department of Agriculture"
+      },
+      "contactPoint": {
+        "fn": "Alexi Graves",
+        "hasEmail": "mailto:Alexis.Graves@ocio.usda.gov"
+      },
+      "identifier": "USDA-DM-003",
+      "accessLevel": "public",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "mediaType": "application/vnd.ms-excel",
+          "title": "Department of Agriculture Secretary's Calendar Schedule",
+          "distributionURL": "http://www.usda.gov/wps/portal/usda/usdahome?contentidonly=true&contentid=secretary-schedule.xml"
+        }
+      ],
+      "programCode": [
+        "005:059"
+      ],
+      "bureauCode": [
+        "005:12"
+      ]
+    },
+    {
+      "title": "USDA Active Purchase Card Holders",
+      "description": "The list of Active Purchase Card Holders is the most up-to-date list of USDA card holders, along with their contact information (i.e. name, address and e-mail address).",
+      "keyword": [
+        "FOIA"
+      ],
+      "modified": "2014-12-22T13:35:39.085-0500",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Department of Agriculture, OCIO"
+      },
+      "contactPoint": {
+        "fn": "Alexis Graves",
+        "hasEmail": "mailto:alexis.graves@ocio.usda.gov"
+      },
+      "identifier": "usda-dm-006",
+      "accessLevel": "public",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "title": "March 2014",
+          "distributionURL": "http://www.dm.usda.gov/procurement/ccsc/docs/FOIARequestUSDAActivePurchaseCardholdersExceptOIGasof030714.xlsx"
+        }
+      ],
+      "programCode": [
+        "005:059"
+      ],
+      "bureauCode": [
+        "005:12"
+      ]
+    },
+    {
+      "title": "USDA Annual FOIA Report",
+      "description": "In accordance with its FOIA regulations, USDA makes records available to the public unless the information is protected from disclosure by one or more of the nine specific FOIA exemptions.  This is USDA's required FOIA annual report for the Department of Justice.",
+      "keyword": [
+        "FOIA"
+      ],
+      "modified": "2014-12-22T13:35:39.085-0500",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Department of Agriculture"
+      },
+      "contactPoint": {
+        "fn": "Alexi Graves",
+        "hasEmail": "mailto:Alexis.Graves@ocio.usda.gov"
+      },
+      "identifier": "USDA-DM-004",
+      "accessLevel": "public",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "mediaType": "application/xml",
+          "title": "2013 FOIA Annual Report",
+          "distributionURL": "http://www.dm.usda.gov/foia/docs/USDA.FY13.Final.xml"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "title": "2013 USDA FOIA Annual Report",
+          "distributionURL": "http://www.dm.usda.gov/foia/docs/USDA%20FY13%20FOIA%20Annual%20Report.docx"
+        }
+      ],
+      "programCode": [
+        "005:059"
+      ],
+      "bureauCode": [
+        "005:12"
+      ]
+    },
+    {
+      "title": "USDA Purchase Card Transaction Report",
+      "description": "The USDA Purchase Card Transaction Report list all transactions for a specific period of time.  The Purchase Card Transaction Report lists specific purchase (transaction) data such as the following:  card holder’s name, visa merchant ID, address, work phone number, e-mail address, MCC code, transaction date, transaction amount, merchant name, merchant address, merchant phone number and the post date.",
+      "keyword": [
+        "FOIA"
+      ],
+      "modified": "2014-12-22T13:35:39.086-0500",
+      "publisher": {
+        "@type": "org:Organization",
+        "name": "Department of Agriculture, OCIO"
+      },
+      "contactPoint": {
+        "fn": "Alexis Graves",
+        "hasEmail": "mailto:alexis.graves@ocio.usda.gov"
+      },
+      "identifier": "usda-dm-0007",
+      "accessLevel": "public",
+      "distribution": [
+        {
+          "@type": "dcat:Distribution",
+          "mediaType": "application/vnd.ms-excel",
+          "title": "Report 1",
+          "distributionURL": "http://www.dm.usda.gov/R162105A.XLS"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "mediaType": "application/vnd.ms-excel",
+          "title": "Report 2",
+          "distributionURL": "http://www.dm.usda.gov/R162105B.XLS"
+        },
+        {
+          "@type": "dcat:Distribution",
+          "mediaType": "application/vnd.ms-excel",
+          "title": "Report 3",
+          "distributionURL": "http://www.dm.usda.gov/R162105C.XLS"
+        }
+      ],
+      "programCode": [
+        "005:059"
+      ],
+      "bureauCode": [
+        "005:12"
+      ]
+    }
+  ]
+}

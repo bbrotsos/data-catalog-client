@@ -1,0 +1,177 @@
+{
+	"private": true,
+	"notes": "This dataset provides national statistics on the production of widgets",
+	"name": "final-manufacturing-test-with-issue-date",
+	"extras": 
+	[
+		{
+			"value": "public",
+			"key": "public_access_level"
+		},
+
+		{
+			"value": "This dataset has been given an international public domain dedication for worldwide reuse",
+			"key": "access_level_comment"
+		},
+
+		{
+			"value": "mailto:jane.doe@agency.gov",
+			"key": "contact_email"
+		},
+
+		{
+			"value": "Jane Doe",
+			"key": "contact_name"
+		},
+
+		{
+			"value": "R\/P1Y",
+			"key": "accrual_periodicity"
+		},
+
+		{
+			"value": "http:\/\/www.agency.gov\/datasets\/widgets-dictionary.html",
+			"key": "data_dictionary"
+		},
+
+		{
+			"value": "true",
+			"key": "data_quality"
+		},
+
+		{
+			"value": "http:\/\/agency.gov\/widgets\/data",
+			"key": "homepage_url"
+		},
+
+		{
+			"value": "http:\/\/creativecommons.org\/publicdomain\/zero\/1.0\/",
+			"key": "license_new"
+		},
+
+		{
+			"value": "2014-12-23T14:25:25.010-0500",
+			"key": "modified"
+		},
+
+		{
+			"value": "Widget Services",
+			"key": "publisher"
+		},
+
+		{
+			"value": "http:\/\/www.agency.gov\/widgets\/sorn\/",
+			"key": "system_of_records"
+		},
+
+		{
+			"value": "2009-09-01T12:00:00Z\/2010-05-31T12:00:00Z",
+			"key": "temporal"
+		},
+
+		{
+			"value": "http:\/\/dx.doi.org\/10.7927\/H4PZ56R2",
+			"key": "unique_id"
+		},
+
+		{
+			"value": "018:001",
+			"key": "program_code"
+		},
+
+		{
+			"value": "en-US",
+			"key": "language"
+		},
+
+		{
+			"value": "018:10",
+			"key": "bureau_code"
+		},
+
+		{
+			"value": "manufacturing",
+			"key": "category"
+		},
+
+		{
+			"value": "http:\/\/agency.gov\/docs\/widgets-1.html, http:\/\/agency.gov\/docs\/widgets-2.html",
+			"key": "related_documents"
+		}
+	],
+
+	"resources": 
+	[
+		{
+			"@type": "dcat:Distribution",
+			"name": "widgets.csv",
+			"format": "text\/csv",
+			"resource_type": null,
+			"description": "Widgets data as a CSV file",
+			"describedBy": null,
+			"conformsTo": null,
+			"formatReadable": null,
+			"url": "https:\/\/data.agency.gov\/datasets\/widgets-statistics\/widgets.csv",
+			"describedByType": null
+		},
+
+		{
+			"@type": "dcat:Distribution",
+			"name": "widgets-all.zip",
+			"format": "application\/zip",
+			"resource_type": null,
+			"description": "Widgets data as a zipped CSV file with attached data dictionary",
+			"describedBy": null,
+			"conformsTo": null,
+			"formatReadable": null,
+			"url": "https:\/\/data.agency.gov\/datasets\/widgets-statistics\/widgets-all.zip",
+			"describedByType": null
+		},
+
+		{
+			"@type": "dcat:Distribution",
+			"name": "widgets-all.json",
+			"format": "application\/json",
+			"resource_type": null,
+			"description": "Widget data as a JSON feed",
+			"describedBy": "http:\/\/www.agency.gov\/widgets\/schema.json",
+			"conformsTo": "http:\/\/www.agency.gov\/widget-data-standard\/",
+			"formatReadable": null,
+			"url": "http:\/\/www.agency.gov\/feeds\/widgets-all.json",
+			"describedByType": "application\/schema+json"
+		},
+
+		{
+			"@type": "dcat:Distribution",
+			"name": "Widgets REST API",
+			"format": null,
+			"resource_type": null,
+			"description": "A fully queryable REST API with JSON and XML output",
+			"describedBy": null,
+			"conformsTo": null,
+			"formatReadable": null,
+			"url": "https:\/\/data.agency.gov\/api\/widgets-statistics\/",
+			"describedByType": null
+		}
+	],
+
+	"owner_org": "9ca02aa2-5007-4e9c-a407-ff8bdd9f43aa",
+	"title": "Final manufacturing test with issue date",
+	"tags": 
+	[
+		{
+			"name": "widget",
+			"display_name": "widget"
+		},
+
+		{
+			"name": "manufacturing",
+			"display_name": "manufacturing"
+		},
+
+		{
+			"name": "factory",
+			"display_name": "factory"
+		}
+	]
+}

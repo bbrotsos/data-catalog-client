@@ -1,0 +1,32 @@
+{
+  "title": "Department of Agriculture Congressional Logs for Fiscal Year 2014",
+  "description": "This dataset is Congressional Correspondence from the Office of the Executive Secretariat for the Department of Agriculture.",
+  "keyword": [
+    "Congressional Logs"
+  ],
+  "modified": "2014-12-30T08:57:39.193-0500",
+  "publisher": {
+    "@type": "org:Organization",
+    "name": "Department of Agriculture"
+  },
+  "contactPoint": {
+    "fn": "Alexi Graves",
+    "hasEmail": "mailto:Alexis.Graves@ocio.usda.gov"
+  },
+  "identifier": "USDA-DM-002",
+  "accessLevel": "public",
+  "distribution": [
+    {
+      "@type": "dcat:Distribution",
+      "mediaType": "application/vnd.ms-excel",
+      "title": "Congressional Logs for Fiscal Year 2014",
+      "distributionURL": "http://www.dm.usda.gov/foia/docs/Copy%20of%20ECM%20Congressional%20Logs%20FY14.xls"
+    }
+  ],
+  "programCode": [
+    "005:059"
+  ],
+  "bureauCode": [
+    "005:12"
+  ]
+}

@@ -1,0 +1,1131 @@
+{
+	"help": "Return the details of a organization.\n\n    :param id: the id or name of the organization\n    :type id: string\n    :param include_datasets: include a list of the organization's datasets\n         (optional, default: ``True``)\n    :type id: boolean\n\n    :rtype: dictionary\n\n    .. note:: Only its first 1000 datasets are returned\n    ",
+	"success": true,
+	"result": 
+	{
+		"users": 
+		[
+			{
+				"openid": null,
+				"about": null,
+				"capacity": "admin",
+				"name": "bbrotsos",
+				"created": "2014-09-09T17:39:38.879541",
+				"email_hash": "8141ca05b14379afbaf757be770e4097",
+				"sysadmin": false,
+				"activity_streams_email_notifications": false,
+				"state": "active",
+				"number_of_edits": 143,
+				"number_administered_packages": 11,
+				"display_name": "Brian Brotsos",
+				"fullname": "Brian Brotsos",
+				"id": "e35f06b9-59c0-4ddf-a51f-5147d62e297c"
+			},
+
+			{
+				"openid": null,
+				"about": "",
+				"capacity": "admin",
+				"name": "david_rudolph",
+				"created": "2013-10-31T17:16:55.216207",
+				"email_hash": "090a45d10cd4c7275178e428883fc54c",
+				"sysadmin": false,
+				"activity_streams_email_notifications": false,
+				"state": "active",
+				"number_of_edits": 575,
+				"number_administered_packages": 5,
+				"display_name": "David Rudolph",
+				"fullname": "David Rudolph",
+				"id": "6fce1100-466a-474c-b1f4-2ae923028058"
+			},
+
+			{
+				"openid": null,
+				"about": "",
+				"capacity": "admin",
+				"name": "david_waddell",
+				"created": "2013-10-24T17:05:21.471278",
+				"email_hash": "2c95653d78642133f495e90ef9d5f7b9",
+				"sysadmin": false,
+				"activity_streams_email_notifications": false,
+				"state": "active",
+				"number_of_edits": 0,
+				"number_administered_packages": 0,
+				"display_name": "David Waddell",
+				"fullname": "David Waddell",
+				"id": "74abaee1-1d81-4094-bb4d-b6eb03d3390f"
+			},
+
+			{
+				"openid": null,
+				"about": null,
+				"capacity": "editor",
+				"name": "edward_chi",
+				"created": "2014-01-08T11:01:12.895319",
+				"email_hash": "7cb6410d4d760fe44e5ffe23d73d97b9",
+				"sysadmin": false,
+				"activity_streams_email_notifications": false,
+				"state": "active",
+				"number_of_edits": 0,
+				"number_administered_packages": 0,
+				"display_name": "Edward Chi",
+				"fullname": "Edward Chi",
+				"id": "1e3de9d0-aeb6-428d-a57a-fe8a0dd657e7"
+			},
+
+			{
+				"openid": null,
+				"about": "",
+				"capacity": "admin",
+				"name": "fuhu",
+				"created": "2013-09-26T22:06:11.922287",
+				"email_hash": "3f47a8601ce525e757537d0ada90f8ce",
+				"sysadmin": true,
+				"activity_streams_email_notifications": false,
+				"state": "active",
+				"number_of_edits": 7524,
+				"number_administered_packages": 2961,
+				"display_name": "fuhu",
+				"fullname": "",
+				"id": "c59fb57d-38df-416e-84f2-f13e7b3af279"
+			},
+
+			{
+				"openid": null,
+				"about": null,
+				"capacity": "admin",
+				"name": "james_hurt",
+				"created": "2013-10-24T17:29:17.357897",
+				"email_hash": "8921f1e05c722f0352f9d0008f3c2f2a",
+				"sysadmin": false,
+				"activity_streams_email_notifications": false,
+				"state": "active",
+				"number_of_edits": 0,
+				"number_administered_packages": 0,
+				"display_name": "James Hurt",
+				"fullname": "James Hurt",
+				"id": "8df5343c-0c02-42bc-9358-e2a6f6d6f950"
+			},
+
+			{
+				"openid": null,
+				"about": null,
+				"capacity": "admin",
+				"name": "robertsile",
+				"created": "2014-04-17T14:42:05.316492",
+				"email_hash": "b5b85ad12e2dbf5bb303d79cb7040319",
+				"sysadmin": false,
+				"activity_streams_email_notifications": false,
+				"state": "active",
+				"number_of_edits": 0,
+				"number_administered_packages": 0,
+				"display_name": "Robert Sile",
+				"fullname": "Robert Sile",
+				"id": "51e54167-1b92-4968-927f-f43f4d104e7f"
+			}
+		],
+
+		"display_name": "Department of Agriculture",
+		"description": "",
+		"image_display_url": "https://raw.github.com/GSA/logo/master/usda.png",
+		"title": "Department of Agriculture",
+		"package_count": 4,
+		"created": "2013-11-20T23:48:46.768505",
+		"approval_status": "approved",
+		"is_organization": true,
+		"state": "active",
+		"extras": 
+		[
+			
+		],
+
+		"image_url": "https://raw.github.com/GSA/logo/master/usda.png",
+		"groups": 
+		[
+			
+		],
+
+		"num_followers": 1,
+		"revision_id": "d43d11d4-7dc4-4768-8e2e-ef9c49bea87a",
+		"packages": 
+		[
+			{
+				"license_title": "License Not Specified",
+				"maintainer": null,
+				"relationships_as_object": 
+				[
+					
+				],
+
+				"private": true,
+				"maintainer_email": null,
+				"revision_timestamp": "2014-11-23T20:42:20.229991",
+				"id": "34d1491b-f3ea-4918-9a62-0979ab8a3a6f",
+				"metadata_created": "2014-11-23T20:40:25.356753",
+				"metadata_modified": "2014-11-23T20:54:10.573784",
+				"author": null,
+				"author_email": null,
+				"state": "active",
+				"version": null,
+				"creator_user_id": "e35f06b9-59c0-4ddf-a51f-5147d62e297c",
+				"type": "dataset",
+				"resources": 
+				[
+					{
+						"resource_group_id": "68ed7d81-333a-4e54-943e-7061df92cf62",
+						"cache_last_updated": null,
+						"revision_timestamp": "2014-11-23T20:42:15.017039",
+						"webstore_last_updated": null,
+						"id": "dbb449ca-6ed9-498d-b285-f2d726adfce5",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "application/vnd.ms-excel",
+						"mimetype_inner": null,
+						"url_type": null,
+						"mimetype": null,
+						"cache_url": null,
+						"name": "Congressional Logs for Fiscal Year 2014 ",
+						"created": "2014-11-23T15:42:15.078329",
+						"url": "http://www.dm.usda.gov/foia/docs/Copy%20of%20ECM%20Congressional%20Logs%20FY14.xls",
+						"webstore_url": null,
+						"position": 0,
+						"revision_id": "c44a636b-2f2e-406e-809e-b20c7cc092e7",
+						"resource_type": null
+					}
+				],
+
+				"num_resources": 1,
+				"tags": 
+				[
+					{
+						"vocabulary_id": null,
+						"display_name": "Congressional Logs",
+						"name": "Congressional Logs",
+						"revision_timestamp": "2014-11-23T20:40:25.356753",
+						"state": "active",
+						"id": "d8e76ae5-6a8b-4d81-b34c-96c4602314f7"
+					}
+				],
+
+				"groups": 
+				[
+					
+				],
+
+				"license_id": "notspecified",
+				"relationships_as_subject": 
+				[
+					
+				],
+
+				"num_tags": 1,
+				"organization": 
+				{
+					"description": "",
+					"title": "Department of Agriculture",
+					"created": "2013-11-20T23:48:46.768505",
+					"approval_status": "approved",
+					"revision_timestamp": "2013-12-30T15:26:32.131111",
+					"is_organization": true,
+					"state": "active",
+					"image_url": "https://raw.github.com/GSA/logo/master/usda.png",
+					"revision_id": "d43d11d4-7dc4-4768-8e2e-ef9c49bea87a",
+					"type": "organization",
+					"id": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+					"name": "usda-gov"
+				},
+
+				"name": "department-of-agriculture-congressional-logs-for-fiscal-year-2014",
+				"isopen": false,
+				"url": null,
+				"notes": "This dataset is Congressional Correspondence from the Office of the Executive Secretariat for the Department of Agriculture.",
+				"owner_org": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+				"extras": 
+				[
+					{
+						"state": "active",
+						"value": "005:04",
+						"revision_timestamp": "2014-11-23T20:54:10.567162",
+						"package_id": "34d1491b-f3ea-4918-9a62-0979ab8a3a6f",
+						"key": "bureau_code",
+						"revision_id": "d6e936de-caa3-4bd2-ace5-65781ab775ed",
+						"id": "3f8259ae-76e9-413b-aa9d-b1f94c6a884b"
+					},
+
+					{
+						"state": "active",
+						"value": "Alexis.Graves@ocio.usda.gov",
+						"revision_timestamp": "2014-11-23T20:40:25.356753",
+						"package_id": "34d1491b-f3ea-4918-9a62-0979ab8a3a6f",
+						"key": "contact_email",
+						"revision_id": "2b710693-36ea-4e4f-8500-fd4eb767c2a5",
+						"id": "d27f1b50-ecec-4f84-b40b-29855f4089c8"
+					},
+
+					{
+						"state": "active",
+						"value": "Alexi Graves",
+						"revision_timestamp": "2014-11-23T20:40:25.356753",
+						"package_id": "34d1491b-f3ea-4918-9a62-0979ab8a3a6f",
+						"key": "contact_name",
+						"revision_id": "2b710693-36ea-4e4f-8500-fd4eb767c2a5",
+						"id": "11ad15b4-16f4-4b46-81e5-e10383747bae"
+					},
+
+					{
+						"state": "active",
+						"value": "2014-10-03",
+						"revision_timestamp": "2014-11-23T20:40:25.356753",
+						"package_id": "34d1491b-f3ea-4918-9a62-0979ab8a3a6f",
+						"key": "modified",
+						"revision_id": "2b710693-36ea-4e4f-8500-fd4eb767c2a5",
+						"id": "17eedf77-9b85-4515-90b1-f21b3dee273a"
+					},
+
+					{
+						"state": "active",
+						"value": "This dataset is Congressional Correspondence from the Office of the Executive Secretariat for the Department of Agriculture.",
+						"revision_timestamp": "2014-11-23T20:40:25.356753",
+						"package_id": "34d1491b-f3ea-4918-9a62-0979ab8a3a6f",
+						"key": "notes",
+						"revision_id": "2b710693-36ea-4e4f-8500-fd4eb767c2a5",
+						"id": "593c0d91-cbde-4224-a6c1-3cf91695dbb3"
+					},
+
+					{
+						"state": "active",
+						"value": "005:059",
+						"revision_timestamp": "2014-11-23T20:40:25.356753",
+						"package_id": "34d1491b-f3ea-4918-9a62-0979ab8a3a6f",
+						"key": "program_code",
+						"revision_id": "2b710693-36ea-4e4f-8500-fd4eb767c2a5",
+						"id": "d74e1955-8850-4cf8-a74a-0bb6983b4a34"
+					},
+
+					{
+						"state": "active",
+						"value": "public",
+						"revision_timestamp": "2014-11-23T20:40:25.356753",
+						"package_id": "34d1491b-f3ea-4918-9a62-0979ab8a3a6f",
+						"key": "public_access_level",
+						"revision_id": "2b710693-36ea-4e4f-8500-fd4eb767c2a5",
+						"id": "8fa95c24-fb3d-4cac-a1e4-1e3fe9255d78"
+					},
+
+					{
+						"state": "active",
+						"value": "Department of Agriculture",
+						"revision_timestamp": "2014-11-23T20:40:25.356753",
+						"package_id": "34d1491b-f3ea-4918-9a62-0979ab8a3a6f",
+						"key": "publisher",
+						"revision_id": "2b710693-36ea-4e4f-8500-fd4eb767c2a5",
+						"id": "9e7cde51-cef2-4d05-9b30-8540895c538b"
+					},
+
+					{
+						"state": "active",
+						"value": "Department of Agriculture Congressional Logs for Fiscal Year 2014",
+						"revision_timestamp": "2014-11-23T20:40:25.356753",
+						"package_id": "34d1491b-f3ea-4918-9a62-0979ab8a3a6f",
+						"key": "title",
+						"revision_id": "2b710693-36ea-4e4f-8500-fd4eb767c2a5",
+						"id": "9ac17bb5-1159-4e96-9cd0-df5b9393d944"
+					},
+
+					{
+						"state": "active",
+						"value": "USDA-DM-002",
+						"revision_timestamp": "2014-11-23T20:40:25.356753",
+						"package_id": "34d1491b-f3ea-4918-9a62-0979ab8a3a6f",
+						"key": "unique_id",
+						"revision_id": "2b710693-36ea-4e4f-8500-fd4eb767c2a5",
+						"id": "46eee75e-dffc-4007-9e72-2f9c8a06eb82"
+					}
+				],
+
+				"title": "Department of Agriculture Congressional Logs for Fiscal Year 2014",
+				"revision_id": "5a977909-0000-4161-bd9e-e6efd29c670f"
+			},
+
+			{
+				"license_title": "License Not Specified",
+				"maintainer": null,
+				"relationships_as_object": 
+				[
+					
+				],
+
+				"private": true,
+				"maintainer_email": null,
+				"revision_timestamp": "2014-11-23T20:53:20.977338",
+				"id": "ddbde3ab-a526-4dfd-9ba1-3e1f6502992c",
+				"metadata_created": "2014-11-23T20:51:38.491677",
+				"metadata_modified": "2014-11-23T20:53:20.987714",
+				"author": null,
+				"author_email": null,
+				"state": "active",
+				"version": null,
+				"creator_user_id": "e35f06b9-59c0-4ddf-a51f-5147d62e297c",
+				"type": "dataset",
+				"resources": 
+				[
+					{
+						"resource_group_id": "76e26608-7a90-4964-a5a8-09de9e724c53",
+						"cache_last_updated": null,
+						"revision_timestamp": "2014-11-23T20:52:21.077283",
+						"webstore_last_updated": null,
+						"id": "5c9c3d4a-c2b1-455c-88be-3214383306e2",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "application/xml",
+						"mimetype_inner": null,
+						"url_type": null,
+						"mimetype": null,
+						"cache_url": null,
+						"name": "2013 FOIA Annual Report",
+						"created": "2014-11-23T15:52:21.122319",
+						"url": "http://www.dm.usda.gov/foia/docs/USDA.FY13.Final.xml",
+						"webstore_url": null,
+						"position": 0,
+						"revision_id": "bc444f06-0e16-4fa1-9f82-5ceefc8ac285",
+						"resource_type": null
+					},
+
+					{
+						"resource_group_id": "76e26608-7a90-4964-a5a8-09de9e724c53",
+						"cache_last_updated": null,
+						"revision_timestamp": "2014-11-23T20:53:20.398105",
+						"webstore_last_updated": null,
+						"id": "ce444c20-ccad-480c-8ca9-1629bc21c6a6",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "application/msword",
+						"mimetype_inner": null,
+						"url_type": null,
+						"mimetype": null,
+						"cache_url": null,
+						"name": "2013 USDA FOIA Annual Report",
+						"created": "2014-11-23T15:53:20.457523",
+						"url": "http://www.dm.usda.gov/foia/docs/USDA%20FY13%20FOIA%20Annual%20Report.docx",
+						"webstore_url": null,
+						"position": 1,
+						"revision_id": "d215669b-4a97-41e7-a114-8fd8ec3e0b85",
+						"resource_type": null
+					}
+				],
+
+				"num_resources": 2,
+				"tags": 
+				[
+					{
+						"vocabulary_id": null,
+						"display_name": "FOIA",
+						"name": "FOIA",
+						"revision_timestamp": "2014-11-23T20:51:38.491677",
+						"state": "active",
+						"id": "369d0445-7dcf-46ad-94ed-eb9e8666a746"
+					}
+				],
+
+				"groups": 
+				[
+					
+				],
+
+				"license_id": "notspecified",
+				"relationships_as_subject": 
+				[
+					
+				],
+
+				"num_tags": 1,
+				"organization": 
+				{
+					"description": "",
+					"title": "Department of Agriculture",
+					"created": "2013-11-20T23:48:46.768505",
+					"approval_status": "approved",
+					"revision_timestamp": "2013-12-30T15:26:32.131111",
+					"is_organization": true,
+					"state": "active",
+					"image_url": "https://raw.github.com/GSA/logo/master/usda.png",
+					"revision_id": "d43d11d4-7dc4-4768-8e2e-ef9c49bea87a",
+					"type": "organization",
+					"id": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+					"name": "usda-gov"
+				},
+
+				"name": "usda-annual-foia-report",
+				"isopen": false,
+				"url": null,
+				"notes": "In accordance with its FOIA regulations, USDA makes records available to the public unless the information is protected from disclosure by one or more of the nine specific FOIA exemptions.  This is USDA's required FOIA annual report for the Department of Justice. ",
+				"owner_org": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+				"extras": 
+				[
+					{
+						"state": "active",
+						"value": "005:12",
+						"revision_timestamp": "2014-11-23T20:51:38.491677",
+						"package_id": "ddbde3ab-a526-4dfd-9ba1-3e1f6502992c",
+						"key": "bureau_code",
+						"revision_id": "b1caf201-d4c6-4fec-ad4f-b314600fb69b",
+						"id": "ef08fb47-ba21-4d07-93ae-cfcfb8da66ae"
+					},
+
+					{
+						"state": "active",
+						"value": "Alexis.Graves@ocio.usda.gov",
+						"revision_timestamp": "2014-11-23T20:51:38.491677",
+						"package_id": "ddbde3ab-a526-4dfd-9ba1-3e1f6502992c",
+						"key": "contact_email",
+						"revision_id": "b1caf201-d4c6-4fec-ad4f-b314600fb69b",
+						"id": "45d4cf5d-cca8-4089-9535-e68f293ff389"
+					},
+
+					{
+						"state": "active",
+						"value": "Alexi Graves",
+						"revision_timestamp": "2014-11-23T20:51:38.491677",
+						"package_id": "ddbde3ab-a526-4dfd-9ba1-3e1f6502992c",
+						"key": "contact_name",
+						"revision_id": "b1caf201-d4c6-4fec-ad4f-b314600fb69b",
+						"id": "5c32b164-bf44-4b85-82a8-d8948715a8d6"
+					},
+
+					{
+						"state": "active",
+						"value": "2014-03-14",
+						"revision_timestamp": "2014-11-23T20:51:38.491677",
+						"package_id": "ddbde3ab-a526-4dfd-9ba1-3e1f6502992c",
+						"key": "modified",
+						"revision_id": "b1caf201-d4c6-4fec-ad4f-b314600fb69b",
+						"id": "d5783c65-0fa6-4f18-875c-b862dcd203b1"
+					},
+
+					{
+						"state": "active",
+						"value": "In accordance with its FOIA regulations, USDA makes records available to the public unless the information is protected from disclosure by one or more of the nine specific FOIA exemptions.  This is USDA's required FOIA annual report for the Department of Justice. ",
+						"revision_timestamp": "2014-11-23T20:51:38.491677",
+						"package_id": "ddbde3ab-a526-4dfd-9ba1-3e1f6502992c",
+						"key": "notes",
+						"revision_id": "b1caf201-d4c6-4fec-ad4f-b314600fb69b",
+						"id": "5e602256-3f1b-4b73-8348-8a630a076b5c"
+					},
+
+					{
+						"state": "active",
+						"value": "005:059",
+						"revision_timestamp": "2014-11-23T20:51:38.491677",
+						"package_id": "ddbde3ab-a526-4dfd-9ba1-3e1f6502992c",
+						"key": "program_code",
+						"revision_id": "b1caf201-d4c6-4fec-ad4f-b314600fb69b",
+						"id": "3aa3e90a-1aee-47dc-9b0e-205fd6fcfcad"
+					},
+
+					{
+						"state": "active",
+						"value": "public",
+						"revision_timestamp": "2014-11-23T20:51:38.491677",
+						"package_id": "ddbde3ab-a526-4dfd-9ba1-3e1f6502992c",
+						"key": "public_access_level",
+						"revision_id": "b1caf201-d4c6-4fec-ad4f-b314600fb69b",
+						"id": "6e97f2a2-dae6-43c4-bfbf-04bac814ccd7"
+					},
+
+					{
+						"state": "active",
+						"value": "Department of Agriculture",
+						"revision_timestamp": "2014-11-23T20:51:38.491677",
+						"package_id": "ddbde3ab-a526-4dfd-9ba1-3e1f6502992c",
+						"key": "publisher",
+						"revision_id": "b1caf201-d4c6-4fec-ad4f-b314600fb69b",
+						"id": "ef1354b8-a88d-459a-9c3f-298ea1475f25"
+					},
+
+					{
+						"state": "active",
+						"value": "USDA Annual FOIA Report",
+						"revision_timestamp": "2014-11-23T20:51:38.491677",
+						"package_id": "ddbde3ab-a526-4dfd-9ba1-3e1f6502992c",
+						"key": "title",
+						"revision_id": "b1caf201-d4c6-4fec-ad4f-b314600fb69b",
+						"id": "91ffa21a-857e-4841-becd-918a02c26952"
+					},
+
+					{
+						"state": "active",
+						"value": "USDA-DM-004",
+						"revision_timestamp": "2014-11-23T20:51:38.491677",
+						"package_id": "ddbde3ab-a526-4dfd-9ba1-3e1f6502992c",
+						"key": "unique_id",
+						"revision_id": "b1caf201-d4c6-4fec-ad4f-b314600fb69b",
+						"id": "c14f8841-f4c5-48c8-baa4-7a19bba47c28"
+					}
+				],
+
+				"title": "USDA Annual FOIA Report",
+				"revision_id": "6614005a-85a2-418f-b052-12d765053a16"
+			},
+
+			{
+				"license_title": "License Not Specified",
+				"maintainer": null,
+				"relationships_as_object": 
+				[
+					
+				],
+
+				"private": true,
+				"maintainer_email": null,
+				"revision_timestamp": "2014-11-23T20:47:24.242893",
+				"id": "d06e72d7-4a3e-429b-9219-3d5a1e447c3e",
+				"metadata_created": "2014-11-23T20:46:32.463255",
+				"metadata_modified": "2014-11-23T20:47:24.259280",
+				"author": null,
+				"author_email": null,
+				"state": "active",
+				"version": null,
+				"creator_user_id": "e35f06b9-59c0-4ddf-a51f-5147d62e297c",
+				"type": "dataset",
+				"resources": 
+				[
+					{
+						"resource_group_id": "a6db9b1a-e40a-4365-bb2d-06ebe10a8614",
+						"cache_last_updated": null,
+						"revision_timestamp": "2014-11-23T20:47:21.550193",
+						"webstore_last_updated": null,
+						"id": "a91b27fe-34ff-4232-9574-a889d93216f1",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "application/vnd.ms-excel",
+						"mimetype_inner": null,
+						"url_type": null,
+						"mimetype": null,
+						"cache_url": null,
+						"name": "Department of Agriculture Secretary's Calendar Schedule",
+						"created": "2014-11-23T15:47:21.599485",
+						"url": "http://www.usda.gov/wps/portal/usda/usdahome?contentidonly=true&contentid=secretary-schedule.xml",
+						"webstore_url": null,
+						"position": 0,
+						"revision_id": "cbb2ef98-7458-417b-a396-319f86b4fbc8",
+						"resource_type": null
+					}
+				],
+
+				"num_resources": 1,
+				"tags": 
+				[
+					{
+						"vocabulary_id": null,
+						"display_name": "FOIA",
+						"name": "FOIA",
+						"revision_timestamp": "2014-11-23T20:46:32.463255",
+						"state": "active",
+						"id": "369d0445-7dcf-46ad-94ed-eb9e8666a746"
+					}
+				],
+
+				"groups": 
+				[
+					
+				],
+
+				"license_id": "notspecified",
+				"relationships_as_subject": 
+				[
+					
+				],
+
+				"num_tags": 1,
+				"organization": 
+				{
+					"description": "",
+					"title": "Department of Agriculture",
+					"created": "2013-11-20T23:48:46.768505",
+					"approval_status": "approved",
+					"revision_timestamp": "2013-12-30T15:26:32.131111",
+					"is_organization": true,
+					"state": "active",
+					"image_url": "https://raw.github.com/GSA/logo/master/usda.png",
+					"revision_id": "d43d11d4-7dc4-4768-8e2e-ef9c49bea87a",
+					"type": "organization",
+					"id": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+					"name": "usda-gov"
+				},
+
+				"name": "department-of-agriculture-secretary-s-calendar-schedule",
+				"isopen": false,
+				"url": null,
+				"notes": "This dataset is a listing of the Secretary of Agriculture's public schedule.",
+				"owner_org": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+				"extras": 
+				[
+					{
+						"state": "active",
+						"value": "005:05",
+						"revision_timestamp": "2014-11-23T20:46:32.463255",
+						"package_id": "d06e72d7-4a3e-429b-9219-3d5a1e447c3e",
+						"key": "bureau_code",
+						"revision_id": "004e46e0-7db7-450e-bd17-7be829e91dd4",
+						"id": "f46287e1-9c4f-4f77-9c5b-9c0d8b1a205e"
+					},
+
+					{
+						"state": "active",
+						"value": "Alexis.Graves@ocio.usda.gov",
+						"revision_timestamp": "2014-11-23T20:46:32.463255",
+						"package_id": "d06e72d7-4a3e-429b-9219-3d5a1e447c3e",
+						"key": "contact_email",
+						"revision_id": "004e46e0-7db7-450e-bd17-7be829e91dd4",
+						"id": "cfd083c8-930d-4778-8f41-a4b1f3804852"
+					},
+
+					{
+						"state": "active",
+						"value": "Alexi Graves",
+						"revision_timestamp": "2014-11-23T20:46:32.463255",
+						"package_id": "d06e72d7-4a3e-429b-9219-3d5a1e447c3e",
+						"key": "contact_name",
+						"revision_id": "004e46e0-7db7-450e-bd17-7be829e91dd4",
+						"id": "6e9df12e-3dc7-444e-a704-dc5961fbd675"
+					},
+
+					{
+						"state": "active",
+						"value": "2014-10-03",
+						"revision_timestamp": "2014-11-23T20:46:32.463255",
+						"package_id": "d06e72d7-4a3e-429b-9219-3d5a1e447c3e",
+						"key": "modified",
+						"revision_id": "004e46e0-7db7-450e-bd17-7be829e91dd4",
+						"id": "3b8131a3-8555-49ce-a139-bd418c41c4cb"
+					},
+
+					{
+						"state": "active",
+						"value": "This dataset is a listing of the Secretary of Agriculture's public schedule.",
+						"revision_timestamp": "2014-11-23T20:46:32.463255",
+						"package_id": "d06e72d7-4a3e-429b-9219-3d5a1e447c3e",
+						"key": "notes",
+						"revision_id": "004e46e0-7db7-450e-bd17-7be829e91dd4",
+						"id": "d0034e7b-c58b-4ce1-98db-16c2cc71e7de"
+					},
+
+					{
+						"state": "active",
+						"value": "005:059",
+						"revision_timestamp": "2014-11-23T20:46:32.463255",
+						"package_id": "d06e72d7-4a3e-429b-9219-3d5a1e447c3e",
+						"key": "program_code",
+						"revision_id": "004e46e0-7db7-450e-bd17-7be829e91dd4",
+						"id": "2b6478e5-896d-448b-8906-55d2d98f60fa"
+					},
+
+					{
+						"state": "active",
+						"value": "public",
+						"revision_timestamp": "2014-11-23T20:46:32.463255",
+						"package_id": "d06e72d7-4a3e-429b-9219-3d5a1e447c3e",
+						"key": "public_access_level",
+						"revision_id": "004e46e0-7db7-450e-bd17-7be829e91dd4",
+						"id": "6eaa3ccd-ae27-4c09-8512-34ba4624abf8"
+					},
+
+					{
+						"state": "active",
+						"value": "Department of Agriculture",
+						"revision_timestamp": "2014-11-23T20:46:32.463255",
+						"package_id": "d06e72d7-4a3e-429b-9219-3d5a1e447c3e",
+						"key": "publisher",
+						"revision_id": "004e46e0-7db7-450e-bd17-7be829e91dd4",
+						"id": "985c0f34-4964-4cdc-a9ed-8182f1294ef2"
+					},
+
+					{
+						"state": "active",
+						"value": "Department of Agriculture Secretary's Calendar Schedule",
+						"revision_timestamp": "2014-11-23T20:46:32.463255",
+						"package_id": "d06e72d7-4a3e-429b-9219-3d5a1e447c3e",
+						"key": "title",
+						"revision_id": "004e46e0-7db7-450e-bd17-7be829e91dd4",
+						"id": "ff2b769b-649f-469f-b224-61159cf75bea"
+					},
+
+					{
+						"state": "active",
+						"value": "USDA-DM-003",
+						"revision_timestamp": "2014-11-23T20:46:32.463255",
+						"package_id": "d06e72d7-4a3e-429b-9219-3d5a1e447c3e",
+						"key": "unique_id",
+						"revision_id": "004e46e0-7db7-450e-bd17-7be829e91dd4",
+						"id": "9e6464c4-f890-417f-928f-dafb70dc2f8e"
+					}
+				],
+
+				"title": "Department of Agriculture Secretary's Calendar Schedule",
+				"revision_id": "178ecc46-a845-4f7f-9b32-8694bd28ce49"
+			},
+
+			{
+				"license_title": "Creative Commons Attribution",
+				"maintainer": null,
+				"relationships_as_object": 
+				[
+					
+				],
+
+				"private": true,
+				"maintainer_email": null,
+				"revision_timestamp": "2014-10-29T13:49:12.797560",
+				"id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+				"metadata_created": "2013-11-21T04:48:47.371320",
+				"metadata_modified": "2014-10-29T18:56:23.210204",
+				"author": null,
+				"author_email": null,
+				"state": "active",
+				"version": null,
+				"creator_user_id": "c59fb57d-38df-416e-84f2-f13e7b3af279",
+				"type": "dataset",
+				"resources": 
+				[
+					{
+						"resource_group_id": "107201ec-af65-46ed-a2b3-ce3e87d67e99",
+						"cache_last_updated": null,
+						"revision_timestamp": "2014-02-24T21:35:27.557282",
+						"webstore_last_updated": null,
+						"id": "4fd1bf0d-b4df-4000-814d-cd34c8b592b1",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "text/html",
+						"mimetype_inner": null,
+						"url_type": null,
+						"mimetype": null,
+						"cache_url": null,
+						"name": "Web Page",
+						"created": "2013-11-20T23:48:48.516286",
+						"url": "http://www.dm.usda.gov/oaljdecisions/",
+						"webstore_url": null,
+						"position": 0,
+						"revision_id": "b2ff1d9a-cba0-4306-a760-ddbfcbec25ac",
+						"resource_type": "file"
+					}
+				],
+
+				"num_resources": 1,
+				"tags": 
+				[
+					{
+						"vocabulary_id": null,
+						"display_name": "APA",
+						"name": "APA",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"state": "active",
+						"id": "2ef39f39-4444-4013-864a-662be23334fd"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "Administrative Decisions and Orders",
+						"name": "Administrative Decisions and Orders",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"state": "active",
+						"id": "067ae306-739e-4138-a0a2-0e5fbe11577d"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "Administrative Law Judge",
+						"name": "Administrative Law Judge",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"state": "active",
+						"id": "ce850888-a0ac-49e7-b766-990a3d4a04d4"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "Administrative Procedure Act",
+						"name": "Administrative Procedure Act",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"state": "active",
+						"id": "08b44f05-5eed-4645-abe2-28e1509774a5"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "Agriculture",
+						"name": "Agriculture",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"state": "active",
+						"id": "1c94bdec-aeb0-4d92-9988-e452f9b4af6f"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "Agriculture Law",
+						"name": "Agriculture Law",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"state": "active",
+						"id": "af19d03d-5282-4ed4-9485-ad1592a29a5c"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "Department of Agriculture",
+						"name": "Department of Agriculture",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"state": "active",
+						"id": "7a5abada-0115-4dd5-b94f-443e721678b9"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "Judge",
+						"name": "Judge",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"state": "active",
+						"id": "0500572d-377a-450e-bae6-cd0ffefe411d"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "Law",
+						"name": "Law",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"state": "active",
+						"id": "7c8b07f8-9400-4acb-88b5-5d49b5421ed6"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "Rule making",
+						"name": "Rule making",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"state": "active",
+						"id": "e86ef673-49ed-4840-bf44-dc7909412b7b"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "USDA",
+						"name": "USDA",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"state": "active",
+						"id": "2bb94b40-faa9-45d2-a1b0-f785883115b5"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "statuary decion opinions",
+						"name": "statuary decion opinions",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"state": "active",
+						"id": "a16a7cd2-31d1-4bab-aef7-e091e6984a56"
+					}
+				],
+
+				"groups": 
+				[
+					
+				],
+
+				"license_id": "cc-by",
+				"relationships_as_subject": 
+				[
+					
+				],
+
+				"num_tags": 12,
+				"organization": 
+				{
+					"description": "",
+					"title": "Department of Agriculture",
+					"created": "2013-11-20T23:48:46.768505",
+					"approval_status": "approved",
+					"revision_timestamp": "2013-12-30T15:26:32.131111",
+					"is_organization": true,
+					"state": "active",
+					"image_url": "https://raw.github.com/GSA/logo/master/usda.png",
+					"revision_id": "d43d11d4-7dc4-4768-8e2e-ef9c49bea87a",
+					"type": "organization",
+					"id": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+					"name": "usda-gov"
+				},
+
+				"name": "agriculture-law-and-administrative-law-judge-decisions",
+				"isopen": true,
+				"url": null,
+				"notes": "Agriculture Law and Statuary Proceedings Conducted by Administrative Law Judges, Rule Making, Rules of Practice, and Agencies Administering the statute. Contains Statuary Decision Opinions of the United State Department of Agriculture Office of Administrative law Judges and Judicial Officer. There are approximately 40 statutes administered by agencies within the Department of Agriculture that require Administrative Procedure Act (APA) hearings. The Judges issue initial decisions and orders in adjudicatory proceedings which become final decisions of the Secretary unless appealed to the Secretary's Judicial Officer by a party to the proceedings.",
+				"owner_org": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+				"extras": 
+				[
+					{
+						"state": "active",
+						"value": "Daily",
+						"revision_timestamp": "2014-02-24T21:36:11.273508",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "accrual_periodicity",
+						"revision_id": "b9ceec21-37cb-4b17-b85b-19625471b81f",
+						"id": "1d6de61d-6c79-4d0c-a17d-1a9eed2890e3"
+					},
+
+					{
+						"state": "active",
+						"value": "005:05",
+						"revision_timestamp": "2014-02-24T21:35:15.101952",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "bureau_code",
+						"revision_id": "f02ea750-287c-48a0-8fe6-be59264ad415",
+						"id": "6a667685-a677-4971-b7f2-be2263ede893"
+					},
+
+					{
+						"state": "active",
+						"value": "james.hurt@usda.gov",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "contact_email",
+						"revision_id": "0afbd068-2a91-434d-8a1b-51915c28f835",
+						"id": "d9ca6531-0ec5-4e2d-8f8c-f5d195918cf4"
+					},
+
+					{
+						"state": "active",
+						"value": "James Hurt",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "contact_name",
+						"revision_id": "0afbd068-2a91-434d-8a1b-51915c28f835",
+						"id": "5c312f31-e609-4bb0-82a4-f66e73e5c8b3"
+					},
+
+					{
+						"state": "active",
+						"value": "http://www.usda.gov/oaljdecisions",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "data_dictionary",
+						"revision_id": "0afbd068-2a91-434d-8a1b-51915c28f835",
+						"id": "b9069d35-9abc-4561-ba6f-485b73e6383a"
+					},
+
+					{
+						"state": "active",
+						"value": "Agriculture Law and Statuary Proceedings Conducted by Administrative Law Judges, Rule Making, Rules of Practice, and Agencies Administering the statute. Contains Statuary Decision Opinions of the United State Department of Agriculture Office of Administrative law Judges and Judicial Officer. There are approximately 40 statutes administered by agencies within the Department of Agriculture that require Administrative Procedure Act (APA) hearings. The Judges issue initial decisions and orders in adjudicatory proceedings which become final decisions of the Secretary unless appealed to the Secretary's Judicial Officer by a party to the proceedings.",
+						"revision_timestamp": "2014-10-29T13:49:12.797560",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "notes",
+						"revision_id": "ca339193-ce59-41ec-8100-720c610dbaff",
+						"id": "78b60b9c-c2ef-4004-9e2f-ab09ba851243"
+					},
+
+					{
+						"state": "active",
+						"value": "005:000",
+						"revision_timestamp": "2014-10-29T13:49:12.797560",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "program_code",
+						"revision_id": "ca339193-ce59-41ec-8100-720c610dbaff",
+						"id": "ecd758ed-b617-4f6e-94e5-1f2277d4fb14"
+					},
+
+					{
+						"state": "active",
+						"value": "public",
+						"revision_timestamp": "2014-02-24T21:35:15.101952",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "public_access_level",
+						"revision_id": "f02ea750-287c-48a0-8fe6-be59264ad415",
+						"id": "e4ad60a2-6acd-4c32-8af6-d7712dc0c414"
+					},
+
+					{
+						"state": "active",
+						"value": "Departmental Management, Department of Agriculture",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "publisher",
+						"revision_id": "0afbd068-2a91-434d-8a1b-51915c28f835",
+						"id": "e00b1406-8e8c-4b8c-a543-10f9a737e5bc"
+					},
+
+					{
+						"state": "active",
+						"value": "http://www.usda.gov/dm/oaljdecisions",
+						"revision_timestamp": "2014-10-29T18:56:23.171092",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "related_documents",
+						"revision_id": "4844ad88-d059-4054-a457-c3410054b5a0",
+						"id": "5a543930-c531-45d7-9213-29aad31cc4fb"
+					},
+
+					{
+						"state": "active",
+						"value": "1998-01-01",
+						"revision_timestamp": "2014-02-24T21:35:15.101952",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "release_date",
+						"revision_id": "f02ea750-287c-48a0-8fe6-be59264ad415",
+						"id": "08f1cca4-4ff3-4c0c-b123-15bcaeb19f73"
+					},
+
+					{
+						"state": "active",
+						"value": "50 states",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "spatial",
+						"revision_id": "0afbd068-2a91-434d-8a1b-51915c28f835",
+						"id": "b54f549e-e14c-4f86-ac09-a5e035ffe388"
+					},
+
+					{
+						"state": "active",
+						"value": "Agriculture Law and Administrative Law Judge Decisions",
+						"revision_timestamp": "2014-10-29T13:49:12.797560",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "title",
+						"revision_id": "ca339193-ce59-41ec-8100-720c610dbaff",
+						"id": "3d0efc70-84cc-43b2-8ad7-001dfa8271d2"
+					},
+
+					{
+						"state": "active",
+						"value": "USDA-4363",
+						"revision_timestamp": "2013-11-21T04:48:47.371320",
+						"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+						"key": "unique_id",
+						"revision_id": "0afbd068-2a91-434d-8a1b-51915c28f835",
+						"id": "32ceb4e5-0914-43c3-9b81-af854c9aaf4a"
+					}
+				],
+
+				"license_url": "http://www.opendefinition.org/licenses/cc-by",
+				"title": "Agriculture Law and Administrative Law Judge Decisions",
+				"revision_id": "ca339193-ce59-41ec-8100-720c610dbaff"
+			}
+		],
+
+		"type": "organization",
+		"id": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+		"tags": 
+		[
+			
+		],
+
+		"name": "usda-gov"
+	}
+}

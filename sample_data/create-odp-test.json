@@ -1,0 +1,47 @@
+{
+	"@type": "dcat:Dataset",
+	"title": "Create Update Corporate API Test Lists",
+	"accessLevel": "non-public",
+	"rights": "contact me for access",
+	"contactPoint": 
+	{
+		"@type": "vcard:Contact",
+		"fn": "Brian",
+		"hasEmail": "mailto:bbrian@gmail.com"
+	},
+
+	"description": "I've updated the description.  This is a test data set to test API functionalities",
+	"identifier": "US-DM-002",
+	"keyword": 
+	[
+		"Test",
+		"API"
+	],
+
+	"modified": "2014-12-22",
+	"publisher": 
+	{
+		"@type": "org:Organization",
+		"name": "Department of Testing"
+	},
+
+	"distribution": 
+	[
+		{
+			"@type": "dcat:Distribution",
+			"downloadURL": "http://www.google.com",
+			"mediaType": "application/vnd.ms-excel",
+			"title": "This is a test resource for CKAN"
+		}
+	],
+
+	"bureauCode": 
+	[
+		"000:00"
+	],
+
+	"programCode": 
+	[
+		"000:000"
+	]
+}

@@ -1,0 +1,69 @@
+{
+	"notes": "This software was tested on datahub.io and demo.ckan.org.  This is final test before production.",
+	"name": "brotsos-final-publication-test-delete_587",
+	"extras": 
+	[
+		{
+			"value": "Brotsos Final Publication Test Delete_587",
+			"key": "title"
+		},
+
+		{
+			"value": "This software was tested on datahub.io and demo.ckan.org.  This is final test before production.",
+			"key": "notes"
+		},
+
+		{
+			"value": "public",
+			"key": "public_access_level"
+		},
+
+		{
+			"value": "jane.doe@agency.gov",
+			"key": "contact_email"
+		},
+
+		{
+			"value": "Jane Doe",
+			"key": "contact_name"
+		},
+
+		{
+			"value": "Widget Services",
+			"key": "publisher"
+		},
+
+		{
+			"value": "USDA_TEST_1235587",
+			"key": "unique_id"
+		},
+
+		{
+			"value": "005:12",
+			"key": "bureau_code"
+		},
+
+		{
+			"value": "018:001",
+			"key": "program_code"
+		}
+	],
+
+	"resources": 
+	[
+		{
+			"format": "text\/csv",
+			"url": "https:\/\/data.agency.gov\/datasets\/widgets-statistics\/widgets.csv"
+		}
+	],
+
+	"owner_org": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+	"title": "Brotsos Final Publication Test Delete_587",
+	"tags": 
+	[
+		{
+			"name": "widget",
+			"display_name": "widget"
+		}
+	]
+}

@@ -1,0 +1,409 @@
+{
+	"help": "Return the metadata of a dataset (package) and its resources. :param id: the id or name of the dataset :type id: string",
+	"success": true,
+	"result": 
+	{
+		"packages": 
+		[
+			{
+				"id": "76c8734e-e6c6-4d02-b1b3-09e64dcffdbd",
+				"name": "data-long-term-agroecosystem-research-central-mississippi-river-basin-goodwater-creek-1",
+				"title": "Data from: Long-Term Agroecosystem Research in the Central Mississippi River Basin: Goodwater Creek Experimental Watershed and Regional Herbicide Water Quality Data ",
+				"author_email": "Bob.Lerch@ars.usda.gov",
+				"maintainer": "Ag Data Commons Beta",
+				"maintainer_email": "NAL-ADC-curator@ars.usda.gov",
+				"license_title": "http:\/\/www.usa.gov\/publicdomain\/label\/1.0\/",
+				"notes": "\u003Cp\u003EThe GCEW herbicide data were collected from 1991-2010, and are documented at plot, field, and watershed scales.\u003C\/p\u003E\n\n\u003Cp\u003EAtrazine concentrations in Goodwater Creek Experimental Watershed (GCEW) were shown to be among the highest of any watershed in the United States based on comparisons using the national Watershed Regressions for Pesticides (WARP) model and by direct comparison with the 112 watersheds used in the development of WARP. This 20-yr-long effort was augmented with a spatially broad effort within the Central Mississippi River Basin encompassing 12 related claypan watersheds in the Salt River Basin, two cave streams on the fringe of the Central Claypan Areas in the Bonne Femme watershed, and 95 streams in northern Missouri and southern Iowa. The research effort on herbicide transport has highlighted the importance of restrictive soil layers with smectitic mineralogy to the risk of transport vulnerability. Near-surface soil features, such as claypans and argillic horizons, result in greater herbicide transport than soils with high saturated hydraulic conductivities and low smectitic clay content.\u003C\/p\u003E",
+				"url": "https:\/\/data.nal.usda.gov\/dataset\/data-long-term-agroecosystem-research-central-mississippi-river-basin-goodwater-creek-1",
+				"state": "Active",
+				"private": "Published",
+				"revision_timestamp": "2015-12-14",
+				"metadata_created": "2015-08-01",
+				"metadata_modified": "2015-12-14",
+				"creator_user_id": "c531e642-bdca-4885-8fb5-0040cce1bf80",
+				"type": "Dataset",
+				"resources": 
+				[
+					{
+						"id": "9f10ad00-fdd2-4d19-ab36-32651cab508f",
+						"revision_id": "",
+						"url": "https:\/\/dl.sciencesocieties.org\/publications\/datasets\/jeq\/C3.JEQ2013.12.0516.ds1\/download",
+						"description": "",
+						"format": "data",
+						"state": "Active",
+						"revision_timestamp": "2015-08-01",
+						"name": "Excel spreadsheet download",
+						"mimetype": "data",
+						"size": "",
+						"created": "2015-08-01",
+						"resource_group_id": "",
+						"last_modified": "2015-08-01"
+					}
+				],
+
+				"tags": 
+				[
+					{
+						"id": "cd795ec4-6f8c-4384-8406-167d514915a9",
+						"vocabulary_id": "4",
+						"name": "EARTH SCIENCE \u0026gt; AGRICULTURE \u0026gt; SOILS"
+					},
+
+					{
+						"id": "d95a7186-3f33-4c40-baa6-e8a06e7d0a69",
+						"vocabulary_id": "4",
+						"name": "EARTH SCIENCE \u0026gt; HUMAN DIMENSIONS \u0026gt; ENVIRONMENTAL GOVERNANCE\/MANAGEMENT \u0026gt; ENVIRONMENTAL ASSESSMENTS"
+					},
+
+					{
+						"id": "c87cf955-a4b8-4dc0-a9eb-34db8b9e8443",
+						"vocabulary_id": "4",
+						"name": "EARTH SCIENCE \u0026gt; TERRESTRIAL HYDROSPHERE \u0026gt; WATER QUALITY\/WATER CHEMISTRY \u0026gt; CONTAMINANTS"
+					},
+
+					{
+						"id": "d102df60-d18a-4a10-975c-d8a569cfe32c",
+						"vocabulary_id": "4",
+						"name": "EARTH SCIENCE \u0026gt; SOLID EARTH \u0026gt; GEOMORPHIC LANDFORMS\/PROCESSES \u0026gt; FLUVIAL LANDFORMS \u0026gt; WATERSHED\/DRAINAGE BASINS"
+					},
+
+					{
+						"id": "e2275169-d473-4a7f-ae6c-1c9302db90b3",
+						"vocabulary_id": "4",
+						"name": "EARTH SCIENCE \u0026gt; AGRICULTURE \u0026gt; AGRICULTURAL PLANT SCIENCE \u0026gt; CROP\/PLANT YIELDS"
+					},
+
+					{
+						"id": "ee286311-4dfb-4bec-9f53-87dbf2d62921",
+						"vocabulary_id": "4",
+						"name": "EARTH SCIENCE \u0026gt; TERRESTRIAL HYDROSPHERE \u0026gt; GROUND WATER \u0026gt; PERCOLATION"
+					},
+
+					{
+						"id": "18c1b108-4a18-4d68-8643-7c2a1368e561",
+						"vocabulary_id": "4",
+						"name": "CONTINENT \u0026gt; NORTH AMERICA \u0026gt; UNITED STATES OF AMERICA \u0026gt; MISSOURI"
+					},
+
+					{
+						"id": "fb0424fe-638b-4deb-815b-c8e2bb49172b",
+						"vocabulary_id": "4",
+						"name": "CONTINENT \u0026gt; NORTH AMERICA \u0026gt; UNITED STATES OF AMERICA \u0026gt; IOWA"
+					},
+
+					{
+						"id": "3264de11-1eec-4fe9-b9be-50ca88cf7fc0",
+						"vocabulary_id": "4",
+						"name": "VERTICAL LOCATION \u0026gt; LAND SURFACE"
+					},
+
+					{
+						"id": "0be4b925-5c39-4876-a8b3-83a6e6e118fd",
+						"vocabulary_id": "4",
+						"name": "HPLC \u0026gt; High-Performance Liquid Chromatograph"
+					},
+
+					{
+						"id": "13bfd4e4-814a-40d6-b7f3-41ee1995f3ed",
+						"vocabulary_id": "4",
+						"name": "GAS CHROMATOGRAPHS"
+					}
+				],
+
+				"dkan_additional_fields": 
+				{
+					"field_nal_term": 
+					[
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/438",
+							"id": "438",
+							"resource": "taxonomy_term",
+							"uuid": "cab5d3c0-42fe-4107-8c2c-748871a4439b",
+							"value": "watersheds"
+						}
+					],
+
+					"field_contact_email": "Bob.Lerch@ars.usda.gov",
+					"field_contact_name": "Lerch, Robert",
+					"field_data_citation": 
+					[
+						
+					],
+
+					"field_data_dictionary": null,
+					"field_doi": "10.15482\/USDA.ADC\/1178084",
+					"field_frequency": null,
+					"field_highlight": null,
+					"field_highlight_image": null,
+					"field_is_part_of": null,
+					"field_osti_id": "1178084",
+					"field_preferred_citation": null,
+					"field_public_access_level": "public",
+					"field_publisher": "Journal of Environmental Quality",
+					"field_related_content": 
+					[
+						
+					],
+
+					"field_resources": 
+					[
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/node\/100",
+							"id": "100",
+							"resource": "node",
+							"uuid": "9f10ad00-fdd2-4d19-ab36-32651cab508f",
+							"value": ""
+						}
+					],
+
+					"field_reviewer": 
+					[
+						
+					],
+
+					"field_spatial": 
+					[
+						
+					],
+
+					"field_spatial_geographical_cover": null,
+					"field_specific_product_type": null,
+					"field_tags": 
+					[
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/383",
+							"id": "383",
+							"resource": "taxonomy_term",
+							"uuid": "cd795ec4-6f8c-4384-8406-167d514915a9",
+							"value": "EARTH SCIENCE \u003E AGRICULTURE \u003E SOILS"
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/277",
+							"id": "277",
+							"resource": "taxonomy_term",
+							"uuid": "d95a7186-3f33-4c40-baa6-e8a06e7d0a69",
+							"value": "EARTH SCIENCE \u003E HUMAN DIMENSIONS \u003E ENVIRONMENTAL GOVERNANCE\/MANAGEMENT \u003E ENVIRONMENTAL ASSESSMENTS"
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/915",
+							"id": "915",
+							"resource": "taxonomy_term",
+							"uuid": "c87cf955-a4b8-4dc0-a9eb-34db8b9e8443",
+							"value": "EARTH SCIENCE \u003E TERRESTRIAL HYDROSPHERE \u003E WATER QUALITY\/WATER CHEMISTRY \u003E CONTAMINANTS"
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/435",
+							"id": "435",
+							"resource": "taxonomy_term",
+							"uuid": "d102df60-d18a-4a10-975c-d8a569cfe32c",
+							"value": "EARTH SCIENCE \u003E SOLID EARTH \u003E GEOMORPHIC LANDFORMS\/PROCESSES \u003E FLUVIAL LANDFORMS \u003E WATERSHED\/DRAINAGE BASINS"
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/594",
+							"id": "594",
+							"resource": "taxonomy_term",
+							"uuid": "e2275169-d473-4a7f-ae6c-1c9302db90b3",
+							"value": "EARTH SCIENCE \u003E AGRICULTURE \u003E AGRICULTURAL PLANT SCIENCE \u003E CROP\/PLANT YIELDS"
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/916",
+							"id": "916",
+							"resource": "taxonomy_term",
+							"uuid": "ee286311-4dfb-4bec-9f53-87dbf2d62921",
+							"value": "EARTH SCIENCE \u003E TERRESTRIAL HYDROSPHERE \u003E GROUND WATER \u003E PERCOLATION"
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/917",
+							"id": "917",
+							"resource": "taxonomy_term",
+							"uuid": "18c1b108-4a18-4d68-8643-7c2a1368e561",
+							"value": "CONTINENT \u003E NORTH AMERICA \u003E UNITED STATES OF AMERICA \u003E MISSOURI"
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/400",
+							"id": "400",
+							"resource": "taxonomy_term",
+							"uuid": "fb0424fe-638b-4deb-815b-c8e2bb49172b",
+							"value": "CONTINENT \u003E NORTH AMERICA \u003E UNITED STATES OF AMERICA \u003E IOWA"
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/918",
+							"id": "918",
+							"resource": "taxonomy_term",
+							"uuid": "3264de11-1eec-4fe9-b9be-50ca88cf7fc0",
+							"value": "VERTICAL LOCATION \u003E LAND SURFACE"
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/919",
+							"id": "919",
+							"resource": "taxonomy_term",
+							"uuid": "0be4b925-5c39-4876-a8b3-83a6e6e118fd",
+							"value": "HPLC \u003E High-Performance Liquid Chromatograph"
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/920",
+							"id": "920",
+							"resource": "taxonomy_term",
+							"uuid": "13bfd4e4-814a-40d6-b7f3-41ee1995f3ed",
+							"value": "GAS CHROMATOGRAPHS"
+						}
+					],
+
+					"field_temporal_coverage_text": null,
+					"field_adc_hierarchy": 
+					[
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/60",
+							"id": "60",
+							"resource": "taxonomy_term",
+							"uuid": "60478128-eeb6-463e-9b33-1448099f055a",
+							"value": "Water"
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/64",
+							"id": "64",
+							"resource": "taxonomy_term",
+							"uuid": "f1e80f42-cdb6-4af6-9e30-e25f0812e44b",
+							"value": "Water quality"
+						}
+					],
+
+					"field_adc_location": 
+					[
+						
+					],
+
+					"field_adc_project": 
+					[
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/145",
+							"id": "145",
+							"resource": "taxonomy_term",
+							"uuid": "e43d598b-0dc9-4747-990d-26bb5cc07726",
+							"value": "Central Mississippi River Basin"
+						}
+					],
+
+					"field_metadata_sources": null,
+					"field_odfe_bureau_code": 
+					[
+						
+					],
+
+					"field_odfe_landing_page": null,
+					"field_odfe_program_code": 
+					[
+						
+					],
+
+					"field_highlight_order": null,
+					"meta_description": null,
+					"meta_keywords": null,
+					"field_theme": 
+					[
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/taxonomy_term\/994",
+							"id": "994",
+							"resource": "taxonomy_term",
+							"uuid": "c47538cb-7c46-4542-9600-48e7cff8cb87",
+							"value": "inlandWaters"
+						}
+					],
+
+					"field_equipment_or_software_used": 
+					[
+						
+					],
+
+					"field_intended_use": null,
+					"field_use_limitations": null,
+					"field_article_citation_col": 
+					[
+						
+					],
+
+					"field_aris_log_number": null,
+					"field_author_is_organization": null,
+					"og_group_ref": 
+					[
+						
+					],
+
+					"field_primary_article": 
+					{
+						"uri": "https:\/\/data.nal.usda.gov\/field_collection_item\/592",
+						"id": "592",
+						"resource": "field_collection_item",
+						"uuid": "6ad43f75-c4df-4dda-996d-dd45961ce072",
+						"value": null
+					},
+
+					"field_procedure_citation": 
+					[
+						
+					],
+
+					"field_fundref_project": 
+					[
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/field_collection_item\/536",
+							"id": "536",
+							"resource": "field_collection_item",
+							"uuid": "23c7a934-a666-41ea-8320-16da1db25589",
+							"value": null
+						}
+					],
+
+					"field_nal_author": 
+					[
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/field_collection_item\/328",
+							"id": "328",
+							"resource": "field_collection_item",
+							"uuid": "374e80a5-b292-468d-98b3-b4decfca8653",
+							"value": null
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/field_collection_item\/329",
+							"id": "329",
+							"resource": "field_collection_item",
+							"uuid": "bca24373-1dcf-4076-acba-ff755bd25119",
+							"value": null
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/field_collection_item\/330",
+							"id": "330",
+							"resource": "field_collection_item",
+							"uuid": "00530c00-0eef-4b18-84a9-9623772e6b73",
+							"value": null
+						},
+
+						{
+							"uri": "https:\/\/data.nal.usda.gov\/field_collection_item\/331",
+							"id": "331",
+							"resource": "field_collection_item",
+							"uuid": "17d98e90-2890-42a2-9c0a-a2cb872f256c",
+							"value": null
+						}
+					],
+
+					"field_source_id": null,
+					"summary": ""
+				}
+			}
+		]
+	}
+}

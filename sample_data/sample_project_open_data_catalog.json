@@ -1,0 +1,164 @@
+{
+  "conformsTo": "https://project-open-data.cio.gov/v1.1/schema",
+  "describedBy": "https://project-open-data.cio.gov/v1.1/schema/catalog.json",
+  "@context": "https://project-open-data.cio.gov/v1.1/schema/data.jsonld",
+  "@type": "dcat:Catalog",
+  "dataset": [
+    {
+      "title": "Department of Agriculture Congressional Logs for Fiscal Year 2014",
+      "description": "This dataset is Congressional Correspondence from the Office of the Executive Secretariat for the Department of Agriculture.",
+      "keyword": [
+        "Congressional Logs"
+      ],
+      "modified": "2014-12-22T13:35:38.855-0500",
+      "publisher": {
+        "name": "Department of Agriculture"
+      },
+      "contactPoint": {
+        "fn": "Alexi Graves",
+        "hasEmail": "Alexis.Graves@ocio.usda.gov"
+      },
+      "identifier": "USDA-DM-002",
+      "accessLevel": "public",
+      "distribution": [
+        {
+          "downloadURL": "http://www.dm.usda.gov/foia/docs/Copy%20of%20ECM%20Congressional%20Logs%20FY14.xls",
+          "title": "Congressional Logs for Fiscal Year 2014 ",
+          "description": "",
+          "access_url": "http://www.dm.usda.gov/foia/docs/Copy%20of%20ECM%20Congressional%20Logs%20FY14.xls",
+          "format": "application/vnd.ms-excel"
+        }
+      ],
+      "programCode": [
+        "005:059"
+      ],
+      "bureauCode": [
+        "005:04"
+      ],
+      "notes": "This dataset is Congressional Correspondence from the Office of the Executive Secretariat for the Department of Agriculture."
+    },
+    {
+      "title": "USDA Annual FOIA Report",
+      "description": "In accordance with its FOIA regulations, USDA makes records available to the public unless the information is protected from disclosure by one or more of the nine specific FOIA exemptions.  This is USDA's required FOIA annual report for the Department of Justice. ",
+      "keyword": [
+        "FOIA"
+      ],
+      "modified": "2014-12-22T13:35:38.857-0500",
+      "publisher": {
+        "name": "Department of Agriculture"
+      },
+      "contactPoint": {
+        "fn": "Alexi Graves",
+        "hasEmail": "Alexis.Graves@ocio.usda.gov"
+      },
+      "identifier": "USDA-DM-004",
+      "accessLevel": "public",
+      "distribution": [
+        {
+          "downloadURL": "http://www.dm.usda.gov/foia/docs/USDA.FY13.Final.xml",
+          "title": "2013 FOIA Annual Report",
+          "description": "",
+          "access_url": "http://www.dm.usda.gov/foia/docs/USDA.FY13.Final.xml",
+          "format": "application/xml"
+        },
+        {
+          "downloadURL": "http://www.dm.usda.gov/foia/docs/USDA%20FY13%20FOIA%20Annual%20Report.docx",
+          "title": "2013 USDA FOIA Annual Report",
+          "description": "",
+          "access_url": "http://www.dm.usda.gov/foia/docs/USDA%20FY13%20FOIA%20Annual%20Report.docx",
+          "format": "application/msword"
+        }
+      ],
+      "programCode": [
+        "005:059"
+      ],
+      "bureauCode": [
+        "005:12"
+      ],
+      "notes": "In accordance with its FOIA regulations, USDA makes records available to the public unless the information is protected from disclosure by one or more of the nine specific FOIA exemptions.  This is USDA's required FOIA annual report for the Department of Justice. "
+    },
+    {
+      "title": "Department of Agriculture Secretary's Calendar Schedule",
+      "description": "This dataset is a listing of the Secretary of Agriculture's public schedule.",
+      "keyword": [
+        "FOIA"
+      ],
+      "modified": "2014-12-22T13:35:38.858-0500",
+      "publisher": {
+        "name": "Department of Agriculture"
+      },
+      "contactPoint": {
+        "fn": "Alexi Graves",
+        "hasEmail": "Alexis.Graves@ocio.usda.gov"
+      },
+      "identifier": "USDA-DM-003",
+      "accessLevel": "public",
+      "distribution": [
+        {
+          "downloadURL": "http://www.usda.gov/wps/portal/usda/usdahome?contentidonly=true&contentid=secretary-schedule.xml",
+          "title": "Department of Agriculture Secretary's Calendar Schedule",
+          "description": "",
+          "access_url": "http://www.usda.gov/wps/portal/usda/usdahome?contentidonly=true&contentid=secretary-schedule.xml",
+          "format": "application/vnd.ms-excel"
+        }
+      ],
+      "programCode": [
+        "005:059"
+      ],
+      "bureauCode": [
+        "005:05"
+      ],
+      "notes": "This dataset is a listing of the Secretary of Agriculture's public schedule."
+    },
+    {
+      "title": "Agriculture Law and Administrative Law Judge Decisions",
+      "description": "Agriculture Law and Statuary Proceedings Conducted by Administrative Law Judges, Rule Making, Rules of Practice, and Agencies Administering the statute. Contains Statuary Decision Opinions of the United State Department of Agriculture Office of Administrative law Judges and Judicial Officer. There are approximately 40 statutes administered by agencies within the Department of Agriculture that require Administrative Procedure Act (APA) hearings. The Judges issue initial decisions and orders in adjudicatory proceedings which become final decisions of the Secretary unless appealed to the Secretary's Judicial Officer by a party to the proceedings.",
+      "keyword": [
+        "APA",
+        "Administrative Decisions and Orders",
+        "Administrative Law Judge",
+        "Administrative Procedure Act",
+        "Agriculture",
+        "Agriculture Law",
+        "Department of Agriculture",
+        "Judge",
+        "Law",
+        "Rule making",
+        "USDA",
+        "statuary decion opinions"
+      ],
+      "publisher": {
+        "name": "Departmental Management, Department of Agriculture"
+      },
+      "contactPoint": {
+        "fn": "James Hurt",
+        "hasEmail": "james.hurt@usda.gov"
+      },
+      "identifier": "USDA-4363",
+      "accessLevel": "public",
+      "describedBy": "http://www.usda.gov/oaljdecisions",
+      "spatial": "50 states",
+      "issued": "2014-12-22T13:35:38.858-0500",
+      "accrualPeriodicity": "Daily",
+      "distribution": [
+        {
+          "downloadURL": "http://www.dm.usda.gov/oaljdecisions/",
+          "title": "Web Page",
+          "description": "",
+          "access_url": "http://www.dm.usda.gov/oaljdecisions/",
+          "format": "text/html"
+        }
+      ],
+      "programCode": [
+        "005:000"
+      ],
+      "bureauCode": [
+        "005:05"
+      ],
+      "references": [
+        "http://www.usda.gov/dm/oaljdecisions"
+      ],
+      "notes": "Agriculture Law and Statuary Proceedings Conducted by Administrative Law Judges, Rule Making, Rules of Practice, and Agencies Administering the statute. Contains Statuary Decision Opinions of the United State Department of Agriculture Office of Administrative law Judges and Judicial Officer. There are approximately 40 statutes administered by agencies within the Department of Agriculture that require Administrative Procedure Act (APA) hearings. The Judges issue initial decisions and orders in adjudicatory proceedings which become final decisions of the Secretary unless appealed to the Secretary's Judicial Officer by a party to the proceedings."
+    }
+  ]
+}

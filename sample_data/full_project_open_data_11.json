@@ -1,0 +1,454 @@
+{
+	"license_title": "License Not Specified",
+	"maintainer": null,
+	"relationships_as_object": 
+	[
+		
+	],
+
+	"private": true,
+	"maintainer_email": null,
+	"revision_timestamp": "2014-12-22T19:38:45.998369",
+	"id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+	"metadata_created": "2014-12-22T19:36:08.012829",
+	"metadata_modified": "2014-12-22T19:44:15.683916",
+	"author": null,
+	"author_email": null,
+	"state": "active",
+	"version": null,
+	"creator_user_id": "e35f06b9-59c0-4ddf-a51f-5147d62e297c",
+	"type": "dataset",
+	"resources": 
+	[
+		{
+			"conformsTo": "http://www.niem.gov/conformsTo/distribution",
+			"resource_group_id": "4fb7354a-5bbe-40ed-b908-363259f42ed7",
+			"cache_last_updated": null,
+			"describedByType": "application/pdf",
+			"labels": "OrderedDict([('accessURL new', 'Access URL'), ('conformsTo', 'Conforms To'), ('describedBy', 'Described By'), ('describedByType', 'Described By Type'), ('format', 'Media Type'), ('formatReadable', 'Format'), ('created', 'Created')])",
+			"revision_timestamp": "2014-12-22T19:40:42.022220",
+			"webstore_last_updated": null,
+			"id": "c19bf9f3-3c6d-4811-920d-db9239b23d87",
+			"size": null,
+			"state": "active",
+			"last_modified": null,
+			"describedBy": "http://www.usda.gov/distribution_data_dictionary.pdf",
+			"hash": "",
+			"description": "This is for testing of 1.1 metadata schema only",
+			"format": "application/json",
+			"mimetype_inner": null,
+			"url_type": null,
+			"formatReadable": "api",
+			"mimetype": null,
+			"cache_url": null,
+			"name": "POD Metadata Schema 1.1 Test",
+			"created": "2014-12-22T14:38:38.138577",
+			"url": "http://www.usda.gov/test_example.json",
+			"webstore_url": null,
+			"position": 0,
+			"revision_id": "04676a76-ea8b-4f09-b4d0-24a1fbc7aea0",
+			"resource_type": "file"
+		},
+
+		{
+			"conformsTo": "http://www.niem.gov/distribution/conforms/to",
+			"resource_group_id": "4fb7354a-5bbe-40ed-b908-363259f42ed7",
+			"cache_last_updated": null,
+			"describedByType": "application/pdf",
+			"labels": "OrderedDict([('accessURL new', 'Access URL'), ('conformsTo', 'Conforms To'), ('describedBy', 'Described By'), ('describedByType', 'Described By Type'), ('format', 'Media Type'), ('formatReadable', 'Format'), ('created', 'Created')])",
+			"revision_timestamp": "2014-12-22T19:42:26.735351",
+			"webstore_last_updated": null,
+			"id": "47475f1c-ac18-4fd7-a766-3d3d4e13091d",
+			"size": null,
+			"state": "active",
+			"last_modified": null,
+			"describedBy": "www.usda.gov/test_distribution_data_dictionary",
+			"hash": "",
+			"description": "This is only to be used for test purposes.  This will be deleted.",
+			"format": "application/json",
+			"mimetype_inner": null,
+			"url_type": null,
+			"formatReadable": "",
+			"mimetype": null,
+			"cache_url": null,
+			"name": "POD Metadata 1.1 Test",
+			"created": "2014-12-22T14:40:42.154985",
+			"url": "http://www.usda.gov/metadata_distribution_test",
+			"webstore_url": null,
+			"position": 1,
+			"revision_id": "d64512ff-8464-4f5f-9ac3-75dd4d5574da",
+			"resource_type": "file"
+		},
+
+		{
+			"conformsTo": "http://www.niem.gov/test_link_to_api",
+			"resource_group_id": "4fb7354a-5bbe-40ed-b908-363259f42ed7",
+			"cache_last_updated": null,
+			"describedByType": "application/pdf",
+			"labels": "OrderedDict([('accessURL new', 'Access URL'), ('conformsTo', 'Conforms To'), ('describedBy', 'Described By'), ('describedByType', 'Described By Type'), ('format', 'Media Type'), ('formatReadable', 'Format'), ('created', 'Created')])",
+			"revision_timestamp": "2014-12-22T19:44:15.679289",
+			"webstore_last_updated": null,
+			"id": "e433f8b4-271d-4626-bb25-dca6eb8c921f",
+			"size": null,
+			"state": "active",
+			"last_modified": null,
+			"describedBy": "http://www.usda.gov/distribution/data_dictionary",
+			"hash": "",
+			"description": "This is test only for POD 1.1",
+			"format": "application/json",
+			"mimetype_inner": null,
+			"url_type": null,
+			"formatReadable": "API",
+			"mimetype": null,
+			"cache_url": null,
+			"name": "Schema Link to API",
+			"created": "2014-12-22T14:42:26.772630",
+			"url": "http://www.usda.gov/link_to_api",
+			"webstore_url": null,
+			"position": 2,
+			"revision_id": "fe5096c1-8365-4673-b94d-ea1b415f90f0",
+			"resource_type": "api"
+		},
+
+		{
+			"conformsTo": "http://www.niem.gov/access_url",
+			"resource_group_id": "4fb7354a-5bbe-40ed-b908-363259f42ed7",
+			"cache_last_updated": null,
+			"describedByType": "application/json",
+			"revision_timestamp": "2014-12-22T19:44:15.679289",
+			"webstore_last_updated": null,
+			"id": "d5fc4b5b-ff09-443b-a947-95f37fc56519",
+			"size": null,
+			"state": "active",
+			"last_modified": null,
+			"describedBy": "http://usda.gov/distribution/accessURL",
+			"hash": "",
+			"description": "This is for test only, this is the distribution field where access url is checked",
+			"format": "application/xml",
+			"mimetype_inner": null,
+			"url_type": null,
+			"formatReadable": "",
+			"mimetype": null,
+			"cache_url": null,
+			"name": "AccessURL Distribution for Testing",
+			"created": "2014-12-22T14:44:15.721973",
+			"url": "http://www.usda.gov/access_url",
+			"webstore_url": null,
+			"position": 3,
+			"revision_id": "fe5096c1-8365-4673-b94d-ea1b415f90f0",
+			"resource_type": "accessurl"
+		}
+	],
+
+	"num_resources": 4,
+	"tags": 
+	[
+		{
+			"vocabulary_id": null,
+			"display_name": "pod 1.1 test",
+			"name": "pod 1.1 test",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"state": "active",
+			"id": "7d01d6fd-3590-4864-85ae-2970c6b5501d"
+		}
+	],
+
+	"groups": 
+	[
+		
+	],
+
+	"license_id": "notspecified",
+	"relationships_as_subject": 
+	[
+		
+	],
+
+	"num_tags": 1,
+	"organization": 
+	{
+		"description": "",
+		"title": "Department of Agriculture",
+		"created": "2013-11-20T23:48:46.768505",
+		"approval_status": "approved",
+		"revision_timestamp": "2013-12-30T15:26:32.131111",
+		"is_organization": true,
+		"state": "active",
+		"image_url": "https://raw.github.com/GSA/logo/master/usda.png",
+		"revision_id": "d43d11d4-7dc4-4768-8e2e-ef9c49bea87a",
+		"type": "organization",
+		"id": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+		"name": "usda-gov"
+	},
+
+	"name": "ckan-metadata-1-1-test",
+	"isopen": false,
+	"url": null,
+	"notes": "This is a private set used to test the Metadata schema 1.1.  This will be removed when testing is complete.",
+	"owner_org": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+	"extras": 
+	[
+		{
+			"state": "active",
+			"value": "This is a test data set, and will never be made available to public",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "access_level_comment",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "0c03f9fd-73ce-483c-9cba-2dc0f219d740"
+		},
+
+		{
+			"state": "active",
+			"value": "Bimonthly",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "accrual_periodicity",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "7334f168-be87-4a95-9452-340f2b799804"
+		},
+
+		{
+			"state": "active",
+			"value": "015:12",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "bureau_code",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "a422a6c5-1d1b-42cd-84de-7854bffebb02"
+		},
+
+		{
+			"state": "active",
+			"value": "test",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "category",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "82e58856-9f17-4986-8a3a-10aeda782596"
+		},
+
+		{
+			"state": "active",
+			"value": "http://www.niem.gov",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "conforms_to",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "a950c98b-ac62-4aab-a5e9-0fd17bcfd95d"
+		},
+
+		{
+			"state": "active",
+			"value": "brian.brotsos@usda.gov",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "contact_email",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "8f6a62d5-5228-4b5a-a962-2fa977a6774e"
+		},
+
+		{
+			"state": "active",
+			"value": "Brian Brotsos",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "contact_name",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "af370298-b29c-46e4-9d93-d416910b500a"
+		},
+
+		{
+			"state": "active",
+			"value": "http://usda.gov/test_dictionary.json",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "data_dictionary",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "86da011e-a1fc-4679-bda7-8c76ec6d1605"
+		},
+
+		{
+			"state": "active",
+			"value": "application/json",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "data_dictionary_type",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "d88ca89f-f537-40d3-8f9d-f71882e370f8"
+		},
+
+		{
+			"state": "active",
+			"value": "false",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "data_quality",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "5f3ff1bd-915d-4f68-a415-7c16976eb492"
+		},
+
+		{
+			"state": "active",
+			"value": "http://www.usda.gov",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "homepage_url",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "fbe48286-929f-4b95-91ff-14e5aee711cd"
+		},
+
+		{
+			"state": "active",
+			"value": "true",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "is_parent",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "6c852984-19b6-4492-a0df-d24ac25bca0b"
+		},
+
+		{
+			"state": "active",
+			"value": "us-En",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "language",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "8a54a963-eef6-4b26-8095-f237d0b49d5a"
+		},
+
+		{
+			"state": "active",
+			"value": "http://creativecommons.com",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "license_new",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "800cc29b-b9b6-40dc-b6cc-94a87a408834"
+		},
+
+		{
+			"state": "active",
+			"value": "2014-12-22",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "modified",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "6a32a2d8-aa99-4c39-bead-b829f38ae4f3"
+		},
+
+		{
+			"state": "active",
+			"value": "021-000000013",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "primary_it_investment_uii",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "3f32e6ec-0df7-4582-8cfd-70a5e7ccf32a"
+		},
+
+		{
+			"state": "active",
+			"value": "015:032",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "program_code",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "8b4ba11d-fb48-404f-949a-9f6062a314c2"
+		},
+
+		{
+			"state": "active",
+			"value": "non-public",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "public_access_level",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "4425b336-9b02-46d0-ae7b-e6f240364068"
+		},
+
+		{
+			"state": "active",
+			"value": "Department of Agriculture",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "publisher",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "2864bf7d-29b2-442a-9324-d8b4856758e9"
+		},
+
+		{
+			"state": "active",
+			"value": "OCIO",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "publisher_1",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "b6ad193d-10dd-4e19-999e-638ab61032b3"
+		},
+
+		{
+			"state": "active",
+			"value": "http://www.usda.gov/reference_test, http://www.usda.gov/test2",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "related_documents",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "6f343521-f69e-469a-947f-03dbee872b93"
+		},
+
+		{
+			"state": "active",
+			"value": "2014-12-22",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "release_date",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "41f65c30-4684-4685-8a83-a23f6f7d1983"
+		},
+
+		{
+			"state": "active",
+			"value": "Washington, DC",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "spatial",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "75db929a-b106-46ce-9e5b-dec230bc8a3a"
+		},
+
+		{
+			"state": "active",
+			"value": "http://www.usda.gov/sorn",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "system_of_records",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "306a9c8a-bdd0-4336-84a2-21ccb2af8b0d"
+		},
+
+		{
+			"state": "active",
+			"value": "2014-12-22/2014-12-25",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "temporal",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "1b83ccfc-cfdf-4fa6-b80b-9107a4ebeefc"
+		},
+
+		{
+			"state": "active",
+			"value": "usda-dm-928984",
+			"revision_timestamp": "2014-12-22T19:36:08.012829",
+			"package_id": "1eb4226f-e7e0-4b02-9ae0-b94c6680f291",
+			"key": "unique_id",
+			"revision_id": "b5669af5-7ff9-469b-82d7-d7770e97ac9c",
+			"id": "a48e07e7-976e-4a23-b29c-0472296f0434"
+		}
+	],
+
+	"title": "CKAN Metadata 1.1 Test",
+	"revision_id": "60726e9d-cde0-4278-bcc5-dc9eef9b08ed"
+}

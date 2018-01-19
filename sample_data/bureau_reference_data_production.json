@@ -1,0 +1,104 @@
+[
+	{
+	 "bureau_code":"015:45",
+	 "bureau_name":"Agriculture Marketing Service",
+	 "bureau_abbreviation":"AMS",
+	 "bureau_ckan_identifier":"agricultural-marketing-service-department-of-agriculture"
+	},
+	{
+	 "bureau_code":"015:45",
+	 "bureau_name":"Animal and Plant Health Inspection Service",
+	 "bureau_abbreviation":"APHIS",
+	 "bureau_ckan_identifier":"aphis-usda-gov"
+	},
+	{
+	 "bureau_code":"015:18",
+	 "bureau_name":"Agriculture Research Service",
+	 "bureau_abbreviation":"ARS",
+	 "bureau_ckan_identifier":"ars-usda-gov"
+	},
+	{
+	 "bureau_code":"015:13",
+	 "bureau_name":"Economic Research Service",
+	 "bureau_abbreviation":"ERS",
+	 "bureau_ckan_identifier":"ers-usda-gov"
+	},
+	{
+	 "bureau_code":"015:68",
+	 "bureau_name":"Foreign Agriculture Service",
+	 "bureau_abbreviation":"FAS",
+	 "bureau_ckan_identifier":"fas-usda-gov"
+	},
+	{
+	 "bureau_code":"015:84",
+	 "bureau_name":"Food and Nutrition Service",
+	 "bureau_abbreviation":"FNS",
+	 "bureau_ckan_identifier":"fns-usda-gov"
+	},
+	{
+	 "bureau_code":"015:96",
+	 "bureau_name":"Forest Service",
+	 "bureau_abbreviation":"FS",
+	 "bureau_ckan_identifier":"fs-fed-us"
+	},
+	{
+	 "bureau_code":"015:49",
+	 "bureau_name":"Farm Service Agency",
+	 "bureau_abbreviation":"FSA",
+	 "bureau_ckan_identifier":"fsa-usda-gov"
+	},
+	{
+	 "bureau_code":"015:35",
+	 "bureau_name":"Food Safety and Inspection Service",
+	 "bureau_abbreviation":"FSA",
+	 "bureau_ckan_identifier":"fsis-usda-gov"
+	},
+	{
+	 "bureau_code":"015:37",
+	 "bureau_name":"Grain Inspection, Packers and Stockyards Administration",
+	 "bureau_abbreviation":"GIPSA",
+	 "bureau_ckan_identifier":"grain-inspection-packers-stockyards-administration"
+	},
+	{
+	 "bureau_code":"015:11",
+	 "bureau_name":"National Appeals Division",
+	 "bureau_abbreviation":"NAD",
+	 "bureau_ckan_identifier":"nda-usda-gov"
+	},
+	{
+	 "bureau_code":"015:15",
+	 "bureau_name":"National Agriculture Statistics Service",
+	 "bureau_abbreviation":"NASS",
+	 "bureau_ckan_identifier":"nass-usda-gov"
+	},
+	{
+	 "bureau_code":"015:20",
+	 "bureau_name":"National Institute of Food and Agriculture",
+	 "bureau_abbreviation":"NIFA",
+	 "bureau_ckan_identifier":"nifa-usda-gov"
+	},
+	{
+	 "bureau_code":"015:53",
+	 "bureau_name":"National Resources Conservation Service",
+	 "bureau_abbreviation":"NRCS",
+	 "bureau_ckan_identifier":"nrcs-usda-gov"
+	},
+	{
+	 "bureau_code":"015:55",
+	 "bureau_name":"Rural Development",
+	 "bureau_abbreviation":"RD",
+	 "bureau_ckan_identifier":"stl-usda-gov"
+	},
+	{
+	 "bureau_code":"015:47",
+	 "bureau_name":"Risk Management Agency",
+	 "bureau_abbreviation":"RMA",
+	 "bureau_ckan_identifier":"risk-management-agency-department-of-agriculture"
+	},
+	{
+	 "bureau_code":"015:12",
+	 "bureau_name":"Office of Chief Information Officer",
+	 "bureau_abbreviation":"ocio",
+	 "bureau_ckan_identifier":"usda-gov"
+	}	
+]

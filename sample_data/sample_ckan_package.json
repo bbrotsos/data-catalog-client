@@ -1,0 +1,340 @@
+{
+	"license_title": "Creative Commons Attribution",
+	"maintainer": null,
+	"relationships_as_object": 
+	[
+		
+	],
+
+	"private": true,
+	"maintainer_email": null,
+	"revision_timestamp": "2014-10-29T13:49:12.797560",
+	"id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+	"metadata_created": "2013-11-21T04:48:47.371320",
+	"metadata_modified": "2014-10-29T18:56:23.210204",
+	"author": null,
+	"author_email": null,
+	"state": "active",
+	"version": null,
+	"creator_user_id": "c59fb57d-38df-416e-84f2-f13e7b3af279",
+	"type": "dataset",
+	"resources": 
+	[
+		{
+			"resource_group_id": "107201ec-af65-46ed-a2b3-ce3e87d67e99",
+			"cache_last_updated": null,
+			"revision_timestamp": "2014-02-24T21:35:27.557282",
+			"webstore_last_updated": null,
+			"id": "4fd1bf0d-b4df-4000-814d-cd34c8b592b1",
+			"size": null,
+			"state": "active",
+			"last_modified": null,
+			"hash": "",
+			"description": "",
+			"format": "text/html",
+			"mimetype_inner": null,
+			"url_type": null,
+			"mimetype": null,
+			"cache_url": null,
+			"name": "Web Page",
+			"created": "2013-11-20T23:48:48.516286",
+			"url": "http://www.dm.usda.gov/oaljdecisions/",
+			"webstore_url": null,
+			"position": 0,
+			"revision_id": "b2ff1d9a-cba0-4306-a760-ddbfcbec25ac",
+			"resource_type": "file"
+		}
+	],
+
+	"num_resources": 1,
+	"tags": 
+	[
+		{
+			"vocabulary_id": null,
+			"display_name": "APA",
+			"name": "APA",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"state": "active",
+			"id": "2ef39f39-4444-4013-864a-662be23334fd"
+		},
+
+		{
+			"vocabulary_id": null,
+			"display_name": "Administrative Decisions and Orders",
+			"name": "Administrative Decisions and Orders",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"state": "active",
+			"id": "067ae306-739e-4138-a0a2-0e5fbe11577d"
+		},
+
+		{
+			"vocabulary_id": null,
+			"display_name": "Administrative Law Judge",
+			"name": "Administrative Law Judge",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"state": "active",
+			"id": "ce850888-a0ac-49e7-b766-990a3d4a04d4"
+		},
+
+		{
+			"vocabulary_id": null,
+			"display_name": "Administrative Procedure Act",
+			"name": "Administrative Procedure Act",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"state": "active",
+			"id": "08b44f05-5eed-4645-abe2-28e1509774a5"
+		},
+
+		{
+			"vocabulary_id": null,
+			"display_name": "Agriculture",
+			"name": "Agriculture",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"state": "active",
+			"id": "1c94bdec-aeb0-4d92-9988-e452f9b4af6f"
+		},
+
+		{
+			"vocabulary_id": null,
+			"display_name": "Agriculture Law",
+			"name": "Agriculture Law",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"state": "active",
+			"id": "af19d03d-5282-4ed4-9485-ad1592a29a5c"
+		},
+
+		{
+			"vocabulary_id": null,
+			"display_name": "Department of Agriculture",
+			"name": "Department of Agriculture",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"state": "active",
+			"id": "7a5abada-0115-4dd5-b94f-443e721678b9"
+		},
+
+		{
+			"vocabulary_id": null,
+			"display_name": "Judge",
+			"name": "Judge",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"state": "active",
+			"id": "0500572d-377a-450e-bae6-cd0ffefe411d"
+		},
+
+		{
+			"vocabulary_id": null,
+			"display_name": "Law",
+			"name": "Law",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"state": "active",
+			"id": "7c8b07f8-9400-4acb-88b5-5d49b5421ed6"
+		},
+
+		{
+			"vocabulary_id": null,
+			"display_name": "Rule making",
+			"name": "Rule making",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"state": "active",
+			"id": "e86ef673-49ed-4840-bf44-dc7909412b7b"
+		},
+
+		{
+			"vocabulary_id": null,
+			"display_name": "USDA",
+			"name": "USDA",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"state": "active",
+			"id": "2bb94b40-faa9-45d2-a1b0-f785883115b5"
+		},
+
+		{
+			"vocabulary_id": null,
+			"display_name": "statuary decion opinions",
+			"name": "statuary decion opinions",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"state": "active",
+			"id": "a16a7cd2-31d1-4bab-aef7-e091e6984a56"
+		}
+	],
+
+	"groups": 
+	[
+		
+	],
+
+	"license_id": "cc-by",
+	"relationships_as_subject": 
+	[
+		
+	],
+
+	"num_tags": 12,
+	"organization": 
+	{
+		"description": "",
+		"title": "Department of Agriculture",
+		"created": "2013-11-20T23:48:46.768505",
+		"approval_status": "approved",
+		"revision_timestamp": "2013-12-30T15:26:32.131111",
+		"is_organization": true,
+		"state": "active",
+		"image_url": "https://raw.github.com/GSA/logo/master/usda.png",
+		"revision_id": "d43d11d4-7dc4-4768-8e2e-ef9c49bea87a",
+		"type": "organization",
+		"id": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+		"name": "usda-gov"
+	},
+
+	"name": "agriculture-law-and-administrative-law-judge-decisions",
+	"isopen": true,
+	"url": null,
+	"notes": "Agriculture Law and Statuary Proceedings Conducted by Administrative Law Judges, Rule Making, Rules of Practice, and Agencies Administering the statute. Contains Statuary Decision Opinions of the United State Department of Agriculture Office of Administrative law Judges and Judicial Officer. There are approximately 40 statutes administered by agencies within the Department of Agriculture that require Administrative Procedure Act (APA) hearings. The Judges issue initial decisions and orders in adjudicatory proceedings which become final decisions of the Secretary unless appealed to the Secretary's Judicial Officer by a party to the proceedings.",
+	"owner_org": "540d5783-a05c-4a16-a4ba-0b0cc10713b3",
+	"extras": 
+	[
+		{
+			"state": "active",
+			"value": "Daily",
+			"revision_timestamp": "2014-02-24T21:36:11.273508",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "accrual_periodicity",
+			"revision_id": "b9ceec21-37cb-4b17-b85b-19625471b81f",
+			"id": "1d6de61d-6c79-4d0c-a17d-1a9eed2890e3"
+		},
+
+		{
+			"state": "active",
+			"value": "005:05",
+			"revision_timestamp": "2014-02-24T21:35:15.101952",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "bureau_code",
+			"revision_id": "f02ea750-287c-48a0-8fe6-be59264ad415",
+			"id": "6a667685-a677-4971-b7f2-be2263ede893"
+		},
+
+		{
+			"state": "active",
+			"value": "james.hurt@usda.gov",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "contact_email",
+			"revision_id": "0afbd068-2a91-434d-8a1b-51915c28f835",
+			"id": "d9ca6531-0ec5-4e2d-8f8c-f5d195918cf4"
+		},
+
+		{
+			"state": "active",
+			"value": "James Hurt",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "contact_name",
+			"revision_id": "0afbd068-2a91-434d-8a1b-51915c28f835",
+			"id": "5c312f31-e609-4bb0-82a4-f66e73e5c8b3"
+		},
+
+		{
+			"state": "active",
+			"value": "http://www.usda.gov/oaljdecisions",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "data_dictionary",
+			"revision_id": "0afbd068-2a91-434d-8a1b-51915c28f835",
+			"id": "b9069d35-9abc-4561-ba6f-485b73e6383a"
+		},
+
+		{
+			"state": "active",
+			"value": "Agriculture Law and Statuary Proceedings Conducted by Administrative Law Judges, Rule Making, Rules of Practice, and Agencies Administering the statute. Contains Statuary Decision Opinions of the United State Department of Agriculture Office of Administrative law Judges and Judicial Officer. There are approximately 40 statutes administered by agencies within the Department of Agriculture that require Administrative Procedure Act (APA) hearings. The Judges issue initial decisions and orders in adjudicatory proceedings which become final decisions of the Secretary unless appealed to the Secretary's Judicial Officer by a party to the proceedings.",
+			"revision_timestamp": "2014-10-29T13:49:12.797560",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "notes",
+			"revision_id": "ca339193-ce59-41ec-8100-720c610dbaff",
+			"id": "78b60b9c-c2ef-4004-9e2f-ab09ba851243"
+		},
+
+		{
+			"state": "active",
+			"value": "005:000",
+			"revision_timestamp": "2014-10-29T13:49:12.797560",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "program_code",
+			"revision_id": "ca339193-ce59-41ec-8100-720c610dbaff",
+			"id": "ecd758ed-b617-4f6e-94e5-1f2277d4fb14"
+		},
+
+		{
+			"state": "active",
+			"value": "public",
+			"revision_timestamp": "2014-02-24T21:35:15.101952",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "public_access_level",
+			"revision_id": "f02ea750-287c-48a0-8fe6-be59264ad415",
+			"id": "e4ad60a2-6acd-4c32-8af6-d7712dc0c414"
+		},
+
+		{
+			"state": "active",
+			"value": "Departmental Management, Department of Agriculture",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "publisher",
+			"revision_id": "0afbd068-2a91-434d-8a1b-51915c28f835",
+			"id": "e00b1406-8e8c-4b8c-a543-10f9a737e5bc"
+		},
+
+		{
+			"state": "active",
+			"value": "http://www.usda.gov/dm/oaljdecisions",
+			"revision_timestamp": "2014-10-29T18:56:23.171092",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "related_documents",
+			"revision_id": "4844ad88-d059-4054-a457-c3410054b5a0",
+			"id": "5a543930-c531-45d7-9213-29aad31cc4fb"
+		},
+
+		{
+			"state": "active",
+			"value": "1998-01-01",
+			"revision_timestamp": "2014-02-24T21:35:15.101952",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "release_date",
+			"revision_id": "f02ea750-287c-48a0-8fe6-be59264ad415",
+			"id": "08f1cca4-4ff3-4c0c-b123-15bcaeb19f73"
+		},
+
+		{
+			"state": "active",
+			"value": "50 states",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "spatial",
+			"revision_id": "0afbd068-2a91-434d-8a1b-51915c28f835",
+			"id": "b54f549e-e14c-4f86-ac09-a5e035ffe388"
+		},
+
+		{
+			"state": "active",
+			"value": "Agriculture Law and Administrative Law Judge Decisions",
+			"revision_timestamp": "2014-10-29T13:49:12.797560",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "title",
+			"revision_id": "ca339193-ce59-41ec-8100-720c610dbaff",
+			"id": "3d0efc70-84cc-43b2-8ad7-001dfa8271d2"
+		},
+
+		{
+			"state": "active",
+			"value": "USDA-4363",
+			"revision_timestamp": "2013-11-21T04:48:47.371320",
+			"package_id": "787a1a36-8d6a-4d2b-b72f-ab30d1b5bf47",
+			"key": "unique_id",
+			"revision_id": "0afbd068-2a91-434d-8a1b-51915c28f835",
+			"id": "32ceb4e5-0914-43c3-9b81-af854c9aaf4a"
+		}
+	],
+
+	"license_url": "http://www.opendefinition.org/licenses/cc-by",
+	"title": "Agriculture Law and Administrative Law Judge Decisions",
+	"revision_id": "ca339193-ce59-41ec-8100-720c610dbaff"
+}

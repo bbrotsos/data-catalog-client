@@ -1,0 +1,87 @@
+{
+	"help": "Create a new dataset (package).\n\n    You must be authorized to create new datasets.
+	 If you specify any groups\n    f
+	 or the new dataset, you must also be authorized to edit these groups.\n\n   
+	  Plugins may change the parameters of this function depending on the value\n    
+	  of the ``type`` parameter, see the ``IDatasetForm`` plugin interface.\n\n    
+	  :param name: the name of the new dataset, must be between 2 and 100\n        characters long and contain only lowercase alphanumeric characters,\n        ``-`` and ``_``, e.g. ``'warandpeace'``\n    :type name: string\n    :param title: the title of the dataset (optional, default: same as\n        ``name``)\n    :type title: string\n    :param author: the name of the dataset's author (optional)\n    :type author: string\n    :param author_email: the email address of the dataset's author (optional)\n    :type author_email: string\n    :param maintainer: the name of the dataset's maintainer (optional)\n    :type maintainer: string\n    :param maintainer_email: the email address of the dataset's maintainer\n        (optional)\n    :type maintainer_email: string\n    :param license_id: the id of the dataset's license, see ``license_list()``\n        for available values (optional)\n    :type license_id: license id string\n    :param notes: a description of the dataset (optional)\n    :type notes: string\n    :param url: a URL for the dataset's source (optional)\n    :type url: string\n    :param version: (optional)\n    :type version: string, no longer than 100 characters\n    :param state: the current state of the dataset, e.g. ``'active'`` or\n        ``'deleted'``, only active datasets show up in search results and\n        other lists of datasets, this parameter will be ignored if you are not\n        authorized to change the state of the dataset (optional, default:\n        ``'active'``)\n    :type state: string\n    :param type: the type of the dataset (optional), ``IDatasetForm`` plugins\n        associate themselves with different dataset types and provide custom\n        dataset handling behaviour for these types\n    :type type: string\n    :param resources: the dataset's resources, see ``resource_create()``\n        for the format of resource dictionaries (optional)\n    :type resources: list of resource dictionaries\n    :param tags: the dataset's tags, see ``tag_create()`` for the format\n        of tag dictionaries (optional)\n    :type tags: list of tag dictionaries\n    :param extras: the dataset's extras (optional), extras are arbitrary\n        (key: value) metadata items that can be added to datasets, each extra\n        dictionary should have keys ``'key'`` (a string), ``'value'`` (a\n        string), and optionally ``'deleted'``\n    :type extras: list of dataset extra dictionaries\n    :param relationships_as_object: see ``package_relationship_create()`` for\n        the format of relationship dictionaries (optional)\n    :type relationships_as_object: list of relationship dictionaries\n    :param relationships_as_subject: see ``package_relationship_create()`` for\n        the format of relationship dictionaries (optional)\n    :type relationships_as_subject: list of relationship dictionaries\n    :param groups: the groups to which the dataset belongs (optional), each\n        group dictionary should have one or more of the following keys which\n        identify an existing group:\n        ``'id'`` (the id of the group, string), ``'name'`` (the name of the\n        group, string), ``'title'`` (the title of the group, string), to see\n        which groups exist call ``group_list()``\n    :type groups: list of dictionaries\n    :param owner_org: the id of the dataset's owning organization, see\n        ``organization_list()`` or ``organization_list_for_user`` for\n        available values (optional)\n    :type owner_org: string\n\n    :returns: the newly created dataset (unless 'return_id_only' is set to True\n              in the context, in which case just the dataset id will be returned)\n    :rtype: dictionary\n\n    ",
+	"success": true,
+	"result": 
+	{
+		"license_title": null,
+		"maintainer": null,
+		"relationships_as_object": 
+		[
+			
+		],
+
+		"private": false,
+		"maintainer_email": null,
+		"revision_timestamp": "2014-12-23T03:26:26.455063",
+		"id": "f7962edf-1672-44ca-83d7-ee6a9858e92a",
+		"metadata_created": "2014-12-23T03:26:26.455063",
+		"owner_org": "f2e28a6c-fafb-4914-a590-91fbcd6ae339",
+		"metadata_modified": "2014-12-23T03:26:26.455063",
+		"author": null,
+		"author_email": null,
+		"state": "active",
+		"version": null,
+		"license_id": null,
+		"type": "dataset",
+		"resources": 
+		[
+			
+		],
+
+		"num_resources": 0,
+		"tags": 
+		[
+			
+		],
+
+		"tracking_summary": 
+		{
+			"total": 0,
+			"recent": 0
+		},
+
+		"groups": 
+		[
+			
+		],
+
+		"relationships_as_subject": 
+		[
+			
+		],
+
+		"num_tags": 0,
+		"name": "api-test-data-ag",
+		"isopen": false,
+		"url": null,
+		"notes": "This is a test data set to test API functionalities",
+		"title": "API Test Title",
+		"extras": 
+		[
+			
+		],
+
+		"organization": 
+		{
+			"description": "",
+			"title": "Agriculture Data",
+			"created": "2014-12-22T18:19:47.293406",
+			"approval_status": "approved",
+			"revision_timestamp": "2014-12-22T18:19:47.033383",
+			"is_organization": true,
+			"state": "active",
+			"image_url": "",
+			"revision_id": "bf59282d-4538-443d-a483-2cad9b6f78c6",
+			"type": "organization",
+			"id": "f2e28a6c-fafb-4914-a590-91fbcd6ae339",
+			"name": "agriculture-data"
+		},
+
+		"revision_id": "029fe476-bbdb-4b2a-a631-71a0286511a3"
+	}
+}

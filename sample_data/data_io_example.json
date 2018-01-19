@@ -1,0 +1,63 @@
+{
+	"help": "Return the details of a group.\n\n    :param id: the id or name of the group\n    :type id: string\n\n    :rtype: dictionary\n\n    ",
+	"success": true,
+	"result": 
+	{
+		"users": 
+		[
+			{
+				"openid": null,
+				"about": null,
+				"apikey": "c1ca621d-bcaa-43f7-abb6-abd268acf362",
+				"capacity": "admin",
+				"name": "bbrotsos",
+				"created": "2014-12-21T03:26:02.584550",
+				"reset_key": null,
+				"email": "bbrotsos@gmail.com",
+				"sysadmin": false,
+				"activity_streams_email_notifications": false,
+				"email_hash": "853e5f36053cfd1fb27681e1421e092b",
+				"number_of_edits": 3,
+				"number_administered_packages": 1,
+				"display_name": "Brian Brotsos",
+				"fullname": "Brian Brotsos",
+				"id": "02b5105f-7364-4c99-bf12-3f76822bf28c"
+			}
+		],
+
+		"display_name": "Agriculture Data",
+		"description": "",
+		"title": "Agriculture Data",
+		"package_count": 0,
+		"created": "2014-12-22T18:19:47.293406",
+		"approval_status": "approved",
+		"is_organization": true,
+		"state": "active",
+		"extras": 
+		[
+			
+		],
+
+		"image_url": "",
+		"groups": 
+		[
+			
+		],
+
+		"num_followers": 0,
+		"revision_id": "bf59282d-4538-443d-a483-2cad9b6f78c6",
+		"packages": 
+		[
+			
+		],
+
+		"type": "organization",
+		"id": "f2e28a6c-fafb-4914-a590-91fbcd6ae339",
+		"tags": 
+		[
+			
+		],
+
+		"name": "agriculture-data"
+	}
+}

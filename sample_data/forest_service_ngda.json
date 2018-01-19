@@ -1,0 +1,42 @@
+[
+   {
+      "title": "FS National Forest Dataset (US Forest Service Proclaimed Forests)",
+      "theme": ["geospatial", "National Geospatial Data Asset", "NGDA", "Cadastre Theme"]
+    },
+    {
+      "title": "Monitoring Trends in Burn Severity Fire Occurrence Locations (Feature Layer)",
+      "theme": ["geospatial", "National Geospatial Data Asset, NGDA", "Land Use Land Cover Theme"]
+    },
+    {
+      "title": "Monitoring Trends in Burn Severity Alaska",
+      "theme": ["geospatial", "National Geospatial Data Asset", "NGDA", "Land Use Land Cover Theme"]
+    },
+    {
+      "title": "Monitoring Trends in Burn Severity Contiguous United States",
+      "theme": ["geospatial", "National Geospatial Data Asset", "NGDA", "Land Use Land Cover Theme"]
+    },
+    {
+      "title": "Monitoring Trends in Burn Severity Hawaii",
+      "theme": ["National Geospatial Data Asset", "NGDA", "Land Use Land Cover Theme"]
+    },
+    {
+      "title": "Monitoring Trends in Burn Severity Puerto Rico",
+      "theme": ["geospatial", "National Geospatial Data Asset", "NGDA", "Land Use Land Cover Theme"]
+    },
+    {
+      "title": "Forest Inventory and Analysis Database",
+      "theme": ["geospatial", "National Geospatial Data Asset", "NGDA", "Land Use Land Cover Theme"]
+    },
+    {
+      "title": "LANDFIRE Canopy and Surface Fuel",
+      "theme": ["geospatial", "National Geospatial Data Asset", "NGDA", "Land Use Land Cover Theme"]
+    },
+    {
+      "title": "LANDFIRE Existing and Potential Vegetation",
+      "theme": ["geospatial", "National Geospatial Data Asset", "NGDA", "Land Use Land Cover Theme"]
+    },
+    {
+      "title": "LANDFIRE Historical Fire Regimes",
+      "theme": ["geospatial", "National Geospatial Data Asset", "NGDA", "Land Use Land Cover Theme"]
+    }
+]

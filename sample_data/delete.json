@@ -1,0 +1,2121 @@
+{
+	"help": "\n    Searches for packages satisfying a given search criteria.\n\n    This action accepts solr search query parameters (details below), and\n    returns a dictionary of results, including dictized datasets that match\n    the search criteria, a search count and also facet information.\n\n    **Solr Parameters:**\n\n    For more in depth treatment of each paramter, please read the `Solr\n    Documentation <http://wiki.apache.org/solr/CommonQueryParameters>`_.\n\n    This action accepts a *subset* of solr's search query parameters:\n\n\n    :param q: the solr query.  Optional.  Default: `\"*:*\"`\n    :type q: string\n    :param fq: any filter queries to apply.  Note: `+site_id:{ckan_site_id}`\n        is added to this string prior to the query being executed.\n    :type fq: string\n    :param sort: sorting of the search results.  Optional.  Default:\n        'relevance asc, metadata_modified desc'.  As per the solr\n        documentation, this is a comma-separated string of field names and\n        sort-orderings.\n    :type sort: string\n    :param rows: the number of matching rows to return.\n    :type rows: int\n    :param start: the offset in the complete result for where the set of\n        returned datasets should begin.\n    :type start: int\n    :param facet: whether to enable faceted results.  Default: \"true\".\n    :type facet: string\n    :param facet.mincount: the minimum counts for facet fields should be\n        included in the results.\n    :type facet.mincount: int\n    :param facet.limit: the maximum number of values the facet fields return.\n        A negative value means unlimited. This can be set instance-wide with\n        the :ref:`search.facets.limit` config option. Default is 50.\n    :type facet.limit: int\n    :param facet.field: the fields to facet upon.  Default empty.  If empty,\n        then the returned facet information is empty.\n    :type facet.field: list of strings\n\n\n    The following advanced Solr parameters are supported as well. Note that\n    some of these are only available on particular Solr versions. See Solr's\n    `dismax`_ and `edismax`_ documentation for further details on them:\n\n    ``qf``, ``wt``, ``bf``, ``boost``, ``tie``, ``defType``, ``mm``\n\n\n    .. _dismax: http://wiki.apache.org/solr/DisMaxQParserPlugin\n    .. _edismax: http://wiki.apache.org/solr/ExtendedDisMax\n\n\n    **Results:**\n\n    The result of this action is a dict with the following keys:\n\n    :rtype: A dictionary with the following keys\n    :param count: the number of results found.  Note, this is the total number\n        of results found, not the total number of results returned (which is\n        affected by limit and row parameters used in the input).\n    :type count: int\n    :param results: ordered list of datasets matching the query, where the\n        ordering defined by the sort parameter used in the query.\n    :type results: list of dictized datasets.\n    :param facets: DEPRECATED.  Aggregated information about facet counts.\n    :type facets: DEPRECATED dict\n    :param search_facets: aggregated information about facet counts.  The outer\n        dict is keyed by the facet field name (as used in the search query).\n        Each entry of the outer dict is itself a dict, with a \"title\" key, and\n        an \"items\" key.  The \"items\" key's value is a list of dicts, each with\n        \"count\", \"display_name\" and \"name\" entries.  The display_name is a\n        form of the name that can be used in titles.\n    :type search_facets: nested dict of dicts.\n    :param use_default_schema: use default package schema instead of\n        a custom schema defined with an IDatasetForm plugin (default: False)\n    :type use_default_schema: bool\n\n    An example result: ::\n\n     {'count': 2,\n      'results': [ { <snip> }, { <snip> }],\n      'search_facets': {u'tags': {'items': [{'count': 1,\n                                             'display_name': u'tolstoy',\n                                             'name': u'tolstoy'},\n                                            {'count': 2,\n                                             'display_name': u'russian',\n                                             'name': u'russian'}\n                                           ]\n                                 }\n                       }\n     }\n\n    **Limitations:**\n\n    The full solr query language is not exposed, including.\n\n    fl\n        The parameter that controls which fields are returned in the solr\n        query cannot be changed.  CKAN always returns the matched datasets as\n        dictionary objects.\n    ",
+	"success": true,
+	"result": 
+	{
+		"count": 8,
+		"sort": "score desc, metadata_modified desc",
+		"facets": 
+		{
+			
+		},
+
+		"results": 
+		[
+			{
+				"license_title": "License Not Specified",
+				"maintainer": null,
+				"relationships_as_object": 
+				[
+					
+				],
+
+				"private": false,
+				"maintainer_email": null,
+				"revision_timestamp": "2015-01-29T23:48:35.529326",
+				"id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+				"metadata_created": "2014-07-03T06:00:52.940691",
+				"metadata_modified": "2015-01-29T23:48:35.531659",
+				"author": null,
+				"author_email": null,
+				"state": "active",
+				"version": null,
+				"creator_user_id": "4d4b77e4-d2f3-4410-b78d-0e5a69731596",
+				"type": "dataset",
+				"resources": 
+				[
+					{
+						"resource_group_id": "4f28c8a4-0c60-4460-a9b9-31986480fc65",
+						"cache_last_updated": null,
+						"labels": "OrderedDict([('accessURL new', 'Access URL'), ('conformsTo', 'Conforms To'), ('describedBy', 'Described By'), ('describedByType', 'Described By Type'), ('format', 'Media Type'), ('formatReadable', 'Format'), ('created', 'Created')])",
+						"revision_timestamp": "2015-01-29T23:48:35.529326",
+						"webstore_last_updated": null,
+						"id": "0a0257ed-2eba-452a-9ae0-ea543c334a2c",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "CSV",
+						"mimetype_inner": null,
+						"url_type": "upload",
+						"mimetype": "CSV",
+						"cache_url": null,
+						"name": "U.S._Overseas_Loans_and_Grants_Greenbook.csv",
+						"created": "2014-07-03T02:01:03.403926",
+						"url": "https://inventory.data.gov/dataset/6f256fa4-26f3-4f4e-a18b-ab1bd05f5083/resource/0a0257ed-2eba-452a-9ae0-ea543c334a2c/download/userssharedsdfu.s.overseasloansandgrantsgreenbook.csv",
+						"webstore_url": null,
+						"position": 0,
+						"revision_id": "c29cee29-6114-47c2-813c-725f9b97b5fe",
+						"resource_type": null
+					}
+				],
+
+				"num_resources": 1,
+				"tags": 
+				[
+					{
+						"vocabulary_id": null,
+						"display_name": "economic assistance",
+						"name": "economic assistance",
+						"revision_timestamp": "2014-07-03T06:00:52.940691",
+						"state": "active",
+						"id": "fec22332-5d2c-453c-bd8e-c3acc5200e74"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "foreign assistance",
+						"name": "foreign assistance",
+						"revision_timestamp": "2014-07-03T06:00:52.940691",
+						"state": "active",
+						"id": "3a11f43c-161c-495c-8ffb-fcf1a04b0a40"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "greenbook",
+						"name": "greenbook",
+						"revision_timestamp": "2014-07-03T06:00:52.940691",
+						"state": "active",
+						"id": "87562264-aa9c-4474-bc47-305a47df5b22"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "military assistance",
+						"name": "military assistance",
+						"revision_timestamp": "2014-07-03T06:00:52.940691",
+						"state": "active",
+						"id": "fe3c2bd4-41a5-47dc-bb05-99c073c752da"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "u s overseas loans and grants",
+						"name": "u s overseas loans and grants",
+						"revision_timestamp": "2014-07-03T06:00:52.940691",
+						"state": "active",
+						"id": "6bb1bf3f-d95a-4ef2-8113-7e98e4500849"
+					}
+				],
+
+				"groups": 
+				[
+					
+				],
+
+				"license_id": "notspecified",
+				"relationships_as_subject": 
+				[
+					
+				],
+
+				"num_tags": 5,
+				"organization": 
+				{
+					"description": "",
+					"title": "United States Agency for International Development",
+					"created": "2014-07-03T01:03:49.263207",
+					"approval_status": "approved",
+					"revision_timestamp": "2015-02-18T15:48:02.459934",
+					"is_organization": true,
+					"state": "active",
+					"image_url": "",
+					"revision_id": "69c60d22-4977-49af-aa5d-2447af347419",
+					"type": "organization",
+					"id": "c0b16b23-86c2-4cdb-9342-0a70e347cf8e",
+					"name": "us-agency-for-international-development"
+				},
+
+				"name": "u-s-overseas-loans-and-grants-greenbook",
+				"isopen": false,
+				"url": null,
+				"notes": "These data are U.S. economic and military assistance by country from 1946 to 2011. This is the authoritative data set of U.S. foreign assistance. The data set is used to report U.S. foreign assistance to Congress as required by the Foreign Assistance Act, Section 634.",
+				"owner_org": "c0b16b23-86c2-4cdb-9342-0a70e347cf8e",
+				"extras": 
+				[
+					{
+						"state": "active",
+						"value": "Annual",
+						"revision_timestamp": "2014-07-03T06:00:52.940691",
+						"package_id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+						"key": "accrual_periodicity",
+						"revision_id": "2be46784-330d-483a-91ad-33c3caf2cbef",
+						"id": "51604932-bede-4e7d-9b14-fe6acad53d7a"
+					},
+
+					{
+						"state": "active",
+						"value": "opendata@usaid.gov",
+						"revision_timestamp": "2014-07-03T06:00:52.940691",
+						"package_id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+						"key": "contact_email",
+						"revision_id": "2be46784-330d-483a-91ad-33c3caf2cbef",
+						"id": "798682f9-91ab-4f76-a8d6-66e212fbde31"
+					},
+
+					{
+						"state": "active",
+						"value": "Philip Quinn",
+						"revision_timestamp": "2014-07-03T06:00:52.940691",
+						"package_id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+						"key": "contact_name",
+						"revision_id": "2be46784-330d-483a-91ad-33c3caf2cbef",
+						"id": "6dc7f9f0-c5a8-4b3c-8884-f439d87838af"
+					},
+
+					{
+						"state": "active",
+						"value": "http://gbk.eads.usaidallnet.gov/about/reporting_concepts.html",
+						"revision_timestamp": "2014-07-03T06:00:52.940691",
+						"package_id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+						"key": "data_dictionary",
+						"revision_id": "2be46784-330d-483a-91ad-33c3caf2cbef",
+						"id": "c220ce8e-2660-45fe-8bad-370b9543d260"
+					},
+
+					{
+						"state": "active",
+						"value": "http://gbk.eads.usaidallnet.gov/",
+						"revision_timestamp": "2014-07-03T06:00:52.940691",
+						"package_id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+						"key": "homepage_url",
+						"revision_id": "2be46784-330d-483a-91ad-33c3caf2cbef",
+						"id": "72bd918b-f41c-4a09-9ec6-550064b9ef12"
+					},
+
+					{
+						"state": "active",
+						"value": "us-EN",
+						"revision_timestamp": "2014-07-03T06:01:15.168125",
+						"package_id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+						"key": "language",
+						"revision_id": "52d105bb-2fb4-41bd-ae5b-b7ea0c742ee6",
+						"id": "3eb2ad5c-bb58-4b31-8cc1-8cef83eac6a9"
+					},
+
+					{
+						"state": "active",
+						"value": "2013-05-09",
+						"revision_timestamp": "2014-07-03T06:01:15.168125",
+						"package_id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+						"key": "modified",
+						"revision_id": "52d105bb-2fb4-41bd-ae5b-b7ea0c742ee6",
+						"id": "378ca94e-2be3-447a-9a4a-244624323918"
+					},
+
+					{
+						"state": "active",
+						"value": "public",
+						"revision_timestamp": "2014-07-03T06:01:15.168125",
+						"package_id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+						"key": "public_access_level",
+						"revision_id": "52d105bb-2fb4-41bd-ae5b-b7ea0c742ee6",
+						"id": "f3048c52-23cd-4bfe-b7c8-e6b4beb0129d"
+					},
+
+					{
+						"state": "active",
+						"value": "US Agency for International Development",
+						"revision_timestamp": "2014-07-03T06:00:52.940691",
+						"package_id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+						"key": "publisher",
+						"revision_id": "2be46784-330d-483a-91ad-33c3caf2cbef",
+						"id": "5388b268-745e-4245-8d99-53c8870df4cf"
+					},
+
+					{
+						"state": "active",
+						"value": "http://gbk.eads.usaidallnet.gov/about/",
+						"revision_timestamp": "2014-07-03T06:01:15.168125",
+						"package_id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+						"key": "related_documents",
+						"revision_id": "52d105bb-2fb4-41bd-ae5b-b7ea0c742ee6",
+						"id": "b6a22122-d3ff-4f90-a057-a3cb8e798aa5"
+					},
+
+					{
+						"state": "active",
+						"value": "2013-04-16",
+						"revision_timestamp": "2014-07-03T06:00:52.940691",
+						"package_id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+						"key": "release_date",
+						"revision_id": "2be46784-330d-483a-91ad-33c3caf2cbef",
+						"id": "37a3dc9e-2a8a-4ecc-8df1-b00b1b1c5284"
+					},
+
+					{
+						"state": "active",
+						"value": "668u-5wrc",
+						"revision_timestamp": "2014-07-03T06:00:52.940691",
+						"package_id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+						"key": "unique_id",
+						"revision_id": "2be46784-330d-483a-91ad-33c3caf2cbef",
+						"id": "e640dacb-0630-4d0c-bd90-ffce5c0773bb"
+					},
+
+					{
+						"state": "active",
+						"value": "53b4f1b0b30bf",
+						"revision_timestamp": "2014-07-03T06:01:15.168125",
+						"package_id": "6f256fa4-26f3-4f4e-a18b-ab1bd05f5083",
+						"key": "updated_time_hash",
+						"revision_id": "52d105bb-2fb4-41bd-ae5b-b7ea0c742ee6",
+						"id": "42f637d6-8e5a-49dd-9e08-5d3242b6099c"
+					}
+				],
+
+				"title": "U.S. Overseas Loans and Grants (Greenbook)",
+				"revision_id": "c29cee29-6114-47c2-813c-725f9b97b5fe"
+			},
+
+			{
+				"license_title": "License Not Specified",
+				"maintainer": null,
+				"relationships_as_object": 
+				[
+					
+				],
+
+				"private": false,
+				"maintainer_email": null,
+				"revision_timestamp": "2015-01-29T23:48:17.656707",
+				"id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+				"metadata_created": "2014-07-03T05:03:50.871905",
+				"metadata_modified": "2015-01-29T23:48:17.657860",
+				"author": null,
+				"author_email": null,
+				"state": "active",
+				"version": null,
+				"creator_user_id": "4d4b77e4-d2f3-4410-b78d-0e5a69731596",
+				"type": "dataset",
+				"resources": 
+				[
+					{
+						"resource_group_id": "70d74ba4-8789-4bd5-829a-48f320683423",
+						"cache_last_updated": null,
+						"labels": "OrderedDict([('accessURL new', 'Access URL'), ('conformsTo', 'Conforms To'), ('describedBy', 'Described By'), ('describedByType', 'Described By Type'), ('format', 'Media Type'), ('formatReadable', 'Format'), ('created', 'Created')])",
+						"revision_timestamp": "2015-01-29T23:48:17.656707",
+						"webstore_last_updated": null,
+						"id": "edc94528-abe5-4330-b13a-1501c2ea26ce",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "CSV",
+						"mimetype_inner": null,
+						"url_type": "upload",
+						"mimetype": "CSV",
+						"cache_url": null,
+						"name": "USAID_Development_CAGD_Loan_Transactions.csv",
+						"created": "2014-07-03T01:04:27.281802",
+						"url": "https://inventory.data.gov/dataset/6680fbb1-8227-4754-946d-193cb0fb7a04/resource/edc94528-abe5-4330-b13a-1501c2ea26ce/download/usaiddevelopmentcagdloantransactions.csv",
+						"webstore_url": null,
+						"position": 0,
+						"revision_id": "c632d5cd-8edb-4f95-a07c-82553f5f58b5",
+						"resource_type": null
+					}
+				],
+
+				"num_resources": 1,
+				"tags": 
+				[
+					{
+						"vocabulary_id": null,
+						"display_name": "credit",
+						"name": "credit",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"state": "active",
+						"id": "dab87d03-dc50-451c-ae73-95457a2b91b5"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "dca",
+						"name": "dca",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"state": "active",
+						"id": "6c99a599-1af6-465e-b589-d37dd3b1b161"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "development credit authority",
+						"name": "development credit authority",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"state": "active",
+						"id": "0706ae7a-5a57-4c4b-86cf-7fd2931533fb"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "finance",
+						"name": "finance",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"state": "active",
+						"id": "9fc56e67-1425-4a58-9b42-7004268f8766"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "financing",
+						"name": "financing",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"state": "active",
+						"id": "3c2ebfa6-8182-447b-97e0-3abccebdf91a"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "geospatial",
+						"name": "geospatial",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"state": "active",
+						"id": "0c0bd14f-029c-43ba-a784-914fb61ad59a"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "international development",
+						"name": "international development",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"state": "active",
+						"id": "f7257a3d-4712-4cfb-95c7-5a8a1602f3bf"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "loan guarantees",
+						"name": "loan guarantees",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"state": "active",
+						"id": "4186bde2-01d8-4af8-a0e7-1423a9dc4f21"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "loans",
+						"name": "loans",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"state": "active",
+						"id": "1a9e4d31-362c-4a6d-815c-9131342d682c"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "microfinance",
+						"name": "microfinance",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"state": "active",
+						"id": "42e0875a-e8e6-440c-94c5-8e348376c117"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "sme",
+						"name": "sme",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"state": "active",
+						"id": "739bddec-fad2-4481-9e08-df2ddad66de6"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "usaid",
+						"name": "usaid",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"state": "active",
+						"id": "1f831dac-66d9-4511-a087-0901faa993f0"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "wwhgd",
+						"name": "wwhgd",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"state": "active",
+						"id": "810d7056-c52f-471a-b9e3-91f2da9548e1"
+					}
+				],
+
+				"groups": 
+				[
+					
+				],
+
+				"license_id": "notspecified",
+				"relationships_as_subject": 
+				[
+					
+				],
+
+				"num_tags": 13,
+				"organization": 
+				{
+					"description": "",
+					"title": "United States Agency for International Development",
+					"created": "2014-07-03T01:03:49.263207",
+					"approval_status": "approved",
+					"revision_timestamp": "2015-02-18T15:48:02.459934",
+					"is_organization": true,
+					"state": "active",
+					"image_url": "",
+					"revision_id": "69c60d22-4977-49af-aa5d-2447af347419",
+					"type": "organization",
+					"id": "c0b16b23-86c2-4cdb-9342-0a70e347cf8e",
+					"name": "us-agency-for-international-development"
+				},
+
+				"name": "usaid-development-credit-authority-guarantee-data-loan-transactions",
+				"isopen": false,
+				"url": null,
+				"notes": "USAID\u00e2\u0080\u0099s Development Credit Authority (DCA) works with investors, local financial institutions, and development organizations to design and deliver investment alternatives that unlock financing for U.S. Government priorities. USAID guarantees encourage private lenders to extend financing to underserved borrowers in new sectors and regions. This dataset is the complete list of all private loans made under USAID's DCA since it was established in 1999. To protect the personal information of borrowers and bank partners, all strategic and personal identifiable information was removed. For explanations and limitations of the dataset, download the attachment in the metadata.",
+				"owner_org": "c0b16b23-86c2-4cdb-9342-0a70e347cf8e",
+				"extras": 
+				[
+					{
+						"state": "active",
+						"value": "bi-annual",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"package_id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+						"key": "accrual_periodicity",
+						"revision_id": "7aa8ee98-0b31-4c0a-8938-771f91cb1bc3",
+						"id": "32bbc6fe-e4d8-4b7c-bb69-655020498149"
+					},
+
+					{
+						"state": "active",
+						"value": "opendata@usaid.gov",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"package_id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+						"key": "contact_email",
+						"revision_id": "7aa8ee98-0b31-4c0a-8938-771f91cb1bc3",
+						"id": "3cf12952-e9a2-4f48-8afd-ffb05228e52b"
+					},
+
+					{
+						"state": "active",
+						"value": "Data.gov DPD",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"package_id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+						"key": "contact_name",
+						"revision_id": "7aa8ee98-0b31-4c0a-8938-771f91cb1bc3",
+						"id": "af62cd6e-a2ab-40cf-9b9b-bfee57c262a6"
+					},
+
+					{
+						"state": "active",
+						"value": "See under attachment section",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"package_id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+						"key": "data_dictionary",
+						"revision_id": "7aa8ee98-0b31-4c0a-8938-771f91cb1bc3",
+						"id": "3651fb5e-bd17-43f7-bcf6-aa78fc3974b9"
+					},
+
+					{
+						"state": "active",
+						"value": "http://www.usaid.gov/what-we-do/economic-growth-and-trade/development-credit-authority-putting-local-wealth-work",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"package_id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+						"key": "homepage_url",
+						"revision_id": "7aa8ee98-0b31-4c0a-8938-771f91cb1bc3",
+						"id": "d90051cb-a16c-4c3e-958f-ffe9d11197f3"
+					},
+
+					{
+						"state": "active",
+						"value": "us-EN",
+						"revision_timestamp": "2014-07-03T05:04:41.326610",
+						"package_id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+						"key": "language",
+						"revision_id": "ee6634da-c612-40be-a0ed-6474644202f6",
+						"id": "1aa91eae-c238-4d5f-a269-2f2743197619"
+					},
+
+					{
+						"state": "active",
+						"value": "2014-02-13",
+						"revision_timestamp": "2014-07-03T05:04:41.326610",
+						"package_id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+						"key": "modified",
+						"revision_id": "ee6634da-c612-40be-a0ed-6474644202f6",
+						"id": "9e768717-695f-4de3-a378-a4f4c9f63545"
+					},
+
+					{
+						"state": "active",
+						"value": "public",
+						"revision_timestamp": "2014-07-03T05:04:41.326610",
+						"package_id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+						"key": "public_access_level",
+						"revision_id": "ee6634da-c612-40be-a0ed-6474644202f6",
+						"id": "8591c0fc-67fa-4a5e-be66-100c7dea6cf3"
+					},
+
+					{
+						"state": "active",
+						"value": "US Agency for International Development",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"package_id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+						"key": "publisher",
+						"revision_id": "7aa8ee98-0b31-4c0a-8938-771f91cb1bc3",
+						"id": "ddaba406-2808-4ed6-8cec-310410db3034"
+					},
+
+					{
+						"state": "active",
+						"value": "http://transition.usaid.gov/our_work/economic_growth_and_trade/development_credit/pdfs/2012/USAIDCrowdsourcingCaseStudy.pdf",
+						"revision_timestamp": "2014-07-03T05:04:41.326610",
+						"package_id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+						"key": "related_documents",
+						"revision_id": "ee6634da-c612-40be-a0ed-6474644202f6",
+						"id": "56131903-af4e-4d20-b492-c51357d33cf4"
+					},
+
+					{
+						"state": "active",
+						"value": "2012-06-26",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"package_id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+						"key": "release_date",
+						"revision_id": "7aa8ee98-0b31-4c0a-8938-771f91cb1bc3",
+						"id": "22e5bb59-1a11-4430-80d5-a3f229d15d79"
+					},
+
+					{
+						"state": "active",
+						"value": "7swc-ittd",
+						"revision_timestamp": "2014-07-03T05:03:50.871905",
+						"package_id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+						"key": "unique_id",
+						"revision_id": "7aa8ee98-0b31-4c0a-8938-771f91cb1bc3",
+						"id": "40523b9e-eaaf-4520-9a94-1760145ab272"
+					},
+
+					{
+						"state": "active",
+						"value": "53b4e46f1f0e5",
+						"revision_timestamp": "2014-07-03T05:04:41.326610",
+						"package_id": "6680fbb1-8227-4754-946d-193cb0fb7a04",
+						"key": "updated_time_hash",
+						"revision_id": "ee6634da-c612-40be-a0ed-6474644202f6",
+						"id": "96793337-5560-4465-adda-7ae8f29f62f3"
+					}
+				],
+
+				"title": "USAID Development Credit Authority Guarantee Data: Loan Transactions",
+				"revision_id": "c632d5cd-8edb-4f95-a07c-82553f5f58b5"
+			},
+
+			{
+				"license_title": "License Not Specified",
+				"maintainer": null,
+				"relationships_as_object": 
+				[
+					
+				],
+
+				"private": false,
+				"maintainer_email": null,
+				"revision_timestamp": "2015-01-29T23:43:56.458738",
+				"id": "d11cbb1f-c534-43bd-a883-e40921e22a56",
+				"metadata_created": "2014-07-03T04:25:23.690490",
+				"metadata_modified": "2015-01-29T23:43:56.459923",
+				"author": null,
+				"author_email": null,
+				"state": "active",
+				"version": null,
+				"creator_user_id": "4d4b77e4-d2f3-4410-b78d-0e5a69731596",
+				"type": "dataset",
+				"resources": 
+				[
+					{
+						"resource_group_id": "14d62e76-62ad-4679-941e-851aa3164036",
+						"cache_last_updated": null,
+						"labels": "OrderedDict([('accessURL new', 'Access URL'), ('conformsTo', 'Conforms To'), ('describedBy', 'Described By'), ('describedByType', 'Described By Type'), ('format', 'Media Type'), ('formatReadable', 'Format'), ('created', 'Created')])",
+						"revision_timestamp": "2015-01-29T23:43:56.458738",
+						"webstore_last_updated": null,
+						"id": "77455e2a-5f50-4038-8e34-d4df64fd515e",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "csv",
+						"mimetype_inner": null,
+						"url_type": "upload",
+						"mimetype": null,
+						"cache_url": null,
+						"name": "Adjusted_Cohort_Grdtn_Rates_SL_SY_2011-12.csv",
+						"created": "2014-07-03T11:18:04.684299",
+						"url": "https://inventory.data.gov/dataset/d11cbb1f-c534-43bd-a883-e40921e22a56/resource/77455e2a-5f50-4038-8e34-d4df64fd515e/download/adjustedcohortgrdtnratesslsy201112updated.csv",
+						"webstore_url": null,
+						"position": 0,
+						"revision_id": "858a5018-3532-4eb3-a613-52028a7900f6",
+						"resource_type": null
+					},
+
+					{
+						"resource_group_id": "14d62e76-62ad-4679-941e-851aa3164036",
+						"cache_last_updated": null,
+						"labels": "OrderedDict([('accessURL new', 'Access URL'), ('conformsTo', 'Conforms To'), ('describedBy', 'Described By'), ('describedByType', 'Described By Type'), ('format', 'Media Type'), ('formatReadable', 'Format'), ('created', 'Created')])",
+						"revision_timestamp": "2015-01-29T23:43:56.458738",
+						"webstore_last_updated": null,
+						"id": "1250f696-8231-4116-ae45-fba9afbc6202",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "application/msword",
+						"mimetype_inner": null,
+						"url_type": "upload",
+						"mimetype": null,
+						"cache_url": null,
+						"name": "EDFacts_AdjustedCohortGradRates_1112_Public_File_Documentation_May_2014.doc",
+						"created": "2014-07-23T15:39:03.691981",
+						"url": "https://inventory.data.gov/dataset/d11cbb1f-c534-43bd-a883-e40921e22a56/resource/1250f696-8231-4116-ae45-fba9afbc6202/download/xk9mngzzedfactsadjustedcohortgradrates1112publicfiledocumentationmay2014.doc",
+						"webstore_url": null,
+						"position": 1,
+						"revision_id": "858a5018-3532-4eb3-a613-52028a7900f6",
+						"resource_type": null
+					}
+				],
+
+				"num_resources": 2,
+				"tags": 
+				[
+					{
+						"vocabulary_id": null,
+						"display_name": "no-tag",
+						"name": "no-tag",
+						"revision_timestamp": "2014-07-03T04:25:23.690490",
+						"state": "active",
+						"id": "bde5b8d2-f02f-4a56-8ec2-b7ae2af04d5e"
+					}
+				],
+
+				"groups": 
+				[
+					
+				],
+
+				"license_id": "notspecified",
+				"relationships_as_subject": 
+				[
+					
+				],
+
+				"num_tags": 1,
+				"organization": 
+				{
+					"description": "",
+					"title": "Department of Education",
+					"created": "2013-11-15T12:17:32.720624",
+					"approval_status": "approved",
+					"revision_timestamp": "2013-12-30T15:07:03.341632",
+					"is_organization": true,
+					"state": "active",
+					"image_url": "https://raw.github.com/GSA/logo/master/ed.png",
+					"revision_id": "82313ff5-75cf-48a3-a39a-6ee430d7aa5a",
+					"type": "organization",
+					"id": "54e62ff2-6944-459d-a691-42888b5d603a",
+					"name": "department-of-education"
+				},
+
+				"name": "adjusted-cohort-graduation-rates-at-the-school-level-school-year-2011-12",
+				"isopen": false,
+				"url": null,
+				"notes": "This dataset contains school level information on the four-year adjusted cohort graduation rates calculated by state education agencies in accordance with U.S. Department of Education regulations on ESEA, Title I, published in 2008. The dataset contains information on the number of students identified within the cohort for 2011-12 graduation, along with the percent of those students graduating with a high school diploma within four years. Adjusted cohort rates and counts are reported for the school as a whole, and for key subgroups of students (major racial and ethnic groups, children with disabilities, limited English proficient students, and economically disadvantaged students). The reported graduation rate has been reported in a manner that protects the privacy of individuals within the data. The privacy protections vary based on the n-size of the student group whose graduation rate is being reported. To interpret these data appropriately, please utilize the cohort count that is reported for each graduation rate and reference section 4.1 of the Public File Documentation for details on the privacy protections. For more information on the data file and guidance for its appropriate use, please read the Public File Documentation.",
+				"owner_org": "54e62ff2-6944-459d-a691-42888b5d603a",
+				"extras": 
+				[
+					{
+						"state": "active",
+						"value": "edfacts@ed.gov",
+						"revision_timestamp": "2014-07-03T04:25:23.690490",
+						"package_id": "d11cbb1f-c534-43bd-a883-e40921e22a56",
+						"key": "contact_email",
+						"revision_id": "69b72ad8-59b7-4024-92c8-d817b9f5ceef",
+						"id": "776427c6-57dc-4722-b317-145dfe555566"
+					},
+
+					{
+						"state": "active",
+						"value": "EDFacts",
+						"revision_timestamp": "2014-07-03T04:25:23.690490",
+						"package_id": "d11cbb1f-c534-43bd-a883-e40921e22a56",
+						"key": "contact_name",
+						"revision_id": "69b72ad8-59b7-4024-92c8-d817b9f5ceef",
+						"id": "371d3bd2-6614-4368-b259-e84bf7ebef56"
+					},
+
+					{
+						"state": "active",
+						"value": "us-EN",
+						"revision_timestamp": "2014-07-03T04:25:33.870066",
+						"package_id": "d11cbb1f-c534-43bd-a883-e40921e22a56",
+						"key": "language",
+						"revision_id": "928bc714-4714-44c5-9bb9-885aca0eff8f",
+						"id": "5dd3122d-8091-486f-b5dc-cbd932f93658"
+					},
+
+					{
+						"state": "active",
+						"value": "2014-05-06",
+						"revision_timestamp": "2014-07-03T04:25:33.870066",
+						"package_id": "d11cbb1f-c534-43bd-a883-e40921e22a56",
+						"key": "modified",
+						"revision_id": "928bc714-4714-44c5-9bb9-885aca0eff8f",
+						"id": "805d030f-fd3c-4de4-8ab3-b80f3d4a41ad"
+					},
+
+					{
+						"state": "active",
+						"value": "public",
+						"revision_timestamp": "2014-07-03T04:25:33.870066",
+						"package_id": "d11cbb1f-c534-43bd-a883-e40921e22a56",
+						"key": "public_access_level",
+						"revision_id": "928bc714-4714-44c5-9bb9-885aca0eff8f",
+						"id": "c1dacb5b-2d7b-47e3-ad8a-c01151dfe1ca"
+					},
+
+					{
+						"state": "active",
+						"value": "Department of Education",
+						"revision_timestamp": "2014-07-03T04:25:23.690490",
+						"package_id": "d11cbb1f-c534-43bd-a883-e40921e22a56",
+						"key": "publisher",
+						"revision_id": "69b72ad8-59b7-4024-92c8-d817b9f5ceef",
+						"id": "f4c1ff6e-814a-40c4-92fd-547f439b183f"
+					},
+
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:25:33.870066",
+						"package_id": "d11cbb1f-c534-43bd-a883-e40921e22a56",
+						"key": "related_documents",
+						"revision_id": "928bc714-4714-44c5-9bb9-885aca0eff8f",
+						"id": "0e1400d9-f0db-49cb-b0ad-6c61281fc385"
+					},
+
+					{
+						"state": "active",
+						"value": "2014-05-06",
+						"revision_timestamp": "2014-07-03T04:25:23.690490",
+						"package_id": "d11cbb1f-c534-43bd-a883-e40921e22a56",
+						"key": "release_date",
+						"revision_id": "69b72ad8-59b7-4024-92c8-d817b9f5ceef",
+						"id": "bbd1e07f-f3b9-4c88-bd6e-5122f6176200"
+					},
+
+					{
+						"state": "active",
+						"value": "xk9m-ngzz",
+						"revision_timestamp": "2014-07-03T04:25:23.690490",
+						"package_id": "d11cbb1f-c534-43bd-a883-e40921e22a56",
+						"key": "unique_id",
+						"revision_id": "69b72ad8-59b7-4024-92c8-d817b9f5ceef",
+						"id": "3a27d2d5-b12c-423a-ba09-0105ff26e6ce"
+					},
+
+					{
+						"state": "active",
+						"value": "53b4db43b80b3",
+						"revision_timestamp": "2014-07-03T04:25:33.870066",
+						"package_id": "d11cbb1f-c534-43bd-a883-e40921e22a56",
+						"key": "updated_time_hash",
+						"revision_id": "928bc714-4714-44c5-9bb9-885aca0eff8f",
+						"id": "5f5ba939-8692-4383-b7e4-3d2b878a5ee8"
+					}
+				],
+
+				"title": "Adjusted Cohort Graduation Rates at the School Level: School Year 2011-12",
+				"revision_id": "858a5018-3532-4eb3-a613-52028a7900f6"
+			},
+
+			{
+				"license_title": "License Not Specified",
+				"maintainer": null,
+				"relationships_as_object": 
+				[
+					
+				],
+
+				"private": false,
+				"maintainer_email": null,
+				"revision_timestamp": "2015-01-29T23:43:49.394471",
+				"id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+				"metadata_created": "2014-07-03T04:25:04.162076",
+				"metadata_modified": "2015-01-29T23:43:49.396304",
+				"author": null,
+				"author_email": null,
+				"state": "active",
+				"version": null,
+				"creator_user_id": "4d4b77e4-d2f3-4410-b78d-0e5a69731596",
+				"type": "dataset",
+				"resources": 
+				[
+					{
+						"resource_group_id": "3821043d-78fd-4ce7-b1e6-1ce6c063314c",
+						"cache_last_updated": null,
+						"labels": "OrderedDict([('accessURL new', 'Access URL'), ('conformsTo', 'Conforms To'), ('describedBy', 'Described By'), ('describedByType', 'Described By Type'), ('format', 'Media Type'), ('formatReadable', 'Format'), ('created', 'Created')])",
+						"revision_timestamp": "2015-01-29T23:43:49.394471",
+						"webstore_last_updated": null,
+						"id": "566c5a0c-0a44-4ada-af54-7b3cd826d306",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "csv",
+						"mimetype_inner": null,
+						"url_type": "upload",
+						"mimetype": null,
+						"cache_url": null,
+						"name": "Adjusted_Cohort_Grdtn_Rates_SL_SY_2010-11.csv",
+						"created": "2014-07-03T11:10:58.520281",
+						"url": "https://inventory.data.gov/dataset/e0aa37d1-3956-43df-a63d-e14ddd1f8d7f/resource/566c5a0c-0a44-4ada-af54-7b3cd826d306/download/adjustedcohortgrdtnratesslsy201011.csv",
+						"webstore_url": null,
+						"position": 0,
+						"revision_id": "267dd751-cb47-443f-9d38-810fc9bc5712",
+						"resource_type": null
+					},
+
+					{
+						"resource_group_id": "3821043d-78fd-4ce7-b1e6-1ce6c063314c",
+						"cache_last_updated": null,
+						"labels": "OrderedDict([('accessURL new', 'Access URL'), ('conformsTo', 'Conforms To'), ('describedBy', 'Described By'), ('describedByType', 'Described By Type'), ('format', 'Media Type'), ('formatReadable', 'Format'), ('created', 'Created')])",
+						"revision_timestamp": "2015-01-29T23:43:49.394471",
+						"webstore_last_updated": null,
+						"id": "67ffd215-f6e9-408d-b48f-c3feb6795cc9",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "application/msword",
+						"mimetype_inner": null,
+						"url_type": "upload",
+						"mimetype": null,
+						"cache_url": null,
+						"name": "EDFacts_AdjustedCohortGradRates_1011_Publid File Documentation.doc",
+						"created": "2014-07-23T15:24:44.410564",
+						"url": "https://inventory.data.gov/dataset/e0aa37d1-3956-43df-a63d-e14ddd1f8d7f/resource/67ffd215-f6e9-408d-b48f-c3feb6795cc9/download/m5pw2ea9edfactsadjustedcohortgradrates1011publicfiledocumentation.doc",
+						"webstore_url": null,
+						"position": 1,
+						"revision_id": "267dd751-cb47-443f-9d38-810fc9bc5712",
+						"resource_type": null
+					}
+				],
+
+				"num_resources": 2,
+				"tags": 
+				[
+					{
+						"vocabulary_id": null,
+						"display_name": "no-tag",
+						"name": "no-tag",
+						"revision_timestamp": "2014-07-03T04:25:04.162076",
+						"state": "active",
+						"id": "bde5b8d2-f02f-4a56-8ec2-b7ae2af04d5e"
+					}
+				],
+
+				"groups": 
+				[
+					
+				],
+
+				"license_id": "notspecified",
+				"relationships_as_subject": 
+				[
+					
+				],
+
+				"num_tags": 1,
+				"organization": 
+				{
+					"description": "",
+					"title": "Department of Education",
+					"created": "2013-11-15T12:17:32.720624",
+					"approval_status": "approved",
+					"revision_timestamp": "2013-12-30T15:07:03.341632",
+					"is_organization": true,
+					"state": "active",
+					"image_url": "https://raw.github.com/GSA/logo/master/ed.png",
+					"revision_id": "82313ff5-75cf-48a3-a39a-6ee430d7aa5a",
+					"type": "organization",
+					"id": "54e62ff2-6944-459d-a691-42888b5d603a",
+					"name": "department-of-education"
+				},
+
+				"name": "adjusted-cohort-graduation-rates-at-the-school-level-school-year-2010-11",
+				"isopen": false,
+				"url": null,
+				"notes": "Note: This dataset was updated on September 18, 2013 to reflect data that states resubmitted to address data quality issues. This dataset contains school level information on the four-year adjusted cohort graduation rates calculated by state education agencies in accordance with U.S. Department of Education regulations on ESEA, Title I, published in 2008.  The dataset contains information on the number of students identified within the cohort for 2010-11 graduation, along with the percent of those students graduating with a high school diploma within four years.   Adjusted cohort rates and counts are reported for the school as a whole, and for key subgroups of students (major racial and ethnic groups, children with disabilities, limited English proficient students, and economically disadvantaged students).  The reported graduation rate has been reported in a manner that protects the privacy of individuals within the data.  The privacy protections vary based on the n-size of the student group whose graduation rate is being reported.  To interpret these data appropriately, please utilize the cohort count that is reported for each graduation rate and reference section 4.1 of the Public File Documentation for details on the privacy protections.  For more information on the data file and guidance for its appropriate use, please read the Public File Documentation.",
+				"owner_org": "54e62ff2-6944-459d-a691-42888b5d603a",
+				"extras": 
+				[
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:25:17.032252",
+						"package_id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+						"key": "accrual_periodicity",
+						"revision_id": "74d9cc91-9285-49ad-805d-ef9fbb228210",
+						"id": "651e4fd4-7d80-4f4e-924f-42008c8f38b5"
+					},
+
+					{
+						"state": "active",
+						"value": "edfacts@ed.gov",
+						"revision_timestamp": "2014-07-03T04:25:04.162076",
+						"package_id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+						"key": "contact_email",
+						"revision_id": "26ebdb29-c564-47e8-9884-3dd66da03f2b",
+						"id": "6944f9e7-f41e-41cc-a6cf-002f09cca283"
+					},
+
+					{
+						"state": "active",
+						"value": "EDFacts",
+						"revision_timestamp": "2014-07-03T04:25:04.162076",
+						"package_id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+						"key": "contact_name",
+						"revision_id": "26ebdb29-c564-47e8-9884-3dd66da03f2b",
+						"id": "d8cda39f-7c28-4406-b540-ee6460bcee16"
+					},
+
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:25:17.032252",
+						"package_id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+						"key": "data_dictionary",
+						"revision_id": "74d9cc91-9285-49ad-805d-ef9fbb228210",
+						"id": "e9107b4c-99ad-4df6-b2f7-84b74ac48df0"
+					},
+
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:25:17.032252",
+						"package_id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+						"key": "homepage_url",
+						"revision_id": "74d9cc91-9285-49ad-805d-ef9fbb228210",
+						"id": "75241b00-3b6a-4a9b-99c6-409dd5475b8e"
+					},
+
+					{
+						"state": "active",
+						"value": "us-EN",
+						"revision_timestamp": "2014-07-03T04:25:17.032252",
+						"package_id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+						"key": "language",
+						"revision_id": "74d9cc91-9285-49ad-805d-ef9fbb228210",
+						"id": "9c595a1c-6c5d-4403-9e04-ee66c926bdd5"
+					},
+
+					{
+						"state": "active",
+						"value": "2013-09-05",
+						"revision_timestamp": "2014-07-03T04:25:17.032252",
+						"package_id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+						"key": "modified",
+						"revision_id": "74d9cc91-9285-49ad-805d-ef9fbb228210",
+						"id": "ef729206-fdd8-41a5-8879-60c64b7d301a"
+					},
+
+					{
+						"state": "active",
+						"value": "public",
+						"revision_timestamp": "2014-07-03T04:25:17.032252",
+						"package_id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+						"key": "public_access_level",
+						"revision_id": "74d9cc91-9285-49ad-805d-ef9fbb228210",
+						"id": "7fc2af68-9643-42a0-9905-ad79a908e31c"
+					},
+
+					{
+						"state": "active",
+						"value": "Department of Education",
+						"revision_timestamp": "2014-07-03T04:25:04.162076",
+						"package_id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+						"key": "publisher",
+						"revision_id": "26ebdb29-c564-47e8-9884-3dd66da03f2b",
+						"id": "7325703c-03c8-40f9-9d24-4bc4463acbf1"
+					},
+
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:25:17.032252",
+						"package_id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+						"key": "related_documents",
+						"revision_id": "74d9cc91-9285-49ad-805d-ef9fbb228210",
+						"id": "89551175-3826-4c65-ba4c-02e86f90d09b"
+					},
+
+					{
+						"state": "active",
+						"value": "2013-02-26",
+						"revision_timestamp": "2014-07-03T04:25:04.162076",
+						"package_id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+						"key": "release_date",
+						"revision_id": "26ebdb29-c564-47e8-9884-3dd66da03f2b",
+						"id": "0ca0b316-05fb-4ce1-9329-e2138be3f7ea"
+					},
+
+					{
+						"state": "active",
+						"value": "m5pw-2ea9",
+						"revision_timestamp": "2014-07-03T04:25:04.162076",
+						"package_id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+						"key": "unique_id",
+						"revision_id": "26ebdb29-c564-47e8-9884-3dd66da03f2b",
+						"id": "c55a73ab-537a-4832-994e-4b6460b33ad4"
+					},
+
+					{
+						"state": "active",
+						"value": "53b4db32e1bc1",
+						"revision_timestamp": "2014-07-03T04:25:17.032252",
+						"package_id": "e0aa37d1-3956-43df-a63d-e14ddd1f8d7f",
+						"key": "updated_time_hash",
+						"revision_id": "74d9cc91-9285-49ad-805d-ef9fbb228210",
+						"id": "5bc1f48d-df91-42ba-a575-1ade74a2c125"
+					}
+				],
+
+				"title": "Adjusted Cohort Graduation Rates at the school level: School Year 2010-11",
+				"revision_id": "267dd751-cb47-443f-9d38-810fc9bc5712"
+			},
+
+			{
+				"license_title": "License Not Specified",
+				"maintainer": null,
+				"relationships_as_object": 
+				[
+					
+				],
+
+				"private": false,
+				"maintainer_email": null,
+				"revision_timestamp": "2015-01-29T23:43:48.534557",
+				"id": "73021f54-f5bf-4f34-86dd-5497ba4bdcfc",
+				"metadata_created": "2014-07-03T04:33:41.030091",
+				"metadata_modified": "2015-01-29T23:43:48.536190",
+				"author": null,
+				"author_email": null,
+				"state": "active",
+				"version": null,
+				"creator_user_id": "4d4b77e4-d2f3-4410-b78d-0e5a69731596",
+				"type": "dataset",
+				"resources": 
+				[
+					{
+						"resource_group_id": "61e67097-fd83-43f3-9a71-79ec904e160b",
+						"cache_last_updated": null,
+						"labels": "OrderedDict([('accessURL new', 'Access URL'), ('conformsTo', 'Conforms To'), ('describedBy', 'Described By'), ('describedByType', 'Described By Type'), ('format', 'Media Type'), ('formatReadable', 'Format'), ('created', 'Created')])",
+						"revision_timestamp": "2015-01-29T23:43:48.534557",
+						"webstore_last_updated": null,
+						"id": "32b21f42-b80b-4b1b-ad50-b361c5cecd99",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "CSV",
+						"mimetype_inner": null,
+						"url_type": "upload",
+						"mimetype": "CSV",
+						"cache_url": null,
+						"name": "Adjusted_Cohort_Grdtn_Rates_LEA_SY_2011-12.csv",
+						"created": "2014-07-03T00:33:45.490842",
+						"url": "https://inventory.data.gov/dataset/73021f54-f5bf-4f34-86dd-5497ba4bdcfc/resource/32b21f42-b80b-4b1b-ad50-b361c5cecd99/download/userssharedsdfadjustedcohortgrdtnratesleasy201112.csv",
+						"webstore_url": null,
+						"position": 0,
+						"revision_id": "e308c4fb-6889-4415-bf3f-ba65ad1c9f70",
+						"resource_type": null
+					}
+				],
+
+				"num_resources": 1,
+				"tags": 
+				[
+					{
+						"vocabulary_id": null,
+						"display_name": "no-tag",
+						"name": "no-tag",
+						"revision_timestamp": "2014-07-03T04:33:41.030091",
+						"state": "active",
+						"id": "bde5b8d2-f02f-4a56-8ec2-b7ae2af04d5e"
+					}
+				],
+
+				"groups": 
+				[
+					
+				],
+
+				"license_id": "notspecified",
+				"relationships_as_subject": 
+				[
+					
+				],
+
+				"num_tags": 1,
+				"organization": 
+				{
+					"description": "",
+					"title": "Department of Education",
+					"created": "2013-11-15T12:17:32.720624",
+					"approval_status": "approved",
+					"revision_timestamp": "2013-12-30T15:07:03.341632",
+					"is_organization": true,
+					"state": "active",
+					"image_url": "https://raw.github.com/GSA/logo/master/ed.png",
+					"revision_id": "82313ff5-75cf-48a3-a39a-6ee430d7aa5a",
+					"type": "organization",
+					"id": "54e62ff2-6944-459d-a691-42888b5d603a",
+					"name": "department-of-education"
+				},
+
+				"name": "adjusted-cohort-graduation-rates-at-the-lea-level-school-year-2011-12",
+				"isopen": false,
+				"url": null,
+				"notes": "This dataset contains district level information on the four-year adjusted cohort graduation rates calculated by state education agencies in accordance with U.S. Department of Education regulations on ESEA, Title I, published in 2008. The dataset contains information on the number of students identified within the cohort for 2011-12 graduation, along with the percent of those students graduating with a high school diploma within four years. Adjusted cohort rates and counts are reported for the district as a whole, and for key subgroups of students (major racial and ethnic groups, children with disabilities, limited English proficient students, and economically disadvantaged students). The reported graduation rate has been reported in a manner that protects the privacy of individuals within the data. The privacy protections vary based on the n-size of the student group whose graduation rate is being reported. To interpret these data appropriately, please utilize the cohort count that is reported for each graduation rate and reference section 4.1 of the Public File Documentation for details on the privacy protections. For more information on the data file and guidance for its appropriate use, please read the Public File Documentation.",
+				"owner_org": "54e62ff2-6944-459d-a691-42888b5d603a",
+				"extras": 
+				[
+					{
+						"state": "active",
+						"value": "chris.chapman@ed.gov",
+						"revision_timestamp": "2014-07-03T04:33:41.030091",
+						"package_id": "73021f54-f5bf-4f34-86dd-5497ba4bdcfc",
+						"key": "contact_email",
+						"revision_id": "a199218d-2384-45e4-b09f-f3fb10821d84",
+						"id": "322b8a37-b5da-42bb-b92c-388db817779a"
+					},
+
+					{
+						"state": "active",
+						"value": "EDFacts",
+						"revision_timestamp": "2014-07-03T04:33:41.030091",
+						"package_id": "73021f54-f5bf-4f34-86dd-5497ba4bdcfc",
+						"key": "contact_name",
+						"revision_id": "a199218d-2384-45e4-b09f-f3fb10821d84",
+						"id": "6f7273b3-6c45-4d05-b35c-045a2443be82"
+					},
+
+					{
+						"state": "active",
+						"value": "us-EN",
+						"revision_timestamp": "2014-07-03T04:33:54.444887",
+						"package_id": "73021f54-f5bf-4f34-86dd-5497ba4bdcfc",
+						"key": "language",
+						"revision_id": "fd4348fc-52cc-4a63-a8f9-3eff4dfe816c",
+						"id": "db61266a-cb2f-46d8-978b-852276ebdc0a"
+					},
+
+					{
+						"state": "active",
+						"value": "2014-05-05",
+						"revision_timestamp": "2014-07-03T04:33:54.444887",
+						"package_id": "73021f54-f5bf-4f34-86dd-5497ba4bdcfc",
+						"key": "modified",
+						"revision_id": "fd4348fc-52cc-4a63-a8f9-3eff4dfe816c",
+						"id": "2171ba07-7ee9-4d06-82a1-590c05bbd4bb"
+					},
+
+					{
+						"state": "active",
+						"value": "public",
+						"revision_timestamp": "2014-07-03T04:33:54.444887",
+						"package_id": "73021f54-f5bf-4f34-86dd-5497ba4bdcfc",
+						"key": "public_access_level",
+						"revision_id": "fd4348fc-52cc-4a63-a8f9-3eff4dfe816c",
+						"id": "fb328843-3746-4b84-9540-4f767965af9f"
+					},
+
+					{
+						"state": "active",
+						"value": "Department of Education",
+						"revision_timestamp": "2014-07-03T04:33:41.030091",
+						"package_id": "73021f54-f5bf-4f34-86dd-5497ba4bdcfc",
+						"key": "publisher",
+						"revision_id": "a199218d-2384-45e4-b09f-f3fb10821d84",
+						"id": "72f122c0-dd26-46f5-9e4d-327477cd5d45"
+					},
+
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:33:54.444887",
+						"package_id": "73021f54-f5bf-4f34-86dd-5497ba4bdcfc",
+						"key": "related_documents",
+						"revision_id": "fd4348fc-52cc-4a63-a8f9-3eff4dfe816c",
+						"id": "6c86af0a-7ac0-42fe-bba9-5a8b106aa6fc"
+					},
+
+					{
+						"state": "active",
+						"value": "2014-04-24",
+						"revision_timestamp": "2014-07-03T04:33:41.030091",
+						"package_id": "73021f54-f5bf-4f34-86dd-5497ba4bdcfc",
+						"key": "release_date",
+						"revision_id": "a199218d-2384-45e4-b09f-f3fb10821d84",
+						"id": "f590a5f1-4b19-4b52-bf0b-75fccae44c34"
+					},
+
+					{
+						"state": "active",
+						"value": "3u9j-haex",
+						"revision_timestamp": "2014-07-03T04:33:41.030091",
+						"package_id": "73021f54-f5bf-4f34-86dd-5497ba4bdcfc",
+						"key": "unique_id",
+						"revision_id": "a199218d-2384-45e4-b09f-f3fb10821d84",
+						"id": "61728a9b-91fe-45e6-b45a-e65c51d70ad0"
+					},
+
+					{
+						"state": "active",
+						"value": "53b4dd38586db",
+						"revision_timestamp": "2014-07-03T04:33:54.444887",
+						"package_id": "73021f54-f5bf-4f34-86dd-5497ba4bdcfc",
+						"key": "updated_time_hash",
+						"revision_id": "fd4348fc-52cc-4a63-a8f9-3eff4dfe816c",
+						"id": "e3756929-56de-4eec-a701-c598f86c969d"
+					}
+				],
+
+				"title": "Adjusted Cohort Graduation Rates at the LEA level: School Year 2011-12",
+				"revision_id": "e308c4fb-6889-4415-bf3f-ba65ad1c9f70"
+			},
+
+			{
+				"license_title": "License Not Specified",
+				"maintainer": null,
+				"relationships_as_object": 
+				[
+					
+				],
+
+				"private": false,
+				"maintainer_email": null,
+				"revision_timestamp": "2015-01-29T23:43:47.690189",
+				"id": "bae4fea5-2c85-4574-8282-292246379632",
+				"metadata_created": "2014-07-03T04:27:18.144830",
+				"metadata_modified": "2015-01-29T23:43:47.716216",
+				"author": null,
+				"author_email": null,
+				"state": "active",
+				"version": null,
+				"creator_user_id": "4d4b77e4-d2f3-4410-b78d-0e5a69731596",
+				"type": "dataset",
+				"resources": 
+				[
+					{
+						"resource_group_id": "36f72704-a658-4f45-8ed5-0ac3b1b54aa9",
+						"cache_last_updated": null,
+						"labels": "OrderedDict([('accessURL new', 'Access URL'), ('conformsTo', 'Conforms To'), ('describedBy', 'Described By'), ('describedByType', 'Described By Type'), ('format', 'Media Type'), ('formatReadable', 'Format'), ('created', 'Created')])",
+						"revision_timestamp": "2015-01-29T23:43:47.690189",
+						"webstore_last_updated": null,
+						"id": "9543c4f7-7a60-464a-be95-57675b03fad8",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "CSV",
+						"mimetype_inner": null,
+						"url_type": "upload",
+						"mimetype": "CSV",
+						"cache_url": null,
+						"name": "Adjusted_Cohort_Grdtn_Rates_LEA_SY_2010-11.csv",
+						"created": "2014-07-03T00:27:21.504497",
+						"url": "https://inventory.data.gov/dataset/bae4fea5-2c85-4574-8282-292246379632/resource/9543c4f7-7a60-464a-be95-57675b03fad8/download/userssharedsdfadjustedcohortgrdtnratesleasy201011.csv",
+						"webstore_url": null,
+						"position": 0,
+						"revision_id": "89c1a236-0cd3-4c15-928a-2b173209d4e6",
+						"resource_type": null
+					}
+				],
+
+				"num_resources": 1,
+				"tags": 
+				[
+					{
+						"vocabulary_id": null,
+						"display_name": "no-tag",
+						"name": "no-tag",
+						"revision_timestamp": "2014-07-03T04:27:18.144830",
+						"state": "active",
+						"id": "bde5b8d2-f02f-4a56-8ec2-b7ae2af04d5e"
+					}
+				],
+
+				"groups": 
+				[
+					
+				],
+
+				"license_id": "notspecified",
+				"relationships_as_subject": 
+				[
+					
+				],
+
+				"num_tags": 1,
+				"organization": 
+				{
+					"description": "",
+					"title": "Department of Education",
+					"created": "2013-11-15T12:17:32.720624",
+					"approval_status": "approved",
+					"revision_timestamp": "2013-12-30T15:07:03.341632",
+					"is_organization": true,
+					"state": "active",
+					"image_url": "https://raw.github.com/GSA/logo/master/ed.png",
+					"revision_id": "82313ff5-75cf-48a3-a39a-6ee430d7aa5a",
+					"type": "organization",
+					"id": "54e62ff2-6944-459d-a691-42888b5d603a",
+					"name": "department-of-education"
+				},
+
+				"name": "adjusted-cohort-graduation-rates-at-the-lea-level-school-year-2010-11",
+				"isopen": false,
+				"url": null,
+				"notes": "This dataset contains district level information on the four-year adjusted cohort graduation rates calculated by state education agencies in accordance with U.S. Department of Education regulations on ESEA, Title I, published in 2008. The dataset contains information on the number of students identified within the cohort for 2010-11 graduation, along with the percent of those students graduating with a high school diploma within four years. Adjusted cohort rates and counts are reported for the district as a whole, and for key subgroups of students (major racial and ethnic groups, children with disabilities, limited English proficient students, and economically disadvantaged students). The reported graduation rate has been reported in a manner that protects the privacy of individuals within the data. The privacy protections vary based on the n-size of the student group whose graduation rate is being reported. To interpret these data appropriately, please utilize the cohort count that is reported for each graduation rate and reference section 4.1 of the Public File Documentation for details on the privacy protections. For more information on the data file and guidance for its appropriate use, please read the Public File Documentation.",
+				"owner_org": "54e62ff2-6944-459d-a691-42888b5d603a",
+				"extras": 
+				[
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:27:27.165815",
+						"package_id": "bae4fea5-2c85-4574-8282-292246379632",
+						"key": "accrual_periodicity",
+						"revision_id": "d6749d73-7f08-4b43-b4eb-fbf667ed639e",
+						"id": "132d438d-7135-48a2-9163-22662da4b98c"
+					},
+
+					{
+						"state": "active",
+						"value": "chris.chapman@ed.gov",
+						"revision_timestamp": "2014-07-03T04:27:18.144830",
+						"package_id": "bae4fea5-2c85-4574-8282-292246379632",
+						"key": "contact_email",
+						"revision_id": "0139d358-6cc8-4431-89df-6dfe99a2ee3b",
+						"id": "be6b153f-f1a5-4037-9f72-ee09a12aa87b"
+					},
+
+					{
+						"state": "active",
+						"value": "MarinaMartin",
+						"revision_timestamp": "2014-07-03T04:27:18.144830",
+						"package_id": "bae4fea5-2c85-4574-8282-292246379632",
+						"key": "contact_name",
+						"revision_id": "0139d358-6cc8-4431-89df-6dfe99a2ee3b",
+						"id": "1ac8e907-3740-4999-9e34-8d9158b164bd"
+					},
+
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:27:27.165815",
+						"package_id": "bae4fea5-2c85-4574-8282-292246379632",
+						"key": "data_dictionary",
+						"revision_id": "d6749d73-7f08-4b43-b4eb-fbf667ed639e",
+						"id": "8bb38ceb-24a8-42cc-b23b-7d6810ce5105"
+					},
+
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:27:27.165815",
+						"package_id": "bae4fea5-2c85-4574-8282-292246379632",
+						"key": "homepage_url",
+						"revision_id": "d6749d73-7f08-4b43-b4eb-fbf667ed639e",
+						"id": "9dd82d22-1b4a-4ce0-a17a-38ed7b71afb8"
+					},
+
+					{
+						"state": "active",
+						"value": "us-EN",
+						"revision_timestamp": "2014-07-03T04:27:27.165815",
+						"package_id": "bae4fea5-2c85-4574-8282-292246379632",
+						"key": "language",
+						"revision_id": "d6749d73-7f08-4b43-b4eb-fbf667ed639e",
+						"id": "a227d520-1339-4e15-83dd-a032caa51803"
+					},
+
+					{
+						"state": "active",
+						"value": "2013-09-05",
+						"revision_timestamp": "2014-07-03T04:27:27.165815",
+						"package_id": "bae4fea5-2c85-4574-8282-292246379632",
+						"key": "modified",
+						"revision_id": "d6749d73-7f08-4b43-b4eb-fbf667ed639e",
+						"id": "a8690d8d-e696-42fa-8db5-0cffb560f382"
+					},
+
+					{
+						"state": "active",
+						"value": "public",
+						"revision_timestamp": "2014-07-03T04:27:27.165815",
+						"package_id": "bae4fea5-2c85-4574-8282-292246379632",
+						"key": "public_access_level",
+						"revision_id": "d6749d73-7f08-4b43-b4eb-fbf667ed639e",
+						"id": "2fc00516-b12e-48a2-a5ba-0dda72627514"
+					},
+
+					{
+						"state": "active",
+						"value": "Department of Education",
+						"revision_timestamp": "2014-07-03T04:27:18.144830",
+						"package_id": "bae4fea5-2c85-4574-8282-292246379632",
+						"key": "publisher",
+						"revision_id": "0139d358-6cc8-4431-89df-6dfe99a2ee3b",
+						"id": "f4788acd-595f-4f3e-a7c9-8a160413dc7d"
+					},
+
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:27:27.165815",
+						"package_id": "bae4fea5-2c85-4574-8282-292246379632",
+						"key": "related_documents",
+						"revision_id": "d6749d73-7f08-4b43-b4eb-fbf667ed639e",
+						"id": "8328109f-b386-46df-b924-db76f7f41f14"
+					},
+
+					{
+						"state": "active",
+						"value": "2013-07-26",
+						"revision_timestamp": "2014-07-03T04:27:18.144830",
+						"package_id": "bae4fea5-2c85-4574-8282-292246379632",
+						"key": "release_date",
+						"revision_id": "0139d358-6cc8-4431-89df-6dfe99a2ee3b",
+						"id": "c141a9bb-4895-4cb1-a6c0-8f94e0f40685"
+					},
+
+					{
+						"state": "active",
+						"value": "gnfw-qmug",
+						"revision_timestamp": "2014-07-03T04:27:18.144830",
+						"package_id": "bae4fea5-2c85-4574-8282-292246379632",
+						"key": "unique_id",
+						"revision_id": "0139d358-6cc8-4431-89df-6dfe99a2ee3b",
+						"id": "6ef28005-d3c1-4e07-9719-12d88db5e418"
+					},
+
+					{
+						"state": "active",
+						"value": "53b4dbb520c84",
+						"revision_timestamp": "2014-07-03T04:27:27.165815",
+						"package_id": "bae4fea5-2c85-4574-8282-292246379632",
+						"key": "updated_time_hash",
+						"revision_id": "d6749d73-7f08-4b43-b4eb-fbf667ed639e",
+						"id": "70efb55f-000c-4947-8f0c-271a280c0455"
+					}
+				],
+
+				"title": "Adjusted Cohort Graduation Rates at the LEA level: School Year 2010-11",
+				"revision_id": "89c1a236-0cd3-4c15-928a-2b173209d4e6"
+			},
+
+			{
+				"license_title": "License Not Specified",
+				"maintainer": null,
+				"relationships_as_object": 
+				[
+					
+				],
+
+				"private": false,
+				"maintainer_email": null,
+				"revision_timestamp": "2015-01-29T23:48:25.955003",
+				"id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+				"metadata_created": "2014-07-03T05:04:56.431267",
+				"metadata_modified": "2015-01-29T23:48:25.955983",
+				"author": null,
+				"author_email": null,
+				"state": "active",
+				"version": null,
+				"creator_user_id": "4d4b77e4-d2f3-4410-b78d-0e5a69731596",
+				"type": "dataset",
+				"resources": 
+				[
+					{
+						"resource_group_id": "92464c70-8773-4d76-82d5-76d06779b7a7",
+						"cache_last_updated": null,
+						"labels": "OrderedDict([('accessURL new', 'Access URL'), ('conformsTo', 'Conforms To'), ('describedBy', 'Described By'), ('describedByType', 'Described By Type'), ('format', 'Media Type'), ('formatReadable', 'Format'), ('created', 'Created')])",
+						"revision_timestamp": "2015-01-29T23:48:25.955003",
+						"webstore_last_updated": null,
+						"id": "1705fe89-ffc3-420d-a385-f365f75fa7eb",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "CSV",
+						"mimetype_inner": null,
+						"url_type": "upload",
+						"mimetype": "CSV",
+						"cache_url": null,
+						"name": "USAID_Development_CAGD_Utilization_and_Claims.csv",
+						"created": "2014-07-03T01:05:00.087683",
+						"url": "https://inventory.data.gov/dataset/bb24c71b-fa3d-4f30-bf8f-16d2b561b6df/resource/1705fe89-ffc3-420d-a385-f365f75fa7eb/download/usaiddevelopmentcagdutilizationandclaims.csv",
+						"webstore_url": null,
+						"position": 0,
+						"revision_id": "34bb2870-3540-4d6e-8ca5-92924460e451",
+						"resource_type": null
+					}
+				],
+
+				"num_resources": 1,
+				"tags": 
+				[
+					{
+						"vocabulary_id": null,
+						"display_name": "credit",
+						"name": "credit",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"state": "active",
+						"id": "dab87d03-dc50-451c-ae73-95457a2b91b5"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "dca",
+						"name": "dca",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"state": "active",
+						"id": "6c99a599-1af6-465e-b589-d37dd3b1b161"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "development credit authority",
+						"name": "development credit authority",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"state": "active",
+						"id": "0706ae7a-5a57-4c4b-86cf-7fd2931533fb"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "finance",
+						"name": "finance",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"state": "active",
+						"id": "9fc56e67-1425-4a58-9b42-7004268f8766"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "financing",
+						"name": "financing",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"state": "active",
+						"id": "3c2ebfa6-8182-447b-97e0-3abccebdf91a"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "geospatial",
+						"name": "geospatial",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"state": "active",
+						"id": "0c0bd14f-029c-43ba-a784-914fb61ad59a"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "international development",
+						"name": "international development",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"state": "active",
+						"id": "f7257a3d-4712-4cfb-95c7-5a8a1602f3bf"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "loan guarantees",
+						"name": "loan guarantees",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"state": "active",
+						"id": "4186bde2-01d8-4af8-a0e7-1423a9dc4f21"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "loans",
+						"name": "loans",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"state": "active",
+						"id": "1a9e4d31-362c-4a6d-815c-9131342d682c"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "microfinance",
+						"name": "microfinance",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"state": "active",
+						"id": "42e0875a-e8e6-440c-94c5-8e348376c117"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "sme",
+						"name": "sme",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"state": "active",
+						"id": "739bddec-fad2-4481-9e08-df2ddad66de6"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "usaid",
+						"name": "usaid",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"state": "active",
+						"id": "1f831dac-66d9-4511-a087-0901faa993f0"
+					},
+
+					{
+						"vocabulary_id": null,
+						"display_name": "wwhgd",
+						"name": "wwhgd",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"state": "active",
+						"id": "810d7056-c52f-471a-b9e3-91f2da9548e1"
+					}
+				],
+
+				"groups": 
+				[
+					
+				],
+
+				"license_id": "notspecified",
+				"relationships_as_subject": 
+				[
+					
+				],
+
+				"num_tags": 13,
+				"organization": 
+				{
+					"description": "",
+					"title": "United States Agency for International Development",
+					"created": "2014-07-03T01:03:49.263207",
+					"approval_status": "approved",
+					"revision_timestamp": "2015-02-18T15:48:02.459934",
+					"is_organization": true,
+					"state": "active",
+					"image_url": "",
+					"revision_id": "69c60d22-4977-49af-aa5d-2447af347419",
+					"type": "organization",
+					"id": "c0b16b23-86c2-4cdb-9342-0a70e347cf8e",
+					"name": "us-agency-for-international-development"
+				},
+
+				"name": "usaid-development-credit-authority-guarantee-data-utilization-and-claims",
+				"isopen": false,
+				"url": null,
+				"notes": "USAID\u00e2\u0080\u0099s Development Credit Authority (DCA) works with investors, local financial institutions, and development organizations to design and deliver investment alternatives that unlock financing for U.S. Government priorities. Whether it\u00e2\u0080\u0099s getting working capital to promising entrepreneurs or input financing to small farmers, DCA seeks to prove the commercial viability of underserved markets so that lending and investment continues long after we exit.  The Development Credit Authority (DCA) uses partial credit guarantees to mobilize local financing in developing countries. Guarantee agreements encourage private lenders to extend financing to underserved borrowers in new sectors and regions. By opening up local channels of financing, USAID is empowering entrepreneurs in developing countries at a minimal cost to the U.S. taxpayer.  This dataset is the complete list of all USAID partial credit guarantees since DCA was established in 1999. This USAID dataset shows the partial credit guarantees that USAID has issued since the development credit authority program was founded in 1999. The spreadsheet reflects the full facility size of each guarantee, how much was lent under the guarantee, the status of the guarantee (i.e., active or expired) , how much in claims the bank submitted due to losses it incurred for loans placed under the guarantee, and how many loans were placed under coverage of the guarantee. The data also shows the sector and country for each guarantee.",
+				"owner_org": "c0b16b23-86c2-4cdb-9342-0a70e347cf8e",
+				"extras": 
+				[
+					{
+						"state": "active",
+						"value": "bi-annual",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"package_id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+						"key": "accrual_periodicity",
+						"revision_id": "655283cb-6dbc-4306-8f1b-cabf33b5a3c9",
+						"id": "e756c68c-da8f-4772-a8c5-9cc4ec8fbeea"
+					},
+
+					{
+						"state": "active",
+						"value": "opendata@usaid.gov",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"package_id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+						"key": "contact_email",
+						"revision_id": "655283cb-6dbc-4306-8f1b-cabf33b5a3c9",
+						"id": "9d13a018-cb2f-4144-b825-cdee62ea4f40"
+					},
+
+					{
+						"state": "active",
+						"value": "Data.gov DPD",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"package_id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+						"key": "contact_name",
+						"revision_id": "655283cb-6dbc-4306-8f1b-cabf33b5a3c9",
+						"id": "1ac094e6-cae2-4646-a2f6-2a1e2e7afa21"
+					},
+
+					{
+						"state": "active",
+						"value": "See Data Dictionary under Attachments section",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"package_id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+						"key": "data_dictionary",
+						"revision_id": "655283cb-6dbc-4306-8f1b-cabf33b5a3c9",
+						"id": "0a939500-b802-4cb7-8555-bb7b61c8b758"
+					},
+
+					{
+						"state": "active",
+						"value": "http://www.usaid.gov/what-we-do/economic-growth-and-trade/development-credit-authority-putting-local-wealth-work",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"package_id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+						"key": "homepage_url",
+						"revision_id": "655283cb-6dbc-4306-8f1b-cabf33b5a3c9",
+						"id": "fc3fed20-277b-4e0e-a38f-990c9e5a37c0"
+					},
+
+					{
+						"state": "active",
+						"value": "us-EN",
+						"revision_timestamp": "2014-07-03T05:05:14.749945",
+						"package_id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+						"key": "language",
+						"revision_id": "a032c41c-4257-4141-bba6-f825d891bd57",
+						"id": "2d3a9029-2936-43b2-8444-a34db6ca24cb"
+					},
+
+					{
+						"state": "active",
+						"value": "2014-02-13",
+						"revision_timestamp": "2014-07-03T05:05:14.749945",
+						"package_id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+						"key": "modified",
+						"revision_id": "a032c41c-4257-4141-bba6-f825d891bd57",
+						"id": "ddff4e99-c677-413a-8152-dfaca8e9ee49"
+					},
+
+					{
+						"state": "active",
+						"value": "public",
+						"revision_timestamp": "2014-07-03T05:05:14.749945",
+						"package_id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+						"key": "public_access_level",
+						"revision_id": "a032c41c-4257-4141-bba6-f825d891bd57",
+						"id": "00bc6e53-a5db-4a9c-8151-94f895f71e86"
+					},
+
+					{
+						"state": "active",
+						"value": "U.S. Agency for International Development",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"package_id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+						"key": "publisher",
+						"revision_id": "655283cb-6dbc-4306-8f1b-cabf33b5a3c9",
+						"id": "00767afa-743d-41d5-a6c3-bd338d3a64b2"
+					},
+
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T05:05:14.749945",
+						"package_id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+						"key": "related_documents",
+						"revision_id": "a032c41c-4257-4141-bba6-f825d891bd57",
+						"id": "4de4b986-a4c9-4105-90e1-d057d40f7492"
+					},
+
+					{
+						"state": "active",
+						"value": "2012-06-22",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"package_id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+						"key": "release_date",
+						"revision_id": "655283cb-6dbc-4306-8f1b-cabf33b5a3c9",
+						"id": "f40b40e5-e0be-4a39-a4f8-98f70655b44b"
+					},
+
+					{
+						"state": "active",
+						"value": "atqm-5nw2",
+						"revision_timestamp": "2014-07-03T05:04:56.431267",
+						"package_id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+						"key": "unique_id",
+						"revision_id": "655283cb-6dbc-4306-8f1b-cabf33b5a3c9",
+						"id": "ced63096-ac9d-4e47-bb9e-b217ea4e0d4d"
+					},
+
+					{
+						"state": "active",
+						"value": "53b4e49083365",
+						"revision_timestamp": "2014-07-03T05:05:14.749945",
+						"package_id": "bb24c71b-fa3d-4f30-bf8f-16d2b561b6df",
+						"key": "updated_time_hash",
+						"revision_id": "a032c41c-4257-4141-bba6-f825d891bd57",
+						"id": "076a04e0-1b42-48ab-bb60-31a3d8eed5d3"
+					}
+				],
+
+				"title": "USAID Development Credit Authority Guarantee Data: Utilization and Claims",
+				"revision_id": "34bb2870-3540-4d6e-8ca5-92924460e451"
+			},
+
+			{
+				"license_title": "License Not Specified",
+				"maintainer": null,
+				"relationships_as_object": 
+				[
+					
+				],
+
+				"private": false,
+				"maintainer_email": null,
+				"revision_timestamp": "2015-01-29T23:46:31.492030",
+				"id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+				"metadata_created": "2014-07-03T04:34:04.762735",
+				"metadata_modified": "2015-01-29T23:46:31.493720",
+				"author": null,
+				"author_email": null,
+				"state": "active",
+				"version": null,
+				"creator_user_id": "4d4b77e4-d2f3-4410-b78d-0e5a69731596",
+				"type": "dataset",
+				"resources": 
+				[
+					{
+						"resource_group_id": "be2b85ec-ed60-43e5-a0fe-0174b1c02353",
+						"cache_last_updated": null,
+						"labels": "OrderedDict([('accessURL new', 'Access URL'), ('conformsTo', 'Conforms To'), ('describedBy', 'Described By'), ('describedByType', 'Described By Type'), ('format', 'Media Type'), ('formatReadable', 'Format'), ('created', 'Created')])",
+						"revision_timestamp": "2015-01-29T23:46:31.492030",
+						"webstore_last_updated": null,
+						"id": "4b0bc75c-6ac4-49a9-8ca1-92a46058f8d3",
+						"size": null,
+						"state": "active",
+						"last_modified": null,
+						"hash": "",
+						"description": "",
+						"format": "CSV",
+						"mimetype_inner": null,
+						"url_type": "upload",
+						"mimetype": "CSV",
+						"cache_url": null,
+						"name": "Perc_Chldrn_0-17_by_prsnc_prnts_hshld_SRE_2001_2013.csv",
+						"created": "2014-07-03T00:34:07.153191",
+						"url": "https://inventory.data.gov/dataset/b73b9d48-fd53-4c17-b2b3-f4bd6e00a106/resource/4b0bc75c-6ac4-49a9-8ca1-92a46058f8d3/download/userssharedsdfpercchldrn017byprsncprntshshldsre20012013.csv",
+						"webstore_url": null,
+						"position": 0,
+						"revision_id": "5a1897c2-88d7-4e14-82e9-6d3dba5fa156",
+						"resource_type": null
+					}
+				],
+
+				"num_resources": 1,
+				"tags": 
+				[
+					{
+						"vocabulary_id": null,
+						"display_name": "mbk",
+						"name": "mbk",
+						"revision_timestamp": "2014-07-03T04:34:04.762735",
+						"state": "active",
+						"id": "85e0f88b-9ad0-42ae-a2c3-4840bebe0163"
+					}
+				],
+
+				"groups": 
+				[
+					
+				],
+
+				"license_id": "notspecified",
+				"relationships_as_subject": 
+				[
+					
+				],
+
+				"num_tags": 1,
+				"organization": 
+				{
+					"description": "",
+					"title": "Department of Education",
+					"created": "2013-11-15T12:17:32.720624",
+					"approval_status": "approved",
+					"revision_timestamp": "2013-12-30T15:07:03.341632",
+					"is_organization": true,
+					"state": "active",
+					"image_url": "https://raw.github.com/GSA/logo/master/ed.png",
+					"revision_id": "82313ff5-75cf-48a3-a39a-6ee430d7aa5a",
+					"type": "organization",
+					"id": "54e62ff2-6944-459d-a691-42888b5d603a",
+					"name": "department-of-education"
+				},
+
+				"name": "percentage-of-children-ages-0-17-by-presence-of-parents-in-household-sex-and-race-ethnicity-2001-201",
+				"isopen": false,
+				"url": null,
+				"notes": "* NOTE: Prior to 2007, CPS data identified only one parent on the child\u00e2\u0080\u0099s record. This meant that a second parent could only be identified if they were married to the first parent. In 2007, a second parent identifier was added to the CPS. This permits identification of two coresident parents, even if the parents are not married to each other. In this table, for 2007\u00e2\u0080\u00932013, \u00e2\u0080\u009ctwo parents\u00e2\u0080\u009d reflects all children who have both a mother and father identified in the household, including biological, step, and adoptive parents. Before 2007, \u00e2\u0080\u009cmother only\u00e2\u0080\u009d and \u00e2\u0080\u009cfather only\u00e2\u0080\u009d included some children who lived with two unmarried parents. Beginning in 2007, \u00e2\u0080\u009cmother only\u00e2\u0080\u009d and \u00e2\u0080\u009cfather only\u00e2\u0080\u009d refer to children for whom only one parent in the household has been identified, whether biological, step, or adoptive. Beginning with March 2001, data are from the expanded CPS sample and use population controls based on Census 2000.\n* From 2001 to 2002, following the 1977 Office of Management and Budget (OMB) standards for collecting and presenting data on race, the Current Population Survey (CPS) asked respondents to choose one race from the following: White, Black, American Indian or Alaskan Native, or Asian or Pacific Islander. The Census Bureau also offered an \u00e2\u0080\u009cOther\u00e2\u0080\u009d category. Beginning in 2003, following the 1997 OMB standards for collecting and presenting data on race, the CPS asked respondents to choose one or more races from the following: White, Black or African American, Asian, American Indian or Alaska Native, and Native Hawaiian or Other Pacific Islander. All race groups discussed in this table from 2003 onward refer to people who indicated only one racial identity within the racial categories presented. People who responded to the question on race by indicating only one race are referred to as the race-alone population. The use of the race-alone population in this table does not imply that it is the preferred method of presenting or analyzing data. Data from 2003 onward are not directly comparable with data from earlier years. Data on race and Hispanic origin are collected separately. Persons of Hispanic origin may be of any race.\n* Blank cells indicate where data is not available.\n* SOURCE: U.S. Census Bureau, Current Population Survey, Annual Social and Economic Supplements.",
+				"owner_org": "54e62ff2-6944-459d-a691-42888b5d603a",
+				"extras": 
+				[
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:34:18.235082",
+						"package_id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+						"key": "accrual_periodicity",
+						"revision_id": "0166ee6a-7c6f-4f9c-9f4e-b19da9bcf0c7",
+						"id": "d360a32a-4336-41ca-b349-acb6fbe72ad0"
+					},
+
+					{
+						"state": "active",
+						"value": "chris.chapman@ed.gov",
+						"revision_timestamp": "2014-07-03T04:34:04.762735",
+						"package_id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+						"key": "contact_email",
+						"revision_id": "bd638a72-fb2d-48cb-8548-dd2ec15c31a1",
+						"id": "1c3faa0f-b5c9-40e3-9d61-314b0089aa38"
+					},
+
+					{
+						"state": "active",
+						"value": "ED.gov Team",
+						"revision_timestamp": "2014-07-03T04:34:04.762735",
+						"package_id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+						"key": "contact_name",
+						"revision_id": "bd638a72-fb2d-48cb-8548-dd2ec15c31a1",
+						"id": "6064dbb0-df01-4fe9-a681-b8348a043aae"
+					},
+
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:34:18.235082",
+						"package_id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+						"key": "data_dictionary",
+						"revision_id": "0166ee6a-7c6f-4f9c-9f4e-b19da9bcf0c7",
+						"id": "daa1cfe2-3337-452d-bc62-cfbdb1bab1df"
+					},
+
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:34:18.235082",
+						"package_id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+						"key": "homepage_url",
+						"revision_id": "0166ee6a-7c6f-4f9c-9f4e-b19da9bcf0c7",
+						"id": "620bb395-1b5d-4696-bef2-13a84e1e850e"
+					},
+
+					{
+						"state": "active",
+						"value": "us-EN",
+						"revision_timestamp": "2014-07-03T04:34:18.235082",
+						"package_id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+						"key": "language",
+						"revision_id": "0166ee6a-7c6f-4f9c-9f4e-b19da9bcf0c7",
+						"id": "b80d4560-6eb4-4707-85c8-84cdf052b14e"
+					},
+
+					{
+						"state": "active",
+						"value": "2014-05-31",
+						"revision_timestamp": "2014-07-03T04:34:18.235082",
+						"package_id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+						"key": "modified",
+						"revision_id": "0166ee6a-7c6f-4f9c-9f4e-b19da9bcf0c7",
+						"id": "1bf32bc6-e7c0-43b0-b492-a2ddc626207b"
+					},
+
+					{
+						"state": "active",
+						"value": "public",
+						"revision_timestamp": "2014-07-03T04:34:18.235082",
+						"package_id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+						"key": "public_access_level",
+						"revision_id": "0166ee6a-7c6f-4f9c-9f4e-b19da9bcf0c7",
+						"id": "67f0fc1b-444d-4a37-a0d6-0a2b09e1df57"
+					},
+
+					{
+						"state": "active",
+						"value": "Department of Education",
+						"revision_timestamp": "2014-07-03T04:34:04.762735",
+						"package_id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+						"key": "publisher",
+						"revision_id": "bd638a72-fb2d-48cb-8548-dd2ec15c31a1",
+						"id": "8d9c0185-8cb8-448d-bc0e-79f87810a1c1"
+					},
+
+					{
+						"state": "active",
+						"value": "",
+						"revision_timestamp": "2014-07-03T04:34:18.235082",
+						"package_id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+						"key": "related_documents",
+						"revision_id": "0166ee6a-7c6f-4f9c-9f4e-b19da9bcf0c7",
+						"id": "4cb06e37-595a-4c63-b518-ae4cfdc98d1f"
+					},
+
+					{
+						"state": "active",
+						"value": "2014-05-31",
+						"revision_timestamp": "2014-07-03T04:34:04.762735",
+						"package_id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+						"key": "release_date",
+						"revision_id": "bd638a72-fb2d-48cb-8548-dd2ec15c31a1",
+						"id": "174f2f51-f7d6-456a-bd34-ed373ad6cb4b"
+					},
+
+					{
+						"state": "active",
+						"value": "rfrg-nwax",
+						"revision_timestamp": "2014-07-03T04:34:04.762735",
+						"package_id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+						"key": "unique_id",
+						"revision_id": "bd638a72-fb2d-48cb-8548-dd2ec15c31a1",
+						"id": "1008b3e5-8841-488c-a93c-7ca73af0ee9e"
+					},
+
+					{
+						"state": "active",
+						"value": "53b4dd4fd7896",
+						"revision_timestamp": "2014-07-03T04:34:18.235082",
+						"package_id": "b73b9d48-fd53-4c17-b2b3-f4bd6e00a106",
+						"key": "updated_time_hash",
+						"revision_id": "0166ee6a-7c6f-4f9c-9f4e-b19da9bcf0c7",
+						"id": "0aeb1e0c-d921-4b52-a30e-6bb6d37b904e"
+					}
+				],
+
+				"title": "Percentage of children ages 0\u00e2\u0080\u009317 by presence of parents in household, sex, and race/ethnicity, 2001\u00e2\u0080\u00932013",
+				"revision_id": "5a1897c2-88d7-4e14-82e9-6d3dba5fa156"
+			}
+		],
+
+		"search_facets": 
+		{
+			
+		}
+	}
+}

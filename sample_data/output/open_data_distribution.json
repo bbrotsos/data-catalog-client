@@ -1,0 +1,6 @@
+{
+  "@type": "dcat:Distribution",
+  "mediaType": "application/vnd.ms-excel",
+  "title": "Congressional Logs for Fiscal Year 2014",
+  "distributionURL": "http://www.dm.usda.gov/foia/docs/Copy%20of%20ECM%20Congressional%20Logs%20FY14.xls"
+}
