@@ -1,1 +1,8 @@
 /target/
+/sample_data/
+/ckan/
+/data.json
+/datalisting.csv
+/fs.json
+/ag-data-commons.json
+/ckan_data.json
