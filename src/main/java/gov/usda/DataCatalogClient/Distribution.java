@@ -132,6 +132,10 @@ public class Distribution {
     	{
     		setAccessURL((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_URL));
     	}
+    	else if (resourceType.equals("upload"))
+    	{
+    		setDownloadURL((String) resourceCKAN_JSON.get(CKAN_DISTRIBUTION_URL));
+    	}
     	else
     	{
     		//new resource type in CKAN
@@ -196,10 +200,12 @@ public class Distribution {
 		setConformsTo ((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_CONFORMS_TO));
 		setType ((String) pod_JSONObject.get(PROJECT_OPEN_DATA_DISTRIBUTION_TYPE));
 		
+		/*  TODO:Remove this comment.  Need to validate distribution for non-restricted
 		if (!validateDistribution() || distributionException.exceptionSize()>0)
     	{
     		throw (distributionException);
-    	}	 
+    	}
+    	*/	 
 	}
 	
 	/**
@@ -212,6 +218,7 @@ public class Distribution {
 	private boolean validateDistribution()
 	{
 		boolean validIndicator = true;
+		System.out.println(accessURL + mediaType);
 		if (mediaType == null && !format.toLowerCase().equals("api"))
 		{
 			distributionException.addError("Media Type is required.");
@@ -242,7 +249,7 @@ public class Distribution {
 		
 		else if (format != null && format.toLowerCase().equals("api") && accessURL == null)
 		{
-			distributionException.addError("If format field equals api, access URL cannot be blank.");
+			distributionException.addError("If format field equals api, access URL cannot be blank.\n");
 			validIndicator = false;
 		}
 		else if (accessURL != null && downloadURL != null)
@@ -261,8 +268,10 @@ public class Distribution {
 	
 	private void changeExcelMimeType()
 	{
+		
 		if (mediaType != null && mediaType.equals("application/xls"))
 		{
+			System.out.println(downloadURL.toString());
 			final String fileExtension = downloadURL.toString().substring(downloadURL.toString().lastIndexOf("."));
 			if (fileExtension.equals(".xls"))
 			{
@@ -277,6 +286,7 @@ public class Distribution {
 				mediaType = "application/vnd.ms-excel";
 			}
 		}
+		
 	}
 	
 	/*
@@ -353,9 +363,18 @@ public class Distribution {
 	public JSONObject toProjectOpenDataJSON()
 	{
 		JSONObject distributionJSON = new JSONObject();
-		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_TYPE, type);
-		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DOWNLOAD_URL, downloadURL);
-		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_MEDIA_TYPE, mediaType);
+		if (type != null)
+		{
+			distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_TYPE, type);
+		}
+		if (downloadURL != null)
+		{
+			distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DOWNLOAD_URL, downloadURL);
+		}
+		if (mediaType != null)
+		{
+			distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_MEDIA_TYPE, mediaType);
+		}
 		if (!(title == null) && !title.isEmpty())
 		{
 			distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_TITLE, title);
@@ -364,15 +383,29 @@ public class Distribution {
 		{
 			distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIPTION , description);
 		}
-		
-		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_ACCESS_URL, accessURL);
-		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_FORMAT, format);
-		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY, describedBy);
-		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY_TYPE, describedByType);
-		distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_CONFORMS_TO, conformsTo);
-	
+		if (accessURL != null)
+		{
+			distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_ACCESS_URL, accessURL);
+		}
+		if (format != null && !format.isEmpty())
+		{
+			distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_FORMAT, format);
+		}
+		if (describedBy != null && !describedBy.isEmpty())
+		{
+			distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY, describedBy);
+		}
+		if (describedByType != null && !describedByType.isEmpty())
+		{
+			distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_DESCRIBED_BY_TYPE, describedByType);
+		}
+		if (conformsTo != null  && !conformsTo.isEmpty())
+		{
+			distributionJSON.put(PROJECT_OPEN_DATA_DISTRIBUTION_CONFORMS_TO, conformsTo);
+		}
 		return distributionJSON ;
 	}
+	//TODO: cosolidate all this null && isEmpty checking
 	
 	public String getTitle() {
 		return title;

@@ -118,6 +118,54 @@ public class Client {
 	 * @throws IOException
 	 * @throws CatalogException
 	 */
+	public Catalog getProjectOpenDataFromURL(String podURL, String bureauFileName) throws IOException, CatalogException
+	{
+		
+		String catalogJSONString = "";
+		NetworkRequest nr;
+		try{
+			nr = new NetworkRequest();	
+		}
+		catch(ParseException e)
+		{
+			throw (new CatalogException(e.toString()));
+		}
+		
+		log.log(Level.FINE, "Making Network Request for: " + podURL);
+		try
+		{
+			catalogJSONString = nr.getProjectOpenDataURL(podURL);
+		}
+		catch(IOException e)
+		{
+			throw (new CatalogException(e.toString()));
+		}
+		
+		PrintWriter out = new PrintWriter(bureauFileName);
+		out.print(catalogJSONString);
+		out.close();
+		
+		Catalog catalog = new Catalog();
+		try{
+			catalog.loadFromProjectOpenDataJSON(bureauFileName);
+		}
+		catch(CatalogException e)
+		{
+			//TODO: Remove this catch
+			datasetErrors.add(e.toString());
+		}
+		System.out.println("Downloaded " + podURL);
+		return catalog;
+	}
+	
+	/**
+	 * Calls network request to get all an organizations datasets.
+	 * @param organizationIdentifier
+	 * @param bureauFileName
+	 * @return
+	 * @throws IOException
+	 * @throws CatalogException
+	 */
 	public Catalog getOrganizationCatalogCKAN(String organizationIdentifier, String bureauFileName) throws IOException, CatalogException
 	{
 		

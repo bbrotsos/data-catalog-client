@@ -6,7 +6,9 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -281,7 +283,7 @@ public class Dataset implements Comparable<Dataset> {
 			case CKAN_DATASET_IS_PART_OF: setIsPartOf(value); break;
 			case CKAN_DATASET_ISSUED:
 			case CKAN_DATASET_RELEASE_DATE: setIssued(value); break;
-			case CKAN_DATASET_LANDING_PAGE: setLandingPage(value); break;
+			case CKAN_DATASET_LANDING_PAGE: setLandingPage(value);  break;
 			case CKAN_DATASET_LANGUAGE: setLanguageList(value); break;
 			case CKAN_DATASET_LICENSE: setLicense(value); break;
 			case CKAN_DATASET_MODIFIED: setModified(value); break;
@@ -317,6 +319,76 @@ public class Dataset implements Comparable<Dataset> {
 	}
 	
 	/**
+	 * This method takes a key and value using the DKAN Extra format and converts it to 
+	 * DCAT/Project Open Data.
+	 * Hardcoding values for ARS
+	 * @param key String The key in the CKAN extra field.
+	 * @param value String The value in the CKAN extra fields
+	 * @throws ParseException  This will be thrown if the dates: issued or modified is not valid iso dates
+	 */
+	private void loadExtraFromDKAN(String key, String value) throws ParseException
+	{
+		Publisher subOrganization = null;
+		
+		//TODO:  terribly inefficient, gets called on every iteration
+		publisher.setName("Agricultural Research Service, Department of Agriculture");
+		setBureauCodeList("005:18");
+		setProgramCodeList("005:040");
+		
+		
+		value.trim();
+		switch (key)
+		{
+			case "field_public_access_level": setAccessLevel(value); break;
+			case CKAN_DATASET_ACCRUAL_PERIODICITY: setAccrualPeriodicity(value); break;
+			case CKAN_DATASET_BUREAU_CODE_LIST: setBureauCodeList("23"); break;
+			case CKAN_DATASET_CONFORMS_TO: setConformsTo(value); break;
+			case CKAN_DATASET_DATA_QUALITY:
+			case CKAN_DATASET_DATA_QUALITY_LEGACY: setDataQuality(value); break;
+			case CKAN_DATASET_DESCRIBED_BY:
+			case CKAN_DATASET_DESCRIBED_BY_LEGACY:setDescribedBy(value); break;
+			case CKAN_DATASET_DESCRIBED_BY_TYPE: setDescribedByType(value); break;
+			case CKAN_DATASET_DESCRIPTION: setDescription(value); break;
+			case CKAN_DATASET_IS_PART_OF: setIsPartOf(value); break;
+			case CKAN_DATASET_ISSUED:
+			case CKAN_DATASET_RELEASE_DATE: setIssued(value); break;
+			case CKAN_DATASET_LANDING_PAGE: setLandingPage(value);  break;
+			case CKAN_DATASET_LANGUAGE: setLanguageList(value); break;
+			case "license_title": setLicense(value); break;
+			case CKAN_DATASET_MODIFIED: setModified(value); break;
+			case CKAN_DATASET_PRIMARY_IT_INVESTMENT_UII: setPrimaryITInvestmentUII(value); break;
+			case CKAN_DATASET_PROGRAM_CODE: 
+			case CKAN_DATASET_PROGRAM_CODE_LEGACY: setProgramCodeList("53"); break;
+			case CKAN_DATASET_REFERENCES: setReferenceList(value); break;
+			case CKAN_DATASET_RIGHTS: setRights(value); break;
+			case CKAN_DATASET_SPATIAL:
+			case CKAN_DATASET_SPATIAL_TEXT: setSpatial(value); break;
+			case CKAN_DATASET_SYSTEM_OF_RECORDS: setSystemOfRecords(value); break;
+			case CKAN_DATASET_TEMPORAL: setTemporal(value); break;
+			case CKAN_DATASET_THEME: setThemeList(value); break;
+			case CKAN_DATASET_TITLE: setTitle(value); break;
+			case "field_osti_id": setUniqueIdentifier(value); break;
+			case "field_contact_email": contactPoint.setEmailAddress(value); break;
+			case "field_contact_name": contactPoint.setFullName(value); break;
+			case Publisher.CKAN_PUBLISHER_NAME: publisher.setName("USDA/ARS"); break;
+			case Publisher.CKAN_PUBLISHER_SUBORGANIZATION_NAME : 
+				subOrganization = new Publisher();
+				subOrganization.setName(value); break;
+			
+		}
+		
+		//TODO: move these lines elsewhere
+		contactPoint.setType("vcard:Contact");
+		publisher.setType("org:Organization");
+
+		if (subOrganization != null)
+		{
+			subOrganization.setType("org:Organization");
+			publisher.setSubOrganization(subOrganization);
+		}
+	}
+	
+	/**
 	 * For each CKAN extra loads into this dataset object.
 	 * @param extraList
 	 * @throws DatasetException
@@ -337,6 +409,42 @@ public class Dataset implements Comparable<Dataset> {
 				dsEx.addError(e.toString());
 			}
 		}
+	}
+	
+	/**
+	 * For each DKANextra loads into this dataset object.
+	 * @param extraList
+	 * @throws DatasetException
+	 */
+	private void loadExtraListFromDKAN(JSONObject extraObject) throws DatasetException
+	{
+		//for each value in extraObject send to loadExtraFrom Key
+		//Iterator<String> keys = extraObject.keys();
+
+		@SuppressWarnings("unchecked")
+		Set<String> extraKeySet = extraObject.keySet();
+		
+		for (String key:extraKeySet)
+		{
+			Object testClass = extraObject.get(key);
+			if (testClass instanceof String )
+			{
+	        	String value = (String) extraObject.get(key);
+
+				try{
+					loadExtraFromDKAN(key, value);
+				}
+				catch(ParseException e)
+				{
+					dsEx.addError(e.toString());
+				}
+			}
+        	
+		}
+		//Hardcoded Fields
+		
+		
+		
 	}
 	
 	/**
@@ -392,12 +500,16 @@ public class Dataset implements Comparable<Dataset> {
 	    final JSONArray extraList = (JSONArray) datasetCKAN_JSON.get(CKAN_DATASET_EXTRAS);
 	    if (extraList == null)
 	    {
-	    	throw new IllegalArgumentException("JSON is invalid.  extras array is required.");
+//	    	throw new IllegalArgumentException("JSON is invalid.  extras array is required.");
+	    	// This is coming from Ag Data Commons which uses 
+	    	final JSONObject dkanExtraList = (JSONObject) datasetCKAN_JSON.get("dkan_additional_fields");
+	    	loadExtraListFromDKAN(dkanExtraList);
 	    }
 	    else
 	    {
 	    	loadExtraListFromCKAN(extraList);
 	    }
+	    
 	    
 		loadKeywordsFromCKAN((JSONArray)datasetCKAN_JSON.get("tags"));
 		
@@ -422,7 +534,15 @@ public class Dataset implements Comparable<Dataset> {
 		{
 			final JSONObject tagObject = (JSONObject)tagsArray.get(k);
 			//TODO: use static final
-			keywordList.add((String)tagObject.get("display_name"));
+			if ((String)tagObject.get("display_name") != null)
+			{
+				keywordList.add((String)tagObject.get("display_name"));
+			}
+			//ag data commons (dkan)
+			else if ((String)tagObject.get("name") != null)
+			{
+				keywordList.add((String)tagObject.get("name"));
+			}
 		}
 	}
 	
@@ -769,8 +889,16 @@ public class Dataset implements Comparable<Dataset> {
     	{
     		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_IS_PART_OF, isPartOf);
     	}
-		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_LICENSE, license);
-		dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_SPATIAL, spatial);
+		if (license != null)
+		{
+			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_LICENSE, license);
+		}
+		else if (accessLevel.equals(AccessLevel.PUBLIC.toString()))
+    	{
+        	dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_LICENSE, "https://creativecommons.org/publicdomain/zero/1.0/");
+    	}
+    	
+    	dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_SPATIAL, spatial);
 		if (temporal != null && temporal.isEmpty() && !temporal.equals(""))
 		{
 			dataSetJSON.put(PROJECT_OPEN_DATA_DATASET_TEMPORAL, temporal);
@@ -869,6 +997,7 @@ public class Dataset implements Comparable<Dataset> {
 		themeList = loadArray(PROJECT_OPEN_DATA_DATASET_THEME, dataSetObject);	
 		
 		//load objects Publisher, Contact and Distributions
+		System.out.println(title);
 		loadDistributionList(dataSetObject.get(Distribution.PROJECT_OPEN_DATA_DISTRIBUTION));
 		
 		try{
@@ -891,7 +1020,7 @@ public class Dataset implements Comparable<Dataset> {
 			dsEx.setTitle(title);
 			dsEx.setUniqueIdentifier(uniqueIdentifier);
 			throw (dsEx);
-		}
+		}		
 	}
 	
 	/**
@@ -905,7 +1034,9 @@ public class Dataset implements Comparable<Dataset> {
 	{
 		if (distributionObject == null)
 		{
-			throw new NullPointerException("distributionObject cannot be null");
+			//distribution Object is null for non-restricted
+			return;
+			//throw new NullPointerException("distributionObject cannot be null");
 		}
 		JSONArray distributionArray = null;
 		if (distributionObject instanceof ArrayList)
@@ -1225,7 +1356,9 @@ public class Dataset implements Comparable<Dataset> {
 	{
 		if (bureauCodeList == null)
 		{
-			throw new NullPointerException("bureauCodeList cannot be null");
+			//throw new NullPointerException("bureauCodeList cannot be null");
+			//This is to support Forest Service where no bureauCode can exist.
+			return;
 		}
 		if( bureauCodeList instanceof ArrayList)
 		{
@@ -1306,7 +1439,9 @@ public class Dataset implements Comparable<Dataset> {
 	{
 		if (programCodeList == null)
 		{
-			throw new NullPointerException("programCodeList cannot be null");
+			//throw new NullPointerException("programCodeList cannot be null");
+			//This is to support Forest Service hard coding of program code
+			return;
 		}
 		if( programCodeList instanceof ArrayList)
 		{
@@ -1672,7 +1807,7 @@ public class Dataset implements Comparable<Dataset> {
 		//TODO: Required field but Check size<>0
 		for (String tag: keywordList)
 		{
-			datasetElement.appendChild(fieldToLegacyXML("keyword", tag, doc));
+		//	datasetElement.appendChild(fieldToLegacyXML("keyword", tag, doc));
 		}
 		
 		//TODO: required field but check size < 0
@@ -1730,8 +1865,9 @@ public class Dataset implements Comparable<Dataset> {
 		}
 		if (keywordList.size() == 0)
 		{
-			dsEx.addError("At least one tag is required.");
-			validIndicator = false;
+			//TODO:  Remove commment, this is for Forest Service datasets with no keyword
+			//dsEx.addError("At least one tag is required.");
+			//validIndicator = false;
 		}
 		if (modified == null)
 		{
@@ -1771,10 +1907,10 @@ public class Dataset implements Comparable<Dataset> {
 		//extra distribution checks for dataset
 		//can't check distribution size unless access is filled so this is a case you 
 		//need to run the program twice to find error.
-		else if (distributionList.size() == 0 && !accessLevel.equals(AccessLevel.PRIVATE.toString()))
+		else if (distributionList.size() == 0 && accessLevel.equals(AccessLevel.PUBLIC.toString()))
 		{
-			dsEx.addError("At least one distribution is required when dataset is public or restricted.");
-			validIndicator = false;
+			//dsEx.addError("At least one distribution is required when dataset is public or restricted.");
+			//validIndicator = false;
 		}
 		for (int i=0; i< distributionList.size(); i++)
 		{
@@ -1797,13 +1933,16 @@ public class Dataset implements Comparable<Dataset> {
 		}
 		if (bureauCodeList.size() == 0)
 		{
-			dsEx.addError("Bureau Code is required.");
-			validIndicator = false;
+			/*TODO: Need to do validation after file complete */
+			//dsEx.addError("Bureau Code is required.");
+			//validIndicator = false;
 		}
 		if (programCodeList.size() ==0)
 		{
-			dsEx.addError("Program Code is required.");
-			validIndicator = false;
+			/*TODO: Need to do validation after file complete */
+
+			//dsEx.addError("Program Code is required.");
+			//validIndicator = false;
 		}
 		
 		return validIndicator;			

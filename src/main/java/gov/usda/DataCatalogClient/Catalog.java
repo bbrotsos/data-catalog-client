@@ -118,8 +118,9 @@ public class Catalog {
 	 * This method begins the process of marshaling the JSON into Java Objects by looping through
 	 * the packages and calling the loadDataset methods at the dataset level.
 	 * @param catalogCKAN_JSON JSONObject The results from a CKAN query.
+	 * @throws  
 	 */
-	public void loadCatalogFromCKAN(JSONObject catalogCKAN_JSON) throws CatalogException
+	public void loadCatalogFromCKAN(JSONObject catalogCKAN_JSON) throws CatalogException 
 	{
 		if (catalogCKAN_JSON == null)
 		{
@@ -133,12 +134,15 @@ public class Catalog {
 			final Dataset ds = new Dataset();
 			try{
 				ds.loadDatasetFromCKAN_JSON(packageObject);
-				dataSetList.add(ds);
+				if (ds.getMetadataModifiedDate().after(Utils.convertISOStringToDate("2015-03-01")))
+				{
+					dataSetList.add(ds);
+				}
 			}
-			catch(DatasetException e)
+			catch(DatasetException | java.text.ParseException e)
 			{
 				//TODO: Capture entire error
-				catalogException.addError(e.toString());
+				catalogException.addError(e.toString() + "\n");
 			}
 		}
 		
@@ -255,6 +259,83 @@ public class Catalog {
 	}
 	
 	/**
+	 * This method hardcodes Forest Service datasets for program code and bureau code
+	 * This is a temporary fix until we can add feature to AGOL
+	 * https://enterprisecontent-usfs.opendata.arcgis.com/data.json
+	 * @throws java.text.ParseException 
+	 */
+	public void hardcodeBureauCodeProgramCode()
+	{
+		JSONArray ngdaArray = null;
+		try{
+			ngdaArray = Utils.getForestServiceNGDAList();
+		}
+		catch (ParseException | IOException e)
+		{
+			log.log(Level.SEVERE, "Cannot load NGDA List.  Please check that bureau_code_data.json is correctly formatted.");
+		}
+		
+		for (Dataset ds: dataSetList)
+		{
+			try {
+				ds.setBureauCodeList("005:96");
+				ds.setProgramCodeList("005:059");
+				
+				/* Several datasets including U.S. Boundary don't have keyword */
+				if (ds.getKeywordList().size() == 0)
+				{
+					ArrayList<String>keywordList = new ArrayList<String>();
+					keywordList.add("Forest Service");
+					ds.setKeywordList(keywordList);
+				}
+				
+				for (Object ngda: ngdaArray){
+					JSONObject ngdaJSON = (JSONObject) ngda;
+					String ngdaTitle = (String) ngdaJSON.get("title");
+					if (ds.getTitle().equals(ngdaTitle))
+					{
+						ArrayList<String> themeList = new ArrayList<String>();
+						JSONArray themes = (JSONArray) ngdaJSON.get("theme");
+						//Type Safety -> Strings
+						for (int i=0; i < themes.size(); i++)
+						{
+							themeList.add((String) themes.get(i));
+						}
+						
+						ds.setThemeList(themeList);
+					}
+				}
+			} 
+			catch (java.text.ParseException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Populates catalog from CKAN compliant json file.
+	 * @param catalogFileName
+	 */
+	public void loadFromProjectOpenDataJSON(String catalogFileName) throws CatalogException
+	{
+		if (catalogFileName == null)
+		{
+			throw (new NullPointerException("catalogFileName cannot be null"));
+		}
+		JSONObject resourceCKAN_JSON = new JSONObject();
+		try{
+			resourceCKAN_JSON = Utils.loadJsonObjectFile(catalogFileName);
+		}
+		catch (IOException | ParseException e) 
+		{
+			catalogException.addError(e.toString() + "\n");
+			throw (catalogException);
+		}
+				
+		loadFromProjectOpenDataJSON(resourceCKAN_JSON);
+	}
+	
+	/**
 	 * Populates catalog from Project Open Data compliant json object
 	 * 
 	 * @param catalogObject
@@ -277,17 +358,19 @@ public class Catalog {
 			final JSONObject dataSetObject = (JSONObject) dataSetArray.get(i);
 			try
 			{
+				
 				ds.loadFromProjectOpenDataJSON(dataSetObject);
+				
 				dataSetList.add(ds);
+				
 			}
 			catch(DatasetException e)
 			{
-				catalogException.addError(e.toString());
+				catalogException.addError(e.toString() + "\n");
 			}
 		}	
 		
-		addBureauNameToDataset();
-		Collections.sort(dataSetList);
+		
 		
 		if (!validateCatalog() || catalogException.exceptionSize() > 0)
 		{
@@ -318,6 +401,7 @@ public class Catalog {
 			addBureauName(ds, bureauArray);
 		}
 	}
+	
 	
 	/**
 	 * Adds bureau name and bureau abbreviation to a dataset from a config file, normally
@@ -572,7 +656,7 @@ public class Catalog {
 		}
 		catch(ParserConfigurationException | TransformerException e)
 		{
-			log.log(Level.SEVERE, "Error in field to Legacy dataset " + title + " " + e.toString());
+			log.log(Level.SEVERE, "Error in field to Legacy dataset " + title + " " + e.toString() + "\n");
 		}
 	}
 	
@@ -608,8 +692,8 @@ public class Catalog {
 				String otherIdentifier = dataSetList.get(k).getUniqueIdentifier();
 				if (identifier.equals(otherIdentifier))
 				{
-					catalogException.addError("Invalid catalog: non-unique identifier: " + otherIdentifier);
-					validIndicator=false;
+					//catalogException.addError("Invalid catalog: non-unique identifier: " + otherIdentifier);
+					//validIndicator=false;
 				}
 			}
 		}

@@ -69,7 +69,8 @@ public class NetworkRequest
 		
 		configJSON = Utils.loadJsonObjectFile(config_path);
 		server = (String)configJSON.get("server");
-		apiKey = (String)configJSON.get("api_key");
+		//apiKey = (String)configJSON.get("api_key");
+		apiKey="";
 	}
 	
 	/**
@@ -89,10 +90,11 @@ public class NetworkRequest
 		}
 		connection.setRequestProperty("Accept-Charset", "UTF-8");
 		connection.setRequestProperty("Accept", "application/json");
-		connection.setRequestProperty("Authorization", apiKey);
+		//TODO: Remove for just requesting public URL
+		//connection.setRequestProperty("Authorization", apiKey);
 		connection.setRequestProperty("Cookie", "auth_tkt=hello_world");
-		connection.setConnectTimeout(20000);
-		connection.setReadTimeout(20000);
+		connection.setConnectTimeout(100000);
+		connection.setReadTimeout(100000);
 	}	
 	
 	/**
@@ -108,6 +110,26 @@ public class NetworkRequest
 			throw new NullPointerException("organization cannot be null when getting an organization's catalog");
 		}
 		final URL dataAPIURL = new URL(server + "/api/3/action/organization_show?id=" + organization);
+		System.out.println(dataAPIURL.toString());
+		setupConnection(dataAPIURL);
+		connection.setRequestProperty("Content-Type", "application/json");
+		return getHttpResponse();
+	}
+	
+	/**
+	 * Returns a project open data string from public URL
+	 * @param url to data.json file
+	 * @return String with project open data catalog and datasets
+	 * @throws IOException
+	 */
+	public String getProjectOpenDataURL(String podURL) throws IOException
+	{
+		if (podURL== null)
+		{
+			throw new NullPointerException("urlcannot be null when getting d data.json file from public site");
+		}
+		final URL dataAPIURL = new URL(podURL);
+		System.out.println(dataAPIURL.toString());
 		setupConnection(dataAPIURL);
 		connection.setRequestProperty("Content-Type", "application/json");
 		return getHttpResponse();

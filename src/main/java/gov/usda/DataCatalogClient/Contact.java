@@ -58,7 +58,7 @@ public class Contact {
 			EmailValidator emailValidator = EmailValidator.getInstance();
 			if (!emailValidator.isValid(emailAddress))
 			{
-				contactException.addError("Email Address: " + emailAddress + " is not a valid address.");
+				//contactException.addError("Email Address: " + emailAddress + " is not a valid address.");
 			}
 		}
 		this.emailAddress = emailAddress;

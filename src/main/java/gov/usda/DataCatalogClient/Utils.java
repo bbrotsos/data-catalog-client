@@ -179,6 +179,16 @@ public class Utils {
 	}
 	
 	/**
+	 * This loads Forest service json file of titles and ngda themes
+	 * @param periodicity
+	 * @return
+	 */
+	static public JSONArray getForestServiceNGDAList() throws ParseException, IOException
+	{
+		return Utils.loadJsonArrayFile("sample_data/forest_service_ngda.json");
+	}
+	
+	/**
 	 * Change legacy Project Open Data frequency to ISO 8661
 	 * @param periodicity
 	 * @return
