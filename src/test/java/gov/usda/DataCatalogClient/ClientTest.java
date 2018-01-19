@@ -35,7 +35,7 @@ public class ClientTest {
     		//catalog = odpClient.loadOrganizationsIntoCatalog("edi_2015-08-31_001");
     		
     		catalog_fs = odpClient.getProjectOpenDataFromURL("https://enterprisecontent-usfs.opendata.arcgis.com/data.json", "sample_data/fs.json");
-    		catalog_ag_data_commons = odpClient.getProjectOpenDataFromURL("https://data.nal.usda.gov/data-ars.json", "sample_data/ag-data-commons.json");
+    		//catalog_ag_data_commons = odpClient.getProjectOpenDataFromURL("https://data.nal.usda.gov/data-ars.json", "sample_data/ag-data-commons.json");
     		try{
     			catalog_fs.hardcodeBureauCodeProgramCode();
     			
