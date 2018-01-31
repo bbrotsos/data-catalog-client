@@ -17,10 +17,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.jsoup.Jsoup;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
@@ -1130,7 +1132,13 @@ public class Dataset implements Comparable<Dataset> {
 	}
 
 	public void setTitle(String title) {
-		this.title = title;
+		/*
+		 * data.gov does not accept html chars so we need to convert to plain text.
+		 * For example &quot; to "
+		 */
+		title = title.replace("&quot;", "'");
+		title = title.replace("&amp;", "&");
+		this.title = title;	
 	}
 	
 	public String getConformsTo() {
@@ -1146,6 +1154,8 @@ public class Dataset implements Comparable<Dataset> {
 	}
 
 	public void setDescription(String description) {
+		description = description.replace("&quot;", "'");
+		description = description.replace("&amp;", "&");
 		this.description = description;
 	}
 
