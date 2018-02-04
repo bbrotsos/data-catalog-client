@@ -50,6 +50,7 @@ public class ClientTest {
     			//catalog.loadFromProjectOpenDataJSON(Utils.loadJsonObjectFile("input/fs.json"));
     			
     			catalog_fs.hardcodeBureauCodeProgramCode();
+    			catalog_ag_data_commons.hardcodeAgDataCommonsProgramCode();
 
     			catalog.loadFromProjectOpenDataJSON(Utils.loadJsonObjectFile("input/data-2018-01-31.json"));
     			catalog.addFromOtherCatalog(catalog_ag_data_commons);

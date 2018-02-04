@@ -313,6 +313,24 @@ public class Catalog {
 	}
 	
 	/**
+	 * This method hardcodes Ag Data Commons datasets for program code 
+	 * This is a temporary fix 
+	 * @throws java.text.ParseException 
+	 */
+	public void hardcodeAgDataCommonsProgramCode()
+	{
+		for (Dataset ds: dataSetList)
+		{
+			try {
+				ds.setProgramCodeList("005:018");
+			} 
+			catch (java.text.ParseException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
 	 * Populates catalog from CKAN compliant json file.
 	 * @param catalogFileName
 	 */
