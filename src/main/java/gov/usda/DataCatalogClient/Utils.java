@@ -199,8 +199,12 @@ public class Utils {
 		{
 			throw new NullPointerException ("Periodicity cannot be null");
 		}
-	
+			
+			
 		Map<String, String> isoFrequencyMapping = new HashMap<String, String>();
+		
+		isoFrequencyMapping.put("Decennial", "R/P10Y");
+		isoFrequencyMapping.put("Quadrennial", "R/P4Y");
 		isoFrequencyMapping.put("Annual", "R/P1Y");
 		isoFrequencyMapping.put("Bimonthly", "R/P2M");
 		isoFrequencyMapping.put("Semiweekly", "R/P3.5D");
@@ -214,6 +218,7 @@ public class Utils {
 		isoFrequencyMapping.put("Continuously updated","R/PT1S");
 		isoFrequencyMapping.put("Monthly", "R/P1M");
 		isoFrequencyMapping.put("Quarterly", "R/P3M");
+		
 		isoFrequencyMapping.put("Semimonthly", "R/P0.5M");
 		isoFrequencyMapping.put("Three times a year", "R/P4M");
 		isoFrequencyMapping.put("Weekly", "R/P1W");
@@ -232,6 +237,7 @@ public class Utils {
 			}
 		}
 		//value not valid legacy Project Open Data or ISO 8661
+		System.out.println ("Invalid Period");
 		throw new IllegalArgumentException("Accrual Periodicity is invalid");
 		
 	}

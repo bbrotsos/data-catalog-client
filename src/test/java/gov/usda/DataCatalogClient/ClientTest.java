@@ -34,14 +34,14 @@ public class ClientTest {
     	try{
     		
     		catalog_fs = odpClient.getProjectOpenDataFromURL("https://enterprisecontent-usfs.opendata.arcgis.com/data.json", "input/fs.json");
-    		catalog_ag_data_commons = odpClient.getProjectOpenDataFromURL("https://data.nal.usda.gov/data-ars.json", "input/ag-data-commons.json");
+    		//catalog_ag_data_commons = odpClient.getProjectOpenDataFromURL("https://data.nal.usda.gov/data-ars.json", "input/ag-data-commons.json");
     		try{
     			
     			/* 
     			 * If the Ag Data Commons times out, download fresh copy, uncomment the following line 
     			 * and comment line above that downloads from data.nal.usda.gov file.
     			 */
-    			//catalog.loadFromProjectOpenDataJSON(Utils.loadJsonObjectFile("input/ag-data-commons.json"));
+    			catalog.loadFromProjectOpenDataJSON(Utils.loadJsonObjectFile("input/ag-data-commons.json"));
     			
     			/* 
     			 * If the FS times out, download fresh copy, uncomment the following line 
@@ -52,7 +52,7 @@ public class ClientTest {
     			catalog_fs.hardcodeBureauCodeProgramCode();
     			catalog_ag_data_commons.hardcodeAgDataCommonsProgramCode();
 
-    			catalog.loadFromProjectOpenDataJSON(Utils.loadJsonObjectFile("input/data-2018-01-31.json"));
+    			catalog.loadFromProjectOpenDataJSON(Utils.loadJsonObjectFile("input/data-2018-02-27.json"));
     			catalog.addFromOtherCatalog(catalog_ag_data_commons);
     			catalog.addFromOtherCatalog(catalog_fs);
     		}
