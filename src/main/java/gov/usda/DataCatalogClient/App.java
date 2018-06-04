@@ -60,9 +60,5 @@ public class App
     	{
 			log.log(Level.SEVERE, e.toString());
     	}
-    
-	}
-    	
-    }
-    
+   }  	
 }
